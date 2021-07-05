@@ -1,6 +1,6 @@
 <div class="d-flex form-group ">
     <span class = "btn icon-search" ><i class="fa fa-search " (click) = "sendTitle()"></i></span>
-    <input class="form-control search-input "  [(ngModel)] = "titleSearch"
+    <input class="form-control search-input "  [(ngModel)] = "titleSearch" (keyup) = "sendTitle()"
     (keyup.enter) = "sendTitle()"
     type="text "
     

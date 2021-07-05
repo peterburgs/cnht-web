@@ -14,12 +14,12 @@ export class SearchComponent implements OnInit {
 
       listCourse: Course[] = [];
       titleSearch: string = "";
-      grade: string = GRADES.TWELFTH;
-      category: string = COURSE_TYPE.THEORY;
+      grade: GRADES = GRADES.TWELFTH;
+      category: COURSE_TYPE = COURSE_TYPE.THEORY;
       isUseFilter: boolean = false;
       textSearch: string = "";
-      listFilter = ["theory", 
-      "examination solving"];
+      listFilter = [COURSE_TYPE.THEORY, 
+      COURSE_TYPE.EXAMINATION_SOLVING];
       listGrade = ["Grade 12", "Grade 11", "Grade 10"];
 
       constructor(private route: ActivatedRoute, private router: Router, private courseService: CourseService) {
@@ -29,6 +29,7 @@ export class SearchComponent implements OnInit {
       ngOnInit(): void {
         this.getTitleFormRouter();
         this.getListSearch();
+        this.getFormFilterRouter();
         this.getListCourseFilter();
       }
 
@@ -68,7 +69,8 @@ export class SearchComponent implements OnInit {
 
       getFormFilterRouter(){ // if change router we use filter for search
       // console.log("router0: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
-        this.route.queryParams
+      // this.reloadRouter();  
+      this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
           
@@ -100,7 +102,7 @@ export class SearchComponent implements OnInit {
     getListCourseFilter(){
       if(this.isUseFilter)
       { 
-        this.getFormFilterRouter();
+        //this.getFormFilterRouter();
         if(!this.category){ // set default search is title null
           this.category =COURSE_TYPE.THEORY;
           this.grade = GRADES.TWELFTH;
@@ -113,8 +115,8 @@ export class SearchComponent implements OnInit {
     }
 
     reloadRouter(){
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
+      // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      //   this.router.onSameUrlNavigation = 'reload';
     
         this.router.navigate(['search'], {queryParams: {type: this.category, grade: this.grade }, fragment: 'filter'});
     }

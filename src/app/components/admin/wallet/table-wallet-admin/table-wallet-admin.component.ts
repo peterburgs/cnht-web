@@ -87,14 +87,9 @@ export class TableWalletAdminComponent implements OnInit {
   getAcceptFromAlert($event: any){
     this.isAcceptAction = $event;
     if(this.isAcceptAction) this.updateStatusDeposit();
-    if(this.isAcceptAction && this.isConfirmAll) this.updateStatusAllDepositNotConfirm();
     
   }
 
-  setActionConfirmAll(){ //when click btn confirm all
-    this.setMessageToAlert("Do you want CONFIRM ALL deposit request !", "Confirm All");
-    this.newStatusDeposit = STATUSES.CONFIRM;
-  }
 
   setActionConfirm(){ //when click btn confirm
     this.setMessageToAlert("Do you want CONFIRM this deposit request !", "Confirm");
@@ -107,19 +102,13 @@ export class TableWalletAdminComponent implements OnInit {
     this.newStatusDeposit = STATUSES.DENIED;
   }
 
-  updateStatusAllDepositNotConfirm(){ //
-    this.depositRequestService.updateStatusForAllNotConfirm();
-    this.openSnackBar("ALl Reposit request was updated !", "OK");
-    this.reloadPage();
-
-  }
 
   updateStatusDeposit(){
     // confirm or deny 
     // get deposit current for update
     this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit);
     this.openSnackBar("Reposit was updated !", "OK");
-    this.getListNotYetConfirm(); // check 
+    //this.getListNotYetConfirm(); // check 
   }
 
   getDepositCurrentRow(item: DepositRequest){

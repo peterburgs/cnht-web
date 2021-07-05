@@ -156,8 +156,8 @@ export class CourseService{
     }
 
     //TODO: CHECK PARAM courseType
-    getListCourseFilter(courseType: string ,grade: string):Observable<Course[]>{
-        const courses= this.courses.filter(course =>course.grade===grade && course.courseType === COURSE_TYPE.THEORY);
+    getListCourseFilter(courseType: COURSE_TYPE ,grade: GRADES):Observable<Course[]>{
+        const courses= this.courses.filter(course =>course.grade===grade && course.courseType === courseType);
         return of(courses);
     }
 
