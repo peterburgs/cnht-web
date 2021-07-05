@@ -3,11 +3,13 @@
 .card {
  
     box-shadow: 1px 1px 2px rgba(0, 0, 0, .20);
-   height: 305px;
+   height: 284px;
+   width: 243px !important;
+   margin-left: 30px;
 }
 
 .card:hover{
-    margin-top: -10px;
+    /* margin-top: -10px; */
 }
 
 a{
@@ -16,13 +18,14 @@ a{
 
 .card-title {
     font-size: 17px;
-   
+    font-weight: 600;
     color: #001233;
     transition: all 1s;
+
 }
 
 .card-content{
-    height: 100px;
+    height: 80px;
 }
 
 .card-title:hover{
@@ -31,7 +34,7 @@ a{
 
 .course-price {
     text-align: center;
-    color: #022b3a;
-    font-weight: 500;
+    color: #FF8F0C;
+    font-weight: 600;
     font-size: 18px;  
 }
