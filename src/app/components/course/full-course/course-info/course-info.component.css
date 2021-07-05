@@ -1,0 +1,103 @@
+.edit-info{
+    margin-top: 20px;
+}
+.container{
+    display: flex;
+    margin-top: 0rem;
+    font-family: 'Roboto', sans-serif;
+}
+.item-edit{
+    margin-top: 28px;
+}
+.edit-image{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+.edit-description{
+    flex-grow: 10;
+}
+.delete{
+    flex-grow: 1;
+}
+.image-course{
+    border-radius: 10px;
+    height:200px;
+    width: 320px;
+}
+.btn-upload{
+    width: 170px;
+    background: rgb(64, 129, 250);;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: large;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    border: solid 1px #ffff;
+}
+.btn-delete-course{
+    
+    background: #f06292;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: none;
+    margin-bottom: 20px;
+    font-size: large;
+   
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    padding: 10px;
+    
+    border: solid 1px #ffff;
+}
+.btn-delete-course:hover{
+    color: #f06292;
+    border: solid 1px #f06292 ;
+    background: #ffff;
+}
+.btn-upload:hover{
+    color: rgb(64, 129, 250);
+    border: solid 1px rgb(64, 129, 250) ;
+    background: #ffff;
+}
+input[type='file']{
+    display: none;
+}
+.text-deco{
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.title-deco{
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.input-price{
+    display: flex;
+}
+.currency{
+   display: flex;
+    justify-content: left;
+    margin-left: 0;
+    padding-left: 0;
+}
+/* .image-input{
+    object-fit: contain;
+} */
+
+image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

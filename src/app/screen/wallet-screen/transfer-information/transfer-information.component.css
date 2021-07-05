@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+.transfer {
+    background-color: #C4C4C4;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin: 10px;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 5px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.transfer-info {
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 10px 25px;
+    filter: drop-shadow(1px 4px 4px #000000);
+}
+
+.bank-info {
+    background-color: #C4C4C4;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 5px 50px;
+    margin-bottom: 8px;
+}
+
+.bank-info p {
+    line-height: 17px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+.instruction {
+    line-height: 19px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.transfer-coins {
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-top: 20px;
+    background: #FFFFFF;
+    margin-top: 10px;
+    box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.transfer-coins p {
+    height: 13px;
+}
+
+.transfer-coins .amount-coins {
+    width: 40px;
+    background-color: #4EBEE1;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+.btn-select-img {
+    background-color: #000;
+    color: #fff;
+    font-size: 13px;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 14px;
+    outline: none;
+    margin-bottom: 5px;
+}
+
+.btn-action {
+    margin: 20px 70px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-action button {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    padding: 5px 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.btn-cancel {
+    background: #E1604E;
+}
+
+.btn-cancel:hover {
+    background-color: #c94a39;
+}
+
+.btn-create-request {
+    background-color: #4EACE1;
+}
+
+.btn-create-request:hover {
+    background-color: #0692e4;
+}

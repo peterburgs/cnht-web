@@ -1,0 +1,144 @@
+.container{
+    display: flex;
+    font-size: 20px;
+}
+.section{
+    padding: 5px;
+    border-radius: 15px;
+}
+.div-icon{
+    width: 30px;
+    height: 30px;
+   align-items: center;
+   margin-left: 15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   display: flex;
+   font-size: large;
+}
+.div-icon:hover, .div-icon-mini:hover{
+    color: palevioletred;
+    cursor: pointer;
+}
+.div-icon-mini{
+    width: 25px;
+    height: 25px;
+   align-items: center;
+   margin-left: 15px;
+   margin-top: 3px;
+    font-size: large;
+}
+.div-row{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.div-updown{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0.5;
+    align-items: center;
+}
+.div-main{
+    border-radius: 15px;
+    flex-grow:11.5;
+}
+.div-session-contain{
+    flex-grow: 11;
+    display: table-row;
+    align-items: center;
+}
+.div-edit{
+    border-radius: 15px;
+    flex-grow: 0.5;
+  
+    display: flex;
+    flex-direction: row;
+    
+}
+.contain-title {
+    flex-grow: 5;
+    color: #0093D1;
+}
+.contain-video{
+    flex-grow: 5;
+    margin-left: 15px;
+    text-align: left;
+    justify-content: left;
+}
+.contain-video-time{
+    flex-grow: 2;
+    margin-left: 15px;
+    color: #0093D1;
+    align-items: center;
+}
+
+.border-radius{
+    border-radius: 7px;
+}
+.btn-create-new{
+    width: 180px;
+    background: rgb(64, 129, 250);
+    border-radius: 10px;
+    
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: large;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    border: solid 1px #ffff;
+}
+.btn-create-new:hover{
+    color: rgb(64, 129, 250);
+    border: solid 1px rgb(64, 129, 250) ;
+    background: #ffff;
+}
+.edit-screen {
+    margin-top: 55px;
+  }
+  .dark-modal .modal-content {
+    background-color: #292b2c;
+    color: white;
+  }
+  
+  .dark-modal .close {
+    color: white;
+  }
+  .light-blue-backdrop {
+    background-color: #5cb3fd;
+  }
+
+  .label-section{
+      align-items: center;
+  }
+  
+ .title-section{
+    background: #90caf9;
+    align-items: center;
+ }
+
+.icon-delete{
+color: #f06292;
+}
+
+.icon-edit{
+    color: #005cb2;
+}
+.ul-deco{
+padding:0px;
+}
+.clean-border{
+    border: none;
+    border-radius: 45px;
+    background: #fff;
+   
+}
+
+.alert-body{
+    font-size: x-large;
+}

@@ -1,0 +1,19 @@
+<div class="single-section">
+    <a class="section-name-p" data-bs-toggle="collapse" [href]=" '#section' +section.id" role="button" [attr.aria-controls]="'section' +section" aria-expanded="false">
+        <a class="section-name">
+            <i class="fa fa-caret-down"></i> {{section.title}}
+        </a>
+    </a>
+
+    <div class="collapse" [id]="'section'+ section.id">
+        <div class="lecturre-list">
+            <ul>
+                <li *ngFor="let lecture of listLecture">
+                    <a href="#" class="title-lecture">{{lecture.title}} </a>
+                    <h6 class="time"><i class="bi bi-clock-fill icon"></i>{{getVideoByLectureId(lecture.id)}}</h6>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

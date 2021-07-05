@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+.detail-info {
+    background-color: black;
+    color: white;
+    padding-top: 70px;
+    padding-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.name-course {
+    font-size: 25px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.8px;
+    line-height: 30px;
+}
+
+.teacher {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.description-course {
+    font-size: 15px;
+    color: rgb(199, 199, 199);
+}
+
+.count-info {
+    font-size: 14px;
+    color: grey;
+}
+
+.info-course {
+    padding-left: 25px;
+    padding-right: 15px;
+    margin-top: 30px;
+}

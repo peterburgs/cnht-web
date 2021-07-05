@@ -1,0 +1,14 @@
+<div class="learning-course row">
+    <div class="col-md-8">
+        <div class="video-area">
+            <iframe style="width: 100%; height: 25rem; " [src]="videoURL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="comment-area">
+            <h4>Comments</h4>
+            <app-comment [lectureId]="lectureId" [course]="current_course"></app-comment>
+        </div>
+    </div>
+    <div class="col-md-4 content">
+        <app-content-course [current_course]="current_course"></app-content-course>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="container d-flex flex-fill flex-row border-radius section">
+  <div class="div-updown">
+    <div class="div-icon-mini" title="Section go up" (click)="onUpSection()">
+      <i class="fa fa-chevron-up icon-decorate"></i>
+    </div>
+    <div class="div-icon-mini" title="Section go down" 
+    (click)="onDownSection()">
+      <i class="fa fa-chevron-down icon-decorate"></i>
+    </div>
+  </div>
+  <div class="div-main">
+    <ul class="list-group flex-fill">
+      <li class="list-group-item title-section d-flex label-section border-radius">
+        <input class="form-control w-50 title-section clean-border"
+         [value]="sectionDummy.section_title" disabled/>
+        <div class="div-icon" title="Edit section" (click)="onEditSection()">
+          <i class="fa fa-pencil icon-decorate"></i>
+        </div>
+        <div class="div-icon" title="Delete section" 
+        (click)="onDeleteSection()">
+          <i class="fa fa-trash icon-decorate"></i>
+        </div>
+      </li>
+
+      <li
+        *ngFor="let lecture of sectionDummy.lecturer; let i = index; let len = count"
+        class="
+          list-group-item
+          d-flex
+          justify-content-between
+          align-items-center
+          container
+          border-radius"
+        
+      >
+        <div class="div-updown">
+          <div class="div-icon-mini" (click)="onUpLession(lecture.id)">
+            <i class="fa fa-chevron-up icon-decorate" title="Lesson go up" ></i>
+          </div>
+          <div class="div-icon-mini" (click)="onDownLession(lecture.id)">
+            <i
+              class="fa fa-chevron-down icon-decorate"
+              title="Lesson go down"
+            ></i>
+          </div>
+        </div>
+        <div class="div-session-contain form-row">
+          <div class="div-session-contain d-flex form-row">
+            <div class="div-session-contain d-flex form-row">
+              <input
+                class="form-control contain-title w-25 clean-border"
+                [value]="lecture.title" disabled
+              />
+
+              <span class="contain-video"> </span>
+              <span class="contain-video-time">{{ i }}</span>
+            </div>
+            <div class="div-edit">
+              <div
+                class="div-icon-mini"
+                title="Edit lession"
+                (click)="onEditLession(lecture.id)"
+              >
+                <i class="fa fa-pencil icon-decorate icon-edit"></i>
+              </div>
+              <div class="div-icon-mini" title="Delete lession" 
+              (click)="onDeleteLession(lecture.id)">
+                <i class="fa fa-trash icon-decorate icon-delete"></i>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <ul class="ul-deco">
+              <button *ngIf="i == len - 1 " class="btn-create-new" 
+              (click)="onCreateLession(sectionDummy.section_id)">
+                Create new lession
+              </button>
+            </ul>  
+          </div>
+        </div>
+      </li>
+      <div>
+        <ul class="ul-deco">
+          <button *ngIf="!sectionDummy.lecturer.length" class="btn-create-new" 
+          (click)="onCreateLession(sectionDummy.section_id)">
+            Create new lession
+          </button>
+        </ul>  
+      </div>
+    </ul>
+    <hr>
+  </div>
+</div>
+<app-upload-task></app-upload-task>

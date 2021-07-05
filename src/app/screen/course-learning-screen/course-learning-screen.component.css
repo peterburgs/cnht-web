@@ -1,0 +1,31 @@
+.learning-course {
+    margin-top: 60px;
+}
+
+.video-area {
+    height: 420px;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.comment-area {
+    margin: 10px;
+    margin-right: 30px;
+}
+
+.comment-area h4 {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-weight: 600;
+    font-size: 21px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.content {
+    background-color: rgb(247, 247, 247);
+    position: fixed;
+    right: 0;
+    height: 100%;
+    z-index: 1000;
+}

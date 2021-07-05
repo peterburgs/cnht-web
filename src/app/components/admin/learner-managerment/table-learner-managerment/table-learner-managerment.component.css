@@ -1,0 +1,9 @@
+.table-detail{
+    margin-top: 50px;
+    width: 90vw;
+    margin-left: -5vw;
+}
+
+.modal{
+    z-index: 10000 !important;
+}

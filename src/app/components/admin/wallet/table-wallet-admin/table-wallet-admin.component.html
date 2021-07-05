@@ -1,0 +1,97 @@
+<div class="card shadow mb-4 table-detail">
+    <div class = "title-table-block">
+        <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
+            <mat-slide-toggle [color]="colorSlideFilter" (click) = "setIsConfirmAll()"
+            >Not yet confirmed</mat-slide-toggle>
+            <button *ngIf = "isConfirmAll" class = " btn-confirm-all" (click) = "setActionConfirmAll()"> Confirm All</button>
+            <app-alert-warning [message]="messageToAction" [actionToAlert]="nameActionToAlert"   *ngIf = "isCallAlert" (close)="onHandleError()" (isAction) = "getAcceptFromAlert($event)">
+            </app-alert-warning>
+
+        </div>
+        <!-- ------ search -->
+    <app-search-title class = "pull-right"
+     [message] = "content_for_search"
+     (sendTitleSearch) = "searchDeposit($event)"></app-search-title> 
+
+    </div>
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Date Time</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Image</th>
+                        <th >Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr *ngFor = "let item of depositRequests">
+                        <td>
+                            <div><span>{{item.createdAt}}</span></div>
+                            <div><span>Status: </span>
+                                <button *ngIf = "!isDeny(item.depositRequestStatus)" class="badge btn-status">{{depositRequestService.setStatusName(item)}}</button>
+                                <button *ngIf = "isDeny(item.depositRequestStatus)" class="badge btn-status" style="background-color: crimson;">{{depositRequestService.setStatusName(item)}}</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div><span>{{userService.getUserByUserId(item.learnerId).fullName}}</span></div>
+                        </td>
+                        <td >
+                            <div><span>{{userService.getUserByUserId(item.learnerId).email}}</span></div>
+                        </td>
+                        <td>
+                            <div class="amount">0000</div>
+                        </td>
+                        <td><button class="btn-admin " (click)="showImg()"> View </button></td>
+                        <td (click) = "getDepositCurrentRow(item)">
+                            <div *ngIf="depositRequestService.isPending(item)">
+                            <button type="button" class="btn-admin" (click) = "setActionConfirm()"> Confirm</button>
+                            <button type="button" class="btn-admin  btn-deny"  (click) = "setActionDeny()"> Deny</button>
+                        </div>
+                        </td>                     
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- alert-view -->
+            <app-alert-view-image [message]="message_view_img" [path_img]="path_img_view" *ngIf="isShowImg()" (close)="onHandleError()">
+            </app-alert-view-image>
+            <!-- end-alert-view -->
+
+            <app-alert-warning [message]="messageToAction" [actionToAlert]="nameActionToAlert"   *ngIf = "isCallAlert" (close)="onHandleError()" (isAction) = "getAcceptFromAlert($event)">
+            </app-alert-warning>
+
+            <!-- <app-search></app-search> -->
+
+            
+
+            <div class="row" *ngIf="isPaging()">
+                <div class="col-sm-12 col-md-5">
+                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                </div>
+                <div class="col-sm-12 col-md-7 paging">
+                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                            <li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
+                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
+                            <li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
+                            <li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

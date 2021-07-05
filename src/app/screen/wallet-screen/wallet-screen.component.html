@@ -1,0 +1,22 @@
+<div class=" row deposit">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-7 wallet">
+            <h4>My balance: <span>{{ handlePriceFormat(balance)}}VND</span>
+                <span><button (click)="isHiden = !isHiden" class="btn-primary btn-deposit">Deposit coins</button></span>
+            </h4>
+            <div class="transfer-information" [hidden]="isHiden">
+                <app-transfer-information></app-transfer-information>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row  mt-5" style="margin-bottom: 150px;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <app-table-wallet-admin [isAdmin]="false"></app-table-wallet-admin>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+</div>

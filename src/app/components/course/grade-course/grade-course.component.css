@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+.hotest-course {
+    background: #0a1128;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    padding-bottom: 10px;
+    
+    /* border: solid 2px #0417bd; */
+    height: 80vh;
+    display: block;
+    
+}
+
+.grade-course {
+    /* display: flex;
+    flex: content; */
+    margin-top: 10px;
+    display: inline-block;
+    justify-content: space-between;
+ 
+}
+
+app-small-course{
+    display: block;
+    float: left;
+    margin-left: 20px;
+}
+
+.clearfix:after{
+    clear: both;
+    content: ".";
+    display: block;
+    width: 0px;
+    height: 0px;
+}
+
+.grade-number{
+    padding-top: 20px;
+}
+
+.title {
+    display: block;
+   
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 29px;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid #fff;
+    border-left:5px solid #fff;
+    width: 50vw;
+    
+}
+
+.view-all {
+   
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: lowercase;
+    cursor: pointer;
+    color: #fff;
+    margin-top: 30px;
+    margin-left: 90vw;
+    text-decoration: none;
+    border-radius: 25px;
+    border: solid 1px #fff;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 100px;
+    transition: all 0.5s;
+}
+
+.view-all:hover{
+    background-color: #fff;
+    color: #0a1128;
+}
+
+app-small-course{
+    margin-top: 50px;
+}

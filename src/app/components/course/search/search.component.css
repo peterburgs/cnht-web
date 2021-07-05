@@ -1,0 +1,65 @@
+*{
+    background-color: #F0F2F5;
+}
+.search-main{
+    display: block;
+    padding-left: 15px;
+    width: 100%;
+    margin: 0;
+    background-color: #F0F2F5;
+    padding-left: 10px;
+}
+.list-search-main{
+   
+    margin-top: 106px;
+    margin-left: 5vw;
+    
+}
+
+.nav-search-blank{
+ 
+    height: 105px;
+    width: 100vw;
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 75px;
+    padding-left: 20vw;
+}
+
+.list-filter-main{
+    margin-top: 100px;
+    padding-left: 30px;
+    position: relative;
+}
+
+.search-screen{
+    display: block;
+   width: 100%;
+   height: 150%;
+}
+
+.message{
+    
+background-color: #fff;
+    
+}
+
+.not-found{
+    border-radius: 8px;
+    display: block;
+   height: 70vh;
+   margin-top: 100px;
+   border-radius: 5px;
+   margin-left: 5vw;
+   color: #aaa;
+   font-size: 22px;
+   padding-top: 30vh;
+   padding-left: 20vw;
+   font-weight: 400;
+   background-color: #fff;
+
+}
+.component-search-screen{
+    display: block;
+}

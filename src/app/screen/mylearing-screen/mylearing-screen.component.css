@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap');
+.mylearning {
+    margin-top: 100px;
+}
+
+.search-bar {
+    background-color: rgb(224, 224, 224);
+}
+
+.mycourse-title {
+    font-size: 26px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    padding-top: 60px;
+}
+
+.form-group {
+    display: flex;
+    margin: 10px 10px;
+}
+
+.form-group i {
+    position: absolute;
+    font-size: 16px;
+    margin-left: 22px;
+    padding-top: 13px;
+    color: rgb(136, 136, 136);
+}
+
+.search-input {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-size: 13px;
+    height: 35px;
+    color: rgb(114, 114, 114);
+}
+
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+    font-size: 15px;
+    color: rgb(194, 193, 193);
+}
+
+.form-group .form-control {
+    border-radius: 20px;
+    padding-left: 40px;
+}
+
+.not-found {
+    height: 30vh;
+}
+
+.not-found h3 {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(92, 92, 92);
+    margin-top: 100px;
+}
+
+.container {
+    margin-bottom: 20px;
+}

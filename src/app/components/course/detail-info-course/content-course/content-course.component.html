@@ -1,0 +1,10 @@
+<div class="row content-area">
+    <div class="content-course">
+
+        <h4 *ngIf="fragment == 'detail' || fragment==''">Course content</h4>
+        <h4 *ngIf="fragment == 'learning'">{{current_course.title}}</h4>
+        <div class="content-list">
+            <app-section-course *ngFor="let section of listSection" [section]="section"></app-section-course>
+        </div>
+    </div>
+</div>

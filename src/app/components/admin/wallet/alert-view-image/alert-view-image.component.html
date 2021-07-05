@@ -1,0 +1,13 @@
+<div class="backdrop" (click) = "onClose()">
+</div>
+<div class="alert-box">
+    <p>{{message}}</p>
+    <div class="alert-box-actions">
+        <div class = "img-deposit-request">
+            <img [src]="path_img" class = "img img-fluid img-view">
+        </div>
+        <button class = "btn btn-danger" (click) = "onClose()">
+            Cancel
+        </button>
+    </div>
+</div>

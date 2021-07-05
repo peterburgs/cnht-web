@@ -1,0 +1,42 @@
+.sign-in {
+    text-align: center;
+    margin-top: 200px;
+}
+
+.sign-in .btn button {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 5px;
+    width: 200px;
+    outline: none;
+    border: none;
+    height: 35px;
+}
+
+.btn {
+    text-align: center;
+}
+
+.btn button:hover {
+    background-color: rgb(5, 5, 158);
+    transition: all 0.2s;
+}
+
+.app-title {
+    font-weight: 800;
+    font-size: 28px;
+}
+
+.btn-signin:focus {
+    background-color: rgb(35, 135, 182);
+}
+
+.btn-signin {
+    background-color: #4EBEE1;
+}
+
+.btn-signin i {
+    font-size: 20px;
+    padding-right: 5px;
+}

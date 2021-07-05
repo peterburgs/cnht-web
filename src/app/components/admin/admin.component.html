@@ -1,0 +1,31 @@
+<div class="container admin-main">
+    <div class="option">
+        <div class="row">
+            <div class="col-md-3" >
+                <button class = "btn " (click) = "setChooseOption(chooseLearnerManagerment)">
+                    Learner Managerment
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class = "btn " (click) = "setChooseOption(chooseLecturerManagerment)">
+                    Lecturer Managerment
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class = "btn" (click) = "setChooseOption(chooseLearnerPayment)">
+                    Learner Payment
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class = "btn" (click) = "setChooseOption(chooseAdminWallet)">
+                    Admin wallet
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="table-detail">
+        <app-learner-managerment *ngIf = "isUseOptionAdmin(chooseLearnerPayment)"></app-learner-managerment>
+        <app-wallet *ngIf = "isUseOptionAdmin(chooseAdminWallet)"></app-wallet>
+    </div>
+    
+</div>

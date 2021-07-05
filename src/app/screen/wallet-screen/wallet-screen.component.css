@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+.deposit {
+    margin-top: 80px;
+    margin-bottom: 10px;
+}
+
+.wallet {
+    margin-top: 20px;
+}
+
+.wallet h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+.wallet p {
+    margin-top: 15px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-deposit {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    background-color: #4EBEE1;
+    font-weight: 500;
+    height: 30px;
+    width: 120px;
+    margin-left: 150px;
+}
+
+.deposit-history {
+    padding: 15px;
+    border-radius: 10px;
+    margin-left: 40px;
+    width: auto;
+    background-color: #E5E5E5;
+}
+
+.table-history {
+    width: 100%;
+}
+
+.table-history tr td {
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

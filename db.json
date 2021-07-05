@@ -1,0 +1,409 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "text": "Doctors Appointment",
+      "day": "May 5th at 2:30pm",
+      "reminder": true
+    },
+    {
+      "id": 3,
+      "text": "Food Shopping",
+      "day": "May 7th at 12:30pm",
+      "reminder": false
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "Giải phương trình bậc 3",
+      "description": "Description",
+      "price": 150000,
+      "type": 1,
+      "grade": 1,
+      "thumbnailUrl": "string",
+      "createdAt": "1995-12-17T03:24:00",
+      "updatedAt": "1995-12-17T03:24:00",
+      "isHidden": false
+    },
+    {
+      "id": "WC84rDa",
+      "title": "",
+      "description": "",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "E-OQiL9",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "OKk56Hu",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "OpaRj6_",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Y-XJgCk",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "PaYwu89",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "-vgU1PX",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "GkCSGbu",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "gd3VgZl",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "cLArAIr",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "HFvATol",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Lif0X9h",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "ZyTyBXh",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "sD31yGu",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "WyUIkZ2",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Y5uCxb2",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "6UOS0Lf",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "qYIqHpU",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "uqc6L9z",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "ugK4IkJ",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "dyixA4b",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "21G2H_Q",
+      "title": "Default title",
+      "description": "description",
+      "price": 0,
+      "type": 0,
+      "grade": 2,
+      "thumbnailUrl": "https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80",
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    }
+  ],
+  "sections": [
+    {
+      "courseId": "1",
+      "id": "course1sec1",
+      "title": "Lý thuyết phương trình",
+      "isHidden": "false",
+      "order": "1",
+      "createdAt": "1995-12-17T03:24:00",
+      "updatedAt": "1995-12-17T03:24:00",
+      "lessions": []
+    },
+    {
+      "id": "kJRlFKK",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "uOpn9Ah",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "FpV5MkX",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Hp9Ghvv",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Qs82_d6",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    },
+    {
+      "id": "Tsdk5Gc",
+      "title": "Section 1",
+      "courseId": "",
+      "order": 0,
+      "createdAt": "",
+      "updatedAt": "",
+      "isHidden": false
+    }
+  ],
+  "lectures": [
+    {
+      "id": "1",
+      "title": "Lecture Thao 1",
+      "order": 1,
+      "idHidden": false,
+      "sectionId": "course1sec1",
+      "createdAt": "",
+      "updatedAt": ""
+    },
+    {
+      "id": "2",
+      "title": "Lecture 2",
+      "order": 1,
+      "idHidden": false,
+      "sectionId": "course1sec2",
+      "createdAt": "",
+      "updatedAt": ""
+    },
+    {
+      "id": "3",
+      "title": "Lecture 3",
+      "order": 1,
+      "idHidden": false,
+      "sectionId": "course1sec3",
+      "createdAt": "",
+      "updatedAt": ""
+    }
+  ],
+  "videos": [
+    {
+      "id": "2",
+      "fileName": "Video 2",
+      "length": "2030",
+      "lectureId": "2",
+      "createdAt": "",
+      "updatedAt": "",
+      "idHidden": false
+    },
+    {
+      "id": "3",
+      "fileName": "Video 3",
+      "length": "2030",
+      "lectureId": "3",
+      "createdAt": "",
+      "updatedAt": "",
+      "idHidden": false
+    }
+  ]
+}

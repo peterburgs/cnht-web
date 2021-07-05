@@ -1,0 +1,42 @@
+<div class="media">
+    <div class="media-left">
+        <!--TODO:LOAD INFO OF COMMENT'S USER-->
+        <img src="../../../../assets/images/img1.jpg" class="media-object">
+    </div>
+    <div class="media-body">
+        <h5 class="media-heading title">{{commentParent.learner?.fullName}}
+            <h6 class="time-comment">{{commentParent.createdAt |date:'yyyy-MM-dd'}}</h6>
+        </h5>
+        <p class="comment-content">
+            {{commentParent.commentText}}
+        </p>
+        <div class="child-comment">
+            <div *ngFor="let comment of commentChildList" class="child-media">
+                <div class="media-left">
+                    <img src="../../../../assets/images/img1.jpg" class="media-object">
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading title">{{comment.learner?.fullName}}
+                        <h6 class="time-comment">{{comment.createdAt |date:'yyyy-MM-dd'}}</h6>
+                    </h5>
+                    <p class="comment-content">
+                        {{comment.commentText}}
+                    </p>
+
+                </div>
+            </div>
+
+            <div *ngIf="isLoggedin" class="child-media comment-input">
+                <div class="media-left">
+                    <img [src]="avatarUrl" class="media-object">
+                </div>
+                <div class="media-body">
+                    <form (submit)="postComment()">
+                        <input class="form-control comment-text" type="text" name="comment-in" placeholder="Write your comment ..." [(ngModel)]="commentInput">
+                        <button type="submit" class=" btn-comment">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

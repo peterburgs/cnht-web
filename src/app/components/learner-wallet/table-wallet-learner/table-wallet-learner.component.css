@@ -1,0 +1,52 @@
+
+.table-detail{
+ 
+
+}
+.title-table{
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: 600;
+    font-style: inherit;
+    
+}
+
+.btn-admin{
+    background-color: #4EBEE1;
+    color:#fff;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 1s;
+}
+
+.btn-status{
+    background-color: #4EBEE1;
+    color:#fff;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+
+.btn-deny{
+    margin-left: 10px;
+    background-color: #a70000;
+}
+
+.btn-admin:hover{
+    background-color: #194350 !important;
+}
+
+.btn-admin:active{
+    background-color: #194350 !important;
+}
+
+.td{
+    background-color: #f4f4f4 !important;
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+}

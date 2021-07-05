@@ -1,0 +1,67 @@
+.media {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    margin-left: 40px;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.media-left {
+    width: 50px
+}
+
+.media-body {
+    width: 90%;
+}
+
+.media-object {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width:987px) {
+    .media-left {
+        width: 10%;
+    }
+    .media-body {
+        width: 90%;
+    }
+}
+
+.btn-comment {
+    width: 80px;
+    border-radius: 5px;
+    height: 30px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 5px;
+    margin-left: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(248, 156, 17);
+}
+
+.btn-comment::after {
+    background-color: rgb(250, 219, 43);
+}
+
+.comment-text {
+    color: rgb(58, 58, 58);
+    font-weight: 400;
+    font-size: 14px;
+    font-family: sans-serif;
+    outline: none;
+    border: 1px rgb(173, 173, 173) solid;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    outline: 1px rgb(41, 41, 41);
+}

@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+.card {
+ 
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .20);
+   height: 305px;
+}
+
+.card:hover{
+    margin-top: -10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.card-title {
+    font-size: 17px;
+   
+    color: #001233;
+    transition: all 1s;
+}
+
+.card-content{
+    height: 100px;
+}
+
+.card-title:hover{
+    color: #0582ca;
+}
+
+.course-price {
+    text-align: center;
+    color: #022b3a;
+    font-weight: 500;
+    font-size: 18px;  
+}

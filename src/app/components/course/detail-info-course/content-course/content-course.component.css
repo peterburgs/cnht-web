@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap');
+.content-course h4 {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 19px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.content-area {
+    margin-bottom: 30px;
+}
+
+.content-list {
+    background-color: #e4e4e4;
+    padding: 25px 15px;
+    box-shadow: 2px 1px 2px #aaa;
+}

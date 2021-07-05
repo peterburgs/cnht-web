@@ -1,0 +1,72 @@
+.filter-button {
+/*    
+
+    justify-content: space-evenly;
+    padding-top: 30px;
+    padding-bottom: 10px; */
+
+    margin-top: 50px;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 50px;
+  
+
+}
+
+
+.home-screen {
+    margin-top: 50px;
+    text-align: center;
+    width: 100vw;
+}
+
+.card{
+    display: block;
+    cursor: pointer;
+    height: 100px;
+    width: 100px;
+    padding: 5px;
+    margin-left: 30px;
+    text-align: center;
+    float: right;
+    padding-top: 30px;
+    color: #fff;
+    transition: all 1s;
+}
+
+.card-theory:hover{
+    box-shadow: 0 0 2px 0 #DC3545 inset, 0 0 2px 2px #DC3545;
+}
+
+.card-theory{
+    background-color: #DC3545;
+}
+
+.card-exam:hover{
+    box-shadow: 0 0 2px 0 #17A2B8 inset, 0 0 2px 2px #17A2B8;
+}
+
+.card-exam{
+    background-color: #17A2B8;
+}
+
+.card-test:hover{
+    box-shadow: 0 0 2px 0 #FFC107 inset, 0 0 2px 2px #FFC107;
+}
+
+.card-test{
+    background-color: #FFC107;
+}
+
+.empty-block{
+    height: 200px;
+    /* background-color: #f4f4f9; */
+    text-align: center;
+}
+
+.quote{
+   padding-top: 100px;
+    color: #2f4550;
+    padding-left: 20px;
+    padding-right: 20px;
+}

@@ -1,0 +1,94 @@
+.media {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    margin-left: 30px;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(235, 235, 235);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.child-media {
+    width: 100%;
+    display: flex;
+    margin-top: 2px;
+}
+
+.media-left {
+    width: 50px
+}
+
+.media-body {
+    width: 90%;
+}
+
+.media-object {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width:987px) {
+    .media-left {
+        width: 10%;
+    }
+    .media-body {
+        width: 90%;
+    }
+}
+
+.media-heading {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.time-comment {
+    font-style: italic;
+    color: gray;
+    font-weight: 400;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.comment-content {
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: 400;
+    color: rgb(85, 85, 85);
+}
+
+.btn-comment {
+    width: 80px;
+    border-radius: 5px;
+    height: 30px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 5px;
+    margin-left: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(248, 156, 17);
+}
+
+.btn-comment::after {
+    background-color: rgb(250, 219, 43);
+}
+
+.comment-text {
+    color: rgb(58, 58, 58);
+    font-weight: 400;
+    font-size: 14px;
+    font-family: sans-serif;
+    outline: none;
+    border: none;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    outline: 1px rgb(177, 177, 177) solid;
+}

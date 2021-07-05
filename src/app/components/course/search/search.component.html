@@ -1,0 +1,31 @@
+
+<div class = "component-search-screen">
+<div class = "search-screen">
+    <div class = "nav-search-blank">
+        <span>{{this.listCourse.length}} results for <b>{{textSearch}}</b> </span>
+    </div>
+<div class="search-main container">
+    <div class="row">
+        <div class="col-md-3 list-filter-main" >
+            <app-filter (sendGradeChoose) = "receiveGrade($event)" (sendCategoryChoose) = "receiveCategory($event)"></app-filter>
+        </div>
+        <div class = "col-md-9 ">
+            <div  *ngIf = "isFindList()" class="list-search-main">
+                <app-list-search [listCourseResult] = "listCourse"></app-list-search>
+             </div>
+     
+             <div  *ngIf = "!isFindList()">
+                 <div class="not-found">
+                     No course found !
+                 </div>
+             </div>
+        </div>
+       
+    </div>
+</div>
+
+</div>
+
+<div  *ngIf = "isFindList()" style="background-color: #F0F2F5; height: 50vh; width: 100vw;"></div>
+
+</div>
