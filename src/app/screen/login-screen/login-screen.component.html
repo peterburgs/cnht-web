@@ -1,9 +1,11 @@
 <div class="container">
     <div class="sign-in">
         <h3 class="app-title">CÙNG NHAU HỌC TOÁN</h3>
-        <div class="btn">
+        <div *ngIf="!isLoading" class="btn">
             <button (click)="loginWithGoogle()" class="btn-primary btn-signin"><i class="fa fa-google"></i> Sign in with Google</button>
         </div>
-
+        <div *ngIf="isLoading">
+            <h4>Wait a minute! We are athenticating...</h4>
+        </div>
     </div>
 </div>

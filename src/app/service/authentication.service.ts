@@ -11,8 +11,8 @@ import { map } from 'rxjs/operators';
 export  class authenticationService {
 
   private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
-  private logger = new Subject<boolean>();
-  private loggedIn = false;
+  public logger = new Subject<boolean>();
+  public loggedIn = false;
 
   constructor( 
     public socialAuthService: SocialAuthService,
@@ -28,58 +28,58 @@ export  class authenticationService {
     }
   }
 
-  storeUser(socialUser : SocialUser){
+  storeUser(user : User,token:string){
     if(typeof(localStorage))
       {
         localStorage.setItem('isLoggedin','true');
-        localStorage.setItem('uname', socialUser.name);
-        localStorage.setItem('uemail',socialUser.email);
-        localStorage.setItem('uphotoUrl',socialUser.photoUrl);
+        localStorage.setItem('uname', user.fullName);
+        localStorage.setItem('uemail',user.email);
+        localStorage.setItem('uphotoUrl',user.avatarUrl);
+        localStorage.setItem('role',user.userRole);
+        localStorage.setItem('token',token);
+        
       }
   }
 
-  signUp(socialUser: SocialUser): boolean{
-    //handle create new user
-     const user:User = {
-       id:"",
-       email:socialUser.email,
-       userRole: ROLES.LEARNER,
-       balance: 0,
-       avatarUrl:socialUser.photoUrl,
-       fullName: socialUser.name
-     }
-     this.storeUser(socialUser);
-     //TODO: save user by post method
-     this.http
-     .post<User>('URL', user)
-     .subscribe(responseData=>{
-       console.log(responseData);
-     })
+  // signUp(socialUser: SocialUser): boolean{
+  //   //handle create new user
+  //    const user:User = {
+  //      id:"",
+  //      email:socialUser.email,
+  //      userRole: ROLES.LEARNER,
+  //      balance: 0,
+  //      avatarUrl:socialUser.photoUrl,
+  //      fullName: socialUser.name
+  //    }
+  //    this.storeUser(socialUser);
+  //    //TODO: save user by post method
+  //    this.http
+  //    .post<User>('URL', user)
+  //    .subscribe(responseData=>{
+  //      console.log(responseData);
+  //    })
 
-     this.loggedIn=true;
-     this.logger.next(this.loggedIn);
-     return true;
+  //    this.loggedIn=true;
+  //    this.logger.next(this.loggedIn);
+  //    return true;
 
-  }
+  // }
 
   //TODO: authenticate 
-  signIn(socialUser: SocialUser) : boolean{
+  signIn(socialUser: SocialUser){
 
+    let isDone:boolean=false;
     const data = {'authorization': socialUser.idToken};
     const config = { 
-      headers: new HttpHeaders().set('authorization', socialUser.idToken) ,
+      headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
       params:new HttpParams().set('userRole', ROLES.LEARNER)
     };
 
-    this.http
-     .post<VerifyUser>( this.baseUrl+'/auth', data,config)
-     .subscribe(responseData=>{
-       console.log(responseData);
-     })
-      this.storeUser(socialUser);
-      this.loggedIn=true;
-     this.logger.next(this.loggedIn);
-      return true;
+    return  this.http
+     .post<{token:string, user: User}>( this.baseUrl+'/auth', data,config)
+     
+
+      //return of(isDone);
   }
 
   isExistedAccount(email:string):boolean{
