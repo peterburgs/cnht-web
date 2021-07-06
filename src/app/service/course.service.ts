@@ -270,7 +270,7 @@ export class CourseService{
             this.baseUrl+ '/courses',
             {
                 headers: headers,
-                params:new HttpParams().set('title',title)
+                params:new HttpParams().set('title',title).set('isHidden',false)
             }
         ).pipe(
             catchError(this.handleError)
