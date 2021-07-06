@@ -51,13 +51,21 @@ export class SearchComponent implements OnInit {
           this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => this.listCourse = list);
           this.isUseFilter = false;
           this.setTextSearch(this.titleSearch);
+        //    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        //  this.router.onSameUrlNavigation = 'reload';
+          console.log("t: " + this.titleSearch);
         }
         else
-          if(this.listCourse.length === 0) this.isUseFilter = true;
+          if(this.listCourse.length === 0) 
+          {
+            
+           // this.router.routeReuseStrategy.shouldReuseRoute = () => true;
+            this.isUseFilter = true;}
       
       }
 
       getTitleFormRouter(){ //use the title for search
+       
         this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
@@ -94,8 +102,10 @@ export class SearchComponent implements OnInit {
     receiveCategory($event: any){
     
       this.category = $event;
+      this.router.routeReuseStrategy.shouldReuseRoute = () => true;
       console.log("event: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
       this.reloadRouter();   //end choose filter for search
+      this.isUseFilter = true;
       this.getListCourseFilter(); // get list by filter
     }
 
@@ -107,9 +117,11 @@ export class SearchComponent implements OnInit {
           this.category =COURSE_TYPE.THEORY;
           this.grade = GRADES.TWELFTH;
         }
-        
-        this.courseService.getListCourseFilter(this.category, this.grade).subscribe(list => this.listCourse = list);
+    
+        // this.courseService.getListCourseFilter(this.category, this.grade).su
+       // this.courseService.getListCourseFilter(this.category, this.grade).subscribe(list => this.listCourse = list);
         this.setTextSearch( this.category + " of " + this.grade );
+       // console.log("testsearch: " + this.textSearch);
       }
       
     }

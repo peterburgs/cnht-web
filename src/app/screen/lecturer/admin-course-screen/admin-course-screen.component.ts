@@ -3,6 +3,8 @@ import { CourseService } from 'src/app/service/course.service';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { authenticationService } from 'src/app/service/authentication.service';
+
 @Component({
   selector: 'app-admin-course-screen',
   templateUrl: './admin-course-screen.component.html',
@@ -15,9 +17,10 @@ export class AdminCourseScreenComponent implements OnInit {
   constructor(private router: Router, 
     private route:ActivatedRoute,
     private coursesService: CourseService,
-    private fullCourseService : FullCourseService) {
+    private fullCourseService : FullCourseService,
+    private authSevice: authenticationService) {
 
-      // setTimeout(()=>{
+       // setTimeout(()=>{
       //   this.courses=this.fullCourseService.getCourses();
       //   },1500);
     }
@@ -37,7 +40,18 @@ export class AdminCourseScreenComponent implements OnInit {
     //   this.signOut(); 
     // }
  
+    // if (storage) {
+    //   this.userDetails = JSON.parse(storage);
+    // } else {
+    //  // this.signOut();
+    // }
+    if(this.authSevice.isAdmin())
+    this.fullCourseService.initCourses().subscribe((response)=>{
+      this.courses=response.courses;
+    })
+    else this.router.navigateByUrl('/home').then();
   }
+
   signOut(): void {
     localStorage.removeItem('google_auth');
     this.router.navigateByUrl('/admin/login').then();
@@ -52,4 +66,5 @@ export class AdminCourseScreenComponent implements OnInit {
   
      
   }
+
 }

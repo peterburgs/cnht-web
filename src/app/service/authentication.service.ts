@@ -38,6 +38,9 @@ export  class authenticationService {
         localStorage.setItem('uphotoUrl',user.avatarUrl);
         localStorage.setItem('role',user.userRole);
         localStorage.setItem('token',token);
+
+        //for admin
+        localStorage.setItem('role', ROLES.ADMIN);
         
       }
   }
@@ -70,6 +73,15 @@ export  class authenticationService {
   //    return true;
 
   // }
+
+  isAdmin(){ //checkadmin login
+    if(typeof(localStorage)){
+      if( localStorage.getItem('isLoggedin')=='true' && localStorage.getItem('role') == ROLES.ADMIN)
+        return true;
+    }
+    return false;
+  }
+
 
   //TODO: authenticate 
   signIn(socialUser: SocialUser){

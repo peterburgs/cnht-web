@@ -7,6 +7,7 @@ import { COURSE_TYPE } from 'src/app/models/course-type';
 interface Grade {
   name: string;
   value: string;
+  checked?:boolean;
   children?: Grade[];
 }
 
@@ -17,6 +18,7 @@ interface FlatNodeFilterGrade {
   name: string;
   level: number;
   value: string;
+  checked:boolean;
 }
 
 @Component({
@@ -31,7 +33,7 @@ export class ItemFilterComponent implements OnInit {
   @Output() sendCategoryChoose = new EventEmitter<string>();
   @Input() category :string= COURSE_TYPE.THEORY; //enum category
   @Input() nameFilterCategory:string =  COURSE_TYPE.THEORY; // name category
-  listFilterOfCategory = [GRADES.TWELFTH,GRADES.ELEVENTH, GRADES.TENTH];
+  listFilterOfCategory: string[] = [];
   categoryChoose: string = COURSE_TYPE.THEORY;
   grade: string = GRADES.TWELFTH;
   TREE_DATA: Grade[] = [];
@@ -41,12 +43,13 @@ export class ItemFilterComponent implements OnInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
-      value: node.value
+      value: node.value,
+      checked: false
     };
   }
 
   constructor() { 
-  
+    this.setValueForTreeData();
   };
 
   setValueForTreeData(){
@@ -76,19 +79,25 @@ export class ItemFilterComponent implements OnInit {
 
   ngOnInit(): void {
      
-    this.setValueForTreeData();
+   // this.setValueForTreeData();
     this.dataSource.data = this.TREE_DATA;
     console.log(this.nameFilterCategory);
 
 
   }
 
+  
+
   change(gradeIndex: string){
+   
     this.grade = gradeIndex;
-    console.log(this.grade);
+
+    // if(this.listFilterOfCategory.indexOf(this.grade) <0)
+    //   this.listFilterOfCategory.push(this.grade);
+    // console.log("length" + this.listFilterOfCategory.length);
     this.sendGradeChoose.emit(this.grade);
     this.sendCategoryChoose.emit(this.category);
   }
 
-
+ 
 }

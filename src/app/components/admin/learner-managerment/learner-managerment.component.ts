@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
+import { authenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -12,13 +14,20 @@ export class LearnerManagermentComponent implements OnInit {
 
   titleSearch:string = "";
   listUsers: User[] = [];
- APPROVE: string = "error";
- isChange = false;
+  APPROVE: string = "error";
+  isChange = false;
+  isAdmin: boolean = false;
   constructor(private userService: UserService, private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private authService: authenticationService) { }
 
   ngOnInit(): void {
-    this.getListUser();
+
+    if(this.authService.isAdmin()){
+      this.isAdmin = true;
+      this.getListUser();
+    }
+   
   }
 
   getListUser(){//
