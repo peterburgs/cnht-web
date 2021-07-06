@@ -29,7 +29,7 @@ export class CardImageComponent implements OnInit {
   showInform:boolean= false;
   action:string="";
 
-  section: Section[]=[];
+  sections: Section[]=[];
   lecture:Lecture[]=[];
   lectureId: string="";
   sectionId:string="";
@@ -69,12 +69,10 @@ export class CardImageComponent implements OnInit {
       }
 
     //check status of isLoggedin, if it's true, update learner
-
-
     this.isBought_();
-    this.getFirstSection(this.course.id);
+    //this.getFirstSection(this.course.id);
     console.log(this.sectionId)
-    this.getFirstLecture(this.sectionId);
+    //this.getFirstLecture(this.sectionId);
     console.log(this.lectureId)
   }
 
@@ -120,9 +118,11 @@ export class CardImageComponent implements OnInit {
    */
   getFirstSection(courseId:string ){
 
-    this.section=this.courseService.getSectionByCourseId(courseId);
-    if(this.section.length>0)
-     this.sectionId= this.section.sort((a)=>a.sectionOrder)[0].id;
+    this.courseService.getSectionByCourseId(courseId)
+    .subscribe(data=>this.sections= data.sections)
+
+    if(this.sections.length>0)
+      this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
   }
 
   /**
@@ -185,15 +185,16 @@ export class CardImageComponent implements OnInit {
     wallet page else implement to buy the course
    * @param gotowallet 
    */
-  implementAction(gotowallet:boolean){
+  implementAction(action_return:string){
 
-    if(gotowallet)
+    if(action_return=='wallet')
     {
       this.router.navigate(["/wallet"]);
     }
     //Buy course
     else{
-      console.log(gotowallet)
+      if(action_return=='buy')
+      console.log(action_return)
       let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
       if(email!=null)
       {

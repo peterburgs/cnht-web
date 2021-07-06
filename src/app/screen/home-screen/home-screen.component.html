@@ -1,19 +1,17 @@
 <div class="home-screen">
     <div class="filter-button">
         <div class="card card-test">Test</div>
-        <div class="card card-exam">Examination Solving</div>
-        <div class="card card-theory">Theory</div>
-      
-       
+        <div class="card card-exam" (click)="changeCourseType(2)">Examination Solving</div>
+        <div class=" card card-theory" (click)="changeCourseType(1)">Theory</div>
     </div>
-    <app-grade-course [grade]="grade12"></app-grade-course>
-    <div class ="empty-block">
+    <app-grade-course [grade]="grade12" [courseType]="course_type"></app-grade-course>
+    <div class="empty-block">
     </div>
-    <app-grade-course [grade]="grade11">
+    <app-grade-course [courseType]="course_type" [grade]="grade11">
     </app-grade-course>
-    <div class ="empty-block">
+    <div class="empty-block">
     </div>
-    <app-grade-course [grade]="grade10"></app-grade-course>
-    <div class ="empty-block">
+    <app-grade-course [grade]="grade10" [courseType]="course_type"></app-grade-course>
+    <div class="empty-block">
     </div>
 </div>

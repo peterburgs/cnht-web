@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, of, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { COURSE_TYPE } from "../models/course-type";
 import { Course } from "../models/course.model";
 import { Enrollment } from "../models/enrollment.model";
@@ -128,27 +128,112 @@ export class CourseService{
         updatedAt: new Date(),
         isHidden: false
         
+    },
+    {
+        id: "10",
+        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
+        courseDescription: "Description",
+        price:170000,
+        courseType: COURSE_TYPE.EXAMINATION_SOLVING,
+        grade: GRADES.TENTH,
+        thumbnailUrl: "string",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isHidden: false
+        
+    },
+    {
+        id: "11",
+        title: "Tìm diện tích khối trụ  bản như trên",
+        courseDescription: "Description",
+        price:170000,
+        courseType: COURSE_TYPE.EXAMINATION_SOLVING,
+        grade: GRADES.TWELFTH,
+        thumbnailUrl: "string",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isHidden: false
+        
     }
     
 ];
-
+    private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
     constructor(private http : HttpClient){
         
     }
 
-    getListCourseGrade(level_: GRADES):Observable<Course[]>{
-        const courses= this.courses.filter(course =>course.grade===level_);
-        return of(courses);
+    private handleError(error: HttpErrorResponse) {
+        if (error.status === 0) {
+            // A client-side or network error occurred. Handle it accordingly.
+            //console.error('An error occurred:', error.error);
+        } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong.
+            // console.error(
+            // `Backend returned code ${error.status}, ` +
+            // `body was: ${error.error}`);
+        }
+        // Return an observable with a user-facing error message.
+        return throwError(
+            'Something bad happened; please try again later.');
     }
 
+    //!DONE 
+    getListCourseGrade(level_: GRADES, type_:COURSE_TYPE){
+
+        //*Create header
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+ '/courses',
+            {
+                headers: headers,
+                params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',true)
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
+    }
+
+
+    //TODO: send request getting all course
     getListCourse():Observable<Course[]>{
+        
+        this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+'/courses'
+        )
+        
+        
         const courses= this.courses;
         return of(courses);
+        
     }
 
-    getCourseById(id : string):Observable<Course>{
-        const course = this.courses.find(course => course.id===id)!;
-        return of(course);
+    //!DONE
+    //* Get course by course id
+    getCourseById(id : string){
+
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+'/courses',
+            {
+                headers: headers,
+                params:new HttpParams().set('id',id )
+            }
+        ).pipe(
+            
+            catchError(this.handleError)
+        );
+
+       
+        // const course = this.courses.find(course => course.id===id)!;
+        // return of(course);
     }
 
     getCourses(){
@@ -196,24 +281,23 @@ export class CourseService{
         )
     }
 
-    //TODO: get section of course by course id
+    //!DONE
     /**
      * REMOVE RETURN TYPE
      * @param courseId 
      * @returns 
      */
-    getSectionByCourseId(courseId: string):Section[]{
+    getSectionByCourseId(courseId: string){
        
-       /*return this.http
-        .get<Section[]>('URL',
+       return this.http
+        .get<{message:string,count:number, sections: Section[]}>(
+            this.baseUrl+ '/sections',
         {
             params: new HttpParams().set('courseId', courseId)
         }).pipe(
-            map((responseData)=>{ 
-                return responseData;
-            })
-        );*/
-        return sectionList.filter(section=> section.courseId === courseId);
+            catchError(this.handleError)
+        );
+       // return sectionList.filter(section=> section.courseId === courseId);
     }
 
     // use http open command when have API

@@ -6,6 +6,7 @@ import { Section } from 'src/app/models/section.model';
 import { CourseService } from 'src/app/service/course.service';
 import { Lecture } from 'src/app/models/lecture.model';
 import { Video } from 'src/app/models/video.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-section-course',
@@ -18,10 +19,13 @@ export class SectionCourseComponent implements OnInit {
   @Input() section!: Section;
   listLecture : Lecture[]=[];
   video!: Video;
-  constructor(private courseService: CourseService) { }
+  constructor(
+    private courseService: CourseService,
+    private route: Router,
+    private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getLecturesBySectionId(this.section.id);
+    //this.getLecturesBySectionId(this.section.id);
     
   }
 
@@ -42,5 +46,14 @@ export class SectionCourseComponent implements OnInit {
     //return this.video.length;
     return "1m30s"
   }
+
+  loadLecture(lectureId:string)
+  {
+    let courseId;
+    this.activeRoute.params.subscribe(params=>{
+      courseId=params['courseId'];
+      
+    })
+    this.route.navigate(['/learning',courseId,this.section.id,lectureId]);  }
 
 }

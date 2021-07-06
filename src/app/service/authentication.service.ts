@@ -3,13 +3,14 @@ import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Observable, of, Subject } from 'rxjs';
 import { ROLES } from '../models/user-roles';
 import { User } from '../models/user.model';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
 import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export  class authenticationService {
 
+  private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
   private logger = new Subject<boolean>();
   private loggedIn = false;
 
@@ -61,9 +62,20 @@ export  class authenticationService {
 
   }
 
-  
+  //TODO: authenticate 
   signIn(socialUser: SocialUser) : boolean{
 
+    const data = {'authorization': socialUser.idToken};
+    const config = { 
+      headers: new HttpHeaders().set('authorization', socialUser.idToken) ,
+      params:new HttpParams().set('userRole', ROLES.LEARNER)
+    };
+
+    this.http
+     .post<VerifyUser>( this.baseUrl+'/auth', data,config)
+     .subscribe(responseData=>{
+       console.log(responseData);
+     })
       this.storeUser(socialUser);
       this.loggedIn=true;
      this.logger.next(this.loggedIn);
@@ -90,4 +102,14 @@ export  class authenticationService {
   }
 
 
+}
+
+export class VerifyUser{
+  verifiedUser!: {
+    fullName: string,
+    email: string
+  };
+  avatarUrl: string="";
+  verifiedRole: number=0;
+  verifiedToken: string="";
 }
