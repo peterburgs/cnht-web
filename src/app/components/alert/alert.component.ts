@@ -12,7 +12,7 @@ export class AlertComponent implements OnInit {
   @Input() actionToAlert: string = "A";
   @Input() action:string="";
   @Output() close = new EventEmitter<void>();
-  @Output() gotowallet= new EventEmitter<boolean>();
+  @Output() action_return= new EventEmitter<string>();
   onClose(){
     this.close.emit();
   
@@ -27,16 +27,23 @@ export class AlertComponent implements OnInit {
     console.log(this.action);
 
     if(this.action=="wallet"){
-      this.gotowallet.emit(true);
+      this.action_return.emit('wallet');
       this.onClose();
     }
 
     if(this.action=="buy"){
-      this.gotowallet.emit(false);
+      this.action_return.emit('buy');
       this.onClose();
     }
     
-   
+    if(this.action=="transfer_money")
+    {
+      this.action_return.emit('confirm_transfer')
+      this.onClose()
+    }
+    if(this.action=="money_invalid" || this.action=="image_invalid"){
+      this.action_return.emit('yes');
+      this.onClose();
+    }
   }
-
 }

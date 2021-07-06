@@ -13,7 +13,7 @@ export class CourseDetailScreenComponent implements OnInit {
 
   
   selectedCourse = new Course();
-  courseId!: Observable<string>;
+  courseId!:string;
   constructor(
     private service: CourseService,
     private route: ActivatedRoute
@@ -23,16 +23,15 @@ export class CourseDetailScreenComponent implements OnInit {
 
    
     this.route.params.subscribe(params=>{
-      this.courseId= of(params['id']);
+      this.courseId= params['id'];
       
     })
-
-    this.courseId.subscribe(id=>{
-      this.service.getCourseById(id).subscribe(course =>  this.selectedCourse= course);
-
-    })
-
-    console.log(this.courseId)
+ 
+    this.service.getCourseById(this.courseId).subscribe(data =>{
+      this.selectedCourse= data.courses[0];
+      console.log(data)
+    } )
+    console.log(this.selectedCourse)
   }
 
 }

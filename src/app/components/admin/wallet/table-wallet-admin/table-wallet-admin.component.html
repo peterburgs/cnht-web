@@ -3,7 +3,6 @@
         <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
             <mat-slide-toggle [color]="colorSlideFilter" (click) = "setIsConfirmAll()"
             >Not yet confirmed</mat-slide-toggle>
-            <button *ngIf = "isConfirmAll" class = " btn-confirm-all" (click) = "setActionConfirmAll()"> Confirm All</button>
             <app-alert-warning [message]="messageToAction" [actionToAlert]="nameActionToAlert"   *ngIf = "isCallAlert" (close)="onHandleError()" (isAction) = "getAcceptFromAlert($event)">
             </app-alert-warning>
 

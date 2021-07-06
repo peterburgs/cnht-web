@@ -1,11 +1,12 @@
 <div class="hotest-course">
   <div class = "grade-number">
-    <p class="title">{{getLevelGradeName()}} </p>
+   <h4 class="title">{{getLevelGradeName()}} </h4>
+    <a class="view-all "  (click) = "viewAllCourse()">View all  </a>
+
   </div> 
 
     <div class="grade-course ">
         <app-small-course  class="pull-right" *ngFor="let item of smallCourses" [course]="item"></app-small-course>
     </div>
-    <a class="view-all "  (click) = "viewAllCourse()">View all <b style="height: 10px; font-weight: 400;">></b> </a>
 
 </div>

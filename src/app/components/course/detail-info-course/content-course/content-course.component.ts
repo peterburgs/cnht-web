@@ -23,12 +23,15 @@ export class ContentCourseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getListSection();
+    //this.getListSection();
   }
 
   //TODO: get list  section of a course
   getListSection(){
-    this.listSection=this.courseService.getSectionByCourseId(this.current_course.id);
+    this.courseService.getSectionByCourseId(this.current_course.id)
+    .subscribe(data=>
+      this.listSection= data.sections
+      )
     console.log(this.listSection)
     // this.courseService.getSectionByCourseId(this.current_course.id).subscribe(sections=>
     //    this.listSection= sections

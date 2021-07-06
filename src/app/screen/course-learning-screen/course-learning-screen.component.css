@@ -28,4 +28,33 @@
     right: 0;
     height: 100%;
     z-index: 1000;
+    scroll-behavior: smooth;
+    overflow: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(201, 201, 201);
+    border-radius: 5px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgba(119, 119, 119, 0.712);
+    border-radius: 5px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
 }

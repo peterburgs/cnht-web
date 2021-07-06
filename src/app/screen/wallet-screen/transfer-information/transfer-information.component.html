@@ -1,7 +1,7 @@
 <div class="transfer">
     <div class="transfer-info">
         <p class="instruction">1. Please transfer money to one of the following account.</p>
-        <div class="bank-info">
+        <!-- <div class="bank-info">
             <p>Account number: 0500 7393 5137</p>
             <P>Account owner: TRINH MINH ANH</P>
             <p>Bank: Sacombank</p>
@@ -10,7 +10,7 @@
             <p>Account number: 9704 2292 7287 3444</p>
             <P>Account owner: TRINH MINH ANH</P>
             <p>Bank: MB Bank</p>
-        </div>
+        </div> -->
         <div class="bank-info">
             <p>Account number: 10 1841 7537</p>
             <P>Account owner: TRINH MINH ANH</P>
@@ -31,12 +31,21 @@
         <p class="instruction">4. If something went wrong. Please contact admin at admin@cungnhauhoctoan.net</p>
     </div>
     <div class="transfer-coins">
-        <p>I have transfered <span><input class="amount-coins" type="text" value="10"></span> coins. </p>
-        <input class="btn-select-img" type="button" value="Select image">
+        <p>I have transfered <span><input class="amount-coins" required type="number" min="0" [(ngModel)]="moneyTransfer"></span>VND </p>
+        <div class="p-2 load-img">
+            <img name="thumbnailUrl" class="image-course" [src]="thumnailUrl" id="thumbnailUrl" alt="img-course">
+            <input #file type="file" hidden accept="image/*" (change)="handleFileInput($event)">
+            <button class="btn-select-img" type="button" (click)="file.click()">Select image</button>
+
+        </div>
+
     </div>
+
     <div class="btn-action">
-        <button class="btn-cancel">Cancel</button>
-        <button class="btn-create-request">Create request now</button>
+        <button class="btn-cancel" (click)="cancelUploadImage()">Cancel</button>
+        <button class="btn-create-request" (click)="createDepositeRequest()">Create request now</button>
     </div>
 
 </div>
+
+<app-alert [actionToAlert]="actionToAlert" [message]="message" [action]="action" (action_return)="implementAction($event)" *ngIf="showAnnouncement" (close)="closeHandler()"></app-alert>

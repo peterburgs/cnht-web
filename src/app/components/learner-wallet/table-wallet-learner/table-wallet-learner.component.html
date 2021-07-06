@@ -1,5 +1,5 @@
 <div class="card shadow mb-4 table-detail">
-    <div class = "title-table">Deposit history</div>
+    <div class="title-table">Deposit history</div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -8,37 +8,33 @@
                         <th>Date Time</th>
                         <th>Amount</th>
                         <th>Image</th>
-                      
 
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Date Time</th>
-                        <th>Amount</th>
-                        <th>Image</th>
-                        
 
-                    </tr>
-                </tfoot>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let item of depositHistory">
                         <td>
-                            <div><span>6/30/2021 3:54:00 PM</span></div>
+                            <div><span>{{ dateFormater(item.createdAt)}}</span></div>
                             <div><span>Status: </span>
-                                <div class=" btn-status">Pending</div>
+                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==pendding">{{item.depositRequestStatus}}</span>
+                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==confirm">Confirm at: {{item.updatedAt}}</span>
+                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==deny">{{item.depositRequestStatus}}</span>
+
                             </div>
                         </td>
-                        <td> <div class="amount">0000</div></td>
-                        <td><button class="btn-admin "(click) = "showImg()"> View </button></td>
-                       
+                        <td>
+                            <div class="amount">{{item.amount}}</div>
+                        </td>
+                        <td><button class="btn-admin " (click)="showImg(item.imageUrl)"> View </button></td>
+
                     </tr>
-                  
+
                 </tbody>
             </table>
 
             <!-- alert-view -->
-            <app-alert-view-image [message] = "message_view_img" [path_img] = "path_img_view" *ngIf = "isShowImg()" (close) = "onHandleError()">
+            <app-alert-view-image [message]="message_view_img" [path_img]="path_img_view" *ngIf="isShowImg()" (close)="onHandleError()">
 
             </app-alert-view-image>
             <!-- end-alert-view -->
