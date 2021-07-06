@@ -12,7 +12,7 @@
 .child-media {
     width: 100%;
     display: flex;
-    margin-top: 2px;
+    margin-top: 8px;
 }
 
 .media-left {
@@ -45,17 +45,17 @@
 
 .time-comment {
     font-style: italic;
-    color: gray;
+    color: rgb(100, 100, 100);
     font-weight: 400;
-    font-size: 11px;
-    margin-top: 3px;
+    font-size: 12px;
 }
 
 .comment-content {
     font-size: 15px;
     font-family: sans-serif;
     font-weight: 400;
-    color: rgb(85, 85, 85);
+    color: rgb(48, 47, 47);
+    margin-top: -10px;
 }
 
 .btn-comment {

@@ -13,9 +13,9 @@ export class DepositRequestService{
 
     private depositRequests: DepositRequest[] = [{
         id: "01",
-        learnerId: "user01",
+        learnerId: "user04",
         amount: 10000,
-        imageUrl: "",
+        imageUrl: "../../assets/images/img1.jpg",
         depositRequestStatus: STATUSES.PENDING,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -23,19 +23,19 @@ export class DepositRequestService{
 
     {
         id: "02",
-        learnerId: "user02",
+        learnerId: "user04",
         amount: 10000,
-        imageUrl: "",
-        depositRequestStatus: STATUSES.PENDING,
+        imageUrl: "../../assets/images/wellet.png",
+        depositRequestStatus: STATUSES.CONFIRM,
         createdAt: new Date(),
         updatedAt: new Date()
     },
 
     {
         id: "03",
-        learnerId: "user03",
+        learnerId: "user04",
         amount: 10000,
-        imageUrl: "",
+        imageUrl: "../../assets/images/wellet1.png",
         depositRequestStatus: STATUSES.PENDING,
         createdAt: new Date(),
         updatedAt: new Date()

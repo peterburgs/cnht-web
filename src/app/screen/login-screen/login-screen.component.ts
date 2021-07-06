@@ -26,17 +26,12 @@ export class LoginScreenComponent implements OnInit {
       console.log(this.socialAuthService.authState);
       if(this.isLoggedin){
         console.log(this.socialUser);
-        if(this.authService.isExistedAccount(this.socialUser.email))
-        {
-          if(this.authService.signIn(this.socialUser)){
-            this.route.navigate(['/home']);
-          };
+    
+        if(this.authService.signIn(this.socialUser)){
+          this.route.navigate(['/home']);
+        
         }
-        else{
-           if(this.authService.signUp(this.socialUser)){
-             this.route.navigate(["/home"]);
-           }
-        } 
+    
       }
      
       

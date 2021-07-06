@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Comment } from 'src/app/models/comment.model';
@@ -17,7 +17,7 @@ import { CommentChild } from '../CommentChild';
   encapsulation : ViewEncapsulation.Emulated
 })
 
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, OnChanges {
 
   @Input() course!:Course;
   @Input()lectureId!:string;
@@ -45,7 +45,6 @@ export class CommentComponent implements OnInit {
     this.route.params.subscribe(params=>{
       this.lectureId= params['lectureId'];
       this.sectionId=params['sectionId'];
-    
     })
     this.learner= this.userService.getUserInLocalStore();
 
@@ -57,6 +56,14 @@ export class CommentComponent implements OnInit {
     this.getChildComment();
   }
 
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.lectureId){
+      this.ngOnInit()
+      console.log('On changes' )
+    }
+
+  
+  }
   allowComment(){
     if(localStorage.getItem('isLoggedin')=='true')
     {
@@ -131,11 +138,6 @@ export class CommentComponent implements OnInit {
 
     this.commentInput='';
   }
-
-  
-
-  
-
   
 }
 

@@ -15,7 +15,7 @@ export const sectionList : Section[]=[
     {
         courseId:'1',
         id:'course1sec2',
-        title:'Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính',
+        title:'Phương trình tuyến tính Lý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tínhLý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính',
         isHidden: false,
         sectionOrder: 2,
         createdAt:new Date(),
@@ -25,7 +25,7 @@ export const sectionList : Section[]=[
     {
         courseId:'2',
         id:'course2sec1',
-        title:'Lý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính',
+        title:'Lý thuyết phương Lý thuyết phương Lý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tính trình Phương trình tuyến tính Phương trình tuyến tính trình Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính Phương trình tuyến tính',
         isHidden: false,
         sectionOrder: 1,
         createdAt: new Date(),
@@ -35,7 +35,7 @@ export const sectionList : Section[]=[
     {
         courseId:'2',
         id:'course2sec2',
-        title:'Lý thuyết phương trình',
+        title:'Lý thuyết phương trìnhLý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tínhLý thuyết phương trình Phương trình tuyến tính Phương trình tuyến tính',
         isHidden: false,
         sectionOrder: 2,
         createdAt: new Date(),
@@ -164,7 +164,7 @@ export const listComment: Comment[]=[
         parentId: "",
         userId: "user01",
         lectureId: 'co1sec1lec1',
-        createdAt: new Date(),
+        createdAt: new Date("2019-01-16"),
         updatedAt:  new Date(),
         idHidden: false
     },
@@ -174,7 +174,7 @@ export const listComment: Comment[]=[
         parentId: "1",
         userId: "user02",
         lectureId: 'co1sec1lec1',
-        createdAt: new Date(),
+        createdAt: new Date("2020-01-16"),
         updatedAt:  new Date(),
         idHidden: false
     },
@@ -184,7 +184,7 @@ export const listComment: Comment[]=[
         parentId: "1",
         userId: "user01",
         lectureId: 'co1sec1lec1',
-        createdAt: new Date(),
+        createdAt: new Date("2020-08-15"),
         updatedAt:  new Date(),
         idHidden: true
     },
@@ -194,7 +194,7 @@ export const listComment: Comment[]=[
         parentId: "",
         userId: "user03",
         lectureId: 'co1sec1lec1',
-        createdAt: new Date(),
+        createdAt: new Date("2021-07-5"),
         updatedAt:  new Date(),
         idHidden: true
     },
@@ -213,7 +213,7 @@ export const listComment: Comment[]=[
         commentText: "Bài giảng của thầy rất bổ ích",
         parentId: "",
         userId: "user03",
-        lectureId: 'co1sec1lec1',
+        lectureId: 'co1sec1lec2',
         createdAt: new Date(),
         updatedAt:  new Date(),
         idHidden: false

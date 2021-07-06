@@ -24,8 +24,7 @@ export class CourseLearningScreenComponent implements OnInit {
     private courseService:CourseService,
     private _sanitizer: DomSanitizer
     ) {
-
-      
+   
      }
 
   ngOnInit(): void {
@@ -37,12 +36,16 @@ export class CourseLearningScreenComponent implements OnInit {
     })
 
     this.courseId.subscribe(id=>{
-        this.courseService.getCourseById(id).subscribe(course=>{this.current_course= course})
+        this.courseService.getCourseById(id).subscribe(course=>{this.current_course= course.courses[0]})
     })
 
+
+    //TODO: GET VIDEO OF LECTURE
     this.videoURL= this._sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/zcAalMeaKso");
     // this.courseService.getCourseById(id).subscribe(course => this.current_course= course);
 
   }
+
+
 
 }

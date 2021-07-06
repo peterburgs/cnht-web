@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import * as moment from 'moment';
 import { Observable, of } from 'rxjs';
 import { Comment } from 'src/app/models/comment.model';
 import { User } from 'src/app/models/user.model';
@@ -97,6 +98,10 @@ export class SingleCommentComponent implements OnInit {
    this.userService.getUserById(this.commentParent.userId)
    .subscribe(user=>this.commentParent.learner=user);
 
-}
+  }
+
+  getMomentTime(date: Date):string{
+     return moment(date).startOf('minutes').fromNow().toString();
+  }
 
 }

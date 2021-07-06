@@ -5,7 +5,7 @@
     </div>
     <div class="media-body">
         <h5 class="media-heading title">{{commentParent.learner?.fullName}}
-            <h6 class="time-comment">{{commentParent.createdAt |date:'yyyy-MM-dd'}}</h6>
+            <h6 class="time-comment">{{getMomentTime(commentParent.createdAt)}}</h6>
         </h5>
         <p class="comment-content">
             {{commentParent.commentText}}
@@ -17,7 +17,7 @@
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading title">{{comment.learner?.fullName}}
-                        <h6 class="time-comment">{{comment.createdAt |date:'yyyy-MM-dd'}}</h6>
+                        <h6 class="time-comment"> {{getMomentTime(comment.createdAt)}}</h6>
                     </h5>
                     <p class="comment-content">
                         {{comment.commentText}}
