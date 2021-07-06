@@ -30,6 +30,7 @@ export  class authenticationService {
   storeUser(socialUser : SocialUser){
     if(typeof(localStorage))
       {
+        console.log(socialUser.idToken);
         localStorage.setItem('isLoggedin','true');
         localStorage.setItem('uname', socialUser.name);
         localStorage.setItem('uemail',socialUser.email);
@@ -57,6 +58,7 @@ export  class authenticationService {
 
      this.loggedIn=true;
      this.logger.next(this.loggedIn);
+     
      return true;
 
   }

@@ -15,19 +15,28 @@ export class AdminCourseScreenComponent implements OnInit {
   constructor(private router: Router, 
     private route:ActivatedRoute,
     private coursesService: CourseService,
-    private fullCourseService : FullCourseService) {}
+    private fullCourseService : FullCourseService) {
+
+      // setTimeout(()=>{
+      //   this.courses=this.fullCourseService.getCourses();
+      //   },1500);
+    }
 
   ngOnInit(): void {
+
+   
+    this.fullCourseService.initCourses().subscribe((response)=>{
+
+      this.courses=response.courses;
+    })
     const storage = localStorage.getItem('google_auth');
 
-    if (storage) {
-      this.userDetails = JSON.parse(storage);
-    } else {
-      this.signOut(); 
-    }
-    this.fullCourseService.getCourses().subscribe((courses)=>{
-      this.courses=courses;
-    })
+    // if (storage) {
+    //   this.userDetails = JSON.parse(storage);
+    // } else {
+    //   this.signOut(); 
+    // }
+ 
   }
   signOut(): void {
     localStorage.removeItem('google_auth');
@@ -35,11 +44,12 @@ export class AdminCourseScreenComponent implements OnInit {
   }
   onCreateCourse(){
     this.fullCourseService.createCourse();
+
     const promise= new Promise((resolve, reject)=>{
       setTimeout(()=>{
-        this.fullCourseService.createCourse()},1500)
+        this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },1500)
       });
   
-      this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route})
+     
   }
 }

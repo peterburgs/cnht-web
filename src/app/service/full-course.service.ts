@@ -4,7 +4,7 @@ import { Lession } from 'src/app/models/lession.model';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { Section } from 'src/app/models/section.model';
 import { VideoType } from 'src/app/models/VideoType.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Course } from 'src/app/models/course.model';
 import { Lecture } from 'src/app/models/lecture.model';
 
@@ -12,11 +12,7 @@ import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
-import { throwIfEmpty } from 'rxjs/operators';
-import { createNgModuleType } from '@angular/compiler/src/render3/r3_module_compiler';
-import { faDoorClosed, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 
-import { Lecturer } from '../models/lecturer.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -44,9 +40,12 @@ export class FullCourseService {
   private fileThumbnail:  File = new File([], 'thumbnail-default');;
   private sections: Section[] = [];
   private lectures: Lecture[] = [];
+  private courses: Course[]=[];
   private listDeepSection: SectionDummy[] = [];
   private videos:Video[]=[];
-
+  private urlAPI="https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/"
+  private authHeader= new HttpHeaders();
+  private idToken="eyJhbGciOiJSUzI1NiIsImtpZCI6ImI2ZjhkNTVkYTUzNGVhOTFjYjJjYjAwZTFhZjR  lOGUwY2RlY2E5M2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiOTgxODkwNzczOTg1LXNkbnA2OTB0ZHJzdHExMDZ1YzM3YWhyOWRnOWtsYzJsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiOTgxODkwNzczOTg1LXNkbnA2OTB0ZHJzdHExMDZ1YzM3YWhyOWRnOWtsYzJsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTAyNjU0MjM1Mzg2NzIxNTcyNDIyIiwiaGQiOiJzdHVkZW50LmhjbXV0ZS5lZHUudm4iLCJlbWFpbCI6IjE4MTEwMzY2QHN0dWRlbnQuaGNtdXRlLmVkdS52biIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiOGVfeHJHWEJrQnA1NUhzTkttczBXZyIsIm5hbWUiOiJMZSBUaGkgUGh1b25nIFRoYW8iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd0NUcGppcXVRYnQ1azQ2aktXREVpcFBFUGltaWktRFlWU3hSdEM9czk2LWMiLCJnaXZlbl9uYW1lIjoiTGUgVGhpIFBodW9uZyIsImZhbWlseV9uYW1lIjoiVGhhbyIsImxvY2FsZSI6InZpIiwiaWF0IjoxNjI1NTUyODI3LCJleHAiOjE2MjU1NTY0MjcsImp0aSI6IjI3YWQ2MmRkMzUyMzI2OGQxZjVjZWJmZjAwNTQxMmFjOWY2YWFmOGUifQ.eS4qLjzRPJh8wJyj13t9v4yGMtkjDl-jGrYqloxjixaeDVWWhhXs0zZ9iydRDBgz10Ju01-uw_RfuPXwNdNBEuYL_EUf7pQTY4EEN20Ar_uDWziMo_rgjB9AySDlmMQhgNiW2rExQV5ltx3l3qyCZWlSO5OsAbJpXFKTg565F-GJiqbWB0Pg9JDbrnVRisQ7DNbO0LYcE29ghk9vE2vFn0p1v3DQ3E-kwtyFHDmnaxiDtU6-IkNuirWTyWjW_OLjH2kZHz5h-IBKU7NvNUPRRbbmidGZ6EIsU2FZzVF-XWlgOW-WqlPFu14erQjISO6W7bq6P7woSvDdfBYD1GeIYQ";
   //================================= Initial =========================
   //save edit Modal in screen
   
@@ -64,15 +63,20 @@ export class FullCourseService {
   sbjTypeSelection = new Subject<VideoType>();
   sbjWayModify = new Subject<ModifyType>();
   sbjIdItem = new Subject<string>();
+  headers:HttpHeaders= new HttpHeaders();
+  constructor(private http: HttpClient) {
+    // this.initCourses();
+    this.authHeader.append('Authorization', 'Bearer '+this.idToken)
 
-  constructor(private http: HttpClient) {}
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer'+this.idToken });
+  }
  
   //================================= GET =========================
   getLecturesCourse() {
     return this.lectures;
-    
   }
-
   getCourseInfo() {
     return this.course;
   }
@@ -82,10 +86,10 @@ export class FullCourseService {
   getLectureSelection() {
     //TODO: update way get when have API
   
-    return this.lectures.filter((lecture:Lecture) => (lecture.id === this.idItem))[0];
+    return this.lectures.filter((lecture:Lecture) => (lecture.id == this.idItem))[0];
   }
   getSectionSelection() {
-    return this.sections.filter((section) => (section.id === this.idItem));
+    return this.sections.filter((section) => (section.id == this.idItem));
   }
   getCurrentSelection(): Observable<VideoType> {
     return this.sbjTypeSelection.asObservable();
@@ -102,8 +106,8 @@ export class FullCourseService {
   }
   setSelection(id: string, type: VideoType, way: ModifyType) {
     this.idItem = id;
-    console.log(this.idItem);
     this.sbjIdItem.next(this.idItem);
+
     this.typeSelection = type;
     this.sbjTypeSelection.next(this.typeSelection);
 
@@ -123,7 +127,6 @@ export class FullCourseService {
   onValidateInput() {
     this.invokeValidModal.emit();
   }
-
   onUpSection() {
    //if is the first, cannot up
    let sectionUp:Section=this.getSectionSelection()[0]; 
@@ -137,7 +140,7 @@ export class FullCourseService {
     // sectionSwap.sectionOrder=sectionUp.sectionOrder;
     let sectionSwap=new Section();
     for(let i=0; i< this.sections.length-1; i++){
-      if(this.sections[i+1].id === sectionUp.id){
+      if(this.sections[i+1].id == sectionUp.id){
         sectionSwap= this.sections[i];
       }
     }
@@ -148,14 +151,13 @@ export class FullCourseService {
 
       sectionUp.sectionOrder= tmpOrder;
       this.onSaveSection(sectionUp);
-
     
-      console.log('First section swap up'+sectionSwap);
-      this.onSaveSection(sectionSwap);
+      // console.log('First section swap up'+sectionSwap);
+      // this.onSaveSection(sectionSwap);
 
-      sectionUp.sectionOrder=sectionUp.sectionOrder-1;
-      this.onSaveSection( sectionUp);
-      console.log('Section section swap up'+sectionUp);
+      // sectionUp.sectionOrder=sectionUp.sectionOrder-1;
+      // this.onSaveSection( sectionUp);
+      // console.log('Section section swap up'+sectionUp);
 
   }
   onDownSection() {
@@ -173,28 +175,27 @@ export class FullCourseService {
         sectionSwap= this.sections[i];
       }
     }
- 
-   let tmpOrder= sectionSwap.sectionOrder;
-   sectionSwap.sectionOrder= sectionDown.sectionOrder;
-    console.log('First section swap down'+sectionSwap);
-    this.onSaveSection(sectionSwap);
-
-    sectionDown.sectionOrder=tmpOrder;
-    this.onSaveSection( sectionDown);
-    console.log("Second section down "+ sectionDown);
-
+    if(sectionSwap){
+      let tmpOrder= sectionSwap.sectionOrder;
+      sectionSwap.sectionOrder= sectionDown.sectionOrder;
+      
+       this.onSaveSection(sectionSwap);
+   
+       sectionDown.sectionOrder=tmpOrder;
+       this.onSaveSection( sectionDown);
+    }
   }
   onUpLession() {
     let lectureUp:Lecture= this.getLectureSelection();
     //Don't run anything if the first lession
-    if (lectureUp.lectureOrder==0){
+    if (lectureUp.id==this.lectures[0].id){
       console.log('Lession can not up' + lectureUp);
       return;
     }
     let lectureSwap= new Lecture();
     let len= this.lectures.length-1;
     for(let i= 0; i<len; i++){
-        if(this.lectures[i+1].lectureOrder== lectureUp.lectureOrder){
+        if(this.lectures[i+1].id== lectureUp.id){
             lectureSwap= this.lectures[i];
         }
     }
@@ -223,75 +224,104 @@ export class FullCourseService {
     }
     let lectureSwapDown= new Lecture();
     let len=this.lectures.length-1;
-    for(let i=-1; i<len; i++ ){
-        if(this.lectures[i+1].id==lectureDown.id){
+    for(let i=len; i>=1; i++ ){
+        if(this.lectures[i-1].id==lectureDown.id){
           lectureSwapDown= this.lectures[i];
         }
     }
-
     if(lectureSwapDown.sectionId != lectureDown.sectionId){
       lectureDown.sectionId= lectureSwapDown.sectionId;
       this.onSaveLecture(lectureDown);
       return;
     }
-
     let tmpOrder = lectureSwapDown.lectureOrder;
     lectureSwapDown.lectureOrder= lectureDown.lectureOrder;
     this.onSaveLecture(lectureSwapDown);
 
     lectureDown.lectureOrder= tmpOrder;
     this.onSaveLecture(lectureDown);
-
   }
 
   
   //================ HTTP ===============
-  private apiUrlCourse = 'http://localhost:5000/courses';
-  private apiUrlSection = 'http://localhost:5000/sections';
-  private apiUrlLecture = 'http://localhost:5000/lectures';
-  getCourses(): Observable<Course[]> {
-    // return this.http.get<Course[]>(this.apiUrlCourse);
-    return of(this.mcourses);
+  private apiUrlCourse = this.urlAPI+'courses';
+  private apiUrlSection = this.urlAPI+ 'sections';
+  private apiUrlLecture = this.urlAPI+ 'lectures';
+  initCourses() {
+    console.log('find course');
+     return this.http.get<{message:string,count:number,courses:Course[]}>(this.apiUrlCourse);
+    //  .subscribe(response=>{
+    //    this.courses= response.courses;
+    //    console.log(response);
+    //    listCourses=response.courses;
+    //  })
+    // return of(this.mcourses);
+  }
+  getCourses(){
+    return this.courses;
   }
   getData() {
-    // this.http
-    //   .get<Section[]>(this.apiUrlSection)
-    //   .toPromise()
-    //   .then((sectionsData) => {
-    //     this.sections = sectionsData;
-    //     this.http
-    //       .get<Lecture[]>(this.apiUrlLecture)
-    //       .toPromise()
-    //       .then((lecturesData) => {
-    //         this.lectures = lecturesData;
-    //         console.log(this.lectures);
-    //         this.sections.forEach((section) => {
-    //           console.log(section);
-    //           let tmpLecturers: Lecture[] = this.lectures.filter(
-    //             lecture => lecture.sectionId === section.id
-    //           );
-    //           console.log(tmpLecturers);
-    //           this.listDeepSection.push(
-    //             new SectionDummy(section.id, section.title, tmpLecturers)
-    //           );
-    //         });
-    //       });
-    //   });
-    this.sections= this.mSectionList;
-    this.lectures= this.mLectureList;
-    this.videos= this.mVideo;
 
-    this.sections.forEach((section) => {
-      // console.log(section);
-       let tmpLecturers: Lecture[] = this.lectures.filter(
-         lecture => lecture.sectionId == section.id
-       );
-      // console.log(tmpLecturers);
-       this.listDeepSection.push(
-         new SectionDummy(section.id, section.title, tmpLecturers)
-       );
-})
    
+    this.http
+      .get<{message:string, count:number,sections:Section[]}>(this.apiUrlSection, {headers:this.authHeader, params:new HttpParams().set('courseId',this.idCourse)})
+      .subscribe(response=>{
+            this.sections= response.sections;
+
+            console.log(response);
+            this.http.get<{message:string, count:number,lectures:Lecture[]}>
+                (this.apiUrlLecture, {headers:this.authHeader,params:new HttpParams().set('courseId', this.idCourse)}).subscribe(response=>{
+                    this.lectures= response.lectures
+                    this.sections.forEach((section)=>{
+                      let tmpLecturers: Lecture[] = this.lectures.filter(
+                        lecture => lecture.sectionId === section.id
+                      );
+                      console.log(tmpLecturers);
+                      this.listDeepSection.push(
+                        new SectionDummy(section.id, section.title, tmpLecturers)
+                      );
+                    })
+                })
+                console.log("Deep section")
+    console.log(this.listDeepSection);
+    
+      })
+
+      // .then((sectionsData) => {
+      //   this.sections = sectionsData;
+      //   this.http
+      //     .get<Lecture[]>(this.apiUrlLecture)
+      //     .toPromise()
+      //     .then((lecturesData) => {
+      //       this.lectures = lecturesData;
+      //       console.log(this.lectures);
+      //       this.sections.forEach((section) => {
+      //         console.log(section);
+      //         let tmpLecturers: Lecture[] = this.lectures.filter(
+      //           lecture => lecture.sectionId === section.id
+      //         );
+      //         console.log(tmpLecturers);
+      //         this.listDeepSection.push(
+      //           new SectionDummy(section.id, section.title, tmpLecturers)
+      //         );
+      //       });
+      //     });
+      // });
+    // this.sections= this.mSectionList;
+    // this.lectures= this.mLectureList;
+    // this.videos= this.mVideo;
+
+//     this.sections.forEach((section) => {
+//       // console.log(section);
+//        let tmpLecturers: Lecture[] = this.lectures.filter(
+//          lecture => lecture.sectionId == section.id
+//        );
+//       // console.log(tmpLecturers);
+//        this.listDeepSection.push(
+//          new SectionDummy(section.id, section.title, tmpLecturers)
+//        );
+// })
+console.log("Deep section")
     console.log(this.listDeepSection);
     
 
@@ -333,9 +363,6 @@ export class FullCourseService {
       this.course.thumbnailUrl= course.thumbnailUrl;
   }
   getDataServe() {
-    //Create mode
-    
- 
 
       this.getData();
  
@@ -461,19 +488,22 @@ export class FullCourseService {
   }
   createCourse(){
       //TODO: add create new section
-      this.sections.push({
-        courseId: '1',
-        id: 'course1sec1',
-        title: 'Section 1',
-        isHidden: false,
-        sectionOrder: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      // this.sections.push({
+      //   courseId: '1',
+      //   id: 'course1sec1',
+      //   title: 'Section 1',
+      //   isHidden: false,
+      //   sectionOrder: 1,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      // });
+
+      this.sections=[];
       this.lectures = [];
 
       this.onCreateCourse(this.course).subscribe((course) => {
         this.course = course;
+        console.log('create course')
         console.log(this.course);
 
         let firstSection: Section=new Section();
@@ -486,6 +516,7 @@ export class FullCourseService {
         //   []
         // );
         // this.listDeepSection.push(firstSectionDummy);
+        this.getData();
       });
   }
   onSaveSection(section: Section): Observable<Section> {
@@ -493,8 +524,10 @@ export class FullCourseService {
 
     console.log('Save section ');
     console.log(section);
-    // const url = `${this.apiUrlSection}/${sectionId}`;
-    // return this.http.put<Section>(url, section,httpOptions);
+     const url = `${this.apiUrlSection}/${section.id}`;
+      
+     
+     return this.http.put<Section>(url, section,httpOptions);
 
     // this.mSectionList.forEach((dataSection)=>{
     //     if(dataSection.id== sectionId){
@@ -515,14 +548,20 @@ export class FullCourseService {
   }
   onSaveCourse(): Observable<Course> {
     //TODO: Http
-    console.log('Save Course ');
+    console.log('Save Course ');  
     console.log(this.course); 
     const url = `${this.apiUrlCourse}/${this.course.id}`;
     return this.http.put<Course>(url, this.course, httpOptions);
   }
   onDeleteSection() {
     //TODO: Http
-    console.log("Delete Section :"+this.idItem);
+    const url = `${this.apiUrlSection}/${this.idItem}`;
+
+    return this.http.delete<{message:string}>(url).subscribe(response=>{
+      console.log(response.message);
+      console.log("Delete Section :"+this.idItem);
+    })
+   
   }
   onDeleteCourse() {
     //TODO: Http
@@ -530,11 +569,14 @@ export class FullCourseService {
   }
   onDeleteLecture() {
     //TODO: Http
+    const url = `${this.apiUrlCourse}/${this.course.id}`;
     console.log("Delete Lecturer :"+this.idItem);
   }
   onCreateSection(section: Section) {
     console.log('Create section '+section.title);
-    return this.http.post<Section>(this.apiUrlSection, section);
+        console.log(this.authHeader);
+// const requestOptions: HttpHeaders = { headers: this.authHeader };
+    return this.http.post<Section>(this.apiUrlSection,section, {headers: this.headers});
   }
   onCreateCourse(course: Course): Observable<Course> {
     console.log('Create course '+course.title);

@@ -72,7 +72,7 @@ export class CourseCreationScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // this.fullCourseService.getDataServe();
     this.route.params.subscribe((params:Params)=>{
       this.idCourse= params['id'];
       if(params['id']==null){
