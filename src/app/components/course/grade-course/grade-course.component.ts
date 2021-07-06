@@ -38,6 +38,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
         this.smallCourses= data.courses
         console.log("Hello12")
       }
+
       else{
         this.smallCourses=[]
       }

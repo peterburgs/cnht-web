@@ -261,9 +261,20 @@ export class CourseService{
           
      }
 
-    getListCourseByTitle(title: string):Observable<Course[]>{
-        const courses = this.courses.filter(course => course.title === title);
-        return of(courses);
+    getListCourseByTitle(title: string){
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+ '/courses',
+            {
+                headers: headers,
+                params:new HttpParams().set('title',title)
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
     }
 
     //TODO: Get student join  in a course

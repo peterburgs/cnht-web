@@ -57,6 +57,11 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([this.router.url])
  }
 
+ changeRouter(){
+
+  this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+ }
   onLoadSearch(){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';

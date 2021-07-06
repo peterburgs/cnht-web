@@ -31,8 +31,8 @@ export class ItemFilterComponent implements OnInit {
 
   @Output() sendGradeChoose = new EventEmitter<string>();
   @Output() sendCategoryChoose = new EventEmitter<string>();
-  @Input() category :string= COURSE_TYPE.THEORY; //enum category
-  @Input() nameFilterCategory:string =  COURSE_TYPE.THEORY; // name category
+  @Input() category :string=""; //enum category
+  nameFilterCategory:string =  COURSE_TYPE.THEORY; // name category
   listFilterOfCategory: string[] = [];
   categoryChoose: string = COURSE_TYPE.THEORY;
   grade: string = GRADES.TWELFTH;
@@ -53,6 +53,10 @@ export class ItemFilterComponent implements OnInit {
   };
 
   setValueForTreeData(){
+    if(this.category == COURSE_TYPE.THEORY)
+        this.nameFilterCategory = "Theory";
+    else this.nameFilterCategory = "Examination Solving";
+
     this.TREE_DATA = [
       {
         name: this.nameFilterCategory,
@@ -79,9 +83,9 @@ export class ItemFilterComponent implements OnInit {
 
   ngOnInit(): void {
      
-   // this.setValueForTreeData();
+    this.setValueForTreeData();
     this.dataSource.data = this.TREE_DATA;
-    console.log(this.nameFilterCategory);
+   // console.log(this.nameFilterCategory);
 
 
   }
@@ -89,12 +93,7 @@ export class ItemFilterComponent implements OnInit {
   
 
   change(gradeIndex: string){
-   
     this.grade = gradeIndex;
-
-    // if(this.listFilterOfCategory.indexOf(this.grade) <0)
-    //   this.listFilterOfCategory.push(this.grade);
-    // console.log("length" + this.listFilterOfCategory.length);
     this.sendGradeChoose.emit(this.grade);
     this.sendCategoryChoose.emit(this.category);
   }

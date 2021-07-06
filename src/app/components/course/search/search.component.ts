@@ -48,7 +48,13 @@ export class SearchComponent implements OnInit {
       getListSearch(){
         if(this.titleSearch)
         {
-          this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => this.listCourse = list);
+          this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => 
+            
+            {
+              if(list.count != 0)
+                  this.listCourse = list.courses
+              else this.listCourse = []
+            });
           this.isUseFilter = false;
           this.setTextSearch(this.titleSearch);
         //    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -76,8 +82,6 @@ export class SearchComponent implements OnInit {
       }
 
       getFormFilterRouter(){ // if change router we use filter for search
-      // console.log("router0: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
-      // this.reloadRouter();  
       this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
@@ -86,8 +90,6 @@ export class SearchComponent implements OnInit {
             this.grade = queryParams['grade'];
           }
         );
-
-        //console.log("router1: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
       }
 
 
@@ -100,7 +102,7 @@ export class SearchComponent implements OnInit {
     }
 
     receiveCategory($event: any){
-    
+      this.listCourse=[]
       this.category = $event;
       this.router.routeReuseStrategy.shouldReuseRoute = () => true;
       console.log("event: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
@@ -117,7 +119,16 @@ export class SearchComponent implements OnInit {
           this.category =COURSE_TYPE.THEORY;
           this.grade = GRADES.TWELFTH;
         }
-    
+        
+        this.courseService.getListCourseGrade(this.grade, this.category)
+        .subscribe(data=>{
+          if(data.count!=0){
+            this.listCourse= data.courses
+          }
+          else{
+            this.listCourse=[]
+          }
+        } );
         // this.courseService.getListCourseFilter(this.category, this.grade).su
        // this.courseService.getListCourseFilter(this.category, this.grade).subscribe(list => this.listCourse = list);
         this.setTextSearch( this.category + " of " + this.grade );
@@ -127,9 +138,6 @@ export class SearchComponent implements OnInit {
     }
 
     reloadRouter(){
-      // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-      //   this.router.onSameUrlNavigation = 'reload';
-    
         this.router.navigate(['search'], {queryParams: {type: this.category, grade: this.grade }, fragment: 'filter'});
     }
 
