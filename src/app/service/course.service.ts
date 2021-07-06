@@ -158,6 +158,9 @@ export class CourseService{
     
 ];
     private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+
+    
+
     constructor(private http : HttpClient){
         
     }
@@ -241,14 +244,37 @@ export class CourseService{
     }
 
     //TODO: CHECK PARAM courseType
-    getListCourseFilter(courseType: COURSE_TYPE ,grade: GRADES):Observable<Course[]>{
-        const courses= this.courses.filter(course =>course.grade===grade && course.courseType === courseType);
-        return of(courses);
-    }
+    getListCourseFilter(courseType: COURSE_TYPE ,grade: GRADES){
+        // const courses= this.courses.filter(course =>course.grade===grade && course.courseType === courseType);
+        // return of(courses);
+         // return this.http
+         return this.http
+         .get<{message:string,count:number, courses: Course[]}>(
+             'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/courses',
+             {
+                 params:new HttpParams().set('grade', grade).set('courseType',courseType)
+             }
+         ).subscribe(response=>
+         {
+             console.log(response.courses)
+         })
+          
+     }
 
-    getListCourseByTitle(title: string):Observable<Course[]>{
-        const courses = this.courses.filter(course => course.title === title);
-        return of(courses);
+    getListCourseByTitle(title: string){
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+ '/courses',
+            {
+                headers: headers,
+                params:new HttpParams().set('title',title).set('isHidden',false)
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
     }
 
     //TODO: Get student join  in a course

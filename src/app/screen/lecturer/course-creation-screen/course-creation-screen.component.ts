@@ -12,6 +12,7 @@ import { Video } from 'src/app/models/video.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 
 import {  NgForm } from '@angular/forms';
+import { authenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-course-creation-screen',
@@ -39,7 +40,9 @@ export class CourseCreationScreenComponent implements OnInit {
     private router:Router,
     private route:ActivatedRoute,
     private modalService: NgbModal,
-    private fullCourseService: FullCourseService
+    private fullCourseService: FullCourseService,
+    private authService: authenticationService
+   
     ) {
   }
   handleFileInput(event: Event) {
@@ -73,6 +76,8 @@ export class CourseCreationScreenComponent implements OnInit {
 
   ngOnInit(): void {
     // this.fullCourseService.getDataServe();
+
+   if(this.authService.isAdmin()){ //check admin login
     this.route.params.subscribe((params:Params)=>{
       this.idCourse= params['id'];
       if(params['id']==null){
@@ -81,6 +86,7 @@ export class CourseCreationScreenComponent implements OnInit {
       
       this.editMode= params['id'] != null;
           
+  
     })
     this.fullCourseService.setCourseSelection(this.idCourse);
     this.fullCourseService.getDataServe();
@@ -100,7 +106,10 @@ export class CourseCreationScreenComponent implements OnInit {
           this.openVerticallyCentered();
         });
     }
-   
+  }
+  else{
+    window.location.reload();
+     this.router.navigateByUrl('/home').then();}
       
   }
   // onSave(){

@@ -37,11 +37,38 @@ export class LoginScreenComponent implements OnInit {
             this.authService.loggedIn=true;
             this.authService.logger.next(this.authService.loggedIn);
             //navigate to home screen and stop loading
-            this.route.navigate(['/home']);
+           // this.route.navigate(['/home']);
+           if(this.authService.isAdmin() ){
+                    console.log("isadmin");
+                    this.isAdminSignIn();}
+          else
+          this.route.navigate(['/home']);
             this.isLoading=false;
         })      
     
       }  
+      //   if(this.authService.isExistedAccount(this.socialUser.email))
+      //   {
+      //     if(this.authService.signIn(this.socialUser)){
+      //       if(this.authService.isAdmin() ){
+      //         console.log("isadmin");
+      //         this.isAdminSignIn();}
+      //         else
+      //         this.route.navigate(['/home']);
+      //     };
+      //   }
+      //   else{
+      //      if(this.authService.signUp(this.socialUser)){
+      //       if(this.authService.isAdmin() ){
+      //         console.log("isadmin");
+      //         this.isAdminSignIn();}
+      //         else
+      //         this.route.navigate(['/home']);
+      //      }
+      //   } 
+      // }
+     
+      
     });
   }
 
@@ -50,6 +77,12 @@ export class LoginScreenComponent implements OnInit {
     
   }
 
+  isAdminSignIn(){
+    this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.route.onSameUrlNavigation = 'reload';
+    this.route.navigate(['/admin/home']);
+   
+  }
 
 
 }

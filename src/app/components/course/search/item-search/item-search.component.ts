@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { CourseService } from 'src/app/service/course.service';
 
@@ -11,7 +12,8 @@ export class ItemSearchComponent implements OnInit {
 
   @Input() courseItem: Course = new Course();
 
-  constructor(private courseService: CourseService) { }
+  constructor(private courseService: CourseService,
+    private router: Router) { }
 
  
   ngOnInit(): void {
@@ -39,5 +41,10 @@ export class ItemSearchComponent implements OnInit {
 
     return price_format;
   }
+
+
+  changeRouter(){
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+   }
 
 }
