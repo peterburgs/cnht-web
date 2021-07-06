@@ -14,6 +14,9 @@ import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
 import { throwIfEmpty } from 'rxjs/operators';
 import { createNgModuleType } from '@angular/compiler/src/render3/r3_module_compiler';
+import { faDoorClosed, faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
+
+import { Lecturer } from '../models/lecturer.model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -33,15 +36,16 @@ export class FullCourseService {
     price: 0,
     courseType: COURSE_TYPE.THEORY,
     grade: GRADES.TWELFTH,
-    thumbnailUrl:
-      'https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80',
+    thumbnailUrl:'../../../assets/images/img1.jpg',
     createdAt: new Date(),
     updatedAt:  new Date(),
     isHidden: false,
   };
+  private fileThumbnail:  File = new File([], 'thumbnail-default');;
   private sections: Section[] = [];
   private lectures: Lecture[] = [];
   private listDeepSection: SectionDummy[] = [];
+  private videos:Video[]=[];
 
   //================================= Initial =========================
   //save edit Modal in screen
@@ -66,7 +70,9 @@ export class FullCourseService {
   //================================= GET =========================
   getLecturesCourse() {
     return this.lectures;
+    
   }
+
   getCourseInfo() {
     return this.course;
   }
@@ -79,7 +85,7 @@ export class FullCourseService {
     return this.lectures.filter((lecture:Lecture) => (lecture.id === this.idItem))[0];
   }
   getSectionSelection() {
-    return this.sections.filter((section) => (section.id == this.idItem));
+    return this.sections.filter((section) => (section.id === this.idItem));
   }
   getCurrentSelection(): Observable<VideoType> {
     return this.sbjTypeSelection.asObservable();
@@ -117,115 +123,127 @@ export class FullCourseService {
   onValidateInput() {
     this.invokeValidModal.emit();
   }
+
   onUpSection() {
    //if is the first, cannot up
-   let upSection:Section=this.getSectionSelection()[0]; 
-      if(upSection.sectionOrder<= 1){
+   let sectionUp:Section=this.getSectionSelection()[0]; 
+      if(sectionUp.sectionOrder<= 0){
+        console.log('Can not up this section')
         return;
       }
-    let sectionSwap: Section=this.sections
-      .filter(section=>section.sectionOrder==(upSection.sectionOrder-1))[0];
-    sectionSwap.sectionOrder=sectionSwap.sectionOrder;
+      // Find section above
+    //   let sectionSwap: Section=this.sections
+    //   .filter(section=>section.sectionOrder===(sectionUp.sectionOrder-1))[0];
+    // sectionSwap.sectionOrder=sectionUp.sectionOrder;
+    let sectionSwap=new Section();
+    for(let i=0; i< this.sections.length-1; i++){
+      if(this.sections[i+1].id === sectionUp.id){
+        sectionSwap= this.sections[i];
+      }
+    }
+    //Update case: different section
+      let tmpOrder= sectionSwap.sectionOrder;
+      sectionSwap.sectionOrder= sectionUp.sectionOrder;
+      this.onSaveSection(sectionSwap);
 
-    this.onSaveSection(sectionSwap.id,sectionSwap);
+      sectionUp.sectionOrder= tmpOrder;
+      this.onSaveSection(sectionUp);
 
-    upSection.sectionOrder=upSection.sectionOrder-1;
-      this.onSaveSection(upSection.id, upSection);
+    
+      console.log('First section swap up'+sectionSwap);
+      this.onSaveSection(sectionSwap);
+
+      sectionUp.sectionOrder=sectionUp.sectionOrder-1;
+      this.onSaveSection( sectionUp);
+      console.log('Section section swap up'+sectionUp);
 
   }
   onDownSection() {
-    let downSection:Section=this.getSectionSelection()[0];
+    let sectionDown:Section=this.getSectionSelection()[0];
     //Last section canot down 
-    if(downSection.sectionOrder == (this.sections.length-1)){
+    if(sectionDown.id == (this.sections[this.sections.length-1].id)){
+      console.log('Can not down this section'+sectionDown);
       return;
     }
-    let sectionSwap: Section=this.sections
-    .filter(section=>section.sectionOrder==(downSection.sectionOrder+1))[0];
-    sectionSwap.sectionOrder=sectionSwap.sectionOrder-1;
+    let sectionSwap= new Section();
+    //find the section below
 
-    this.onSaveSection(sectionSwap.id,sectionSwap);
+    for(let i=this.sections.length-1; i>=1 ;i--){
+      if(this.sections[i-1].id== sectionDown.id){
+        sectionSwap= this.sections[i];
+      }
+    }
+ 
+   let tmpOrder= sectionSwap.sectionOrder;
+   sectionSwap.sectionOrder= sectionDown.sectionOrder;
+    console.log('First section swap down'+sectionSwap);
+    this.onSaveSection(sectionSwap);
 
-    downSection.sectionOrder=downSection.sectionOrder+1;
-    this.onSaveSection(downSection.id, downSection);
+    sectionDown.sectionOrder=tmpOrder;
+    this.onSaveSection( sectionDown);
+    console.log("Second section down "+ sectionDown);
 
   }
   onUpLession() {
-    let upLecture:Lecture= this.getLectureSelection();
-
-    if (upLecture.lectureOrder==0){
+    let lectureUp:Lecture= this.getLectureSelection();
+    //Don't run anything if the first lession
+    if (lectureUp.lectureOrder==0){
+      console.log('Lession can not up' + lectureUp);
       return;
     }
-
-    let minOrderOfSection=-1;
-    this.lectures.forEach((lecture)=>{
-        if(lecture.sectionId==upLecture.sectionId){
-          minOrderOfSection= lecture.lectureOrder
-          return
+    let lectureSwap= new Lecture();
+    let len= this.lectures.length-1;
+    for(let i= 0; i<len; i++){
+        if(this.lectures[i+1].lectureOrder== lectureUp.lectureOrder){
+            lectureSwap= this.lectures[i];
         }
-    })
-    //Up level, this lecturer will up section
-    if(minOrderOfSection==upLecture.lectureOrder ){
-        let oldSection= this.sections.filter((section)=>{
-              section.id= upLecture.sectionId;
-        })[0];
-
-        this.sections.forEach((section)=>{
-          if (section.sectionOrder== (oldSection.sectionOrder-1))
-          {
-            upLecture.sectionId=section.id;
-            this.onSaveLecture(upLecture);
-          }
-        })
     }
-    //Up common
-    this.lectures.forEach((lecture)=>{
-     if(lecture.lectureOrder== (upLecture.lectureOrder-1)){
-          lecture.lectureOrder=lecture.lectureOrder+1;
-          this.onSaveLecture(lecture);
-          upLecture.lectureOrder=upLecture.lectureOrder-1;
-          return;
-     }
-    })
+    //Swap lecture in difference section
+    if(lectureSwap.sectionId != lectureUp.sectionId){
+      lectureUp.sectionId= lectureSwap.sectionId;
+      this.onSaveLecture(lectureUp);
+      return;
+    }
+    //Comon case
+    let tmpOrder= lectureSwap.lectureOrder;
+    lectureSwap.lectureOrder=lectureUp.lectureOrder;
+    this.onSaveLecture(lectureSwap);
+
+    lectureUp.lectureOrder= tmpOrder;
+    this.onSaveLecture(lectureUp);
   }
+
   onDownLession() {
-    let downLecture:Lecture= this.getLectureSelection();
+    
+    let lectureDown:Lecture= this.getLectureSelection();
 
-    if (downLecture.lectureOrder== this.lectures.length-1){
+    if (lectureDown.id == this.lectures[this.lectures.length-1].id){
+      console.log("Can not down this lecture"+ lectureDown);
+      return;
+    }
+    let lectureSwapDown= new Lecture();
+    let len=this.lectures.length-1;
+    for(let i=-1; i<len; i++ ){
+        if(this.lectures[i+1].id==lectureDown.id){
+          lectureSwapDown= this.lectures[i];
+        }
+    }
+
+    if(lectureSwapDown.sectionId != lectureDown.sectionId){
+      lectureDown.sectionId= lectureSwapDown.sectionId;
+      this.onSaveLecture(lectureDown);
       return;
     }
 
-    let maxOrderOfSection=-1;
-    this.lectures.forEach((lecture)=>{
-        if(lecture.sectionId==downLecture.sectionId){
-          maxOrderOfSection= lecture.lectureOrder
-        }
-    })
-    //Up level, this lecturer will up section
-    if(maxOrderOfSection==downLecture.lectureOrder ){
-        let oldSection= this.sections.filter((section)=>{
-              section.id= downLecture.sectionId;
-        })[0];
+    let tmpOrder = lectureSwapDown.lectureOrder;
+    lectureSwapDown.lectureOrder= lectureDown.lectureOrder;
+    this.onSaveLecture(lectureSwapDown);
 
-        this.sections.forEach((section)=>{
-          if (section.sectionOrder== (oldSection.sectionOrder+1))
-          {
-            downLecture.sectionId=section.id;
-            this.onSaveLecture(downLecture);
-          }
-        })
-    }
-    //Up common
-    this.lectures.forEach((lecture)=>{
-     if(lecture.lectureOrder== (downLecture.lectureOrder+1)){
-          lecture.lectureOrder=lecture.lectureOrder-1;
-          this.onSaveLecture(lecture);
-          downLecture.lectureOrder=downLecture.lectureOrder+1;
-          return;
-     }
-    })
+    lectureDown.lectureOrder= tmpOrder;
+    this.onSaveLecture(lectureDown);
 
   }
-  
+
   
   //================ HTTP ===============
   private apiUrlCourse = 'http://localhost:5000/courses';
@@ -250,7 +268,7 @@ export class FullCourseService {
     //         this.sections.forEach((section) => {
     //           console.log(section);
     //           let tmpLecturers: Lecture[] = this.lectures.filter(
-    //             lecture => lecture.sectionId == section.id
+    //             lecture => lecture.sectionId === section.id
     //           );
     //           console.log(tmpLecturers);
     //           this.listDeepSection.push(
@@ -261,18 +279,19 @@ export class FullCourseService {
     //   });
     this.sections= this.mSectionList;
     this.lectures= this.mLectureList;
+    this.videos= this.mVideo;
 
-      
     this.sections.forEach((section) => {
-               // console.log(section);
-                let tmpLecturers: Lecture[] = this.lectures.filter(
-                  lecture => lecture.sectionId == section.id
-                );
-               // console.log(tmpLecturers);
-                this.listDeepSection.push(
-                  new SectionDummy(section.id, section.title, tmpLecturers)
-                );
-    })
+      // console.log(section);
+       let tmpLecturers: Lecture[] = this.lectures.filter(
+         lecture => lecture.sectionId == section.id
+       );
+      // console.log(tmpLecturers);
+       this.listDeepSection.push(
+         new SectionDummy(section.id, section.title, tmpLecturers)
+       );
+})
+   
     console.log(this.listDeepSection);
     
 
@@ -315,40 +334,11 @@ export class FullCourseService {
   }
   getDataServe() {
     //Create mode
-    if (this.idCourse == 'default') {
-      //TODO: add create new section
-      this.sections.push({
-        courseId: '1',
-        id: 'course1sec1',
-        title: 'Section 1',
-        isHidden: false,
-        sectionOrder: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-      this.lectures = [];
-
-      this.onCreateCourse(this.course).subscribe((course) => {
-        this.course = course;
-        console.log(this.course);
-
-        let firstSection: Section=new Section();
-        firstSection.title="Section 1";
-        this.onCreateSection(firstSection).subscribe((section)=>{
-            this.getData();
-        })
-        // var firstSectionDummy: SectionDummy = new SectionDummy(
-        //   'default',
-        //   'Section 1',
-        //   []
-        // );
-        // this.listDeepSection.push(firstSectionDummy);
-      });
-    }
-    else{
+    
+ 
 
       this.getData();
-    }
+ 
     }
   
   //Another
@@ -406,7 +396,7 @@ export class FullCourseService {
        console.log(tmpSection);
         if (tmpSection != null) {
           tmpSection.title = title;
-          this.onSaveSection(this.idItem,tmpSection);
+          this.onSaveSection(tmpSection);
         }
       }
     } else if (this.wayModify == ModifyType.new) {
@@ -426,8 +416,79 @@ export class FullCourseService {
       }
     }
   }
+  handleUpdateWithThumbnail( imgFile: File){
+    const file= new FormData();
+    file.set('file', imgFile);
 
-  onSaveSection(sectionId:string,section: Section): Observable<Section> {
+    console.log('Upload Thumbnail')
+    console.log(file);
+    // let url= 'http://localhost:8082/thumbnail/'+this.course.id;
+    // this.http.post('url', file).subscribe(response=>{
+    //     console.log('response');
+    // });
+  }
+  handleUpdateWithVideo(title:string, lecture: FormData)
+  {   if(title='')
+        {
+          title='Lecture of '+ this.idItem;
+        }
+      lecture.set('title',title);
+      lecture.set('sectionId',this.idItem )
+      //find last lecture of this section and update
+       let last:number=  this.findLastLectureOfSection();
+        lecture.set('lectureOrder', String(last));
+        //Update
+        this.updateLectureBelow(last);
+        //save this
+        this.http.post('http://localhost:8082/upload', lecture)
+            .subscribe(response=> console.log(response))
+  }
+
+  findLastLectureOfSection(){
+    let lastLecture=-1;
+    for(let i=this.lectures.length-1; i>=0 ; i--){
+        if(this.lectures[i].sectionId===this.idItem){
+            lastLecture=i;
+        }
+    }
+    return lastLecture;
+  }
+  updateLectureBelow(from:number){  
+      for(let i= from; i< this.lectures.length; i++){
+          this.lectures[i].lectureOrder++;
+          this.onSaveLecture(this.lectures[i]);
+      }
+  }
+  createCourse(){
+      //TODO: add create new section
+      this.sections.push({
+        courseId: '1',
+        id: 'course1sec1',
+        title: 'Section 1',
+        isHidden: false,
+        sectionOrder: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      this.lectures = [];
+
+      this.onCreateCourse(this.course).subscribe((course) => {
+        this.course = course;
+        console.log(this.course);
+
+        let firstSection: Section=new Section();
+        firstSection.title="Section 1";
+        firstSection.courseId=course.id;
+        this.onCreateSection(firstSection);
+        // var firstSectionDummy: SectionDummy = new SectionDummy(
+        //   'default',
+        //   'Section 1',
+        //   []
+        // );
+        // this.listDeepSection.push(firstSectionDummy);
+      });
+  }
+  onSaveSection(section: Section): Observable<Section> {
     //TODO: Http
 
     console.log('Save section ');
@@ -435,13 +496,14 @@ export class FullCourseService {
     // const url = `${this.apiUrlSection}/${sectionId}`;
     // return this.http.put<Section>(url, section,httpOptions);
 
-    this.mSectionList.forEach((dataSection)=>{
-        if(dataSection.id== sectionId){
-          dataSection.title=section.title;
-        }
-    })
+    // this.mSectionList.forEach((dataSection)=>{
+    //     if(dataSection.id== sectionId){
+    //       dataSection.title=section.title;
+    //     }
+    // })
     return of(section);
   }
+ 
   onSaveLecture( lecturer: Lecture): Observable<Lecture> {
     //TODO: Http
     console.log('Save lecturer ');
@@ -464,7 +526,7 @@ export class FullCourseService {
   }
   onDeleteCourse() {
     //TODO: Http
-    console.log("Delete Course :"+this.idItem);
+    console.log("Delete Course :"+this.idCourse);
   }
   onDeleteLecture() {
     //TODO: Http
@@ -503,7 +565,7 @@ export class FullCourseService {
         id:'course1sec1',
         title:'Lý thuyết phương trình',
         isHidden: false,
-        sectionOrder: 1,
+        sectionOrder: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       
@@ -513,7 +575,7 @@ export class FullCourseService {
         id:'course1sec2',
         title:'Phương trình tuyến tính',
         isHidden: false,
-        sectionOrder: 2,
+        sectionOrder: 1,
         createdAt:new Date(),
         updatedAt: new Date(),
     
@@ -523,7 +585,7 @@ export class FullCourseService {
     {
         id:'co1sec1lec1',
         title:"Video 1",
-        lectureOrder:1,
+        lectureOrder:0,
         idHidden:false,
         sectionId:'course1sec1',
         createdAt:new Date(),
@@ -532,7 +594,7 @@ export class FullCourseService {
     {
         id:'co1sec1lec2',
         title:"Video 2",
-        lectureOrder:2,
+        lectureOrder:1,
         idHidden:false,
         sectionId:'course1sec1',
         createdAt:new Date(),
@@ -541,7 +603,7 @@ export class FullCourseService {
     {
         id:'co1sec2lec1',
         title:"Video 1",
-        lectureOrder:1,
+        lectureOrder:2,
         idHidden:false,
         sectionId:'course1sec2',
         createdAt:new Date(),
@@ -549,7 +611,7 @@ export class FullCourseService {
     {
         id:'co1sec2lec2',
         title:"Video 2",
-        lectureOrder:2,
+        lectureOrder:3,
         idHidden:false,
         sectionId:'course1sec2',
         createdAt:new Date(),
@@ -558,7 +620,7 @@ export class FullCourseService {
     {
         id:'co1sec2lec3',
         title:"Video 3",
-        lectureOrder:3,
+        lectureOrder:4,
         idHidden:false,
         sectionId:'course1sec2',
         createdAt:new Date(),
@@ -566,6 +628,53 @@ export class FullCourseService {
     },
  
 ]
+  private mVideo: Video[]=[
+      {
+        id : "lec0",
+        fileName  : "Video of lecture 0",
+        length  : 134,
+        lectureId : "co1sec1lec1",
+        createdAt :new Date(),
+        updatedAt : new Date(),
+        idHidden : false
+      },
+    {
+      id : "lec1",
+      fileName  : "Video of lecture 1",
+      length  : 130,
+      lectureId : "co1sec1lec2",
+      createdAt :new Date(),
+      updatedAt : new Date(),
+      idHidden : false
+    },
+    {
+      id : "lec2",
+      fileName  : "Video of lecture 2",
+      length  : 0,
+      lectureId : "co1sec2lec1",
+      createdAt :new Date(),
+      updatedAt : new Date(),
+      idHidden : false
+    },
+    {
+      id : "lec3",
+      fileName  : "Video of lecture 3",
+      length  : 0,
+      lectureId : "co1sec2lec2",
+      createdAt :new Date(),
+      updatedAt : new Date(),
+      idHidden : false
+    },
+    {
+      id : "lec4",
+      fileName  : "Video of lecture 4",
+      length  : 0,
+      lectureId : "co1sec2lec3",
+      createdAt :new Date(),
+      updatedAt : new Date(),
+      idHidden : false
+    }
 
+  ]
 
 }

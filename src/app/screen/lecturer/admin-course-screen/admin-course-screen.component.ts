@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from 'src/app/service/course.service';
-import { FullCourseService } from 'src/app/components/course/full-course/full-course.service';
+import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
@@ -23,7 +23,7 @@ export class AdminCourseScreenComponent implements OnInit {
     if (storage) {
       this.userDetails = JSON.parse(storage);
     } else {
-      this.signOut();
+      this.signOut(); 
     }
     this.fullCourseService.getCourses().subscribe((courses)=>{
       this.courses=courses;
@@ -34,6 +34,12 @@ export class AdminCourseScreenComponent implements OnInit {
     this.router.navigateByUrl('/admin/login').then();
   }
   onCreateCourse(){
-      this.router.navigate(['../','course','new'], {relativeTo:this.route})
+    this.fullCourseService.createCourse();
+    const promise= new Promise((resolve, reject)=>{
+      setTimeout(()=>{
+        this.fullCourseService.createCourse()},1500)
+      });
+  
+      this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route})
   }
 }

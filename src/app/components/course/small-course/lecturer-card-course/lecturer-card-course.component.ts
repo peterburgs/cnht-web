@@ -19,7 +19,7 @@ export class LecturerCardCourseComponent implements OnInit {
   }
   onEditCourse(idItem:string){
    // this.router.navigate(['edit'],{relativeTo:this.route})
-    this.router.navigate(['../','course',idItem,'edit'],{relativeTo:this.route})
+    this.router.navigate(['../','course',idItem],{relativeTo:this.route})
   }
 
 }

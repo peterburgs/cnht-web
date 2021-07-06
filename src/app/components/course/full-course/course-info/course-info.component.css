@@ -101,3 +101,30 @@ image{
     height: 100%;
     object-fit: cover;
 }
+.btn-create-new{
+    width: 170px;
+    background: rgb(64, 129, 250);;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: large;
+   
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    border: solid 1px #ffff;
+    padding: 10px;
+}
+.btn-save{
+    background: #4EBEE1;
+    padding: 13px;
+
+}
+.btn-save:hover{
+    color: #4EBEE1;
+    border: solid 1px #4EBEE1 ;
+    background: #ffff;
+}

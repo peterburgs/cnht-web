@@ -17,7 +17,7 @@ import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-sc
 
 
 const routes: Routes = [
-  { path: 'admin/course/:id/edit', component: CourseCreationScreenComponent },
+  { path: 'admin/course/:id', component: CourseCreationScreenComponent },
   {path:'admin/login', component:LoginScreenComponent},
   {path:'admin/home', component:AdminCourseScreenComponent},
   

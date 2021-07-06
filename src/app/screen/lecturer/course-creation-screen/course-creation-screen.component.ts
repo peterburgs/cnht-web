@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FullCourseService } from 'src/app/components/course/full-course/full-course.service';
+import { FullCourseService } from 'src/app/service/full-course.service';
 import { Upload } from 'src/app/models/file-upload';
 import { ElementRef, ViewChild } from '@angular/core';
 import { Section } from 'src/app/models/section.model';
@@ -21,6 +21,7 @@ import {  NgForm } from '@angular/forms';
 export class CourseCreationScreenComponent implements OnInit {
   @ViewChild('content', { static: true }) content?: ElementRef;
   // @ViewChild('nameTitle', { read: NgForm  }) nameTitle?: ElementRef;
+  @ViewChild('file',{static:false}) fileVideo?:ElementRef;
   sections: SectionDummy[] = [];
   editMode=false;
   wayModify:ModifyType=ModifyType.edit;
@@ -39,9 +40,7 @@ export class CourseCreationScreenComponent implements OnInit {
     private route:ActivatedRoute,
     private modalService: NgbModal,
     private fullCourseService: FullCourseService
-   
     ) {
-  
   }
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -51,16 +50,15 @@ export class CourseCreationScreenComponent implements OnInit {
 
       this.fileToUpLoad = <File>fileList.item(0);
       var reader = new FileReader();
+
       //update Image to UI
       reader.onload = (event: any) => {
-        this.urlVideo = event.target.result;
+        this.urlVideo = this.fileToUpLoad.name;
       };
          this.urlVideo=fileList.item(0)?.name;
        reader.readAsDataURL(this.fileToUpLoad);
     }
   }
-
-
   openVerticallyCentered() {  
     this.titleBinding=this.fullCourseService.getTitleContent();
     if(this.typeSelection==VideoType.course && ( this.wayModify==ModifyType.save || this.wayModify== ModifyType.errorValid)){
@@ -105,22 +103,22 @@ export class CourseCreationScreenComponent implements OnInit {
    
       
   }
-  onSave(){
-    this.fullCourseService.onValidateInput();
-    this.isValid=this.fullCourseService.getValidate();
-    console.log(this.isValid);
-    if(this.isValid){
-        //Check condition here
-    this.fullCourseService.setSelection(this.idCourse, VideoType.course, ModifyType.save);
-    this.fullCourseService.handleUpate();
-    }
-    else{
-      this.fullCourseService.setSelection('default', VideoType.course, ModifyType.errorValid);
-    }
+  // onSave(){
+  //   this.fullCourseService.onValidateInput();
+  //   this.isValid=this.fullCourseService.getValidate();
+  //   console.log(this.isValid);
+  //   if(this.isValid){
+  //       //Check condition here
+  //   this.fullCourseService.setSelection(this.idCourse, VideoType.course, ModifyType.save);
+  //   this.fullCourseService.handleUpate();
+  //   }
+  //   else{
+  //     this.fullCourseService.setSelection('default', VideoType.course, ModifyType.errorValid);
+  //   }
     
-    this.openVerticallyCentered();
+  //   this.openVerticallyCentered();
 
-  }
+  // }
   onCreateSection(){
     this.fullCourseService.setSelection('default',VideoType.section, ModifyType.new);
     this.openVerticallyCentered();
@@ -183,7 +181,13 @@ export class CourseCreationScreenComponent implements OnInit {
       if(this.typeSelection==VideoType.lession  || this.typeSelection==VideoType.section){
         if(this.wayModify== ModifyType.edit || this.wayModify==ModifyType.new){
           // console.log(this.titleBinding);
-          this.fullCourseService.handleUpdate(this.titleBinding);
+          if(this.typeSelection== VideoType.lession){
+            this.onFileUpload();
+          }
+          else{
+            this.fullCourseService.handleUpdate(this.titleBinding);
+          }
+      
         }
          else
          {
@@ -204,8 +208,15 @@ export class CourseCreationScreenComponent implements OnInit {
       }
      
   }
+  onFileUpload(){
+    // const videoLecture= this.fileVideo?.nativeElement.files[0];
+    const file= new FormData();
+    file.set('file', this.fileToUpLoad);
+    this.fullCourseService.handleUpdateWithVideo(this.titleBinding, file);
+      
+  }
   goBack(){
     this.router.navigateByUrl('/admin/home').then();
-    console.log("Thao");
   }
+  
 }

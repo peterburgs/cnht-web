@@ -8,7 +8,7 @@ import { ModifyType } from 'src/app/models/ModifyType';
 import { VideoType } from 'src/app/models/VideoType.model';
 import { CourseService } from 'src/app/service/course.service';
 import { EventEmitter} from '@angular/core'
-import { FullCourseService } from '../full-course.service';
+import { FullCourseService } from '../../../../service/full-course.service';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -42,7 +42,7 @@ export class CourseInfoComponent implements OnInit {
     GRADES.TENTH
   ]
  
-  fileToUpLoad: File = new File([], 'hinh-a');
+  fileToUpLoad: File = new File([], '_Thumbnail');
   constructor(private fullCourseService: FullCourseService) {}
 
   ngOnInit(): void {
@@ -65,6 +65,7 @@ export class CourseInfoComponent implements OnInit {
       reader.onload = (event: any) => {
         this.course.thumbnailUrl = event.target.result;
       };
+      this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
       reader.readAsDataURL(this.fileToUpLoad);
     }
   }
@@ -111,4 +112,9 @@ export class CourseInfoComponent implements OnInit {
     this.course.grade= e.target.value;
   
   }
+  onSave(){
+    this.fullCourseService.setSelection(this.course.id, VideoType.course, ModifyType.save);
+    this.fullCourseService.handleUpate();
+  }
+
 }

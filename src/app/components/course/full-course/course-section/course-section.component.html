@@ -23,7 +23,7 @@
       </li>
 
       <li
-        *ngFor="let lecture of sectionDummy.lecturer; let i = index; let len = count"
+        *ngFor="let lecture of sectionDummy.lecture; let i = index; let len = count"
         class="
           list-group-item
           d-flex
@@ -53,7 +53,7 @@
               />
 
               <span class="contain-video"> </span>
-              <span class="contain-video-time">{{ i }}</span>
+              <span class="contain-video-time">{{ i}}</span>
             </div>
             <div class="div-edit">
               <div
@@ -82,7 +82,7 @@
       </li>
       <div>
         <ul class="ul-deco">
-          <button *ngIf="!sectionDummy.lecturer.length" class="btn-create-new" 
+          <button *ngIf="!sectionDummy.lecture.length" class="btn-create-new" 
           (click)="onCreateLession(sectionDummy.section_id)">
             Create new lession
           </button>

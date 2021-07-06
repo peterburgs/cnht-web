@@ -6,7 +6,7 @@ import { ModifyType } from 'src/app/models/ModifyType';
 import { Section } from 'src/app/models/section.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { VideoType } from 'src/app/models/VideoType.model';
-import { FullCourseService } from '../full-course.service';
+import { FullCourseService } from '../../../../service/full-course.service';
 import { UploadService } from '../upload.service';
 @Component({
   selector: 'app-course-section',
