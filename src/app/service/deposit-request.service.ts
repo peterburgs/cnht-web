@@ -103,12 +103,6 @@ export class DepositRequestService{
         updatedAt: new Date()
     }
 ]
-<<<<<<< HEAD
- 
-private userService = new UserService();
-=======
-
->>>>>>> 50ac49b... Load data in course detail screen done
 private userList: User[] = [];
 private depositRequestList: DepositRequest[] = [];
     constructor(

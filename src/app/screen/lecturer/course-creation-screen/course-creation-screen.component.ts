@@ -11,8 +11,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Video } from 'src/app/models/video.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 
-import {  NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { authenticationService } from 'src/app/service/authentication.service';
+import { Course } from 'src/app/models/course.model';
 
 @Component({
   selector: 'app-course-creation-screen',
@@ -22,29 +23,29 @@ import { authenticationService } from 'src/app/service/authentication.service';
 export class CourseCreationScreenComponent implements OnInit {
   @ViewChild('content', { static: true }) content?: ElementRef;
   // @ViewChild('nameTitle', { read: NgForm  }) nameTitle?: ElementRef;
-  @ViewChild('file',{static:false}) fileVideo?:ElementRef;
+  @ViewChild('file', { static: false }) fileVideo?: ElementRef;
   sections: SectionDummy[] = [];
-  editMode=false;
-  wayModify:ModifyType=ModifyType.edit;
-  sectionCurrent= new Section();
-  lessionCurrent= new Lession("","");
-  typeSelection= VideoType.lession;
+  editMode = false;
+  wayModify: ModifyType = ModifyType.edit;
+  sectionCurrent = new Section();
+  lessionCurrent = new Lession('', '');
+  typeSelection = VideoType.lession;
   fileToUpLoad: File = new File([], 'hinh-a');
-  urlVideo?:string = '../';
-  isValid=true;
-  idCourse:string='default'
-  titleBinding='';
-  loadingSpinner=false;
-  isNotify=false;
+  urlVideo?: string = '../';
+  isValid = true;
+  idCourse: string = 'default';
+  titleBinding = '';
+  loadingSpinner = false;
+  isNotify = false;
+  course: Course = new Course();
+  isLoading = true;
   constructor(
-    private router:Router,
-    private route:ActivatedRoute,
+    private router: Router,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
     private fullCourseService: FullCourseService,
     private authService: authenticationService
-   
-    ) {
-  }
+  ) {}
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
@@ -58,59 +59,67 @@ export class CourseCreationScreenComponent implements OnInit {
       reader.onload = (event: any) => {
         this.urlVideo = this.fileToUpLoad.name;
       };
-         this.urlVideo=fileList.item(0)?.name;
-       reader.readAsDataURL(this.fileToUpLoad);
+      this.urlVideo = fileList.item(0)?.name;
+      reader.readAsDataURL(this.fileToUpLoad);
     }
   }
-  openVerticallyCentered() {  
-    this.titleBinding=this.fullCourseService.getTitleContent();
-    if(this.typeSelection==VideoType.course && ( this.wayModify==ModifyType.save || this.wayModify== ModifyType.errorValid)){
-      this.isNotify=true;
+  openVerticallyCentered() {
+    this.titleBinding = this.fullCourseService.getTitleContent();
+    if (
+      this.typeSelection == VideoType.course &&
+      (this.wayModify == ModifyType.save ||
+        this.wayModify == ModifyType.errorValid)
+    ) {
+      this.isNotify = true;
+    } else {
+      this.isNotify = false;
     }
-    else
-    {
-      this.isNotify=false;
-    }
-    this.modalService.open(this.content, { centered: true, size:'lg' });
+    this.modalService.open(this.content, { centered: true, size: 'lg' });
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     // this.fullCourseService.getDataServe();
 
-   if(this.authService.isAdmin()){ //check admin login
-    this.route.params.subscribe((params:Params)=>{
-      this.idCourse= params['id'];
-      if(params['id']==null){
-        this.idCourse='default';
-      }
-      
-      this.editMode= params['id'] != null;
-          
-  
-    })
-    this.fullCourseService.setCourseSelection(this.idCourse);
-    this.fullCourseService.getDataServe();
-    //TODO: check is observable or not
-     this.sections= this.fullCourseService.getSectionDummy();
-    this.fullCourseService.getCurrentSelection().subscribe(type=>{
-          this.typeSelection= type;
-         
-    })
-    this.fullCourseService.getWayModify().subscribe(way=>{
-      this.wayModify= way;
-    })
+    if (this.authService.isAdmin()) {
+      //check admin login
+      this.route.params.subscribe((params: Params) => {
+        this.idCourse = params['id'];
+        if (params['id'] == null) {
+          this.idCourse = 'default';
+        }
+        this.editMode = params['id'] != null;
+      });
+      //Update course in fullService
+      this.fullCourseService.setIdCourseSelection(this.idCourse);
+      this.fullCourseService.setCourseSelection();
+      this.fullCourseService.getDataServe();
 
-    if (this.fullCourseService.subsEdit == null) {
-      this.fullCourseService.subsEdit =
-        this.fullCourseService.invokeNotifyModal.subscribe((content: any) => {
-          this.openVerticallyCentered();
-        });
+      //Delay time out
+      const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.course = this.fullCourseService.getCourseInfo();
+          //TODO: check is observable or not
+          this.sections = this.fullCourseService.getSectionDummy();
+          this.fullCourseService.getCurrentSelection().subscribe((type) => {
+            this.typeSelection = type;
+          });
+          this.fullCourseService.getWayModify().subscribe((way) => {
+            this.wayModify = way;
+          });
+
+          if (this.fullCourseService.subsEdit == null) {
+            this.fullCourseService.subsEdit =
+              this.fullCourseService.invokeNotifyModal.subscribe(
+                (content: any) => {
+                  this.openVerticallyCentered();
+                }
+              );
+          }
+          this.isLoading = false;
+        }, 3000);
+      });
     }
-  }
-  else{
-    window.location.reload();
-     this.router.navigateByUrl('/home').then();}
-      
   }
   // onSave(){
   //   this.fullCourseService.onValidateInput();
@@ -124,108 +133,110 @@ export class CourseCreationScreenComponent implements OnInit {
   //   else{
   //     this.fullCourseService.setSelection('default', VideoType.course, ModifyType.errorValid);
   //   }
-    
+
   //   this.openVerticallyCentered();
 
   // }
-  onCreateSection(){
-    this.fullCourseService.setSelection('default',VideoType.section, ModifyType.new);
+  onCreateSection() {
+    this.fullCourseService.setSelection(
+      'default',
+      VideoType.section,
+      ModifyType.new
+    );
     this.openVerticallyCentered();
   }
-  customeTitle(){
-      switch(this.wayModify){
-        case ModifyType.edit:
-          return 'Edit';
-        case ModifyType.delete:
-          return 'Delete';
-        case ModifyType.new:
-          return 'Create';
-        case ModifyType.errorValid:
-          return 'Error input';
-        case ModifyType.leave:
-          return 'Info'
-        case ModifyType.goUp:
-          return 'Up'
-        case ModifyType.goDown:
-          return "Down"
-      }
-      return 'Save';
+  customeTitle() {
+    switch (this.wayModify) {
+      case ModifyType.edit:
+        return 'Edit';
+      case ModifyType.delete:
+        return 'Delete';
+      case ModifyType.new:
+        return 'Create';
+      case ModifyType.errorValid:
+        return 'Error input';
+      case ModifyType.leave:
+        return 'Info';
+      case ModifyType.goUp:
+        return 'Up';
+      case ModifyType.goDown:
+        return 'Down';
+    }
+    return 'Save';
   }
-  customeContent(){
-      const confirmMessage='Are you sure this ';
-      const createMessage='Save successful!!!';
-      const validMessage='Input invalid!!!';
-      const noticeMessage='Your working not save!!!';
-      
-      switch(this.wayModify){
-        case ModifyType.delete:
-          if (this.typeSelection== VideoType.course)
-              return confirmMessage+ 'course?'
-          else if(this.typeSelection ==VideoType.section)
-              return confirmMessage +'section?';
-            return confirmMessage +' lession?';
-        case ModifyType.save:
-           return createMessage;
-        case ModifyType.errorValid:
-          return validMessage;  
-        case ModifyType.leave:
-          return noticeMessage;
-        case ModifyType.goUp:
-          if(this.typeSelection==VideoType.lession)
-            return confirmMessage+ 'up level this lession?';
-          return confirmMessage+' up level this section?'
-        case ModifyType.goDown:
-          if(this.typeSelection== VideoType.section){
-            return confirmMessage+ 'down level this section?';
-          }
-            return confirmMessage+ 'down level this lession?'
-         
-            
-        return '';
-      }
-      return '';
-  }
+  customeContent() {
+    const confirmMessage = 'Are you sure this ';
+    const createMessage = 'Save successful!!!';
+    const validMessage = 'Input invalid!!!';
+    const noticeMessage = 'Your working not save!!!';
 
-  onConfirmSave(){
-      if(this.typeSelection==VideoType.lession  || this.typeSelection==VideoType.section){
-        if(this.wayModify== ModifyType.edit || this.wayModify==ModifyType.new){
-          // console.log(this.titleBinding);
-          if(this.typeSelection== VideoType.lession){
-            this.onFileUpload();
-          }
-          else{
-            this.fullCourseService.handleUpdate(this.titleBinding);
-          }
-      
+    switch (this.wayModify) {
+      case ModifyType.delete:
+        if (this.typeSelection == VideoType.course)
+          return confirmMessage + 'course?';
+        else if (this.typeSelection == VideoType.section)
+          return confirmMessage + 'section?';
+        return confirmMessage + ' lession?';
+      case ModifyType.save:
+        return createMessage;
+      case ModifyType.errorValid:
+        return validMessage;
+      case ModifyType.leave:
+        return noticeMessage;
+      case ModifyType.goUp:
+        if (this.typeSelection == VideoType.lession)
+          return confirmMessage + 'up level this lession?';
+        return confirmMessage + ' up level this section?';
+      case ModifyType.goDown:
+        if (this.typeSelection == VideoType.section) {
+          return confirmMessage + 'down level this section?';
         }
-         else
-         {
-           this.fullCourseService.handleUpate();
-         }
-
-      }
-      if(this.fullCourseService.wayModify==ModifyType.delete &&
-         this.fullCourseService.typeSelection== VideoType.course){
-          // this.router.navigate(['../','course','new'], {relativeTo:this.route})
-            
-          this.router.navigateByUrl('/admin/home').then();
-          //  this.activeModal.close();
-          this.modalService.dismissAll();
-      }
-      else{
-        // window.location.reload();
-      }
-     
+        return confirmMessage + 'down level this lession?';
+        return '';
+    }
+    return '';
   }
-  onFileUpload(){
+
+  onConfirmSave() {
+    if (
+      this.typeSelection == VideoType.lession ||
+      this.typeSelection == VideoType.section
+    ) {
+      if (
+        this.wayModify == ModifyType.edit ||
+        this.wayModify == ModifyType.new
+      ) {
+        // console.log(this.titleBinding);
+        if (this.typeSelection == VideoType.lession) {
+          this.onFileUpload();
+        } else {
+          this.fullCourseService.handleUpdate(this.titleBinding);
+        }
+      } else {
+        this.fullCourseService.handleUpate();
+      }
+    }
+    if (
+      this.fullCourseService.wayModify == ModifyType.delete &&
+      this.fullCourseService.typeSelection == VideoType.course
+    ) {
+      // this.router.navigate(['../','course','new'], {relativeTo:this.route})
+
+      this.router.navigateByUrl('/admin/home').then();
+      //  this.activeModal.close();
+      this.modalService.dismissAll();
+    } else {
+      this.modalService.dismissAll();
+      window.location.reload();
+    }
+  }
+  onFileUpload() {
     // const videoLecture= this.fileVideo?.nativeElement.files[0];
-    const file= new FormData();
+    const file = new FormData();
     file.set('file', this.fileToUpLoad);
     this.fullCourseService.handleUpdateWithVideo(this.titleBinding, file);
-      
   }
-  goBack(){
+  goBack() {
     this.router.navigateByUrl('/admin/home').then();
   }
-  
 }

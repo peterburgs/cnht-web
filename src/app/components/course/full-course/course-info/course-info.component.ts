@@ -9,6 +9,7 @@ import { VideoType } from 'src/app/models/VideoType.model';
 import { CourseService } from 'src/app/service/course.service';
 import { EventEmitter} from '@angular/core'
 import { FullCourseService } from '../../../../service/full-course.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -29,6 +30,7 @@ export class CourseInfoComponent implements OnInit {
     updatedAt: new Date(),
     isHidden: false,
   };
+  imgPath?: Observable<string> ;
   selectedValue:string='';
   priceFormat = '000';
   types = [
@@ -46,6 +48,8 @@ export class CourseInfoComponent implements OnInit {
   constructor(private fullCourseService: FullCourseService) {}
 
   ngOnInit(): void {
+
+
     if (this.fullCourseService.subsValid == null) {
       this.fullCourseService.subsValid =
         this.fullCourseService.invokeValidModal.subscribe(() => {
@@ -112,6 +116,11 @@ export class CourseInfoComponent implements OnInit {
     this.course.grade= e.target.value;
   
   }
+  // formatImage(imgPath:string)){
+  //   if(imgPath!=null){
+
+  //   }
+  // }
   onSave(){
     this.fullCourseService.setSelection(this.course.id, VideoType.course, ModifyType.save);
     this.fullCourseService.handleUpate();

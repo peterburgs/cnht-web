@@ -5,7 +5,7 @@
         title="Lesson go up" ></i>Back to course</span></div>
     </div>
    
-  <app-course-info></app-course-info>
+  <app-course-info [course]="course"></app-course-info>
 
   <app-course-section
     *ngFor="let section of sections"

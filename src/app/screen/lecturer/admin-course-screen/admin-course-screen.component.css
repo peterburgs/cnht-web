@@ -35,3 +35,13 @@
     justify-content: center;
     text-align: center;
 }
+.div-loading{
+    display: flex;
+}
+/* Loading animation */
+/* .div-full-screen{
+    width: 100vw;
+    height: 100vh;
+    background: rgb(84, 78, 78);
+    position: absolute; top: 0; left: 0;
+} */

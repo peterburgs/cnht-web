@@ -12,6 +12,7 @@ import { authenticationService } from 'src/app/service/authentication.service';
 })
 export class AdminCourseScreenComponent implements OnInit {
   courses: Course[]=[];
+  isLoading=true;
   //Login check
   public userDetails? = Object;
   constructor(private router: Router, 
@@ -26,11 +27,12 @@ export class AdminCourseScreenComponent implements OnInit {
     }
 
   ngOnInit(): void {
-
-   
+    this.isLoading=true;
+    
     this.fullCourseService.initCourses().subscribe((response)=>{
 
       this.courses=response.courses;
+      this.isLoading=!this.isLoading;
     })
     const storage = localStorage.getItem('google_auth');
 
@@ -57,14 +59,14 @@ export class AdminCourseScreenComponent implements OnInit {
     this.router.navigateByUrl('/admin/login').then();
   }
   onCreateCourse(){
+    this.isLoading=false;
     this.fullCourseService.createCourse();
 
     const promise= new Promise((resolve, reject)=>{
       setTimeout(()=>{
-        this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },1500)
+        this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },2000)
+        this.isLoading=true;
       });
-  
-     
   }
 
 }

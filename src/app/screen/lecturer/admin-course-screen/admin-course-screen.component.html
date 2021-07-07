@@ -1,6 +1,17 @@
 <div class="home-screen">
-    <div class="container">
-        <button class="btn-new-course" (click)="onCreateCourse()">Create new course</button>
+    <div class="container div-loading">
+        <div class="col-sm-3">
+            <button class="btn-new-course" (click)="onCreateCourse()">Create new course</button> 
+        </div>
+        <div *ngIf="isLoading" class="col-sm-9">
+            <div class="text-center d-flex justify-content-center">
+                <div class="spinner-border  m-3" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+        </div>
+      
+        
     </div>
     <div *ngIf="!courses.length" class="container div-no-found"><span  align="center" class="no-found">
         No Course here
@@ -10,6 +21,10 @@
         <app-lecturer-card-course  *ngFor="let course of courses"
          [course]="course"></app-lecturer-card-course>
     </div>
-
+    
+       
+    
     <br><br>
 </div>
+
+
