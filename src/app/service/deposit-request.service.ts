@@ -103,7 +103,9 @@ export class DepositRequestService{
         updatedAt: new Date()
     }
 ]
-private userList: User[] = [];
+
+
+private userList?:User[];
 private depositRequestList: DepositRequest[] = [];
     constructor(
         private userService: UserService,
@@ -154,10 +156,11 @@ private depositRequestList: DepositRequest[] = [];
 
     getDepositsByNameOrEmailLearner(content: string): Observable<DepositRequest[]>{
        
+      
          this.userList = [];
          this.depositRequestList= [];
         //depositRequestList
-       this.userService.getListUserByTitle(content).subscribe(user => this.userList = user);
+     //  this.userService.getListUserByTitle(content).subscribe(user => this.userList = user);
         for(let user of this.userList){
             console.log(user.fullName);
           const depositRequestList = this.depositRequests.filter(deposit => deposit.learnerId == user.id); 

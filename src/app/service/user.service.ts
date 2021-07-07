@@ -107,14 +107,40 @@ export class UserService{
         return 1;
     }
 
+
     getAllUser(){
-        return this.users;
+        //return this.users;
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, users: User[]}>(
+            this.baseUrl+ '/users',
+            {
+               headers: headers
+                ,
+                // params:new HttpParams()
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
     }
     
-    getListUserByTitle(title: string):Observable<User[]>{
-        const users = this.users.filter(user => user.fullName == title || user.email == title);
-        return of(users);
-        
+    getListUserByTitle(title: string){
+       
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, users: User[]}>(
+            this.baseUrl+ '/users',
+            {
+                headers: headers,
+                params:new HttpParams().set('email', title)
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
     }
 
     //Get user by email

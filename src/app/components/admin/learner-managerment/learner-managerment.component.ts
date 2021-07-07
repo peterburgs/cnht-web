@@ -26,18 +26,31 @@ export class LearnerManagermentComponent implements OnInit {
     if(this.authService.isAdmin()){
       this.isAdmin = true;
       this.getListUser();
+      console.log('list');
     }
    
   }
 
   getListUser(){//
-   this.listUsers = this.userService.getAllUser();
+  this.userService.getAllUser().subscribe(users =>
+    {
+      if(users.count!=0){
+        this.listUsers = users.users
+      } else this.listUsers = []
+
+      console.log('list 1' + this.listUsers.length);
+    });
   }
 
   searchUser(){
     if(this.titleSearch == "")  this.getAllUser();
     else{
-      this.userService.getListUserByTitle(this.titleSearch).subscribe(users => this.listUsers = users);
+      this.userService.getListUserByTitle(this.titleSearch).subscribe(users =>
+        {
+          if(users.count!=0){
+            this.listUsers = users.users
+          } else this.listUsers = []
+        });
       this.onLoadRouter();
     }
 
