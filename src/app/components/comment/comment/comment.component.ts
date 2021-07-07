@@ -76,10 +76,13 @@ export class CommentComponent implements OnInit, OnChanges {
     }
   }
 
+  //TODO: GET COMMENTS BY LECTURE ID
   getCommentByLectureId(){
+
+    
     this.commentService.getCommentByLectureId(this.lectureId).subscribe(comments=>{
       this.commentList= comments;
-
+      
     })
     console.log(this.commentList)
   }

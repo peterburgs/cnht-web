@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { Course } from 'src/app/models/course.model';
@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./section-course.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class SectionCourseComponent implements OnInit {
+export class SectionCourseComponent implements OnInit, OnChanges {
 
   @Input() section!: Section;
   listLecture : Lecture[]=[];
@@ -25,17 +25,24 @@ export class SectionCourseComponent implements OnInit {
     private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    //this.getLecturesBySectionId(this.section.id);
+    this.getLecturesBySectionId(this.section.id);
     
+  }
+  ngOnChanges(changes:SimpleChanges){
+      if(changes.section){
+        this.ngOnInit()
+      }
   }
 
   //TODO:get lectures of section by section id
   getLecturesBySectionId( sectionId:string){
-    this.listLecture= this.courseService.getLecturesBySectionId(sectionId);
-    //! OPEN COMMAND WHEN HAVE API
-    // this.courseService.getLectureByCourseId(sectionId).subscribe(lectures=>
-    //   this.listLecture= lectures
-    //   )
+    // this.listLecture= this.courseService.getLecturesBySectionId(sectionId);
+    // //! OPEN COMMAND WHEN HAVE API
+    this.courseService.getLecturesBySectionId(sectionId).subscribe(responseData=>{
+      this.listLecture= responseData.lectures
+      console.log("Lecture ")
+      console.log(this.listLecture)
+    })
   }
 
   //get video of lecture by lecture id

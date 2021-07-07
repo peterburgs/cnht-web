@@ -29,7 +29,7 @@ export class TableWalletLearnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserByEmail(this.userService.getUserInLocalStore().email)
-    .subscribe(user=>this.learner= user);
+    .subscribe(dataUser=>this.learner= dataUser.users[0]);
    // console.log(this.learner);
     this.getDepositHistory();
   }

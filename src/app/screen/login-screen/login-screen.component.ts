@@ -32,6 +32,7 @@ export class LoginScreenComponent implements OnInit {
         //authenticate on server
         this.authService.signIn(this.socialUser)
         .subscribe(responseData=>{
+          
             console.log(responseData);
             this.authService.storeUser(responseData.user,responseData.token);
             this.authService.loggedIn=true;

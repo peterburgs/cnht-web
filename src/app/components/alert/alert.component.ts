@@ -33,7 +33,6 @@ export class AlertComponent implements OnInit {
 
     if(this.action=="buy"){
       this.action_return.emit('buy');
-      this.onClose();
     }
     
     if(this.action=="transfer_money")
