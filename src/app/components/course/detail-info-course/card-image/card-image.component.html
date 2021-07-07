@@ -1,13 +1,16 @@
 <div class="card image-card">
-    <img class="image-thumbnail img-course" src="../../../../../assets/images/img1.jpg" alt="">
+    <img class="image-thumbnail img-course" [src]="course.thumbnailUrl" alt="{{course.title}}">
     <p class="price"> {{course.price}} </p>
-    <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
-        <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
-    </ng-template>
-    <ng-template #elseBlock>
-        <button (click)="goToWallet()" class="btn-go-course "> <i class="bi bi-cart "></i> Buy now</button>
-    </ng-template>
+    <div *ngIf="isBought!=undefined">
+        <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
+        </ng-template>
+        <ng-template #elseBlock>
+            <button (click)="goToWallet()" class="btn-go-course "> <i class="bi bi-cart "></i> Buy now</button>
+        </ng-template>
+    </div>
+
 
 </div>
 <app-alert [actionToAlert]="actionToAlert" [message]="message" [action]="action" *ngIf="showInform" (action_return)="implementAction($event)" (close)="closeHandler()"></app-alert>

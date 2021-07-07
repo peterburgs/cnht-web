@@ -94,7 +94,7 @@ export  class authenticationService {
     };
 
     return  this.http
-     .post<{token:string, user: User}>( this.baseUrl+'/auth', data,config)
+     .post<{token:string, user: User}>( this.baseUrl+'/auth',data,config)
      
 
       //return of(isDone);

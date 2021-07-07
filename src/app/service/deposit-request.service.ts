@@ -103,10 +103,17 @@ export class DepositRequestService{
         updatedAt: new Date()
     }
 ]
+<<<<<<< HEAD
  
 private userService = new UserService();
+=======
+
+>>>>>>> 50ac49b... Load data in course detail screen done
 private userList: User[] = [];
 private depositRequestList: DepositRequest[] = [];
+    constructor(
+        private userService: UserService,
+    ){}
 
     getAll(): Observable<DepositRequest[]>{
             return of (this.depositRequests);
@@ -153,7 +160,6 @@ private depositRequestList: DepositRequest[] = [];
 
     getDepositsByNameOrEmailLearner(content: string): Observable<DepositRequest[]>{
        
-         this.userService = new UserService();
          this.userList = [];
          this.depositRequestList= [];
         //depositRequestList

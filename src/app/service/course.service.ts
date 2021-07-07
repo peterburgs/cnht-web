@@ -190,14 +190,14 @@ export class CourseService{
         headers.append('Authorization', 'token');
        return this.http
         .get<{message:string,count:number, courses: Course[]}>(
-            this.baseUrl+ '/courses',
-            {
-                headers: headers,
-                params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',true)
-            }
-        ).pipe(
+        this.baseUrl+ '/courses',
+        {
+            headers: headers,
+            params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',true)
+        })
+        .pipe(
             catchError(this.handleError)
-          );
+        );
     }
 
 
@@ -209,7 +209,6 @@ export class CourseService{
             this.baseUrl+'/courses'
         )
         
-        
         const courses= this.courses;
         return of(courses);
         
@@ -218,25 +217,18 @@ export class CourseService{
     //!DONE
     //* Get course by course id
     getCourseById(id : string){
-
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
+        
        return this.http
         .get<{message:string,count:number, courses: Course[]}>(
             this.baseUrl+'/courses',
             {
-                headers: headers,
+              
                 params:new HttpParams().set('id',id )
             }
         ).pipe(
             
             catchError(this.handleError)
         );
-
-       
-        // const course = this.courses.find(course => course.id===id)!;
-        // return of(course);
     }
 
     getCourses(){
@@ -281,30 +273,28 @@ export class CourseService{
     getstudentJoinedNumber(courseId:string){
         //get enrollment where courseId return list enrollment
         return this.http
-        .get<Enrollment[]>('url', 
+        .get<{message:string,count:number,enrollments: Enrollment[]}>(this.baseUrl+'/enrollments', 
             {
                 params: new HttpParams().set('courseId', courseId)
             }
         )
-        // .pipe(
-        //     map((responseData) =>{
-        //     const enrollments :Enrollment[]=[];
-        //     for(let data in responseData)
-        //      enrollments.push(data);
+        .pipe(
             
-        //     return enrollments;
-        // }));
-       
+            catchError(this.handleError)
+        );
+              
     }
 
+    
     //TODO: get the number of lecture by courseId
     getLectureByCourseId(courseId: string){
         return this.http
-        .get<Lecture[]>('URL', 
-            {
-                params: new HttpParams().set('courseId', courseId)
-            }
+        .get<{message:string,count:number,lectures: Lecture[]}>(this.baseUrl+'/courses/'+courseId+"/lectures" 
         )
+        .pipe(
+            
+            catchError(this.handleError)
+        );
     }
 
     //!DONE
@@ -315,12 +305,15 @@ export class CourseService{
      */
     getSectionByCourseId(courseId: string){
        
+
        return this.http
         .get<{message:string,count:number, sections: Section[]}>(
             this.baseUrl+ '/sections',
         {
             params: new HttpParams().set('courseId', courseId)
-        }).pipe(
+        })
+        .pipe(
+            
             catchError(this.handleError)
         );
        // return sectionList.filter(section=> section.courseId === courseId);
@@ -328,21 +321,17 @@ export class CourseService{
 
     // use http open command when have API
     //TODO : get lecture list by section id
-    getLecturesBySectionId(sectionId: string):Lecture[]{
+    getLecturesBySectionId(sectionId: string){
         
-        /*return this.http
-        .get<Lecture[]>('URL',
+        return this.http
+        .get<{message:string,count:number, lectures: Lecture[]}>(
+            this.baseUrl+'/lectures',
         {
             params: new HttpParams().set('sectionId', sectionId)
-        }).pipe(
-            map((responseData)=>{ 
-                return responseData;
-            })
-        );*/
-
-        //use mockup data- temperory
-        console.log(lectureList)
-        return lectureList.filter(lecture=>lecture.sectionId === sectionId )
+        })
+        .pipe(
+            catchError(this.handleError)
+        );
     }
 
     //TODO: get video of a lecture by its id
@@ -389,10 +378,5 @@ export class CourseService{
      */
     getTotalLeanerOfCourse(id: string):number{
         return 10;
-    }
-
-    //TODO: get lecture by section
-    getLectureBySectionId(sectionId:string){
-
     }
 }

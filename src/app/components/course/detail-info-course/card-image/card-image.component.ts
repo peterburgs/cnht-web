@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Course } from 'src/app/models/course.model';
 import { Lecture } from 'src/app/models/lecture.model';
 import { Section } from 'src/app/models/section.model';
@@ -16,13 +17,14 @@ import { PriceFormat } from 'src/app/util/priceformat';
   styleUrls: ['./card-image.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class CardImageComponent implements OnInit {
+export class CardImageComponent implements OnInit ,OnChanges{
 
   @Input() course = new Course();
-  isBought: boolean= false;
+  isBought!: boolean;
   isLoggedin!: Observable<boolean>;
   learner!: User;
 
+  
   //*inform alert
   message:string="";
   actionToAlert:string="";
@@ -37,17 +39,30 @@ export class CardImageComponent implements OnInit {
   constructor(private router:Router,
     private userService: UserService,
     private courseService: CourseService,
-    private authService: authenticationService) { }
+    private authService: authenticationService,
+    private activeRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
 
     console.log(this.course);
-    
+
+    //when click back on brower, we have to get course again by url 
+    if(this.course==null){
+      this.activeRouter.params.subscribe(params=>{
+        const id= params['id']
+        this.courseService.getCourseById(id).subscribe(responseData=>{
+          this.course= responseData.courses[0];
+        })
+      })
+    }
     //when reloading page, it will not update checkIsLoggedin despite of having subcribe
     if(localStorage.getItem('isLoggedin')=='true')
     {
       this.isLoggedin= of(true);
     } 
+    else{
+      this.isLoggedin=of(false)
+    }
  
     //Subcibe loggedin status
     this.authService.checkIsLoggedin().subscribe(
@@ -56,41 +71,66 @@ export class CardImageComponent implements OnInit {
         
       });
 
-      if(this.isLoggedin){
-        let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
-        if(email!=null)
-        {
-          console.log(email)
-          //get user balance to check
-          this.userService.getUserByEmail(email).subscribe(user=>{
-            this.learner= user;
-          })
+      this.isLoggedin.subscribe(islogin=>{
+        if(islogin){
+          console.log("IS LOGGIN =TRUE")
+          let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
+          if(email!=null)
+          {
+            //get user balance to check
+            this.userService.getUserByEmail(email).subscribe(responseData=>{
+            this.learner= responseData.users[0];
+            console.log(this.learner)
+            this.isBought_();
+            })
+          }
         }
-      }
+        else{
+          this.isBought=false;
+        }
+        
+      })    
 
     //check status of isLoggedin, if it's true, update learner
-    this.isBought_();
-    //this.getFirstSection(this.course.id);
+    
+    this.getFirstSection(this.course.id);
     console.log(this.sectionId)
-    //this.getFirstLecture(this.sectionId);
+    this.getFirstLecture(this.sectionId);
     console.log(this.lectureId)
   }
 
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.isBought)
+    this.isBought_();
+  }
 
   //Checkout this course is bought by user if user loggedin
   isBought_(){
-
-    console.log(this.course.id)
     if(!this.isLoggedin)
     {
       this.isBought= false;
     }
     else
      //check is bought
-    if(this.userService.checkCourseBought(this.course.id, this.learner.id))
-      this.isBought=true;
-    else  this.isBought= false;
+    {
+      console.log("isBought function")
+      this.userService.checkCourseBought(this.course.id, this.learner.id)
+      .pipe(
+        catchError((error)=>{
+            console.log("ERROR")
+            if(error.error.count==0)
+              this.isBought=false
+           return throwError(error) 
+        })
+      )
+      .subscribe(responseData=>{
+        console.log('Check bought')
+        console.log(responseData)
+       this.isBought= true;
+    })  
+   }
   }
+
 
 
   /**
@@ -131,7 +171,11 @@ export class CardImageComponent implements OnInit {
    */
   getFirstLecture(sectionId: string){
 
-    this.lecture= this.courseService.getLecturesBySectionId(sectionId);
+   this.courseService.getLecturesBySectionId(sectionId)
+    .subscribe(responseData=>{
+      this.lecture=responseData.lectures
+    })
+
     if(this.lecture.length>0)
      this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
   }
@@ -140,7 +184,7 @@ export class CardImageComponent implements OnInit {
    * Check here if user enough money, allow them to buy it, ortherwise, go to wallet page
   */
   goToWallet(){
-    if(this.isLoggedin)
+    if(localStorage.getItem('isLoggedin')=='true')
       {
         
         let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
@@ -148,26 +192,25 @@ export class CardImageComponent implements OnInit {
         {
           console.log(email)
           //get user balance to check
-          this.userService.getUserByEmail(email).subscribe(user=>
+          
+            if(this.learner.balance <this.course.price)
             {
-              if(user.balance <this.course.price)
-              {
-                // console.log(this.userService.getUserByEmail(email).email)
-                //TODO: show alert to announce
+              // console.log(this.userService.getUserByEmail(email).email)
+              //TODO: show alert to announce
 
-                this.actionToAlert="Your balance";
-                this.message="The amount in your balance is not enough to buy this course? Go to the wallet page to top up your account."
-                this.showInform=true;
-                this.action="wallet"
-              }
-              else{
-                //TODO: show alert to announce
-                this.showInform= true;
-                this.actionToAlert= "Buy now!"
-                this.message="Are you sure to buy this course?"
-                this.action="buy"
-              }
-            });
+              this.actionToAlert="Your balance";
+              this.message="The amount in your balance is not enough to buy this course? Go to the wallet page to top up your account."
+              this.showInform=true;
+              this.action="wallet"
+            }
+            else{
+              //TODO: show alert to announce
+              this.showInform= true;
+              this.actionToAlert= "Buy now!"
+              this.message="Are you sure to buy this course?"
+              this.action="buy"
+            }
+           
        }
 
       }
@@ -198,30 +241,31 @@ export class CardImageComponent implements OnInit {
       let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
       if(email!=null)
       {
-        this.userService.getUserByEmail(email).subscribe(user =>{
-          if(user.id!= undefined)
+        
+          if(this.learner.id!= undefined)
           {
-            //update at here
-            this.userService.buyCourse( user.id ,this.course.id);
+            //update  at here
+            this.userService.buyCourse( this.learner.id ,this.course.id)
+            .subscribe(responseData=>{
+              console.log("Bought successfully!")
+              console.log(responseData);
+               alert("Now you can learn this course");
+              this.isBought=true;
+              this.showInform=false;
+
+            })
             
             //TODO: Inform that payment success
-            this.isBought=true;
-            alert("Now you can learn this course");
             // this.action="success_payment";
             // this.actionToAlert=""
             // this.message="Now you can learn this course."
             // this.showInform= true;
             console.log(this.showInform)
-          } 
-          
-        })
-        
+          }   
+        }   
       }
-      
     }
   }
-
-}
 
 function Of(arg0: boolean): Observable<boolean> {
   throw new Error('Function not implemented.');

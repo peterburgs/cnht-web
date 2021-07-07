@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { Course } from 'src/app/models/course.model';
 import { CourseService } from 'src/app/service/course.service';
 import { DatePipe } from '@angular/common';
@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
   encapsulation: ViewEncapsulation.Emulated,
   providers:[DatePipe]
 })
-export class DetailInfoCourseComponent implements OnInit {
+export class DetailInfoCourseComponent implements OnInit , OnChanges{
 
   @Input() target_course = new Course();
   
@@ -22,27 +22,34 @@ export class DetailInfoCourseComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //this.getStudentJoinedNumber();
-    // this.getLectureByCourseId();
+    console.log("detail info course")
+    this.getStudentJoinedNumber();
+   this.getLectureByCourseId();
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getLectureByCourseId();
+    this.getStudentJoinedNumber();
+    
+  }
 
   getStudentJoinedNumber(){
     this.courseService.getstudentJoinedNumber(this.target_course.id).subscribe(
-      enrollments=>{
-        this.studentJoined= enrollments.length;
+      responseData=>{
+        this.studentJoined= responseData.count;
+        console.log("Student joined")
+        console.log(this.studentJoined)
       }
     )
   }
 
   //TODO : get lecture by course id to count
   getLectureByCourseId(){
-    // this.courseService.getLectureByCourseId(this.target_course.id)
-    // .subscribe(lectures=>{
-    //   this.lectureCount= lectures.length;
-    // })
-    this.lectureCount= 20;
+    this.courseService.getLectureByCourseId(this.target_course.id)
+    .subscribe(data=>{
+      this.lectureCount= data.count;
+    })
   }
 
   // dateFormat(date:Date):Date{

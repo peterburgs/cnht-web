@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-7 wallet">
-            <h4>My balance: <span>{{ handlePriceFormat(balance)}}VND</span>
+            <h4>My balance: <span>{{ balance}}VND</span>
                 <span><button (click)="isHiden = !isHiden" class="btn-primary btn-deposit">Deposit coins</button></span>
             </h4>
             <div class="transfer-information" [hidden]="isHiden">
