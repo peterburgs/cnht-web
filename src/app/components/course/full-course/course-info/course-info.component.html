@@ -1,9 +1,9 @@
 <div  class="container d-flex flex-fill flex-row bd-highlight ">
     <div class="p-2 item-edit edit-image">
         
-        <img *ngIf="imgPath" name="thumbnailUrl" class="image-course"
+        <img *ngIf="course.thumbnailUrl" name="thumbnailUrl" class="image-course"
 
-        [attr.src]="imgPath|async"
+        [src]="'https://us-central1-supple-craft-318515.cloudfunctions.net/app'+course.thumbnailUrl"
         id="thumbnailUrl"  
         alt="img-course">
       

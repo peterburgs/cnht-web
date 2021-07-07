@@ -10,12 +10,14 @@
   </div>
   <div class="div-main">
     <ul class="list-group flex-fill">
-      <li class="list-group-item title-section d-flex label-section border-radius">
+      <li class="list-group-item title-section d-flex label-section border-radius" >
+  
         <input class="form-control w-50 title-section clean-border"
-         [value]="sectionDummy.section_title" disabled/>
-        <div class="div-icon" title="Edit section" (click)="onEditSection()">
-          <i class="fa fa-pencil icon-decorate"></i>
-        </div>
+        [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
+       <div  *ngIf="changeSection" class="div-icon" title="Edit section" (click)="saveSection(sectionDummy.section_id)">
+         <i class="fa fa-save icon-decorate  fa-9x"></i>
+       </div>
+       
         <div class="div-icon" title="Delete section" 
         (click)="onDeleteSection()">
           <i class="fa fa-trash icon-decorate"></i>
@@ -47,22 +49,17 @@
         <div class="div-session-contain form-row">
           <div class="div-session-contain d-flex form-row">
             <div class="div-session-contain d-flex form-row">
-              <input
+              <input #inputLecture
                 class="form-control contain-title w-25 clean-border"
-                [value]="lecture.title" disabled
-              />
-
-              <span class="contain-video"> </span>
-              <span class="contain-video-time">{{ i}}</span>
+                [value]="lecture.title" title="Edit title" 
+                (click)="clickEditLecture($event,i)"
+              >
+              <button *ngIf="eventSave[i]" (click)="inputLecture.click(); saveLecture(lecture.id,i);" class="btn btn-primary">Save</button>
+              <button class="contain-video btn btn-success"  (click)="onEditLession(lecture.id)">{{durationVideo[i]!=0 ? 'Upload Video':'Upload new Video'}} </button>
+              <span class="contain-video-time">{{ durationVideo[i]}}</span>
             </div>
             <div class="div-edit">
-              <div
-                class="div-icon-mini"
-                title="Edit lession"
-                (click)="onEditLession(lecture.id)"
-              >
-                <i class="fa fa-pencil icon-decorate icon-edit"></i>
-              </div>
+              
               <div class="div-icon-mini" title="Delete lession" 
               (click)="onDeleteLession(lecture.id)">
                 <i class="fa fa-trash icon-decorate icon-delete"></i>

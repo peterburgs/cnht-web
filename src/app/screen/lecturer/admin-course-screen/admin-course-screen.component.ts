@@ -30,12 +30,15 @@ export class AdminCourseScreenComponent implements OnInit {
     this.isLoading=true;
     
     this.fullCourseService.initCourses().subscribe((response)=>{
-
-      this.courses=response.courses;
+      this.fullCourseService.setCourses(response.courses);
+      this.courses=response.courses;  
+      
       this.isLoading=!this.isLoading;
     })
     const storage = localStorage.getItem('google_auth');
 
+
+    console.log(storage);
     // if (storage) {
     //   this.userDetails = JSON.parse(storage);
     // } else {
@@ -47,11 +50,14 @@ export class AdminCourseScreenComponent implements OnInit {
     // } else {
     //  // this.signOut();
     // }
-    if(this.authSevice.isAdmin())
-    this.fullCourseService.initCourses().subscribe((response)=>{
-      this.courses=response.courses;
-    })
-    else this.router.navigateByUrl('/home').then();
+    // if(this.authSevice.isAdmin())
+    // this.fullCourseService.initCourses().subscribe((response)=>{
+    //   this.courses=response.courses;
+    // })
+    // else this.router.navigateByUrl('/home').then();
+    // this.fullCourseService.initCourses().subscribe((response)=>{
+    //      this.courses=response.courses;
+    //    })
   }
 
   signOut(): void {
@@ -64,7 +70,7 @@ export class AdminCourseScreenComponent implements OnInit {
 
     const promise= new Promise((resolve, reject)=>{
       setTimeout(()=>{
-        this.router.navigate(['../','course',this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },2000)
+        this.router.navigate(['../','course',  this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },2000)
         this.isLoading=true;
       });
   }

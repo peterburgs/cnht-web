@@ -40,11 +40,11 @@
         customeContent()
       }}
     </div>
-    <div class="mb-3 row" *ngIf="wayModify == 0 || wayModify == 1">
+    <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection ==0)">
       <label for="name" class="col-sm-4 col-form-label">
         Title {{ typeSelection == 0 ? "section" : "lession" }}</label
       >
-      <div class="col-sm-9">
+      <div  class="col-sm-9">
         <input
           type="text"
           class="form-control"
@@ -57,7 +57,8 @@
         />
         
       </div>
-      <div *ngIf="typeSelection == 1" >
+    </div>
+      <div *ngIf="(typeSelection == 1) && ( wayModify==1)" >
         <input
           #file
           type="file"
@@ -70,7 +71,7 @@
         <span class="url-video">{{ urlVideo }}</span>
       </div>
     
-    </div>
+    
   </div>
   <div class="modal-footer">
     <button

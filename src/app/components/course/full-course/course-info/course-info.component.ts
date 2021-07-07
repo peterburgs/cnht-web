@@ -9,7 +9,7 @@ import { VideoType } from 'src/app/models/VideoType.model';
 import { CourseService } from 'src/app/service/course.service';
 import { EventEmitter} from '@angular/core'
 import { FullCourseService } from '../../../../service/full-course.service';
-import { Observable } from 'rxjs';
+import { config, Observable } from 'rxjs';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -46,7 +46,11 @@ export class CourseInfoComponent implements OnInit {
  
   fileToUpLoad: File = new File([], '_Thumbnail');
   constructor(private fullCourseService: FullCourseService) {}
-
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    console.log(this.course.price);
+  }
   ngOnInit(): void {
 
 
@@ -56,6 +60,7 @@ export class CourseInfoComponent implements OnInit {
           this.validateInput();
         });
     }
+    this.priceFormat= String(this.course.price);
   }
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -64,6 +69,9 @@ export class CourseInfoComponent implements OnInit {
       console.log('FileUpload -> files', fileList);
 
       this.fileToUpLoad = <File>fileList.item(0);
+
+
+
       var reader = new FileReader();
       //update Image to UI
       reader.onload = (event: any) => {

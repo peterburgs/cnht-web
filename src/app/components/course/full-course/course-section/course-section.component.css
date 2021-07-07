@@ -62,7 +62,7 @@
     color: #0093D1;
 }
 .contain-video{
-    flex-grow: 5;
+  
     margin-left: 15px;
     text-align: left;
     justify-content: left;
@@ -120,6 +120,7 @@
  .title-section{
     background: #90caf9;
     align-items: center;
+   
  }
 
 .icon-delete{
@@ -136,9 +137,19 @@ padding:0px;
     border: none;
     border-radius: 45px;
     background: #fff;
-   
+   margin-right: 20px;
 }
 
 .alert-body{
     font-size: x-large;
+}
+.div-section-title{
+    display: flex;
+}
+.search-input{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    color: rgb(34, 33, 33);
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { config } from 'rxjs';
 
 import { Upload } from 'src/app/models/file-upload';
 import { ModifyType } from 'src/app/models/ModifyType';
@@ -16,16 +17,54 @@ import { UploadService } from '../upload.service';
 export class CourseSectionComponent implements OnInit {
   
   @Input() sectionDummy: SectionDummy = new SectionDummy("1","default",[]);
- 
+  eventSave:boolean[]=[]
+  durationVideo:number[]=[]
   urlVideo = '../';
   files?: File;
-  
-  fileToUpLoad: File = new File([], 'hinh-a');
+  hasVideo=false;
+  changeLecture=false;
+  videoFile:File=new File([],'lecture-video')
+  lectureTitle='';
+  sectionTitle='';
+  changeSection=false;
   constructor(private modalService: NgbModal,
               private fullCourseService: FullCourseService) {}
   ngOnInit(): void {
+    for(let i=0; i< this.sectionDummy.lecture.length; i++){
+      this.eventSave.push(false);
+      this.durationVideo.push(0);
+    }
   }
+  clickEditSection($event:any){
+      this.sectionTitle=$event.target.value;
+      this.changeSection=true;
 
+  }
+  saveSection(idSection:string){
+      this.fullCourseService.setSelection(idSection, VideoType.section, ModifyType.edit);
+      this.fullCourseService.handleUpdate(this.sectionTitle);
+      this.changeSection=false;
+      
+  }
+  clickEditLecture($event:any,order:number){
+    console.log('save');
+    this.eventSave[order]=true;
+    this.lectureTitle=$event.target.value;
+    console.log(this.lectureTitle);
+
+  }
+  saveLecture(idLecture:string, order:number){
+
+    this.fullCourseService.setSelection(idLecture, VideoType.lession, ModifyType.edit)
+    this.fullCourseService.handleUpdate(this.lectureTitle);
+    this.eventSave[order]=false;
+  }
+  enableChangeLecture(event:any){
+    
+    this.changeLecture=true;
+    this.lectureTitle=event?.target.value;
+   
+  }
   onEditLession(id:string) {
     this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.edit);
     this.fullCourseService.onNotifyContent();
@@ -73,21 +112,19 @@ export class CourseSectionComponent implements OnInit {
     this.fullCourseService.onNotifyContent();
   }
 
-  handleFileInput(event: Event) {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      console.log('FileUpload -> files', fileList);
+  // getVideo(idLecture:string, order:number){
+  //   console.log("from video");
 
-      this.fileToUpLoad = <File>fileList.item(0);
-      var reader = new FileReader();
-      //update Image to UI
-      reader.onload = (event: any) => {
-        this.urlVideo = event.target.result;
-      };
+  //   // this.fullCourseService.getLectureVideo(idLecture).subscribe((video)=>{
+  //   //   this.durationVideo[order]=2;
+  //   // })
 
-      reader.readAsDataURL(this.fileToUpLoad);
-    }
-  }
+  //   this.durationVideo[order]=2
+  //   // check
+  //   //
+   
+    
+  //   this.hasVideo=true;
+  // }
   
 }

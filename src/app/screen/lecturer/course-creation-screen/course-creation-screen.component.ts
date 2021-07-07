@@ -85,6 +85,7 @@ export class CourseCreationScreenComponent implements OnInit {
       //check admin login
       this.route.params.subscribe((params: Params) => {
         this.idCourse = params['id'];
+        console.log(this.idCourse);
         if (params['id'] == null) {
           this.idCourse = 'default';
         }
@@ -92,14 +93,15 @@ export class CourseCreationScreenComponent implements OnInit {
       });
       //Update course in fullService
       this.fullCourseService.setIdCourseSelection(this.idCourse);
-      this.fullCourseService.setCourseSelection();
+
       this.fullCourseService.getDataServe();
 
       //Delay time out
       const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
+          this.fullCourseService.setCourseSelection();
           this.course = this.fullCourseService.getCourseInfo();
-          //TODO: check is observable or not
+          //TODO: check is observ able or not
           this.sections = this.fullCourseService.getSectionDummy();
           this.fullCourseService.getCurrentSelection().subscribe((type) => {
             this.typeSelection = type;
@@ -117,7 +119,7 @@ export class CourseCreationScreenComponent implements OnInit {
               );
           }
           this.isLoading = false;
-        }, 3000);
+        }, 6);
       });
     }
   }
@@ -198,43 +200,55 @@ export class CourseCreationScreenComponent implements OnInit {
   }
 
   onConfirmSave() {
-    if (
-      this.typeSelection == VideoType.lession ||
-      this.typeSelection == VideoType.section
-    ) {
-      if (
-        this.wayModify == ModifyType.edit ||
-        this.wayModify == ModifyType.new
+    if (this.typeSelection == VideoType.section) {
+      if (this.wayModify == ModifyType.edit ||
+          this.wayModify == ModifyType.new
       ) {
-        // console.log(this.titleBinding);
-        if (this.typeSelection == VideoType.lession) {
-          this.onFileUpload();
-        } else {
-          this.fullCourseService.handleUpdate(this.titleBinding);
-        }
+        this.fullCourseService.handleUpdate(this.titleBinding);
       } else {
         this.fullCourseService.handleUpate();
       }
-    }
-    if (
+    } else if (this.typeSelection == VideoType.lession) {
+      if (this.wayModify == ModifyType.new) {
+        this.fullCourseService.handleUpdate(this.titleBinding);
+      } else if (this.wayModify = ModifyType.edit) {
+        this.onFileUpload();
+      } else {
+        this.fullCourseService.handleUpate();
+      }
+    } else if (
       this.fullCourseService.wayModify == ModifyType.delete &&
       this.fullCourseService.typeSelection == VideoType.course
     ) {
       // this.router.navigate(['../','course','new'], {relativeTo:this.route})
+      this.fullCourseService.handleUpate();
+      const promise= new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+          this.router.navigateByUrl('/admin/home').then();
+          //  this.activeModal.close();
+          this.modalService.dismissAll();
+        },2000)
+          this.isLoading=true;
+        });
 
-      this.router.navigateByUrl('/admin/home').then();
-      //  this.activeModal.close();
-      this.modalService.dismissAll();
     } else {
+      const promise= new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+          this.modalService.dismissAll();
+          window.location.reload();  
+        },2000)
+          this.isLoading=true;
+        });
       this.modalService.dismissAll();
-      window.location.reload();
+      //window.location.reload();
     }
+
   }
   onFileUpload() {
     // const videoLecture= this.fileVideo?.nativeElement.files[0];
-    const file = new FormData();
-    file.set('file', this.fileToUpLoad);
-    this.fullCourseService.handleUpdateWithVideo(this.titleBinding, file);
+    // const file = new FormData();
+    // file.set('file', this.fileToUpLoad);
+    this.fullCourseService.handleUpdateWithVideo( this.fileToUpLoad);
   }
   goBack() {
     this.router.navigateByUrl('/admin/home').then();
