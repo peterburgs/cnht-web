@@ -55,7 +55,12 @@
     padding: 0px 20px;
     color: rgb(46, 46, 46);
     border-bottom: 1px rgb(235, 235, 235) solid;
-    margin-top: 7px;
+    padding-top: 7px;
+}
+
+.activeLecture {
+    background-color: rgba(183, 232, 255, 0.719);
+    transition: 0.3s ease-in-out;
 }
 
 .title-lecture {

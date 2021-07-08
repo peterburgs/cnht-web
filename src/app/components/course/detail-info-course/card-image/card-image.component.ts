@@ -120,8 +120,9 @@ export class CardImageComponent implements OnInit ,OnChanges{
             console.log("ERROR")
             if(error.error.count==0)
               this.isBought=false
-           return throwError(error) 
            this.isLoading=false;
+
+           return throwError(error) 
         })
       )
       .subscribe(responseData=>{

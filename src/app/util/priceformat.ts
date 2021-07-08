@@ -1,5 +1,6 @@
 export function PriceFormat(price:number):any{
     var price_format="";
+<<<<<<< HEAD
     // var zero;
     // if(price==undefined)return 0;
     // while(price%1000==0)
@@ -11,6 +12,21 @@ export function PriceFormat(price:number):any{
     // }
     // zero = price_format;
     // price_format=price.toString()+ price_format+"đ";
+=======
+    var zero;
+    if(price==undefined) return 0;
+    if(price==0) return "Free"
+    if(price<1000) return price+"VND"  
+    while(price%1000==0)
+    {
+      price= price/1000;
+      
+       zero =price_format;
+      price_format = ('.000').concat(price_format);
+    }
+    zero = price_format;
+    price_format=price.toString()+ price_format+"VND";
+>>>>>>> 5cfe8fc... update content
 
     return price_format;
 

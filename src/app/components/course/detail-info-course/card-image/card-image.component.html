@@ -1,7 +1,7 @@
 <div class="card image-card">
     <div *ngIf="!isLoading">
-        <img class="image-thumbnail img-course" [src]="baseUrl+course.thumbnailUrl" alt="{{course.title}}">
-        <p class="price"> {{course.price}} </p>
+        <img class="image-thumbnail img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="{{course.title}}">
+        <p class="price"> {{handlePriceFormat(course.price)}} </p>
         <div *ngIf="isBought!=undefined">
             <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
             <ng-template #thenBlock>

@@ -14,6 +14,7 @@ export class ContentCourseComponent implements OnInit , OnChanges{
 
   @Input() current_course = new Course();
   @Input() fragment: string= "learning";
+  firstSectionOrder!:number
   isLoading= true;
   //Example
   listSection: Section[] =[];
@@ -48,9 +49,9 @@ export class ContentCourseComponent implements OnInit , OnChanges{
     )
     .subscribe(data=>{
       this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
+      this.firstSectionOrder= this.listSection[0].sectionOrder;
       console.log(data)
       this.isLoading= false;
-      console.log("GET SECTION")
     })
     
     // this.courseService.getSectionByCourseId(this.current_course.id).subscribe(sections=>

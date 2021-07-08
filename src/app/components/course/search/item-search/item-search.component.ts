@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { CourseService } from 'src/app/service/course.service';
+import { PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-item-search',
@@ -32,6 +33,7 @@ export class ItemSearchComponent implements OnInit {
 }
 
   handlePriceFormat(price:number):any{
+<<<<<<< HEAD
 
     // var price_format="";
     // var zero;
@@ -46,6 +48,9 @@ export class ItemSearchComponent implements OnInit {
     // price_format=price.toString()+ price_format+"đ";
 
     // return price_format;
+=======
+   return PriceFormat(price)
+>>>>>>> 5cfe8fc... update content
   }
 
 

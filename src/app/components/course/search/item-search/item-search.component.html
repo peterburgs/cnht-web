@@ -1,20 +1,19 @@
-<div class = "course-card-search">
-    <div class = "img-course">
-        <img class = "img-course img-fluid" src = "../../../assets/images/img1.jpg">
+<div class="course-card-search">
+    <div class="img-course">
+        <img class="img-course img-fluid" src="../../../assets/images/img1.jpg">
     </div>
-    <div class = "content-course">
-        <div class = "pull-left">
-            <a class = "course-heading"
-            routerLink="/detail/{{courseItem.id}}/{{courseItem.title}}" (click) = " changeRouter()" fragment="detail">{{courseItem.title}}</a>
+    <div class="content-course">
+        <div class="pull-left">
+            <a class="course-heading" routerLink="/detail/{{courseItem.id}}/{{courseItem.title}}" (click)=" changeRouter()" fragment="detail">{{courseItem.title}}</a>
             <!-- <h6 class = "list-group-item-text">{{courseItem.teacher}}</h6> -->
-            <p class = "list-group-item-text">{{courseItem.courseDescription}}</p>
-            <div class = "delail-information-course">
-                <span class = "number-learner"> {{getTotalNumberOfCourse(courseItem.id)}} Student joined</span>
+            <p class="list-group-item-text">{{courseItem.courseDescription |shortenDescription}}</p>
+            <div class="delail-information-course">
+                <span class="number-learner"> {{getTotalNumberOfCourse(courseItem.id)}} Student joined</span>
                 <!-- <span class="number-lecture"> {{courseItem.totalLecture}} Lecture</span> -->
             </div>
         </div>
-        <div class = "pull-right price">
-            <span class = " price-course">{{handlePriceFormat(courseItem.price)}}</span> </div>
-    </div> 
-    
+        <div class="pull-right price">
+            <span class=" price-course">{{handlePriceFormat(courseItem.price)}}</span> </div>
+    </div>
+
 </div>
