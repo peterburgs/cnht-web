@@ -80,6 +80,20 @@ export  class authenticationService {
     return false;
   }
 
+  getToken(){
+    if(typeof(localStorage)){
+       return "Bearer " + localStorage.getItem('token');}
+      return "token";
+  }
+
+  getBalane(){
+
+    var balance:string = "";
+    if(typeof(localStorage)){
+       balance ="0"+ localStorage.getItem('balance');}
+    return Number(balance);
+  }
+
 
   //TODO: authenticate 
   signIn(socialUser: SocialUser){

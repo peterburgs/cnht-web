@@ -4,6 +4,7 @@ import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { CourseService } from 'src/app/service/course.service';
+import { FullCourseService } from 'src/app/service/full-course.service';
 
 @Component({
   selector: 'app-search',
@@ -21,16 +22,30 @@ export class SearchComponent implements OnInit {
       listFilter = [COURSE_TYPE.THEORY, 
       COURSE_TYPE.EXAMINATION_SOLVING];
       listGrade = ["Grade 12", "Grade 11", "Grade 10"];
+      listAllCourse: Course[] = [];
 
-      constructor(private route: ActivatedRoute, private router: Router, private courseService: CourseService) {
+      constructor(private route: ActivatedRoute, private router: Router, private courseService: CourseService,
+        private fullCourseService: FullCourseService) {
 
       }
 
       ngOnInit(): void {
+        this.getAllCourse();
         this.getTitleFormRouter();
         this.getListSearch();
         this.getFormFilterRouter();
         this.getListCourseFilter();
+      }
+
+      getAllCourse(){
+          this.courseService.getAllCourse().subscribe(list => 
+            
+          {
+            this.listAllCourse = list.courses;
+            this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
+          });
+
+         
       }
 
       setTextSearch(title: string){ // for view client title search
@@ -48,24 +63,24 @@ export class SearchComponent implements OnInit {
       getListSearch(){
         if(this.titleSearch)
         {
-          this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => 
+          // this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => 
             
-            {
-              if(list.count != 0)
-                  this.listCourse = list.courses
-              else this.listCourse = []
-            });
+          //   {
+          //     if(list.count != 0)
+          //         this.listCourse = list.courses
+          //     else this.listCourse = []
+          //   });
+          // console.log("lengt:" + this.listAllCourse.length);
+          //this.getAllCourse();
+          this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           this.isUseFilter = false;
           this.setTextSearch(this.titleSearch);
-        //    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        //  this.router.onSameUrlNavigation = 'reload';
+          console.log("lengt:" + this.listCourse.length);
           console.log("t: " + this.titleSearch);
         }
         else
           if(this.listCourse.length === 0) 
           {
-            
-           // this.router.routeReuseStrategy.shouldReuseRoute = () => true;
             this.isUseFilter = true;}
       
       }
@@ -129,10 +144,7 @@ export class SearchComponent implements OnInit {
             this.listCourse=[]
           }
         } );
-        // this.courseService.getListCourseFilter(this.category, this.grade).su
-       // this.courseService.getListCourseFilter(this.category, this.grade).subscribe(list => this.listCourse = list);
         this.setTextSearch( this.category + " of " + this.grade );
-       // console.log("testsearch: " + this.textSearch);
       }
       
     }
