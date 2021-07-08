@@ -6,5 +6,5 @@ export class Lecture{
     lectureOrder: number = 0;
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
-    idHidden: boolean = false;
+    isHidden: boolean = false;
 }

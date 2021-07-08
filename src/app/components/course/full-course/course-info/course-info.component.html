@@ -32,9 +32,9 @@
              (change)="changeType($event)"
             class="form-select text-deco form-select-lg mb-3 w-50" aria-label=".form-select-lg example" >
              
-              <option class="text-deco" *ngFor="let item of types; let i=index" [value]="item" 
+              <option class="text-deco" *ngFor="let item of types; let i=index" [value]="item" [selected]="item==course.courseType"
               [ngValue]="item"  >
-                {{formatType(item)}}</option>
+                {{item}}</option>
             </select>
             </div>  
             </div>
@@ -46,8 +46,8 @@
               class="form-select text-deco form-select-lg mb-3 w-50" aria-label=".form-select-lg example" >
                
                 <option  *ngFor="let grade of grades " [value]="grade" 
-                [ngValue]="grade"  >
-                  {{formatGrade(grade)}}</option>
+                [ngValue]="grade" [selected]="grade==course.grade" >
+                  {{grade}}</option>
               </select>
               </div>  
               </div>
@@ -69,7 +69,7 @@
               matInput 
               name=price  
               [(ngModel)]="priceFormat"
-              (keyup)="formatCurrency()"
+              (keydown)="formatCurrency()"
               data-type="currency"
               #price=ngModel 
               type="text"

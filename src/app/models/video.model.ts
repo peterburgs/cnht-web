@@ -5,5 +5,5 @@ export class Video{
     lectureId: string = "";
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
-    idHidden: boolean = false;
+    isHidden: boolean = false;
 }

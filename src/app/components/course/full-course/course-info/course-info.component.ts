@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Form, NgForm } from '@angular/forms';
 import { COURSE_TYPE } from 'src/app/models/course-type';
@@ -50,6 +50,14 @@ export class CourseInfoComponent implements OnInit {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
     console.log(this.course.price);
+  }
+  ngOnChanges(courseChange: SimpleChanges): void {
+    console.log(courseChange);
+    this.priceFormat=String(courseChange.course.currentValue.price);
+    console.log('Price'+ courseChange.course.currentValue.price);
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    
   }
   ngOnInit(): void {
 

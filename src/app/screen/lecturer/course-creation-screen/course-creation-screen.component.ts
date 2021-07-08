@@ -93,7 +93,9 @@ export class CourseCreationScreenComponent implements OnInit {
       });
       //Update course in fullService
       this.fullCourseService.setIdCourseSelection(this.idCourse);
-
+      this.fullCourseService.initCourses().subscribe((response)=>{
+        this.fullCourseService.setCourses(response.courses);
+      })
       this.fullCourseService.getDataServe();
 
       //Delay time out
@@ -119,7 +121,7 @@ export class CourseCreationScreenComponent implements OnInit {
               );
           }
           this.isLoading = false;
-        }, 6);
+        }, 2000);
       });
     }
   }
@@ -167,7 +169,7 @@ export class CourseCreationScreenComponent implements OnInit {
     return 'Save';
   }
   customeContent() {
-    const confirmMessage = 'Are you sure this ';
+    const confirmMessage = 'Are you sure delete  ';
     const createMessage = 'Save successful!!!';
     const validMessage = 'Input invalid!!!';
     const noticeMessage = 'Your working not save!!!';
@@ -200,55 +202,72 @@ export class CourseCreationScreenComponent implements OnInit {
   }
 
   onConfirmSave() {
+    console.log(this.typeSelection)
     if (this.typeSelection == VideoType.section) {
-      if (this.wayModify == ModifyType.edit ||
-          this.wayModify == ModifyType.new
+      if (
+        this.wayModify == ModifyType.edit ||
+        this.wayModify == ModifyType.new
       ) {
         this.fullCourseService.handleUpdate(this.titleBinding);
       } else {
         this.fullCourseService.handleUpate();
       }
+      const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.isLoading = true;
+          this.modalService.dismissAll();
+            // window.location.reload();
+        }, 6000);
+      });
     } else if (this.typeSelection == VideoType.lession) {
+      console.log(this.wayModify);
       if (this.wayModify == ModifyType.new) {
         this.fullCourseService.handleUpdate(this.titleBinding);
-      } else if (this.wayModify = ModifyType.edit) {
+      } else if (this.wayModify == ModifyType.edit) {
         this.onFileUpload();
       } else {
+        console.log('hello');
         this.fullCourseService.handleUpate();
       }
-    } else if (
+      const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.isLoading = true;
+          this.modalService.dismissAll();
+            // window.location.reload();
+        }, 6000);
+      });
+    } 
+     if (
       this.fullCourseService.wayModify == ModifyType.delete &&
       this.fullCourseService.typeSelection == VideoType.course
     ) {
       // this.router.navigate(['../','course','new'], {relativeTo:this.route})
       this.fullCourseService.handleUpate();
-      const promise= new Promise((resolve, reject)=>{
-        setTimeout(()=>{
+      const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
           this.router.navigateByUrl('/admin/home').then();
           //  this.activeModal.close();
           this.modalService.dismissAll();
-        },2000)
-          this.isLoading=true;
-        });
-
+        }, 6000);
+        this.isLoading = true;
+      });
     } else {
-      const promise= new Promise((resolve, reject)=>{
-        setTimeout(()=>{
+      const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
           this.modalService.dismissAll();
-          window.location.reload();  
-        },2000)
-          this.isLoading=true;
-        });
+            // window.location.reload();
+        }, 6000);
+        this.isLoading = true;
+      });
       this.modalService.dismissAll();
-      //window.location.reload();
+        // window.location.reload();
     }
-
   }
   onFileUpload() {
     // const videoLecture= this.fileVideo?.nativeElement.files[0];
     // const file = new FormData();
     // file.set('file', this.fileToUpLoad);
-    this.fullCourseService.handleUpdateWithVideo( this.fileToUpLoad);
+    this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
   }
   goBack() {
     this.router.navigateByUrl('/admin/home').then();

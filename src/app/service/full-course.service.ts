@@ -1,5 +1,12 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  from,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { Lession } from 'src/app/models/lession.model';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { Section } from 'src/app/models/section.model';
@@ -16,7 +23,7 @@ import { Video } from 'src/app/models/video.model';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer '+localStorage.getItem('token'),
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
   }),
 };
 
@@ -41,13 +48,13 @@ export class FullCourseService {
   private sections: Section[] = [];
   private lectures: Lecture[] = [];
   private courses: Course[] = [];
-  private listDeepSection:SectionDummy[] = [];
+  private listDeepSection: SectionDummy[] = [];
   private videos: Video[] = [];
   private baseURL =
     'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
   private authHeader = new HttpHeaders();
-  private idToken=localStorage.getItem('token');
-    
+  private idToken = localStorage.getItem('token');
+
   //================================= Initial =========================
   //save edit Modal in screen
 
@@ -67,12 +74,10 @@ export class FullCourseService {
   sbjIdItem = new Subject<string>();
   headers: HttpHeaders = new HttpHeaders();
 
-
   constructor(private http: HttpClient) {
-    
-    this.idToken= localStorage.getItem('token');
+    this.idToken = localStorage.getItem('token');
     // this.initCourses();
-    this.authHeader.append( 'Content-Type', 'application/json');
+    this.authHeader.append('Content-Type', 'application/json');
     this.authHeader.append('Authorization', 'Bearer ' + this.idToken);
 
     this.headers = new HttpHeaders({
@@ -84,17 +89,15 @@ export class FullCourseService {
   //================================= GET =========================
   setCourseSelection() {
     console.log(this.idCourse);
-   this.courses.forEach(
-      (mCourse) => 
-      {
-       console.log(mCourse.id);
-       if (mCourse.id == this.idCourse){
-          console.log(mCourse);
-          this.course= mCourse;
-       }}
-      
-    );
-    console.log('Thao')
+    this.courses.forEach((mCourse) => {
+      console.log(mCourse.id);
+      if (mCourse.id == this.idCourse) {
+        console.log(mCourse);
+        console.log("thaoooo")
+        this.course = mCourse;
+      }
+    });
+    console.log('Thao');
     console.log(this.course);
   }
   getLecturesCourse() {
@@ -113,10 +116,11 @@ export class FullCourseService {
       (lecture: Lecture) => lecture.id == this.idItem
     )[0];
   }
-  setCourses(listCourse: Course[]){
-    this.courses= listCourse;
+  setCourses(listCourse: Course[]) {
+    this.courses = listCourse;
   }
   getSectionSelection() {
+    console.log('section ID' + this.idItem);
     return this.sections.filter((section) => section.id == this.idItem);
   }
   getCurrentSelection(): Observable<VideoType> {
@@ -171,6 +175,24 @@ export class FullCourseService {
         sectionSwap = this.sections[i];
       }
     }
+    //find swap lecture
+    let lectureSwap: Lecture[] = this.lectures.filter((lecture) => {
+      lecture.sectionId == sectionSwap.id;
+    });
+    let lectureUp: Lecture[] = this.lectures.filter((lecture) => {
+      lecture.sectionId == sectionUp.id;
+    });
+    //Update lecture in side
+    lectureSwap.forEach((lecture) => {
+      lecture.lectureOrder = lecture.lectureOrder + lectureUp.length;
+      this.onSaveLecture(lecture);
+    });
+
+    lectureUp.forEach((lecture) => {
+      lecture.lectureOrder = lecture.lectureOrder - lectureSwap.length;
+      this.onSaveLecture(lecture);
+    });
+
     //Update case: different section
     let tmpOrder = sectionSwap.sectionOrder;
     sectionSwap.sectionOrder = sectionUp.sectionOrder;
@@ -201,22 +223,48 @@ export class FullCourseService {
         sectionSwap = this.sections[i];
       }
     }
-    if (sectionSwap) {
-      let tmpOrder = sectionSwap.sectionOrder;
-      sectionSwap.sectionOrder = sectionDown.sectionOrder;
+    // if (sectionSwap) {
+    //find swap lecture
+    let lectureSwap: Lecture[] = this.lectures.filter((lecture) => {
+      lecture.sectionId == sectionSwap.id;
+    });
+    let lectureDown: Lecture[] = this.lectures.filter((lecture) => {
+      lecture.sectionId == sectionDown.id;
+    });
+    //Update lecture in side
+    lectureSwap.forEach((lecture) => {
+      lecture.lectureOrder = lecture.lectureOrder - lectureDown.length;
+      this.onSaveLecture(lecture);
+      });
+      console.log(lectureSwap);
+      console.log(lectureDown);
+    lectureDown.forEach((lecture) => {
+      lecture.lectureOrder = lecture.lectureOrder + lectureSwap.length;
+      this.onSaveLecture(lecture);
+    });
 
-      this.onSaveSection(sectionSwap);
+    let tmpOrder = sectionSwap.sectionOrder;
+    sectionSwap.sectionOrder = sectionDown.sectionOrder;
 
-      sectionDown.sectionOrder = tmpOrder;
-      this.onSaveSection(sectionDown);
-    }
+    this.onSaveSection(sectionSwap);
+
+    sectionDown.sectionOrder = tmpOrder;
+    this.onSaveSection(sectionDown);
+    // }
   }
   onUpLession() {
     let lectureUp: Lecture = this.getLectureSelection();
     //Don't run anything if the first lession
     if (lectureUp.id == this.lectures[0].id) {
-      console.log('Lession can not up' + lectureUp);
-      return;
+      if (this.listDeepSection[0].lecture[0].id == lectureUp.id) {
+        console.log('Lession can not up' + lectureUp);
+        return;
+      }
+      for (let i = 0; i < this.sections.length - 1; i++) {
+        if (this.sections[i].id == lectureUp.sectionId) {
+          lectureUp.sectionId = this.sections[i - 1].id;
+        }
+      }
     }
     let lectureSwap = new Lecture();
     let len = this.lectures.length - 1;
@@ -242,14 +290,36 @@ export class FullCourseService {
 
   onDownLession() {
     let lectureDown: Lecture = this.getLectureSelection();
-
     if (lectureDown.id == this.lectures[this.lectures.length - 1].id) {
-      console.log('Can not down this lecture' + lectureDown);
-      return;
+      //Case: as section empty below
+      if (
+        this.listDeepSection[this.listDeepSection.length - 1].lecture.length >
+          0 &&
+        lectureDown.id ==
+          this.listDeepSection[
+            this.listDeepSection[this.listDeepSection.length - 1].lecture
+              .length - 1
+          ].lecture[
+            this.listDeepSection[this.listDeepSection.length - 1].lecture
+              .length - 1
+          ].id
+      ) {
+        console.log('Can not down this lecture' + lectureDown);
+        return;
+      }
+
+      for (let i = 0; i < this.sections.length - 1; i++) {
+        if (this.sections[i].id == lectureDown.sectionId) {
+          lectureDown.sectionId = this.sections[i + 1].id;
+          this.onSaveLecture(lectureDown);
+          return;
+        }
+      }
     }
+
     let lectureSwapDown = new Lecture();
     let len = this.lectures.length - 1;
-    for (let i = len; i >= 1; i++) {
+    for (let i = len; i >= 1; i--) {
       if (this.lectures[i - 1].id == lectureDown.id) {
         lectureSwapDown = this.lectures[i];
       }
@@ -287,47 +357,79 @@ export class FullCourseService {
     return this.courses;
   }
   getData() {
-    this.lectures=[];
-    this.sections=[];
-    this.listDeepSection=[];
-    let apiGetLectureOfCourse=this.apiUrlCourse+'/' +this.idCourse+"/lectures"
+    this.lectures = [];
+    this.sections = [];
+    this.listDeepSection = [];
+    let apiGetLectureOfCourse =
+      this.apiUrlCourse + '/' + this.idCourse + '/lectures';
     this.http
       .get<{ message: string; count: number; sections: Section[] }>(
-       this.apiUrlSection,
+        this.apiUrlSection,
         {
           headers: this.headers,
           params: new HttpParams().set('courseId', this.idCourse),
         }
       )
       .subscribe((response) => {
-
         this.sections = response.sections;
-        console.log(this.sections); 
+        console.log(this.sections);
         console.log(response.sections);
         //get section
         this.http
           .get<{ message: string; count: number; lectures: Lecture[] }>(
-           apiGetLectureOfCourse,
+            apiGetLectureOfCourse,
             {
               headers: this.headers,
               // params: new HttpParams().set('courseId', this.idCourse),
             }
           )
-          .subscribe((response) => {
-            this.lectures = response.lectures;
+          .toPromise()
+          .then((response) => {
+            this.lectures = response.lectures.sort((l1, l2) => {
+              if (l1.lectureOrder > l2.lectureOrder) {
+                return 1;
+              }
+              if (l1.lectureOrder < l2.lectureOrder) return -1;
+              return 0;
+            });
+            this.sections = this.sections.sort((s1, s2) => {
+              if (s1.sectionOrder > s2.sectionOrder) return 1;
+              if (s1.sectionOrder < s2.sectionOrder) return -1;
+
+              return 0;
+            });
+            console.log('reverse');
+            console.log(this.lectures);
+            console.log(this.sections);
             this.sections.forEach((section) => {
               console.log(section.id);
-              let tmpLecturers: Lecture[] = this.lectures.filter(
+              let tmpLectures: Lecture[] = [];
+              tmpLectures = this.lectures.filter(
                 (lecture) => lecture.sectionId == section.id
               );
               console.log('Lecture array ne');
-              console.log(tmpLecturers);
+              console.log(tmpLectures);
               this.listDeepSection.push(
-                new SectionDummy(section.id, section.title, tmpLecturers)
+                new SectionDummy(section.id, section.title, tmpLectures)
+              );
+            });
+            console.log('Dummy');
+            console.log(this.listDeepSection);
+          })
+          .catch((error) => {
+            this.sections = this.sections.sort((s1, s2) => {
+              if (s1.sectionOrder > s2.sectionOrder) return 1;
+              if (s1.sectionOrder < s2.sectionOrder) return -1;
+
+              return 0;
+            });
+            this.sections.forEach((section) => {
+              this.listDeepSection.push(
+                new SectionDummy(section.id, section.title, [])
               );
             });
           });
-          
+
         console.log('Deep section');
         console.log(this.listDeepSection);
       });
@@ -345,7 +447,6 @@ export class FullCourseService {
     //          new SectionDummy(section.id, section.title, tmpLecturers)
     //        );
     // })
-
   }
   getLectures(): Observable<Lecture[]> {
     this.http
@@ -360,12 +461,13 @@ export class FullCourseService {
   getSectionDummy() {
     return this.listDeepSection;
   }
-  getLectureVideo(idLecture: string){
+  getLectureVideo(idLecture: string) {
     //Tmp
-      return this.http
-      .get<{ message: string; count: number; lectures: Lecture[] }>(
-        this.apiUrlLecture
-      );
+    return this.http.get<{
+      message: string;
+      count: number;
+      lectures: Lecture[];
+    }>(this.apiUrlLecture);
   }
   getTitleContent() {
     console.log(this.idItem);
@@ -387,6 +489,11 @@ export class FullCourseService {
   }
   setIdCourseSelection(idCourse: string) {
     this.idCourse = idCourse;
+    this.courses.forEach((mCourse) => {
+      if (mCourse.id == idCourse) {
+        this.course = mCourse;
+      }
+    });
   }
   setCourse(course: Course) {
     this.course.title = course.title;
@@ -396,7 +503,7 @@ export class FullCourseService {
     //TODO: url find where
     this.course.thumbnailUrl = course.thumbnailUrl;
   }
-  
+
   getDataServe() {
     this.getData();
   }
@@ -406,36 +513,32 @@ export class FullCourseService {
     if (this.typeSelection == VideoType.course) {
       switch (this.wayModify) {
         case ModifyType.delete:
-          this.onDeleteCourse();
-          return;
+          return this.onDeleteCourse();
+
         case ModifyType.save:
-          this.onSaveCourse();
-          return;
+          return this.onSaveCourse();
       }
     } else if (this.typeSelection == VideoType.section) {
       switch (this.wayModify) {
         case ModifyType.delete:
-          this.onDeleteSection();
-          return;
+          return this.onDeleteSection();
 
         case ModifyType.goUp:
-          this.onUpSection();
-          return;
+          return this.onUpSection();
+
         case ModifyType.goDown:
-          this.onDownSection();
-          return;
+          return this.onDownSection();
       }
     } else if (this.typeSelection == VideoType.lession) {
       switch (this.wayModify) {
         case ModifyType.delete:
-          this.onDeleteLecture();
-          return;
+          return this.onDeleteLecture();
+
         case ModifyType.goUp:
-          this.onUpLession();
-          return;
+          return this.onUpLession();
+
         case ModifyType.goDown:
-          this.onDownLession();
-          return;
+          return this.onDownLession();
       }
     }
   }
@@ -461,49 +564,57 @@ export class FullCourseService {
       if (this.typeSelection == VideoType.section) {
         let tmpSection = new Section();
         tmpSection.title = title;
-        tmpSection.courseId = this.idCourse
+        tmpSection.courseId = this.idCourse;
         tmpSection.isHidden = false;
 
-        if(this.sections.length>0){
+        if (this.sections.length > 0) {
           tmpSection.sectionOrder =
-          this.sections[this.sections.length - 1].sectionOrder + 1;
+            this.sections[this.sections.length - 1].sectionOrder + 1;
+        } else {
+          tmpSection.sectionOrder = 0;
         }
-        else{
-          tmpSection.sectionOrder=0;
-        }
-        console.log('Section new')
+        console.log('Section new');
         console.log(tmpSection);
         this.onCreateSection(tmpSection);
       } else if (this.typeSelection == VideoType.lession) {
         let tmpLecture = new Lecture();
         //TODO: add more about File Video
         tmpLecture.title = title;
-       
-        tmpLecture.sectionId = this.getSectionSelection()[0].id;
-        console.log('Thanh ne');
-        console.log(tmpLecture.sectionId)
-        tmpLecture.idHidden = false;
-        let fromOrder=-1;
-        for(let i=0; i< this.listDeepSection.length; i++){
-          if(this.listDeepSection[i].section_id==tmpLecture.sectionId){
-            if(this.listDeepSection[i].lecture.length>0){
-              tmpLecture.lectureOrder= this.listDeepSection[i].lecture[this.listDeepSection[i].lecture.length-1].lectureOrder+1;
-             
-            }
-            else{
-              tmpLecture.lectureOrder= this.listDeepSection[i-1].lecture[this.listDeepSection[i-1].lecture.length-1].lectureOrder+1;
 
+        tmpLecture.sectionId = this.getSectionSelection()[0].id;
+        console.log('sectio select');
+        console.log(tmpLecture.sectionId);
+        tmpLecture.isHidden = false;
+        let fromOrder = this.lectures.length - 1;
+        for (let i = 0; i < this.listDeepSection.length; i++) {
+          if (this.listDeepSection[i].section_id == tmpLecture.sectionId) {
+            if (this.listDeepSection[i].lecture.length > 0) {
+              tmpLecture.lectureOrder =
+                this.listDeepSection[i].lecture[
+                  this.listDeepSection[i].lecture.length - 1
+                ].lectureOrder + 1;
+            } else {
+              //Case: when dosen't has any lecture in this course, it make listDeepSection.lecture is null
+              if (this.lectures.length <= 0) {
+                tmpLecture.lectureOrder = 0;
+                this.onCreateLecture(tmpLecture);
+                return;
+              }
+              tmpLecture.lectureOrder =
+                this.listDeepSection[i - 1].lecture[
+                  this.listDeepSection[i - 1].lecture.length - 1
+                ].lectureOrder + 1;
             }
           }
         }
-        for(let j=0; j< this.lectures.length; j++){
-          if(this.lectures[j].sectionId== tmpLecture.sectionId){
-            fromOrder=j;
+        for (let j = 0; j < this.lectures.length; j++) {
+          if (this.lectures[j].lectureOrder == tmpLecture.lectureOrder - 1) {
+            fromOrder = j;
           }
         }
-        for(let k=fromOrder+1; k< this.lectures.length;k++){
-          this.lectures[k].lectureOrder= this.lectures[k].lectureOrder+1;
-            this.onCreateLecture(this.lectures[k]);
+        for (let k = fromOrder + 1; k < this.lectures.length; k++) {
+          this.lectures[k].lectureOrder = this.lectures[k].lectureOrder + 1;
+          this.onSaveLecture(this.lectures[k]);
         }
         this.onCreateLecture(tmpLecture);
       }
@@ -526,74 +637,73 @@ export class FullCourseService {
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
       .reverse();
-      
-      const upload = (chunk: Blob, chunkId: number) => {
-        return new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.open(
-            "post",
-            `${this.baseURL}courses/867d1a08-6150-4edf-a6a5-3613fa2954cc/thumbnail`
-          );
 
-          xhr.setRequestHeader("Content-Type", "application/octet-stream");
-          xhr.setRequestHeader("X-Chunk-Id", String(chunkId));
-          xhr.setRequestHeader("X-Content-Id", fileId);
-          xhr.setRequestHeader("X-Chunk-Length", String(chunk.size));
-          xhr.setRequestHeader("X-Content-Length", String(file.size));
-          xhr.setRequestHeader("X-Content-Name", file.name);
-          xhr.setRequestHeader("X-Chunks-Quantity", String(chunksQuantity));
+    const upload = (chunk: Blob, chunkId: number) => {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+          'post',
+          `${this.baseURL}courses/867d1a08-6150-4edf-a6a5-3613fa2954cc/thumbnail`
+        );
 
-          // Set token to request header
-          xhr.setRequestHeader(
-            "Authorization",
-            `Bearer `+localStorage.getItem('token')
-          );
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+        xhr.setRequestHeader('X-Chunk-Id', String(chunkId));
+        xhr.setRequestHeader('X-Content-Id', fileId);
+        xhr.setRequestHeader('X-Chunk-Length', String(chunk.size));
+        xhr.setRequestHeader('X-Content-Length', String(file.size));
+        xhr.setRequestHeader('X-Content-Name', file.name);
+        xhr.setRequestHeader('X-Chunks-Quantity', String(chunksQuantity));
 
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              resolve({ status: 200, data: JSON.parse(this.responseText) });
-            }
-            if (xhr.readyState === 4 && xhr.status === 201) {
-              resolve({ status: 201, data: JSON.parse(this.responseText) });
-            }
+        // Set token to request header
+        xhr.setRequestHeader(
+          'Authorization',
+          `Bearer ` + localStorage.getItem('token')
+        );
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            resolve({ status: 200, data: JSON.parse(this.responseText) });
+          }
+          if (xhr.readyState === 4 && xhr.status === 201) {
+            resolve({ status: 201, data: JSON.parse(this.responseText) });
+          }
+        };
+
+        xhr.onerror = reject;
+
+        xhr.send(chunk);
+      });
+    };
+
+    const sendNext = () => {
+      if (!chunksQueue.length) {
+        console.log('All parts uploaded');
+
+        return;
+      }
+      const chunkId = chunksQueue.pop();
+      const begin = chunkId! * chunkSize;
+      const chunk = file.slice(begin, begin + chunkSize);
+
+      upload(chunk, chunkId!)
+        .then((res) => {
+          const castedData = res as {
+            status: number;
+            data: { [index: string]: string };
           };
+          if (castedData.status === 201) {
+            console.log(castedData.data);
+            console.log('***', 'Upload successfully');
+          }
 
-          xhr.onerror = reject;
-
-          xhr.send(chunk);
+          sendNext();
+        })
+        .catch(() => {
+          chunksQueue.push(chunkId!);
         });
-      };
+    };
 
-      const sendNext = () => {
-        if (!chunksQueue.length) {
-          console.log("All parts uploaded");
-
-          return;
-        }
-        const chunkId = chunksQueue.pop();
-        const begin = chunkId! * chunkSize;
-        const chunk = file.slice(begin, begin + chunkSize);
-
-        upload(chunk, chunkId!)
-          .then((res) => {
-            const castedData = res as {
-              status: number;
-              data: { [index: string]: string };
-            };
-            if (castedData.status === 201) {
-              console.log(castedData.data);
-              console.log("***", "Upload successfully");
-            }
-
-            sendNext();
-          })
-          .catch(() => {
-            chunksQueue.push(chunkId!);
-          });
-      };
-
-      sendNext();
-
+    sendNext();
   }
   handleUpdateWithVideo(lecture: File) {
     // if (this.wayModify == ModifyType.new) {
@@ -610,7 +720,6 @@ export class FullCourseService {
     //         tmpLecture= this.lectures[i];
     //         last=i;
     //     }
-      
     //   lecture.set('title', title);
     //   lecture.set('sectionId', tmpSection.id);
     //   lecture.set('lectureOrder', String(tmpLecture.lectureOrder+1));
@@ -618,7 +727,6 @@ export class FullCourseService {
     //   lecture.set('updatedAt', String(tmpLecture.updatedAt));
     //   lecture.set('isHidden', String(tmpLecture.idHidden));
     //   //find last lecture of this section and update
-    
     //   //Update
     //   this.updateLectureBelow(last+1);
     //   //save video
@@ -655,17 +763,20 @@ export class FullCourseService {
     console.log(section);
     const url = `${this.apiUrlSection}/${section.id}`;
 
-    this.http.put<{ message: String; count: Number; section: Section }>(
-      url,
-      {
-        title: section.title,
-        courseId: section.courseId,
-        sectionOrder: section.sectionOrder,
-        isHidden: section.isHidden,
-      },
-    httpOptions).subscribe(response=>{
-      console.log(response);
-    });
+    this.http
+      .put<{ message: String; count: Number; section: Section }>(
+        url,
+        {
+          title: section.title,
+          courseId: section.courseId,
+          sectionOrder: section.sectionOrder,
+          isHidden: section.isHidden,
+        },
+        httpOptions
+      )
+      .subscribe((response) => {
+        console.log(response);
+      });
 
     // this.mSectionList.forEach((dataSection)=>{
     //     if(dataSection.id== sectionId){
@@ -680,6 +791,7 @@ export class FullCourseService {
     console.log('Save lecturer ');
     console.log(lecture);
     const url = `${this.apiUrlLecture}/${lecture.id}`;
+    console.log(url);
     // return this.http.put<Lecture>(url, lecturer, httpOptions);
     this.http
       .put<{ message: String; count: Number; lecture: Lecture }>(
@@ -690,11 +802,14 @@ export class FullCourseService {
           lectureOrder: lecture.lectureOrder,
           createdAt: lecture.createdAt,
           updatedAt: lecture.updatedAt,
-          isHidden: lecture.idHidden,
+          isHidden: lecture.isHidden,
+          sectionId: lecture.sectionId,
         },
         httpOptions
       )
       .subscribe((response) => {
+        console.log('hhsjdsd');
+        console.log(response);
         return response.lecture;
       });
   }
@@ -709,12 +824,14 @@ export class FullCourseService {
       .put<{ message: String; count: Number; course: Course }>(
         url,
         {
+          id: this.course.id,
           title: this.course.title,
           courseDescription: this.course.courseDescription,
           price: this.course.price,
           courseType: this.course.courseType,
           thumbnailUrl: this.course.thumbnailUrl,
           isHidden: this.course.isHidden,
+          grade: this.course.grade,
         },
         httpOptions
       )
@@ -725,28 +842,34 @@ export class FullCourseService {
   onDeleteSection() {
     //TODO: Http
     const url = `${this.apiUrlSection}/${this.idItem}`;
-    return this.http.delete<{ message: string }>(url,httpOptions).subscribe((response) => {
-      console.log(response.message);
-      console.log('Delete Section :' + this.idItem);
-    });
+    return this.http
+      .delete<{ message: string }>(url, httpOptions)
+      .subscribe((response) => {
+        console.log(response.message);
+        console.log('Delete Section :' + this.idItem);
+      });
   }
   onDeleteCourse() {
-    //TODO: Http
-
-    const url = `${this.apiUrlCourse}/${this.idItem}`;
-    return this.http.delete<{ message: string }>(url,httpOptions).subscribe((response) => {
-      console.log(response.message);
-      console.log('Delete Course :' + this.idItem);
-    });
+    //TODO: Httpf
+    const url = `${this.apiUrlCourse}/${this.idCourse}`;
+    return this.http
+      .delete<{ message: string }>(url, httpOptions)
+      .subscribe((response) => {
+        console.log(response.message);
+        console.log('Delete Course :' + this.idItem);
+      });
   }
   onDeleteLecture() {
     //TODO: Http
-    const url = `${this.apiUrlLecture}/${this.course.id}`;
-
-    return this.http.delete<{ message: string }>(url,httpOptions).subscribe((response) => {
-      console.log(response.message);
-      console.log('Delete Section :' + this.idItem);
-    });
+    const url = `${this.apiUrlLecture}/${this.idItem}`;
+    console.log('delete');
+    console.log(url);
+    return this.http
+      .delete<{ message: string }>(url, httpOptions)
+      .subscribe((response) => {
+        console.log(response.message);
+        console.log('Delete Section :' + this.idItem);
+      });
   }
   onCreateSection(section: Section) {
     // const requestOptions: HttpHeaders = { headers: this.authHeader };
@@ -765,11 +888,11 @@ export class FullCourseService {
       )
       .subscribe((response) => {
         if (response.count > 0) {
-          this.getData();
         }
+        console.log(response);
       });
   }
-  
+
   onCreateCourse(course: Course) {
     console.log('Create course ' + course.title);
     //Course default
@@ -802,33 +925,40 @@ export class FullCourseService {
         httpOptions
       )
       .subscribe((response) => {
-        this.course = response.course;
-        this.idCourse = this.course.id;
-
-        let firstSection: Section = new Section();
-        firstSection.title = 'Section 1';
-        firstSection.courseId = course.id;
-        firstSection.sectionOrder = 0;
-        this.onCreateSection(firstSection);
+        if (course) {
+          this.course = response.course;
+          this.idCourse = this.course.id;
+          console.log('Id COurse');
+          console.log(this.idCourse);
+          let firstSection: Section = new Section();
+          firstSection.title = 'Section 1';
+          firstSection.courseId = course.id;
+          firstSection.sectionOrder = 0;
+          this.onCreateSection(firstSection);
+          this.initCourses();
+        }
       });
   }
   onCreateLecture(lecture: Lecture) {
     console.log('Create lecturer ' + lecture.title);
     console.log(lecture);
-    return this.http.post<{ message: String; count: Number; lecture: Lecture }>(
-      this.apiUrlLecture,
-      {
-        id: lecture.id,
-        title: lecture.title,
-        lectureOrder: lecture.lectureOrder,
-        createdAt: lecture.createdAt,
-        updatedAt: lecture.updatedAt,
-        isHidden: lecture.idHidden,
-      },
-      httpOptions
-    ).subscribe(response=>{
-      console.log(response);
-    })
+    return this.http
+      .post<{ message: String; count: Number; lecture: Lecture }>(
+        this.apiUrlLecture,
+        {
+          id: lecture.id,
+          title: lecture.title,
+          sectionId: lecture.sectionId,
+          lectureOrder: lecture.lectureOrder,
+          createdAt: lecture.createdAt,
+          updatedAt: lecture.updatedAt,
+          isHidden: lecture.isHidden,
+        },
+        httpOptions
+      )
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
   //=============== Create HTTP===================
 
@@ -858,7 +988,6 @@ export class FullCourseService {
       updatedAt: new Date(),
     },
     {
-      
       courseId: '1',
       id: 'course1sec2',
       title: 'Phương trình tuyến tính',
@@ -873,7 +1002,7 @@ export class FullCourseService {
       id: 'co1sec1lec1',
       title: 'Video 1',
       lectureOrder: 0,
-      idHidden: false,
+      isHidden: false,
       sectionId: 'course1sec1',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -882,7 +1011,7 @@ export class FullCourseService {
       id: 'co1sec1lec2',
       title: 'Video 2',
       lectureOrder: 1,
-      idHidden: false,
+      isHidden: false,
       sectionId: 'course1sec1',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -891,7 +1020,7 @@ export class FullCourseService {
       id: 'co1sec2lec1',
       title: 'Video 1',
       lectureOrder: 2,
-      idHidden: false,
+      isHidden: false,
       sectionId: 'course1sec2',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -900,7 +1029,7 @@ export class FullCourseService {
       id: 'co1sec2lec2',
       title: 'Video 2',
       lectureOrder: 3,
-      idHidden: false,
+      isHidden: false,
       sectionId: 'course1sec2',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -909,7 +1038,7 @@ export class FullCourseService {
       id: 'co1sec2lec3',
       title: 'Video 3',
       lectureOrder: 4,
-      idHidden: false,
+      isHidden: false,
       sectionId: 'course1sec2',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -923,7 +1052,7 @@ export class FullCourseService {
       lectureId: 'co1sec1lec1',
       createdAt: new Date(),
       updatedAt: new Date(),
-      idHidden: false,
+      isHidden: false,
     },
     {
       id: 'lec1',
@@ -932,7 +1061,7 @@ export class FullCourseService {
       lectureId: 'co1sec1lec2',
       createdAt: new Date(),
       updatedAt: new Date(),
-      idHidden: false,
+      isHidden: false,
     },
     {
       id: 'lec2',
@@ -941,7 +1070,7 @@ export class FullCourseService {
       lectureId: 'co1sec2lec1',
       createdAt: new Date(),
       updatedAt: new Date(),
-      idHidden: false,
+      isHidden: false,
     },
     {
       id: 'lec3',
@@ -950,7 +1079,7 @@ export class FullCourseService {
       lectureId: 'co1sec2lec2',
       createdAt: new Date(),
       updatedAt: new Date(),
-      idHidden: false,
+      isHidden: false,
     },
     {
       id: 'lec4',
@@ -959,7 +1088,7 @@ export class FullCourseService {
       lectureId: 'co1sec2lec3',
       createdAt: new Date(),
       updatedAt: new Date(),
-      idHidden: false,
+      isHidden: false,
     },
   ];
 }
