@@ -39,7 +39,7 @@ export class SectionCourseComponent implements OnInit, OnChanges {
     // this.listLecture= this.courseService.getLecturesBySectionId(sectionId);
     // //! OPEN COMMAND WHEN HAVE API
     this.courseService.getLecturesBySectionId(sectionId).subscribe(responseData=>{
-      this.listLecture= responseData.lectures
+      this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
       console.log("Lecture ")
       console.log(this.listLecture)
     })
@@ -56,11 +56,18 @@ export class SectionCourseComponent implements OnInit, OnChanges {
 
   loadLecture(lectureId:string)
   {
-    let courseId;
-    this.activeRoute.params.subscribe(params=>{
-      courseId=params['courseId'];
-      
+  
+    this.activeRoute.fragment.subscribe(fragment=>{
+      if(fragment=='learning')
+      {
+        let courseId;
+        this.activeRoute.params.subscribe(params=>{
+          courseId=params['courseId'];
+          
+        })
+        this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+      }
     })
-    this.route.navigate(['/learning',courseId,this.section.id,lectureId]);  }
+  }
 
 }

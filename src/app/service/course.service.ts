@@ -184,20 +184,14 @@ export class CourseService{
     //!DONE 
     getListCourseGrade(level_: GRADES, type_:COURSE_TYPE){
 
-        //*Create header
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
+       
        return this.http
         .get<{message:string,count:number, courses: Course[]}>(
         this.baseUrl+ '/courses',
         {
-            headers: headers,
-            params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',true)
+            params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',false)
         })
-        .pipe(
-            catchError(this.handleError)
-        );
+        
     }
 
 
@@ -314,10 +308,7 @@ export class CourseService{
         {
             params: new HttpParams().set('courseId', courseId)
         })
-        .pipe(
-            
-            catchError(this.handleError)
-        );
+        
        // return sectionList.filter(section=> section.courseId === courseId);
     }
 
@@ -357,18 +348,12 @@ export class CourseService{
      * @param learnerId 
      * @returns Observable<Course[]>
      */
-    getMyCourses(learnerId: string):Observable<Course[]>{
-        // return this.http
-        // .get<Course[]>('URL',
-        // {
-        //     params: new HttpParams().set('learnerId', learnerId)
-        // }).pipe(
-        //     map((responseData)=>{ 
-        //         return responseData;
-        //     })
-        // );
-        //Mock data
-        return of(this.courses);
+    getMyCourses(learnerId: string){
+        return this.http
+        .get<{message:string,count:number, enrollments: Enrollment[]}>('/enrollments',
+        {
+            params: new HttpParams().set('learnerId', learnerId)
+        })
    
     }
 

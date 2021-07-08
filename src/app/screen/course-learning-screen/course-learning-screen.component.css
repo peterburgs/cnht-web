@@ -32,6 +32,14 @@
     overflow: scroll;
 }
 
+@media (max-width: 767px) {
+    .content {
+        position: relative;
+        height: fit-content;
+        right: auto;
+    }
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }

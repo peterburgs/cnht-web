@@ -1,19 +1,14 @@
 .footer {
-    margin-top: 150px;
-    height: 150px;
     box-shadow: 1px -3px 5px 1px rgba(0, 0, 0, 0.1);
     background-color: rgb(102, 102, 102);
     color: white;
     /* position: absolute; */
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    
+    clear: both;
+    position: relative;
+    height: 150px;
+    margin-top: 190px;
 }
 
 .footer p {
     margin-left: 10px;
 }
-
-

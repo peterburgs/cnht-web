@@ -39,9 +39,7 @@ export  class authenticationService {
         localStorage.setItem('role',user.userRole);
         localStorage.setItem('token',token);
 
-        //for admin
-        localStorage.setItem('role', ROLES.ADMIN);
-        
+        //for admin        
       }
   }
 

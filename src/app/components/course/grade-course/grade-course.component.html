@@ -1,12 +1,18 @@
 <div class="hotest-course">
-  <div class = "grade-number">
-   <h4 class="title">{{getLevelGradeName()}} </h4>
-    <a class="view-all "  (click) = "viewAllCourse()">View all  </a>
+    <div class="grade-number">
+        <h4 class="title">{{getLevelGradeName()}} </h4>
+        <a class="view-all " (click)="viewAllCourse()">View all  </a>
 
-  </div> 
+    </div>
 
     <div class="grade-course ">
-        <app-small-course  class="pull-right" *ngFor="let item of smallCourses" [course]="item"></app-small-course>
+        <div class="lds-ring" *ngIf="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <app-small-course class="pull-right" *ngFor="let item of smallCourses" [course]="item"></app-small-course>
     </div>
 
 </div>

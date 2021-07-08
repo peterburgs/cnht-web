@@ -103,9 +103,13 @@ export class DepositRequestService{
         updatedAt: new Date()
     }
 ]
+<<<<<<< HEAD
 
 
 private userList?:User[];
+=======
+private userList: User[] = [];
+>>>>>>> 756ef4b... done comment
 private depositRequestList: DepositRequest[] = [];
     constructor(
         private userService: UserService,

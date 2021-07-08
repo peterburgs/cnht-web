@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Comment } from 'src/app/models/comment.model';
 import { Course } from 'src/app/models/course.model';
 import { User } from 'src/app/models/user.model';
@@ -23,12 +24,15 @@ export class CommentComponent implements OnInit, OnChanges {
   @Input()lectureId!:string;
   @Input()sectionId!:string;
 
+  isLoadingComment=true;
+  successfulComment=true;
   learner!: User;
   avatarUrl!: string | null;
   isLoggedin: boolean=false;
   commentList:Comment[]=[];
   commentInput:string="";
-  
+  //start from clicking button post until successfully post
+  isCommenting=false;
   commentParents:Comment[]=[];
   commentChilds : CommentChild[]= []
 
@@ -45,15 +49,14 @@ export class CommentComponent implements OnInit, OnChanges {
     this.route.params.subscribe(params=>{
       this.lectureId= params['lectureId'];
       this.sectionId=params['sectionId'];
+      //*get comments of a lecture by id
+      console.log("reload comment")
+      this.getCommentByLectureId();
     })
-    this.learner= this.userService.getUserInLocalStore();
 
-    //*get comments of a lecture by id
-    this.getCommentByLectureId();
-
-    //TODO: Sort comment with created date
-    this.getParentComment();
-    this.getChildComment();
+    console.log("ON init")
+    this.userService.getUserInLocalStore().subscribe(user=>this.learner= user)
+    
   }
 
   ngOnChanges(changes:SimpleChanges){
@@ -68,7 +71,9 @@ export class CommentComponent implements OnInit, OnChanges {
     if(localStorage.getItem('isLoggedin')=='true')
     {
       this.isLoggedin= true;
-      this.learner=this.userService.getUserInLocalStore();
+      let email=localStorage.getItem('uemail');
+      if(email!=null)
+       this.userService.getUserByEmail(email).subscribe(responseData=> this.learner= responseData.users[0])
       if(localStorage.getItem('uphotoUrl'))
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');
@@ -78,13 +83,29 @@ export class CommentComponent implements OnInit, OnChanges {
 
   //TODO: GET COMMENTS BY LECTURE ID
   getCommentByLectureId(){
-
-    
-    this.commentService.getCommentByLectureId(this.lectureId).subscribe(comments=>{
-      this.commentList= comments;
-      
+    this.commentList=[]
+    this.commentChilds=[]
+    this.commentParents=[]
+    this.isLoadingComment=true;
+    this.commentService.getCommentByLectureId(this.lectureId)
+    .pipe(
+      catchError((error)=>{
+          console.log(error)
+          this.isLoadingComment= false;
+          
+         return throwError(error)
+          
+      })
+    )
+    .subscribe(responseData=>{
+      this.commentList= responseData.comments;
+      this.getParentComment();
+     this.getChildComment();
+     console.log("**** COMMENT LIST **********")
+     console.log(this.commentList)
+     this.isLoadingComment=false;
     })
-    console.log(this.commentList)
+    
   }
 
   /**
@@ -92,11 +113,15 @@ export class CommentComponent implements OnInit, OnChanges {
    */
   getParentComment(){
     this.commentParents=[];
+    console.log(this.commentParents)
     this.commentList.forEach(comment => {
-      if(comment.parentId=="" && comment.idHidden==false){
+      if(comment.parentId=='' && comment.isHidden== false){
          this.commentParents.push(comment)
+         console.log("Parent ...")
       }
     });
+
+    this.commentParents.sort((a,b)=>{return new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime()})
 
     console.log(this.commentParents)
    
@@ -111,36 +136,52 @@ export class CommentComponent implements OnInit, OnChanges {
         const commentChild : CommentChild= new CommentChild;
         commentChild.parentId= comment.id;
         commentChild.subComment= this.commentList.filter(comment_=> comment_.parentId=== comment.id);
-        
+        commentChild.subComment.sort((a,b)=>{return (new Date(a.createdAt).getTime()- new Date(b.createdAt).getTime())})
         this.commentChilds.push(commentChild);
     })
+
     console.log(this.commentChilds)
   }
 
   postComment(){
-    const comment: Comment= {
-      id:  Date.now.toString(),
-      commentText: this.commentInput,
-      parentId:"" ,
-      userId: this.learner.id ,
-      lectureId:  this.lectureId,
-      createdAt: new Date(),
-      updatedAt:  new Date(),
-      idHidden: false
+    if(this.learner!=undefined){
+      const comment: Comment= {
+        id:  "",
+        commentText: this.commentInput,
+        parentId:"" ,
+        userId: this.learner.id,
+        lectureId:  this.lectureId,
+        createdAt: new Date(),
+        updatedAt:  new Date(),
+        isHidden: false
+      }
+      this.isCommenting= true;
+      console.log(comment)
+      this.commentService.saveComment(comment)
+      .pipe(
+        catchError((error)=>{
+            console.log(error)
+            if(error.error.count==0)
+              this.successfulComment= false;
+            this.isCommenting= false;
+           return throwError(error)
+            
+        })
+      )
+      .subscribe((responseData)=>{
+        console.log(responseData)
+        this.commentInput='';
+        this.isCommenting= false;
+        this.getCommentByLectureId();
+      })
+      
+      console.log(this.commentParents)
+      console.log(this.commentChilds)
+  
+     
     }
-
-    this.commentService.saveComment(comment);
-    console.log("list comment:")
-    this.getCommentByLectureId();
-
-    this.getParentComment();
-    console.log(this.commentParents)
-
-    this.getChildComment();
-    console.log(this.commentChilds)
-
-    this.commentInput='';
   }
+    
   
 }
 

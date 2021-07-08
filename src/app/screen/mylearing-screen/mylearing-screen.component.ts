@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { User } from 'src/app/models/user.model';
 import { CourseService } from 'src/app/service/course.service';
@@ -20,16 +20,30 @@ export class MylearingScreenComponent implements OnInit {
   constructor(
     private courseService: CourseService,
     private router: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private route: Router
     ) { }
 
   ngOnInit(): void {
+
+    let isLoggin=localStorage.getItem('isLoggedin');
+    if(isLoggin=="true"){
+      let email=localStorage.getItem('uemail');
+      if(email!=null)
+        this.userService.getUserByEmail(email)
+        .subscribe(responseData=> this.learner= responseData.users[0])
+    }
+    else{
+      this.route.navigate(['/login'] )
+    }
+    
     this.getMyCourses();
   }
 
-  getMyCourses(){
-    this.learner= this.userService.getUserInLocalStore();
-    this.courseService.getMyCourses(this.learner.id).subscribe(courses=>this.myCourseList= courses)
+  getMyCourses(){ 
+    //this.userService.getUserInLocalStore().subscribe(user=>this.learner= user)
+    //.courseService.getMyCourses(this.learner.id)
+    
   }
 
   searchCourse(input:string){

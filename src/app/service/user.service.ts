@@ -76,9 +76,10 @@ export class UserService{
             'Something bad happened; please try again later.');
     }
     
-    getUserInLocalStore():User{
+    //TODO: EDIT THIS FUNCTION
+    getUserInLocalStore(){
         let learner = new User;
-        let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
+        let email=localStorage.getItem('uemail');
         if(email!=null)
         {
             console.log(email)
@@ -87,11 +88,11 @@ export class UserService{
           })
         }
         console.log(learner)
-        return learner;
+        return of(learner);
     }
 
     //if learner bought that course, return true
-    checkCourseBought(courseId: string, userId: string){
+    checkEnrollment(courseId: string, userId: string){
         //TODO: interact with database and check that user bought that course or not
         return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(
@@ -152,9 +153,7 @@ export class UserService{
         const headers = { headers: header ,params:new HttpParams().set('email', email)};
         return this.http
         .get<{message:string,count:number, users: User[]}>( this.baseUrl+'/users',headers)
-        // .pipe(
-        //     catchError(this.handleError)
-        // );
+        
     }
     
 
@@ -182,8 +181,14 @@ export class UserService{
     }
 
     //TODO:SEND GET METHOD TO GET USER BY USER ID
-    getUserById(learnerId:string):Observable<User>{
-        return of(this.users.find(user=> user.id===learnerId)!);
+    getUserById(learnerId:string){
+
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
+        const headers = { headers: header ,params:new HttpParams().set('id', learnerId)};
+        return this.http
+        .get<{message:string,count:number, users: User[]}>( this.baseUrl+'/users',headers)
     }
 
     

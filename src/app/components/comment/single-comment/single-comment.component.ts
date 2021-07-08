@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import * as moment from 'moment';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Comment } from 'src/app/models/comment.model';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
@@ -19,7 +20,8 @@ export class SingleCommentComponent implements OnInit {
   learner!: User;
   avatarUrl!: string | null;
   isLoggedin: boolean=false;
-  
+  isCommenting= false;
+  successfulComment=true;
   @Input() lectureId!:string;
   @Input() commentChilds: CommentChild[] = []; 
   @Input() commentParent!: Comment;
@@ -40,17 +42,20 @@ export class SingleCommentComponent implements OnInit {
     if(localStorage.getItem('isLoggedin')=='true')
     {
       this.isLoggedin= true;
-      this.learner=this.userService.getUserInLocalStore();
+      let email=localStorage.getItem('uemail');
+      if(email!=null)
+       this.userService.getUserByEmail(email).subscribe(responseData=> this.learner= responseData.users[0])
+      
       if(localStorage.getItem('uphotoUrl'))
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');
       } 
     }
 
-    this.learner=this.userService.getUserInLocalStore();
+    
 
     this.filterChild().subscribe(commentChild=>{
-      this.commentChildList= commentChild.subComment.filter(comment=> comment.idHidden===false)
+      this.commentChildList= commentChild.subComment.filter(comment=> comment.isHidden===false)
     })
     this.getCommentCreator();
     console.log(this.commentChildList)
@@ -59,20 +64,40 @@ export class SingleCommentComponent implements OnInit {
 
   postComment(){
     const comment: Comment= {
-      id:   "av",
+      id:   "",
       commentText: this.commentInput,
       parentId: this.commentParent.id,
       userId: this.learner.id ,
       lectureId:  this.lectureId,
       createdAt: new Date(),
       updatedAt:  new Date(),
-      idHidden: false,
+      isHidden: false,
       learner: this.learner
     }
 
-    this.commentService.saveComment(comment);
-    this.commentChildList.push(comment);
-    this.commentInput=""
+    this.isCommenting= true;
+      console.log(comment)
+      this.commentService.saveComment(comment)
+      .pipe(
+        catchError((error)=>{
+            console.log(error)
+            if(error.error.count==0)
+              this.successfulComment= false;
+            this.isCommenting= false;
+           return throwError(error)
+           this.commentInput=""
+            
+        })
+      )
+      .subscribe((responseData)=>{
+        console.log(responseData)
+        this.commentInput='';
+        this.isCommenting= false;
+        this.commentChildList.push(comment);
+        this.commentInput=""
+
+      })
+
   }
 
   /**
@@ -81,7 +106,7 @@ export class SingleCommentComponent implements OnInit {
    * @returns 
    */
   filterChild():Observable<CommentChild>{
-    const commentChild=this.commentChilds.find(comment=> comment.parentId=== this.commentParent.id && this.commentParent.idHidden===false )!;
+    const commentChild=this.commentChilds.find(comment=> comment.parentId=== this.commentParent.id && this.commentParent.isHidden===false )!;
     return of(commentChild)
   }
  
@@ -91,12 +116,12 @@ export class SingleCommentComponent implements OnInit {
    */
   getCommentCreator(){
     this.commentChildList.forEach(comment => {
-     this.userService.getUserById(comment.userId).subscribe(user=> comment.learner=user);  
+     this.userService.getUserById(comment.userId).subscribe(data=> comment.learner=data.users[0]);  
 
    });
 
    this.userService.getUserById(this.commentParent.userId)
-   .subscribe(user=>this.commentParent.learner=user);
+   .subscribe(data=>this.commentParent.learner=data.users[0]);
 
   }
 
