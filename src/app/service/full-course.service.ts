@@ -292,7 +292,6 @@ export class FullCourseService {
     this.listDeepSection=[];
     let apiGetLectureOfCourse=this.apiUrlCourse+'/' +this.idCourse+"/lectures"
     this.http
-<<<<<<< HEAD
       .get<{ message: string; count: number; sections: Section[] }>(
        this.apiUrlSection,
         {
@@ -332,50 +331,6 @@ export class FullCourseService {
         console.log('Deep section');
         console.log(this.listDeepSection);
       });
-=======
-      .get<{message:string, count:number,sections:Section[]}>(this.apiUrlSection, {headers:this.authHeader, params:new HttpParams().set('courseId',this.idCourse)})
-      .subscribe(response=>{
-            this.sections= response.sections;
-            console.log(response);
-            this.http.get<{message:string, count:number,lectures:Lecture[]}>
-                (this.apiUrlLecture, {headers:this.authHeader,params:new HttpParams().set('courseId', this.idCourse)}).subscribe(response=>{
-                    this.lectures= response.lectures
-                    this.sections.forEach((section)=>{
-                      let tmpLecturers: Lecture[] = this.lectures.filter(
-                        lecture => lecture.sectionId === section.id
-                      );
-                      console.log(tmpLecturers);
-                      this.listDeepSection.push(
-                        new SectionDummy(section.id, section.title, tmpLecturers)
-                      );
-                    })
-                })
-                console.log("Deep section")
-    console.log(this.listDeepSection);
-    
-      })
-
-      // .then((sectionsData) => {
-      //   this.sections = sectionsData;
-      //   this.http
-      //     .get<Lecture[]>(this.apiUrlLecture)
-      //     .toPromise()
-      //     .then((lecturesData) => {
-      //       this.lectures = lecturesData;
-      //       console.log(this.lectures);
-      //       this.sections.forEach((section) => {
-      //         console.log(section);
-      //         let tmpLecturers: Lecture[] = this.lectures.filter(
-      //           lecture => lecture.sectionId === section.id
-      //         );
-      //         console.log(tmpLecturers);
-      //         this.listDeepSection.push(
-      //           new SectionDummy(section.id, section.title, tmpLecturers)
-      //         );
-      //       });
-      //     });
-      // });
->>>>>>> 756ef4b... done comment
     // this.sections= this.mSectionList;
     // this.lectures= this.mLectureList;
     // this.videos= this.mVideo;
