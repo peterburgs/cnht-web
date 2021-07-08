@@ -69,18 +69,20 @@ export class SectionCourseComponent implements OnInit, OnChanges {
 
   loadLecture(lectureId:string)
   {
-  
     //*in detail course screen, learner can not click lecture link
     this.activeRoute.fragment.subscribe(fragment=>{
       if(fragment=='learning')
       {
-        let courseId;
+     let courseId;
+        
         this.activeRoute.params.subscribe(params=>{
           courseId=params['courseId'];
         })
-        this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+      this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+
       }
     })
+
   }
 
 }

@@ -16,7 +16,7 @@
 }
 
 .media-left {
-    width: 50px
+    width: 40px
 }
 
 .media-body {
@@ -24,8 +24,8 @@
 }
 
 .media-object {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .media-heading {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
 }
 
@@ -47,7 +47,7 @@
     font-style: italic;
     color: rgb(100, 100, 100);
     font-weight: 400;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .comment-content {
