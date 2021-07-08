@@ -141,7 +141,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
    * @returns 
    */
   handlePriceFormat(price:number):any{
-    return PriceFormat(price);
+   return PriceFormat(price);
   }
 
   /**

@@ -102,7 +102,7 @@ export  class authenticationService {
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
-      params:new HttpParams().set('userRole', ROLES.LEARNER)
+      params:new HttpParams().set('userRole', ROLES.ADMIN)
     };
     console.log(config);
     return  this.http
