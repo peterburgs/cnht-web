@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
@@ -15,6 +17,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   @Input() grade:GRADES=GRADES.TENTH;
   @Input() courseType:  COURSE_TYPE = COURSE_TYPE.THEORY;
   smallCourses:Course[]=[];
+  isLoading= true;
   constructor(private CourseService:CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -25,7 +28,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   ngOnChanges(changes:SimpleChanges):void{
       if(changes)
       {
-        this.getCourse();
+      //  this.getCourse();
       }
   }
 
@@ -33,6 +36,14 @@ export class GradeCourseComponent implements OnInit, OnChanges {
 
     this.smallCourses=[]
     this.CourseService.getListCourseGrade(this.grade, this.courseType)
+    .pipe(
+      catchError((error)=>{
+          console.log(error)
+          this.isLoading=false;
+         return throwError(error)
+          
+      })
+    )
     .subscribe(data=>{
       if(data.count!=0){
         this.smallCourses= data.courses
@@ -42,6 +53,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
       else{
         this.smallCourses=[]
       }
+      this.isLoading=false;
     } );
 
   }

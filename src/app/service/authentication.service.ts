@@ -39,9 +39,7 @@ export  class authenticationService {
         localStorage.setItem('role',user.userRole);
         localStorage.setItem('token',token);
 
-        //for admin
-        localStorage.setItem('role', ROLES.ADMIN);
-        
+        //for admin        
       }
   }
 
@@ -90,7 +88,7 @@ export  class authenticationService {
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
-      params:new HttpParams().set('userRole', ROLES.ADMIN)
+      params:new HttpParams().set('userRole', ROLES.LEARNER)
     };
     console.log(config);
     return  this.http

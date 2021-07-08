@@ -166,7 +166,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec1',
         createdAt: new Date("2019-01-16"),
         updatedAt:  new Date(),
-        idHidden: false
+        isHidden: false
     },
     {
         id: '2',
@@ -176,7 +176,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec1',
         createdAt: new Date("2020-01-16"),
         updatedAt:  new Date(),
-        idHidden: false
+        isHidden: false
     },
     {
         id: '3',
@@ -186,7 +186,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec1',
         createdAt: new Date("2020-08-15"),
         updatedAt:  new Date(),
-        idHidden: true
+        isHidden: true
     },
     {
         id: '4',
@@ -196,7 +196,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec1',
         createdAt: new Date("2021-07-5"),
         updatedAt:  new Date(),
-        idHidden: true
+        isHidden: true
     },
     {
         id: '5',
@@ -206,7 +206,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec1',
         createdAt: new Date(),
         updatedAt:  new Date(),
-        idHidden: false
+        isHidden: false
     },
     {
         id: '6',
@@ -216,7 +216,7 @@ export const listComment: Comment[]=[
         lectureId: 'co1sec1lec2',
         createdAt: new Date(),
         updatedAt:  new Date(),
-        idHidden: false
+        isHidden: false
     },
     {
         id: '7',
@@ -226,7 +226,7 @@ export const listComment: Comment[]=[
         lectureId: 'co2sec1lec1',
         createdAt: new Date(),
         updatedAt:  new Date(),
-        idHidden: false
+        isHidden: false
     }
 
 

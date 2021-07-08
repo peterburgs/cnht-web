@@ -1,8 +1,8 @@
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" [src]="course.thumbnailUrl" alt="{{course.title}}">
+    <img class="card-img-top" [src]="baseUrl+course.thumbnailUrl" alt="{{course.title}}">
     <div class="card-body">
         <div class="card-content">
-            <a routerLink="/detail/{{course.id}}/{{course.title}}">
+            <a routerLink="/detail/{{course.id}}" fragment="detail">
                 <h5 class="card-title">{{course.title | shorten}}</h5>
             </a>
             <p class="card-text">{{course.courseDescription}}</p>

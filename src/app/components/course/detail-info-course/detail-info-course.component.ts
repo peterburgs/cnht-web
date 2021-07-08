@@ -24,7 +24,7 @@ export class DetailInfoCourseComponent implements OnInit , OnChanges{
 
     console.log("detail info course")
     this.getStudentJoinedNumber();
-   this.getLectureByCourseId();
+    this.getLectureByCourseId();
 
   }
 
