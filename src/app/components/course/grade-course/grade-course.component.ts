@@ -28,7 +28,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   ngOnChanges(changes:SimpleChanges):void{
       if(changes)
       {
-        this.getCourse();
+      //  this.getCourse();
       }
   }
 
