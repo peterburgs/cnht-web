@@ -91,14 +91,13 @@ export class UserService{
         return of(learner);
     }
 
-    //if learner bought that course, return true
+    
     checkEnrollment(courseId: string, userId: string){
-        //TODO: interact with database and check that user bought that course or not
+        //TODO: interact with database and check that user enrollment that course or not
         return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(
             this.baseUrl+'/enrollments',
             {
-
                 params:new HttpParams().set('courseId', courseId ).set('learnerId',userId)
             }
         )

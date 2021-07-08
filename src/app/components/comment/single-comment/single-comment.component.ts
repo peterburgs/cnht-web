@@ -51,7 +51,6 @@ export class SingleCommentComponent implements OnInit {
         this.avatarUrl=localStorage.getItem('uphotoUrl');
       } 
     }
-
     
 
     this.filterChild().subscribe(commentChild=>{
