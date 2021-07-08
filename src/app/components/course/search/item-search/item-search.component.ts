@@ -19,9 +19,15 @@ export class ItemSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+  numberStudent: number = 0;
   getTotalNumberOfCourse(courseId: string){
-   return this.courseService.getTotalLeanerOfCourse(courseId);
+    this.courseService.getstudentJoinedNumber(courseId).subscribe(
+      responseData=>{
+        this.numberStudent= responseData.count;
+      }
+    )
+
+    return this.numberStudent;
 
 }
 
