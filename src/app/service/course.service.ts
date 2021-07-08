@@ -10,6 +10,7 @@ import { Lecture } from "../models/lecture.model";
 import { Section } from "../models/section.model";
 import { Video } from "../models/video.model";
 import {lectureList, sectionList} from 'src/app/util/mockData'
+import { authenticationService } from "./authentication.service";
 
 @Injectable({
     providedIn: 'root'
@@ -159,9 +160,15 @@ export class CourseService{
 ];
     private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 
-    
+    private httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          Authorization: this.authService.getToken()
+        })
+      };
 
-    constructor(private http : HttpClient){
+
+    constructor(private http : HttpClient, private authService: authenticationService){
         
     }
 
@@ -245,6 +252,25 @@ export class CourseService{
              console.log(response.courses)
          })
           
+     }
+
+     getAllCourse(){
+        // return this.http.get<{message:string,count:number, courses: Course[]}>(
+        //     this.baseUrl + '/courses'
+        // );
+
+        let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'token');
+       return this.http
+        .get<{message:string,count:number, courses: Course[]}>(
+            this.baseUrl+ '/courses',
+            {
+                headers: headers
+            }
+        ).pipe(
+            catchError(this.handleError)
+          );
      }
 
 
@@ -364,6 +390,8 @@ export class CourseService{
      * @returns total learner
      */
     getTotalLeanerOfCourse(id: string):number{
-        return 10;
+        var number = 0;
+       this.getstudentJoinedNumber(id).subscribe(list => number = list.count);
+       return number;
     }
 }

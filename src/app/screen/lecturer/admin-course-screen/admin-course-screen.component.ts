@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { CourseService } from 'src/app/service/course.service';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
@@ -13,6 +13,9 @@ import { authenticationService } from 'src/app/service/authentication.service';
 export class AdminCourseScreenComponent implements OnInit {
   courses: Course[]=[];
   isLoading=true;
+  message: string = "Find my course by title ....";
+  titleSearch: string = "";
+  listCourse: Course[] = [];
   //Login check
   public userDetails? = Object;
   constructor(private router: Router, 
@@ -32,9 +35,11 @@ export class AdminCourseScreenComponent implements OnInit {
     this.fullCourseService.initCourses().subscribe((response)=>{
       this.fullCourseService.setCourses(response.courses);
       this.courses=response.courses;  
-      
+      this.listCourse = this.courses;
       this.isLoading=!this.isLoading;
     })
+
+ 
     const storage = localStorage.getItem('google_auth');
 
 
@@ -58,6 +63,12 @@ export class AdminCourseScreenComponent implements OnInit {
     // this.fullCourseService.initCourses().subscribe((response)=>{
     //      this.courses=response.courses;
     //    })
+    if(this.authSevice.isAdmin())
+    this.fullCourseService.initCourses().subscribe((response)=>{
+      this.courses=response.courses;
+      this.listCourse = this.courses;
+    })
+    else this.router.navigateByUrl('/home').then();
   }
 
   signOut(): void {
@@ -74,5 +85,15 @@ export class AdminCourseScreenComponent implements OnInit {
         this.isLoading=true;
       });
   }
+
+  searchCourse($event: string){
+    this.titleSearch = $event;
+    this.getListCourseByTitle();
+  }
+
+  getListCourseByTitle(){
+    this.listCourse = this.courses.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
+  }
+
 
 }

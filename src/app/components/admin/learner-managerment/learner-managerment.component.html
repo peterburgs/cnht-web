@@ -5,6 +5,7 @@
             <span class = "btn icon-search" ><i class="fa fa-search " (click) = "searchUser()"></i></span>
             <input class="form-control search-input "  [(ngModel)] = "titleSearch"
             (keyup.enter) = "searchUser()"
+            (keyup) = "searchUser()"
             type="text "
             
             placeholder="Find learner by email or full name ">
@@ -12,6 +13,6 @@
     
         <div class="table-learner-managerment">
             <!-- <label>{{userService.getAllUser()}}</label> -->
-            <app-table-learner-managerment [listUsers] = "listUsers"></app-table-learner-managerment>
+            <app-table-learner-managerment [listUsers] = "listSearch"></app-table-learner-managerment>
         </div>
     </div>

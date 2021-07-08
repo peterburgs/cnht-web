@@ -19,27 +19,33 @@ export class ItemSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+  numberStudent: number = 0;
   getTotalNumberOfCourse(courseId: string){
-   return this.courseService.getTotalLeanerOfCourse(courseId);
+    this.courseService.getstudentJoinedNumber(courseId).subscribe(
+      responseData=>{
+        this.numberStudent= responseData.count;
+      }
+    )
+
+    return this.numberStudent;
 
 }
 
   handlePriceFormat(price:number):any{
 
-    var price_format="";
-    var zero;
-    while(price%1000==0)
-    {
-      price= price/1000;
+    // var price_format="";
+    // var zero;
+    // while(price%1000==0)
+    // {
+    //   price= price/1000;
       
-       zero =price_format;
-      price_format = ".000"+price_format;
-    }
-    zero = price_format;
-    price_format=price.toString()+ price_format+"đ";
+    //    zero =price_format;
+    //   price_format = ".000"+price_format;
+    // }
+    // zero = price_format;
+    // price_format=price.toString()+ price_format+"đ";
 
-    return price_format;
+    // return price_format;
   }
 
 

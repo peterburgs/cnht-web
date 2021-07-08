@@ -45,3 +45,15 @@
     background: rgb(84, 78, 78);
     position: absolute; top: 0; left: 0;
 } */
+
+.search-course{
+   /* width: 40vw; */
+  margin-top: 70px;
+}
+
+app-search-title{
+    width: 40vw;
+
+}
+
+

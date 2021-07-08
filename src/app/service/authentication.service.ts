@@ -80,6 +80,20 @@ export  class authenticationService {
     return false;
   }
 
+  getToken(){
+    if(typeof(localStorage)){
+       return "Bearer " + localStorage.getItem('token');}
+      return "token";
+  }
+
+  getBalane(){
+
+    var balance:string = "";
+    if(typeof(localStorage)){
+       balance ="0"+ localStorage.getItem('balance');}
+    return Number(balance);
+  }
+
 
   //TODO: authenticate 
   signIn(socialUser: SocialUser){
@@ -88,7 +102,7 @@ export  class authenticationService {
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
-      params:new HttpParams().set('userRole', ROLES.LEARNER)
+      params:new HttpParams().set('userRole', ROLES.ADMIN)
     };
     console.log(config);
     return  this.http

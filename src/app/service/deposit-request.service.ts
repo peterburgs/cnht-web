@@ -1,9 +1,13 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable, of, throwError } from "rxjs";
 import { DepositRequest } from "../models/deposit-request.model";
 import { STATUSES } from "../models/statuses";
 import { User } from "../models/user.model";
+import { authenticationService } from "./authentication.service";
 import { UserService } from "./user.service";
+import { catchError, map } from "rxjs/operators";
+import * as moment from "moment";
 
 @Injectable({
     providedIn: 'root'
@@ -104,15 +108,50 @@ export class DepositRequestService{
     }
 ]
 
-
+private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 private userList?:User[];
 private depositRequestList: DepositRequest[] = [];
     constructor(
         private userService: UserService,
+        private http: HttpClient,
+        private authService : authenticationService
     ){}
 
-    getAll(): Observable<DepositRequest[]>{
-            return of (this.depositRequests);
+    private httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          Authorization: this.authService.getToken()
+        })
+      };
+
+    private handleError(error: HttpErrorResponse) {
+        if (error.status === 0) {
+            // A client-side or network error occurred. Handle it accordingly.
+            //console.error('An error occurred:', error.error);
+        } else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong.
+            // console.error(
+            // `Backend returned code ${error.status}, ` +
+            // `body was: ${error.error}`);
+        }
+        // Return an observable with a user-facing error message.
+        return throwError(
+            'Something bad happened; please try again later.');
+    }
+    
+    //DONE 
+    getAll(){
+        
+       return this.http
+        .get<{message:string,count:number, depositRequests: DepositRequest[]}>(
+            this.baseUrl+ '/deposit-requests',
+            {
+                headers: this.httpOptions.headers
+            }
+        ).pipe(
+            // catchError(this.handleError)
+          );
     }
 
     getAllNotYetConfirm():Observable<DepositRequest[]>{
@@ -144,6 +183,27 @@ private depositRequestList: DepositRequest[] = [];
 
     updateStatus(deposit: DepositRequest, status: STATUSES){
         // update status
+        //deposit.depositRequestStatus = status;
+        const  body = {
+            "id": deposit.id,
+            "learnerId": deposit.learnerId,
+            "amount": deposit.amount,
+            "imageUrl": deposit.imageUrl,
+            "depositRequestStatus": status,
+            "createdAt":deposit.createdAt,
+            "updatedAt": deposit.updatedAt
+        };
+        // deposit.depositRequestStatus = status;
+        // deposit.updatedAt = new Date();
+        //this.httpOptions.headers = this.httpOptions.headers.set('id', deposit.id);
+        return this.http.put<(any)>( this.baseUrl+ '/deposit-requests/' + deposit.id, body, {
+            headers: this.httpOptions.headers,
+           // params: new HttpParams().set('id', deposit.id)
+         }).pipe(
+            catchError(this.handleError)
+          );
+          
+         console.log("updade !");
         // add wallet to wallet learner
         // return true;
     }
