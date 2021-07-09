@@ -4,6 +4,7 @@ import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
+import { BalanceFormat } from 'src/app/util/balance-format';
 
 @Component({
   selector: 'app-wallet',
@@ -41,6 +42,10 @@ export class WalletComponent implements OnInit {
 
   }
 
+  balanceFormat(balance : number){
+    return BalanceFormat(balance);
+  }
+  
   updateBalanceAdmin($event :any){
     this.balance_admin = $event;
     console.log("change: number");

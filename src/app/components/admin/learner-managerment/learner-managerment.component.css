@@ -2,9 +2,11 @@
 @import url("~font-awesome/css/font-awesome.css");
 
 .container{
-    margin-top: 200px;
+    margin-top: 100px;
     height: 100vh;
     width: 100vw;
+    align-items: center;
+    text-align: center;
 }
 
 .search-input {
@@ -13,6 +15,8 @@
 
 .form-group{
     align-items: center;
+    width: 50vw;
+    margin-left: 15vw;
 }
 
 .form-control:focus{

@@ -9,6 +9,7 @@ import { DepositRequestService } from 'src/app/service/deposit-request.service';
 import { STATUSES } from 'src/app/models/statuses';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from "rxjs";
+import { BalanceFormat } from 'src/app/util/balance-format';
 
 const enum action {
   CONFIRMED,
@@ -117,6 +118,29 @@ export class TableWalletAdminComponent implements OnInit {
     this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
       return deposit2.amount - deposit1.amount;
    });
+  }
+
+  }
+
+  eSortName: SORT = SORT.CURRENT;
+  sortName(){
+    this.eSortDate = SORT.CURRENT;
+    this.eSortAmount = SORT.CURRENT;
+    this.eSortName = this.eSortName + this.updateSort(this.eSortName);
+
+    if(this.eSortName == SORT.CURRENT)
+    {
+      this.getAllList();} 
+
+  else if(this.eSortName == SORT.DECREASE){
+   
+  
+  
+  }
+  else {
+ 
+   
+ 
   }
 
   }
@@ -295,6 +319,10 @@ export class TableWalletAdminComponent implements OnInit {
 
   refreshComponent(){
     this.router.navigate([this.router.url])
+ }
+
+ balanceFormat(price:number){
+   return BalanceFormat(price);
  }
 
   handlePriceFormat(price:number):any{

@@ -23,6 +23,7 @@ export class SearchComponent implements OnInit {
       COURSE_TYPE.EXAMINATION_SOLVING];
       listGrade = ["Grade 12", "Grade 11", "Grade 10"];
       listAllCourse: Course[] = [];
+      isLoading: boolean = true;
 
       constructor(private route: ActivatedRoute, private router: Router, private courseService: CourseService,
         private fullCourseService: FullCourseService) {
@@ -30,6 +31,8 @@ export class SearchComponent implements OnInit {
       }
 
       ngOnInit(): void {
+        this.isLoading = true;
+        this.changeRouter();
         this.getAllCourse();
         this.getTitleFormRouter();
         this.getListSearch();
@@ -37,11 +40,17 @@ export class SearchComponent implements OnInit {
         this.getListCourseFilter();
       }
 
+      changeRouter(){
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        }
+
       getAllCourse(){
           this.courseService.getAllCourse().subscribe(list => 
             
           {
             this.listAllCourse = list.courses;
+            this.isLoading = false;
             this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           });
 
@@ -138,7 +147,8 @@ export class SearchComponent implements OnInit {
         this.courseService.getListCourseGrade(this.grade, this.category)
         .subscribe(data=>{
           if(data.count!=0){
-            this.listCourse= data.courses
+            this.listCourse= data.courses;
+            this.isLoading = false;
           }
           else{
             this.listCourse=[]
@@ -154,6 +164,7 @@ export class SearchComponent implements OnInit {
     }
 
     isFindList(){
+       if(this.isLoading == false)
         if(this.listCourse.length === 0)
           return false;
         return true;

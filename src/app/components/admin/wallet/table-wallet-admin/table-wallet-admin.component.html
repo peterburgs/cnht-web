@@ -42,7 +42,7 @@
                             <div><span>{{getLearnerByIdLearner(item.learnerId).email}}</span></div>
                         </td>
                         <td>
-                            <div class="amount">{{handlePriceFormat(item.amount)}}</div>
+                            <div class="amount">{{balanceFormat(item.amount)}}</div>
                         </td>
                         <td (click) = "getDepositCurrentRow(item)"><button class="btn-admin " (click)="showImg()"> View </button></td>
                         <td (click) = "getDepositCurrentRow(item)">

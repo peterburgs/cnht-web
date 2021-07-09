@@ -39,7 +39,8 @@ export class ItemSearchComponent implements OnInit {
 
 
   changeRouter(){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+   this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+   this.router.onSameUrlNavigation = 'reload';
    }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit,Input,Output ,EventEmitter} from '@angular/core';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
 import { User } from 'src/app/models/user.model';
+import { BalanceFormat } from 'src/app/util/balance-format';
 
 @Component({
   selector: 'app-alert-view-image',
@@ -23,5 +24,8 @@ export class AlertViewImageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+    
+  balanceFormat(balance : number){
+    return BalanceFormat(balance);
+  }
 }
