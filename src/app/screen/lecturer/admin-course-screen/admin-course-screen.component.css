@@ -6,8 +6,9 @@
     background: rgb(64, 129, 250);;
     border-radius: 10px;
     margin-left: 5px;
-    margin-top: 20px;
+    
     margin-bottom: 20px;
+    height: 40px;
     font-size: large;
     padding: 4px;
     font-family: 'Roboto', sans-serif;

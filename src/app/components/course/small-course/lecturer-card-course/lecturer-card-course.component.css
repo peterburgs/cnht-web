@@ -8,6 +8,10 @@
     background: #FFFFFF;
     border-radius: 10px;
     border: none;
+   
+    /* height: 284px;
+    width: 243px !important;
+    margin-left: 30px; */
 }
 
 .info-course {
@@ -16,6 +20,8 @@
 }
 
 .img-course {
+    height: 160px;
+    width: auto;
     border-radius: 10px;
     padding: 3px;
 }

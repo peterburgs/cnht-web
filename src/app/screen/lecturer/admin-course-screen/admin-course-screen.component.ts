@@ -16,6 +16,7 @@ export class AdminCourseScreenComponent implements OnInit {
   message: string = "Find my course by title ....";
   titleSearch: string = "";
   listCourse: Course[] = [];
+ 
   //Login check
   public userDetails? = Object;
   constructor(private router: Router, 

@@ -16,3 +16,4 @@ export function BalanceFormat(price:number):any{
     return price_format;
   
 }
+ 

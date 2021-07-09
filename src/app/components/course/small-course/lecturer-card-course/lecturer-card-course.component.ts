@@ -11,7 +11,7 @@ import { FullCourseService } from 'src/app/service/full-course.service';
 export class LecturerCardCourseComponent implements OnInit {
   @Input() course= new Course();
   @Input() isLearner: boolean=false;
-  
+  baseUrl='https://us-central1-supple-craft-318515.cloudfunctions.net/app';
   constructor(private route:ActivatedRoute,
     private router:Router, private fullCourseService: FullCourseService) { }
 
