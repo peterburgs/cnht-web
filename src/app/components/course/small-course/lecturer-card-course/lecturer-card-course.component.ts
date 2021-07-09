@@ -23,7 +23,6 @@ export class LecturerCardCourseComponent implements OnInit {
     // this.fullCourseService.getDataServe();
    const promise= new Promise((resolve, reject)=>{
     setTimeout(()=>{
-      
       this.router.navigate(['../','course',idItem], {relativeTo:this.route}) },1500)
     });
    // this.router.navigate(['../','course',idItem],{relativeTo:this.route})

@@ -32,18 +32,7 @@ const httpOptions = {
 })
 export class FullCourseService {
   //================================= Data hook=========================
-  private course: Course = {
-    id: '',
-    title: 'Default title',
-    courseDescription: 'description for this course',
-    price: 0,
-    courseType: COURSE_TYPE.THEORY,
-    grade: GRADES.TWELFTH,
-    thumbnailUrl: '../../../assets/images/img1.jpg',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    isHidden: false,
-  };
+  private course:Course= new Course();
   private fileThumbnail: File = new File([], 'thumbnail-default');
   private sections: Section[] = [];
   private lectures: Lecture[] = [];
@@ -72,6 +61,8 @@ export class FullCourseService {
   sbjTypeSelection = new Subject<VideoType>();
   sbjWayModify = new Subject<ModifyType>();
   sbjIdItem = new Subject<string>();
+  sbjSectionDummy= new Subject<SectionDummy[]>();
+  sbjCreateCourse= new Subject<Course>();
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) {
@@ -89,6 +80,7 @@ export class FullCourseService {
   //================================= GET =========================
   setCourseSelection() {
     console.log(this.idCourse);
+    console.log(this.courses);
     this.courses.forEach((mCourse) => {
       console.log(mCourse.id);
       if (mCourse.id == this.idCourse) {
@@ -128,6 +120,12 @@ export class FullCourseService {
   }
   getWayModify() {
     return this.sbjWayModify.asObservable();
+  }
+  getSbjSectionDummy(){
+    return this.sbjSectionDummy.asObservable();
+  }
+  getSbjCreateCourse(){
+    return this.sbjCreateCourse.asObservable();
   }
   //================================= SET =========================
   setIsValid(flat: boolean) {
@@ -388,7 +386,8 @@ export class FullCourseService {
           params: new HttpParams().set('courseId', this.idCourse),
         }
       )
-      .subscribe((response) => {
+      .toPromise()
+      .then((response) => {
         this.sections = response.sections;
         console.log(this.sections);
         console.log(response.sections);
@@ -430,6 +429,8 @@ export class FullCourseService {
               this.listDeepSection.push(
                 new SectionDummy(section.id, section.title, tmpLectures)
               );
+              this.sbjSectionDummy.next(this.listDeepSection);
+              
             });
             console.log('Dummy');
             console.log(this.listDeepSection);
@@ -446,10 +447,11 @@ export class FullCourseService {
                 new SectionDummy(section.id, section.title, [])
               );
             });
+            this.sbjSectionDummy.next(this.listDeepSection);
           });
 
-        console.log('Deep section');
-        console.log(this.listDeepSection);
+      }).catch(error=>{
+        this.sbjSectionDummy.next(this.listDeepSection);
       });
     // this.sections= this.mSectionList;
     // this.lectures= this.mLectureList;
@@ -704,7 +706,7 @@ export class FullCourseService {
         const xhr = new XMLHttpRequest();
         xhr.open(
           'post',
-          `${this.baseURL}courses/867d1a08-6150-4edf-a6a5-3613fa2954cc/thumbnail`
+          `${this.baseURL}courses/${this.idCourse}/thumbnail`
         );
 
         xhr.setRequestHeader('Content-Type', 'application/octet-stream');
@@ -815,7 +817,7 @@ export class FullCourseService {
   createCourse() {
     this.sections = [];
     this.lectures = [];
-    this.onCreateCourse(this.course);
+    return this.onCreateCourse(this.course);
   }
   onSaveSection(section: Section): Observable<{ message: String; count: Number; section: Section }> {
     //TODO: Http
@@ -881,7 +883,7 @@ export class FullCourseService {
     const url = `${this.apiUrlCourse}/${this.course.id}`;
     // this.http.put<{message:String, count:Number, course:Course}>(url, this.course, httpOptions);
 
-    this.http
+    return this.http
       .put<{ message: String; count: Number; course: Course }>(
         url,
         {
@@ -895,10 +897,8 @@ export class FullCourseService {
           grade: this.course.grade,
         },
         httpOptions
-      )
-      .subscribe((response) => {
-        console.log(response);
-      });
+      );
+     
   }
   onDeleteSection() {
     //TODO: Http
@@ -934,6 +934,7 @@ export class FullCourseService {
   }
   onCreateSection(section: Section) {
     // const requestOptions: HttpHeaders = { headers: this.authHeader };
+    this.sbjCreateCourse.next(this.course);
     return this.http
       .post<{ message: String; count: Number; section: Section }>(
         this.apiUrlSection,
@@ -947,6 +948,7 @@ export class FullCourseService {
         },
         httpOptions
       );
+     
       // .subscribe((response) => {
       //   if (response.count > 0) {
       //   }
@@ -964,14 +966,14 @@ export class FullCourseService {
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
-      thumbnailUrl: '../../../assets/images/img1.jpg',
+      thumbnailUrl: '',
       createdAt: new Date(),
       updatedAt: new Date(),
       isHidden: false,
     };
     //Create new Course
     return this.http
-      .post<{ message: String; count: Number; course: Course }>(
+      .post<{ message: string; count: number; course: Course }>(
         this.apiUrlCourse,
         {
           title: courseDefault.title,
@@ -997,6 +999,7 @@ export class FullCourseService {
           firstSection.sectionOrder = 0;
           this.onCreateSection(firstSection);
           this.initCourses();
+        
         }
       });
   }
@@ -1005,7 +1008,7 @@ export class FullCourseService {
     console.log(lecture);
     return this.http
       .post<{ message: String; count: Number; lecture: Lecture }>(
-        this.apiUrlLecture,
+        this.apiUrlLecture+'s',
         {
           id: lecture.id,
           title: lecture.title,

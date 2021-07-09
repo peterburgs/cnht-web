@@ -17,19 +17,9 @@ import { config, Observable } from 'rxjs';
 })
 export class CourseInfoComponent implements OnInit {
   @ViewChild('infoCourse', { read: NgForm }) infoCourse!: any;
-  @Input() course :Course= {
-    id: '',
-    title: '',
-    courseDescription: '',
-    price: 0,
-    courseType: COURSE_TYPE.THEORY,
-    grade: GRADES.TWELFTH,
-    thumbnailUrl:
-      'https://images.unsplash.com/photo-1613905780946-26b73b6f6e11?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    isHidden: false,
-  };
+  @Input() course :Course= new Course();
+  baseURL='https://us-central1-supple-craft-318515.cloudfunctions.net/app'
+  mCourse:Course= new Course();
   imgPath?: Observable<string> ;
   selectedValue:string='';
   priceFormat = '000';
@@ -60,7 +50,9 @@ export class CourseInfoComponent implements OnInit {
     
   }
   ngOnInit(): void {
-
+    this.fullCourseService.getSbjCreateCourse().subscribe(course=>{
+      this.mCourse= course;
+    })
 
     if (this.fullCourseService.subsValid == null) {
       this.fullCourseService.subsValid =
@@ -139,7 +131,12 @@ export class CourseInfoComponent implements OnInit {
   // }
   onSave(){
     this.fullCourseService.setSelection(this.course.id, VideoType.course, ModifyType.save);
-    this.fullCourseService.handleUpate();
+    this.fullCourseService.onSaveCourse().toPromise().then(response=>{
+
+    },error=>{
+        alert("Server error!!! try again")
+    })
+
   }
 
 }
