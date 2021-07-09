@@ -17,7 +17,7 @@
                     <tr *ngFor="let user of listUsers">
                         <td>{{user.email}}</td>
                         <td>{{user.fullName}}</td>
-                        <td>{{user.balance}}</td>
+                        <td>{{balanceFormat(user.balance)}}</td>
                         <td>{{getTotalCourseForLearner(user.id)}}</td>
 
                     </tr>
