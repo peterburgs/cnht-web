@@ -10,8 +10,8 @@
 
 .alert-box {
     position: fixed;
-    top: 10vh;
-    left: 30vw;
+    top: 20vh;
+    left: 40vw;
     max-width: 50vw;
     padding: 16px;
     z-index: 10000;
@@ -19,7 +19,7 @@
     background-color: white;
     font-weight: 500;
     border-radius: 5px;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .alert-box-actions {

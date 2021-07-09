@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
 import { PriceFormat } from 'src/app/util/priceformat';
@@ -13,6 +13,13 @@ import { Observable, of, throwError } from "rxjs";
 const enum action {
   CONFIRMED,
   DENIED
+}
+
+const enum SORT{
+  CURRENT,
+  INCREASE,
+  DECREASE
+ 
 }
 
 @Component({
@@ -38,6 +45,8 @@ export class TableWalletAdminComponent implements OnInit {
   @Input() getTitleSearch = new EventEmitter<string>();
   depositRequests: DepositRequest[] = [];
   isConfirmAll: boolean = false;
+  @Input() admin: User = new User();
+  @Output() changBalanceAdmin = new EventEmitter<number>();
 
   constructor(public userService: UserService, 
     private _snackBar: MatSnackBar, 
@@ -54,11 +63,72 @@ export class TableWalletAdminComponent implements OnInit {
     
   }
 
+
   ngOnInit(): void {
     this.getAllList();
     this.getAllListLearner();
     console.log(this.depositRequests.length);
+    
   }
+
+  eSortDate: SORT= SORT.CURRENT;
+
+   sortDate() {
+     this.eSortAmount = SORT.CURRENT;
+     this.eSortDate  = this.eSortDate + this.updateSort(this.eSortDate);
+
+     if(this.eSortDate == SORT.CURRENT)
+     {
+      this.getAllList();} 
+
+      else if(this.eSortDate == SORT.INCREASE){
+          this.listSearch = this.listSearch.sort((a, b) => {
+            return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
+          });
+      }
+      else {
+        this.listSearch = this.listSearch.sort((a, b) => {
+          return <any>new Date(a.createdAt) - <any>new Date(b.createdAt);
+        });
+      }
+
+      console.log("sort update: " + this.eSortDate);
+  
+  }
+
+  eSortAmount: SORT= SORT.CURRENT;
+  
+  sortAmount(){
+    this.eSortDate = SORT.CURRENT;
+    this.eSortAmount = this.eSortAmount + this.updateSort(this.eSortAmount);
+
+    if(this.eSortAmount == SORT.CURRENT)
+    {
+      this.getAllList();} 
+
+  else if(this.eSortAmount == SORT.DECREASE){
+   
+    this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
+      return deposit1.amount - deposit2.amount;
+   });
+  }
+  else {
+ 
+    this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
+      return deposit2.amount - deposit1.amount;
+   });
+  }
+
+  }
+
+  updateSort(sort: SORT){
+    console.log("sort: " + sort);
+    if(sort == SORT.CURRENT || sort == SORT.INCREASE)
+        return 1;
+    else 
+        return -2;
+  }
+  
 
   isDeny(status: STATUSES){
     if(status == STATUSES.DENIED)
@@ -79,13 +149,15 @@ export class TableWalletAdminComponent implements OnInit {
    this.listSearch = this.depositRequests.filter(deposit => deposit.depositRequestStatus == STATUSES.PENDING);
   }
 
+  listTemp: DepositRequest[] = [];
   getAllList(){
     this.depositRequestService.getAll().subscribe(depositRequest =>
       {
         if(depositRequest.count != 0)
         {
           this.depositRequests = depositRequest.depositRequests,
-          this.listSearch = this.depositRequests
+          this.listSearch = this.depositRequests,
+          this.listTemp = this.depositRequests
         } else this.depositRequests = [];
        
       } );
@@ -127,6 +199,7 @@ export class TableWalletAdminComponent implements OnInit {
 
 
 
+  //use
   listSearch: DepositRequest[] = [];
   searchDeposit($event: any){
    // const content = this.getTitleSearch.emit($event);
@@ -138,6 +211,7 @@ export class TableWalletAdminComponent implements OnInit {
     //this.depositRequestService.getDepositsByNameOrEmailLearner($event).subscribe(deposit => this.depositRequests = deposit);
   }
 
+  //use
   getDepositsByNameOrEmailLearner($event: string){
     this.listSearch = this.depositRequests.filter(
       learner => this.getLearnerByIdLearner(learner.learnerId).fullName.toLowerCase().includes($event.toLowerCase()) 
@@ -153,6 +227,7 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
 
+  
   setActionConfirm(){ //when click btn confirm
     this.setMessageToAlert("Do you want CONFIRM this deposit request !", "Confirm");
     this.newStatusDeposit = STATUSES.CONFIRM;
@@ -173,7 +248,13 @@ export class TableWalletAdminComponent implements OnInit {
     if(this.newStatusDeposit == STATUSES.CONFIRM){
       var user = this.getLearnerByIdLearner(this.depositCurrentRow.learnerId);
       user.balance = user.balance + this.depositCurrentRow.amount;
+      this.admin.balance = this.admin.balance + this.depositCurrentRow.amount;
+      this.changBalanceAdmin.emit(this.admin.balance);
       this.userService.updateUser(user).subscribe();
+      this.userService.updateUser(this.admin).subscribe();
+     
+      //this.getAllList();
+     
     }
    
     this.openSnackBar("Reposit was updated !", "OK"); 
@@ -212,10 +293,16 @@ export class TableWalletAdminComponent implements OnInit {
     this.isViewImg = true;
   }
 
+  refreshComponent(){
+    this.router.navigate([this.router.url])
+ }
+
   handlePriceFormat(price:number):any{
 
     var price_format="";
     var zero;
+    if(price == 0)
+      return 0 + "VND";
     while(price%1000==0)
     {
       price= price/1000;
@@ -224,7 +311,7 @@ export class TableWalletAdminComponent implements OnInit {
       price_format = ".000"+price_format;
     }
     zero = price_format;
-    price_format=price.toString()+ price_format+"đ";
+    price_format=price.toString()+ price_format+"VND";
 
     return price_format;
   }
