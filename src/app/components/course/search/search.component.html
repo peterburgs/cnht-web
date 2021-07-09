@@ -10,6 +10,12 @@
             <app-filter (sendGradeChoose) = "receiveGrade($event)" (sendCategoryChoose) = "receiveCategory($event)"></app-filter>
         </div>
         <div class = "col-md-9 ">
+            <div *ngIf  = "isLoading" class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div  *ngIf = "isFindList()" class="list-search-main">
                 <app-list-search [listCourseResult] = "listCourse"></app-list-search>
              </div>

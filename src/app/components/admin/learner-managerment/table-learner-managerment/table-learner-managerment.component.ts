@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Enrollment } from 'src/app/models/enrollment.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
+import { BalanceFormat } from 'src/app/util/balance-format';
 
 @Component({
   selector: 'app-table-learner-managerment',
@@ -55,5 +56,9 @@ export class TableLearnerManagermentComponent implements OnInit {
    getTotalCourses(userId:string):number{
      return this.userService.getTotalCourses(userId);
    }
+
+   balanceFormat(balance: number){
+    return BalanceFormat(balance);
+  }
   
 }

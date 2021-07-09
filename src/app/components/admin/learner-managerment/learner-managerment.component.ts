@@ -5,6 +5,7 @@ import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
+import { BalanceFormat } from 'src/app/util/balance-format';
 
 @Component({
   selector: 'app-learner-managerment',
@@ -44,7 +45,9 @@ export class LearnerManagermentComponent implements OnInit {
     });
   }
 
-
+  balanceFormat(balance: number){
+    return BalanceFormat(balance);
+  }
 
   searchUser(){
 

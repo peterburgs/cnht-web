@@ -79,8 +79,8 @@ export class LoginScreenComponent implements OnInit {
   }
 
   isAdminSignIn(){
-    this.route.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.route.onSameUrlNavigation = 'reload';
+    // this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+    // this.route.onSameUrlNavigation = 'reload';
     this.route.navigate(['/admin/home']);
    
   }

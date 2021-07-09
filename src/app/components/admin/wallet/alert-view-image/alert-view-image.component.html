@@ -2,12 +2,17 @@
 </div>
 <div class="alert-box">
     <p>{{message}}</p>
+  <div class = "pull-left">
+    <p>Full name: {{learner.fullName}}</p>
+    <p>Datetime: {{deposit.createdAt}}</p>
+    <p>Amount: {{balanceFormat(deposit.amount)}}</p>
+  </div>
     <div class="alert-box-actions">
         <div class = "img-deposit-request">
-            <img [src]="path_img" class = "img img-fluid img-view">
+            <img [src]="deposit.imageUrl" class = "img img-fluid img-view">
         </div>
         <button class = "btn btn-danger" (click) = "onClose()">
-            Cancel
+            Close
         </button>
     </div>
 </div>

@@ -150,3 +150,7 @@ mat-slide-toggle{
     font-weight: 400;
 }
 
+th{
+    cursor: pointer;
+}
+

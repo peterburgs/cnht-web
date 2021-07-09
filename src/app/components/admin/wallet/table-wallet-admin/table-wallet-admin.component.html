@@ -1,10 +1,6 @@
 <div class="card shadow mb-4 table-detail">
     <div class = "title-table-block">
         <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
-            <mat-slide-toggle [color]="colorSlideFilter" (click) = "setIsConfirmAll()"
-            >Not yet confirmed</mat-slide-toggle>
-            <app-alert-warning [message]="messageToAction" [actionToAlert]="nameActionToAlert"   *ngIf = "isCallAlert" (close)="onHandleError()" (isAction) = "getAcceptFromAlert($event)">
-            </app-alert-warning>
 
         </div>
         <!-- ------ search -->
@@ -19,14 +15,15 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Date Time</th>
+                        <th (click) = "sortDate()">Date Time</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Amount</th>
+                        <th (click) = "sortAmount()">Amount</th>
                         <th>Image</th>
                         <th >Actions</th>
 
                     </tr>
+                    
                 </thead>
                 <tbody>
                    
@@ -45,9 +42,9 @@
                             <div><span>{{getLearnerByIdLearner(item.learnerId).email}}</span></div>
                         </td>
                         <td>
-                            <div class="amount">{{handlePriceFormat(item.amount)}}</div>
+                            <div class="amount">{{balanceFormat(item.amount)}}</div>
                         </td>
-                        <td><button class="btn-admin " (click)="showImg()"> View </button></td>
+                        <td (click) = "getDepositCurrentRow(item)"><button class="btn-admin " (click)="showImg()"> View </button></td>
                         <td (click) = "getDepositCurrentRow(item)">
                             <div *ngIf="depositRequestService.isPending(item)">
                             <button type="button" class="btn-admin" (click) = "setActionConfirm()"> Confirm</button>
@@ -60,11 +57,20 @@
             </table>
 
             <!-- alert-view -->
-            <app-alert-view-image [message]="message_view_img" [path_img]="path_img_view" *ngIf="isShowImg()" (close)="onHandleError()">
+            <app-alert-view-image [message]="message_view_img"
+            [path_img]="path_img_view" 
+            [learner] = "getLearnerByIdLearner(depositCurrentRow.learnerId)" 
+            [deposit] = "depositCurrentRow"  
+            *ngIf="isShowImg()" 
+            (close)="onHandleError()">
             </app-alert-view-image>
             <!-- end-alert-view -->
 
-            <app-alert-warning [message]="messageToAction" [actionToAlert]="nameActionToAlert"   *ngIf = "isCallAlert" (close)="onHandleError()" (isAction) = "getAcceptFromAlert($event)">
+            <app-alert-warning [message]="messageToAction" 
+            [actionToAlert]="nameActionToAlert" 
+            *ngIf = "isCallAlert"
+            (close)="onHandleError()"
+            (isAction) = "getAcceptFromAlert($event)">
             </app-alert-warning>
 
             <!-- <app-search></app-search> -->
@@ -94,3 +100,4 @@
         </div>
     </div>
 </div>
+  
