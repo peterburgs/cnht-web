@@ -13,6 +13,14 @@
                 </thead>
 
                 <tbody>
+                    <tr class="loading" *ngIf="isLoading">
+                        <div class="lds-ring">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </tr>
                     <tr *ngFor="let item of depositHistory">
                         <td>
                             <div><span>{{ dateFormater(item.createdAt)}}</span></div>

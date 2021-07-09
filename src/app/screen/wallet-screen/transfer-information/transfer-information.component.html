@@ -31,10 +31,16 @@
         <p class="instruction">4. If something went wrong. Please contact admin at admin@cungnhauhoctoan.net</p>
     </div>
     <div class="transfer-coins">
-        <p>I have transfered <span><input class="amount-coins" required type="number" min="0" [(ngModel)]="moneyTransfer"></span>VND </p>
+        <p>I have transfered
+            <span>
+                <input class="amount-coins" (keyup)="moneyTransfer.value =priceInputFormator(moneyTransfer.value)"  required type="text" maxlength="11" min="0" [(ngModel)]="money_Transfer" #moneyTransfer>
+            </span>VND
+
+        </p>
+        <p class="input-error">{{inputError}}</p>
         <div class="p-2 load-img">
             <img name="thumbnailUrl" class="image-course" [src]="thumnailUrl" id="thumbnailUrl" alt="img-course">
-            <input #file type="file" hidden accept="image/*" (change)="handleFileInput($event)">
+            <input #file type="file" hidden accept="image/*" (change)="handleImageFileInput($event)">
             <button class="btn-select-img" type="button" (click)="file.click()">Select image</button>
 
         </div>

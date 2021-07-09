@@ -121,6 +121,14 @@
     background-color: #c94a39;
 }
 
+.input-error {
+    font-size: 13px;
+    color: rgb(219, 4, 4);
+    font-style: italic;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
 .btn-create-request {
     background-color: #4EACE1;
 }

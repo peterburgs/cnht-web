@@ -28,7 +28,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   ngOnChanges(changes:SimpleChanges):void{
       if(changes)
       {
-      //  this.getCourse();
+       this.getCourse();
       }
   }
 
@@ -46,8 +46,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
     )
     .subscribe(data=>{
       if(data.count!=0){
-        this.smallCourses= data.courses
-        console.log("Hello12")
+        this.smallCourses= data.courses.slice(0,4)
       }
 
       else{

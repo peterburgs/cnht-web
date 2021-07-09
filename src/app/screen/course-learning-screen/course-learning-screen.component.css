@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap');
 .learning-course {
     margin-top: 60px;
 }
@@ -30,6 +32,34 @@
     z-index: 1000;
     scroll-behavior: smooth;
     overflow: scroll;
+}
+
+.showcomment {
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-show-comment {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: gray;
+    border: 1px solid rgb(182, 182, 182);
+    outline: none;
+    height: 37px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+.btn-show-comment:hover {
+    background-color: rgb(233, 233, 233);
+    font-weight: 600;
+    color: rgb(73, 73, 73);
 }
 
 @media (max-width: 767px) {

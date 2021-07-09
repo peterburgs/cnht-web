@@ -255,10 +255,7 @@ export class CourseService{
      }
 
      getAllCourse(){
-        // return this.http.get<{message:string,count:number, courses: Course[]}>(
-        //     this.baseUrl + '/courses'
-        // );
-
+        
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', 'token');
@@ -376,7 +373,7 @@ export class CourseService{
      */
     getMyCourses(learnerId: string){
         return this.http
-        .get<{message:string,count:number, enrollments: Enrollment[]}>('/enrollments',
+        .get<{message:string,count:number, enrollments: Enrollment[]}>(this.baseUrl+ '/enrollments',
         {
             params: new HttpParams().set('learnerId', learnerId)
         })

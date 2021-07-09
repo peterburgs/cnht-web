@@ -121,7 +121,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
             if(error.error.count==0)
               this.isBought=false
            this.isLoading=false;
-
            return throwError(error) 
         })
       )
@@ -142,7 +141,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
    * @returns 
    */
   handlePriceFormat(price:number):any{
-   return PriceFormat(price);
+   return PriceFormat(price,0,3,'.',',');
   }
 
   /**
@@ -232,7 +231,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   /**
    * Check action click, if user click "Your balance", navigate to 
     wallet page else implement to buy the course
-   * @param gotowallet 
+   * @param action_return 
    */
   implementAction(action_return:string){
 

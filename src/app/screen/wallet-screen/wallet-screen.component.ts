@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
+import { PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-wallet-screen',
@@ -29,19 +30,7 @@ export class WalletScreenComponent implements OnInit {
 
   handlePriceFormat(price:number):any{
 
-    var price_format="";
-    var zero;
-    while(price%1000==0)
-    {
-      price= price/1000;
-      
-       zero =price_format;
-      price_format = ".000"+price_format;
-    }
-    zero = price_format;
-    price_format=price.toString()+ price_format+"đ";
-
-    return price_format;
+    return PriceFormat(price,0,3,'.',',');
   }
 
 }

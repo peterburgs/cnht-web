@@ -21,6 +21,7 @@ export class CourseLearningScreenComponent implements OnInit {
   lectureId!:string;
   videoURL : any;
   learner = new User()
+  hidden_comment=true;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,15 +40,8 @@ export class CourseLearningScreenComponent implements OnInit {
       this.lectureId= params['lectureId'];
       this.sectionId= of(params['sectionId']);
     })
-    this.courseId.subscribe(id=>{
-      this.courseService.getCourseById(id).subscribe(course=>{this.current_course= course.courses[0]})
-   })
 
-    this.sectionId.subscribe(sectionId=>{
-        
-     })
-
-   //If user don't login, navigate to detail course screen
+    //If user don't log in, navigate to course detail screen
     let isLoggin=localStorage.getItem('isLoggedin');
     if(isLoggin=="true"){
       let email=localStorage.getItem('uemail');
@@ -63,7 +57,9 @@ export class CourseLearningScreenComponent implements OnInit {
       this.router.navigate(['/detail',this.current_course.id] )
     }
 
-    
+    this.courseId.subscribe(id=>{
+      this.courseService.getCourseById(id).subscribe(course=>{this.current_course= course.courses[0]})
+   })
 
     //TODO: GET VIDEO OF LECTURE
     this.videoURL= this._sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/zcAalMeaKso");

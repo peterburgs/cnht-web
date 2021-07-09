@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
 import { STATUSES } from 'src/app/models/statuses';
 import { User } from 'src/app/models/user.model';
@@ -21,18 +23,25 @@ export class TableWalletLearnerComponent implements OnInit {
   pendding= STATUSES.PENDING;
   confirm= STATUSES.CONFIRM;
   deny = STATUSES.DENIED
-
+  isLoading=true;
   constructor(
     private userService: UserService,
     private depositRequestService: DepositRequestService
   ) { }
 
   ngOnInit(): void {
-    this.userService.getUserInLocalStore()
-    .subscribe(user=>this.learner= user);
-   // console.log(this.learner);
-    this.getDepositHistory();
+    if(localStorage.getItem('isLoggedin')=='true')
+    {
+      let email=localStorage.getItem('uemail');
+      if(email!=null)
+        this.userService.getUserByEmail(email).subscribe(responseData=>{
+          this.learner= responseData.users[0];
+          this.getDepositHistory();
+        });
+      }
+      
   }
+    
 
   isShowImg(){
     return this.isViewImg;
@@ -49,9 +58,19 @@ export class TableWalletLearnerComponent implements OnInit {
 
   getDepositHistory(){
      this.depositRequestService.getByIdLearner(this.learner.id)
-     .subscribe(depositRequest=>{
-        this.depositHistory=depositRequest;
+     .pipe(
+      catchError((error)=>{
+          console.log(error)
+          if(error.error.count==0)
+            this.isLoading= false;         
+          return throwError(error)
+       
       })
+    )
+    .subscribe(responseData=>{
+      this.depositHistory=responseData.depositRequests;
+      this.isLoading= false;
+    })
   }
 
   dateFormater(date: Date):string{
