@@ -30,7 +30,7 @@
                 </thead>
                 <tbody>
                    
-                    <tr *ngFor = "let item of depositRequests">
+                    <tr *ngFor = "let item of listSearch">
                         <td>
                             <div><span>{{item.createdAt}}</span></div>
                             <div><span>Status: </span>
@@ -39,13 +39,13 @@
                             </div>
                         </td>
                         <td>
-                            <div><span>{{userService.getUserByUserId(item.learnerId).fullName}}</span></div>
+                            <div><span>{{getLearnerByIdLearner(item.learnerId).fullName}}</span></div>
                         </td>
                         <td >
-                            <div><span>{{userService.getUserByUserId(item.learnerId).email}}</span></div>
+                            <div><span>{{getLearnerByIdLearner(item.learnerId).email}}</span></div>
                         </td>
                         <td>
-                            <div class="amount">0000</div>
+                            <div class="amount">{{handlePriceFormat(item.amount)}}</div>
                         </td>
                         <td><button class="btn-admin " (click)="showImg()"> View </button></td>
                         <td (click) = "getDepositCurrentRow(item)">

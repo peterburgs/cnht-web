@@ -1,10 +1,12 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
+import { ReturnStatement } from "@angular/compiler";
 import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Enrollment } from "../models/enrollment.model";
 import { ROLES } from "../models/user-roles";
 import { User } from "../models/user.model";
+import { authenticationService } from "./authentication.service";
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +60,8 @@ export class UserService{
 ];
     private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 
-    constructor(private http:HttpClient){}    
+    constructor(private http:HttpClient,
+        private authService: authenticationService){}    
 
     private handleError(error: HttpErrorResponse) {
         if (error.status === 0) {
@@ -75,10 +78,19 @@ export class UserService{
         return throwError(
             'Something bad happened; please try again later.');
     }
+
+    private httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          Authorization: this.authService.getToken()
+        })
+      };
+
     
-    getUserInLocalStore():User{
+    //TODO: EDIT THIS FUNCTION
+    getUserInLocalStore(){
         let learner = new User;
-        let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
+        let email=localStorage.getItem('uemail');
         if(email!=null)
         {
             console.log(email)
@@ -87,17 +99,16 @@ export class UserService{
           })
         }
         console.log(learner)
-        return learner;
+        return of(learner);
     }
 
-    //if learner bought that course, return true
-    checkCourseBought(courseId: string, userId: string){
-        //TODO: interact with database and check that user bought that course or not
+    
+    checkEnrollment(courseId: string, userId: string){
+        //TODO: interact with database and check that user enrollment that course or not
         return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(
             this.baseUrl+'/enrollments',
             {
-
                 params:new HttpParams().set('courseId', courseId ).set('learnerId',userId)
             }
         )
@@ -108,40 +119,81 @@ export class UserService{
     }
 
 
+    getAllEnrollment(){
+        
+       return this.http
+        .get<{message:string,count:number, enrollments: Enrollment[]}>(
+            this.baseUrl+ '/enrollments', {headers: this.httpOptions.headers})
+    }
+
+
+    getAllLearner(){
+        //return this.users;
+       return this.http
+        .get<{message:string,count:number, users: User[]}>(
+            this.baseUrl+ '/users', {
+                headers: this.httpOptions.headers,
+                params: new HttpParams().set('userRole', ROLES.LEARNER)
+            })
+    }
+
     getAllUser(){
         //return this.users;
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
+        const headers = { headers: header};
        return this.http
         .get<{message:string,count:number, users: User[]}>(
-            this.baseUrl+ '/users',
-            {
-               headers: headers
-                ,
-                // params:new HttpParams()
-            }
-        ).pipe(
-            catchError(this.handleError)
-          );
+            this.baseUrl+ '/users', headers)
     }
+
+
+    updateUser(user: User){
+        const body = {
+           "email":  user.email,
+            "userRole": user.userRole,
+            "balance": user.balance,
+            "createdAt":user.createdAt,
+            "updateAt": user.updatedAt
+        }
+
+        return this.http.put<(any)>
+            (this.baseUrl + "/users/" +user.id, body, {
+                headers: this.httpOptions.headers,
+               // params: new HttpParams().set('id', deposit.id)
+             }).pipe(
+                catchError(this.handleError)
+              );
+    }
+   
+
+
+    listSearch: User[] = [];
+    // getListUserByTitle(title: string){
+      
+    //     this.getAllUser().subscribe(user => {
+    //         if(user.count != 0)
+    //         {
+    //           this.listSearch = user.users.filter(user => user.fullName == title || user.email)
+    //         }
+    //     })
+
+    //     return this.listSearch;
+    // }
     
-    getListUserByTitle(title: string){
+    // getListUserByFullName(name: string){
        
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
-       return this.http
-        .get<{message:string,count:number, users: User[]}>(
-            this.baseUrl+ '/users',
-            {
-                headers: headers,
-                params:new HttpParams().set('email', title)
-            }
-        ).pipe(
-            catchError(this.handleError)
-          );
-    }
+    //     const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+    //     const tokenType= "Bearer "
+    //     const header = new HttpHeaders().set('Authorization', tokenType + token);
+    //     const headers = { headers: header, params: new HttpParams().set('fullName', name)};
+    //    return this.http
+    //     .get<{message:string,count:number, users: User[]}>(
+    //         this.baseUrl+ '/users', headers)
+    // }
+
+
 
     //Get user by email
     getUserByEmail(email:string){
@@ -152,9 +204,7 @@ export class UserService{
         const headers = { headers: header ,params:new HttpParams().set('email', email)};
         return this.http
         .get<{message:string,count:number, users: User[]}>( this.baseUrl+'/users',headers)
-        // .pipe(
-        //     catchError(this.handleError)
-        // );
+        
     }
     
 
@@ -182,8 +232,14 @@ export class UserService{
     }
 
     //TODO:SEND GET METHOD TO GET USER BY USER ID
-    getUserById(learnerId:string):Observable<User>{
-        return of(this.users.find(user=> user.id===learnerId)!);
+    getUserById(learnerId:string){
+
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
+        const headers = { headers: header ,params:new HttpParams().set('id', learnerId)};
+        return this.http
+        .get<{message:string,count:number, users: User[]}>( this.baseUrl+'/users',headers)
     }
 
     

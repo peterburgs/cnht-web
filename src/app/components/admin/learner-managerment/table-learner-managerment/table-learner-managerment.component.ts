@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Enrollment } from 'src/app/models/enrollment.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
 
@@ -15,7 +16,23 @@ export class TableLearnerManagermentComponent implements OnInit {
    constructor(public userService: UserService) { }
  
    ngOnInit(): void {
+     this.getListEnrollment();
    }
+
+   listEnrollment: Enrollment[] = [];
+   getListEnrollment(){
+     this.userService.getAllEnrollment().subscribe(data =>
+       {
+         if(data.count > 0)
+           this.listEnrollment = data.enrollments
+         else this.listEnrollment = []
+       })
+   }
+ 
+   getTotalCourseForLearner(learnerId: string){
+     return this.listEnrollment.filter(enrollment => enrollment.learnerId == learnerId).length;
+   }
+ 
  
    isPaging(){
      if (this.listUsers.length > 9)

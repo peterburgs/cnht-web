@@ -3,8 +3,14 @@
 
         <h4 *ngIf="fragment == 'detail' || fragment==''">Course content</h4>
         <h4 *ngIf="fragment == 'learning'">{{current_course.title}}</h4>
-        <div class="content-list">
-            <app-section-course *ngFor="let section of listSection" [section]="section"></app-section-course>
+        <div class="content-list" *ngIf="!isLoading">
+            <app-section-course *ngFor="let section of listSection" [firstSectionOrder]="firstSectionOrder" [section]="section"></app-section-course>
+        </div>
+        <div class="lds-ring" *ngIf="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     </div>
 </div>

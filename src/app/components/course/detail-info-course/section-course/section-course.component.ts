@@ -17,31 +17,44 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SectionCourseComponent implements OnInit, OnChanges {
 
   @Input() section!: Section;
+  @Input()firstSectionOrder!:number;
   listLecture : Lecture[]=[];
   video!: Video;
+  selectedLecture!:string;
+
   constructor(
     private courseService: CourseService,
     private route: Router,
     private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getLecturesBySectionId(this.section.id);
+    //load first lecture of first section on default
+    console.log("On init")
+    this.courseService.getLecturesBySectionId(this.section.id).subscribe(responseData=>{
+      this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})        
+      if(this.section.sectionOrder==this.firstSectionOrder){
+      this.loadLecture(this.listLecture[0].id)
+      }
+    })
+
+    this.activeRoute.params.subscribe(params=>{
+      let lectureId= params['lectureId'];
+      this.selectedLecture=lectureId;
+
+    })
     
   }
+
   ngOnChanges(changes:SimpleChanges){
-      if(changes.section){
-        this.ngOnInit()
-      }
+     
   }
 
-  //TODO:get lectures of section by section id
   getLecturesBySectionId( sectionId:string){
-    // this.listLecture= this.courseService.getLecturesBySectionId(sectionId);
-    // //! OPEN COMMAND WHEN HAVE API
+  
     this.courseService.getLecturesBySectionId(sectionId).subscribe(responseData=>{
-      this.listLecture= responseData.lectures
-      console.log("Lecture ")
-      console.log(this.listLecture)
+      this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
+     
+      this.loadLecture(this.listLecture[0].id)
     })
   }
 
@@ -56,11 +69,20 @@ export class SectionCourseComponent implements OnInit, OnChanges {
 
   loadLecture(lectureId:string)
   {
-    let courseId;
-    this.activeRoute.params.subscribe(params=>{
-      courseId=params['courseId'];
-      
+    //*in detail course screen, learner can not click lecture link
+    this.activeRoute.fragment.subscribe(fragment=>{
+      if(fragment=='learning')
+      {
+     let courseId;
+        
+        this.activeRoute.params.subscribe(params=>{
+          courseId=params['courseId'];
+        })
+      this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+
+      }
     })
-    this.route.navigate(['/learning',courseId,this.section.id,lectureId]);  }
+
+  }
 
 }

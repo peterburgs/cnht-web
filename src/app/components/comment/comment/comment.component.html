@@ -1,6 +1,18 @@
 <div class="comment-area">
+    <div class="lds-ring" *ngIf="isLoadingComment">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
     <app-single-comment *ngFor="let commentParent of commentParents" [commentParent]="commentParent" [lectureId]="lectureId" [commentChilds]="commentChilds">
     </app-single-comment>
+    <div class="lds-ring" *ngIf="isCommenting">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
     <div *ngIf="isLoggedin" class="media comment-input">
         <div class="media-left">
             <img [src]="avatarUrl" class="media-object">

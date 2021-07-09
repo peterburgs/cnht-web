@@ -23,8 +23,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
   isBought!: boolean;
   isLoggedin!: Observable<boolean>;
   learner!: User;
-
-  
+  baseUrl='https://us-central1-supple-craft-318515.cloudfunctions.net/app/';
+  isLoading= true;
   //*inform alert
   message:string="";
   actionToAlert:string="";
@@ -114,12 +114,14 @@ export class CardImageComponent implements OnInit ,OnChanges{
      //check is bought
     {
       console.log("isBought function")
-      this.userService.checkCourseBought(this.course.id, this.learner.id)
+      this.userService.checkEnrollment(this.course.id, this.learner.id)
       .pipe(
         catchError((error)=>{
             console.log("ERROR")
             if(error.error.count==0)
               this.isBought=false
+           this.isLoading=false;
+
            return throwError(error) 
         })
       )
@@ -127,6 +129,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
         console.log('Check bought')
         console.log(responseData)
        this.isBought= true;
+       this.isLoading=false;
     })  
    }
   }
@@ -139,7 +142,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
    * @returns 
    */
   handlePriceFormat(price:number):any{
-    return PriceFormat(price);
+   return PriceFormat(price);
   }
 
   /**
@@ -149,7 +152,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
    * @param lectureId 
    */
   goToCourse( courseId: string,sectionId:string, lectureId:string){
-    this.router.navigate(['/learning',courseId,sectionId,lectureId]);
+    
+    this.router.navigate(['/learning',courseId,sectionId,lectureId],{fragment:'learning'});
   }
 
   /**
@@ -178,6 +182,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
     if(this.lecture.length>0)
      this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
+    else
+       this.lectureId="";
   }
 
   /**

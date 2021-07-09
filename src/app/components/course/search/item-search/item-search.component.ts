@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { CourseService } from 'src/app/service/course.service';
+import { PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-item-search',
@@ -19,27 +20,20 @@ export class ItemSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+  numberStudent: number = 0;
   getTotalNumberOfCourse(courseId: string){
-   return this.courseService.getTotalLeanerOfCourse(courseId);
+    this.courseService.getstudentJoinedNumber(courseId).subscribe(
+      responseData=>{
+        this.numberStudent= responseData.count;
+      }
+    )
+
+    return this.numberStudent;
 
 }
 
   handlePriceFormat(price:number):any{
-
-    var price_format="";
-    var zero;
-    while(price%1000==0)
-    {
-      price= price/1000;
-      
-       zero =price_format;
-      price_format = ".000"+price_format;
-    }
-    zero = price_format;
-    price_format=price.toString()+ price_format+"đ";
-
-    return price_format;
+   return PriceFormat(price)
   }
 
 

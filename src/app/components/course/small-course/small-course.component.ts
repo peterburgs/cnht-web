@@ -10,13 +10,14 @@ import {PriceFormat} from 'src/app/util/priceformat'
 export class SmallCourseComponent implements OnInit {
 
   @Input()  course = new Course();
+  baseUrl= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/';
   constructor() { }
 
   ngOnInit(): void {
   }
 
   handlePriceFormat(price:number):any{
-    return PriceFormat(price)
+   // return PriceFormat(price)
   }
 
 }

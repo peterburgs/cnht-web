@@ -39,9 +39,7 @@ export  class authenticationService {
         localStorage.setItem('role',user.userRole);
         localStorage.setItem('token',token);
 
-        //for admin
-        localStorage.setItem('role', ROLES.ADMIN);
-        
+        //for admin        
       }
   }
 
@@ -80,6 +78,20 @@ export  class authenticationService {
         return true;
     }
     return false;
+  }
+
+  getToken(){
+    if(typeof(localStorage)){
+       return "Bearer " + localStorage.getItem('token');}
+      return "token";
+  }
+
+  getBalane(){
+
+    var balance:string = "";
+    if(typeof(localStorage)){
+       balance ="0"+ localStorage.getItem('balance');}
+    return Number(balance);
   }
 
 

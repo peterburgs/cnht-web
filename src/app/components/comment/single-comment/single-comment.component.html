@@ -1,7 +1,7 @@
 <div class="media">
     <div class="media-left">
         <!--TODO:LOAD INFO OF COMMENT'S USER-->
-        <img src="../../../../assets/images/img1.jpg" class="media-object">
+        <img src="{{commentParent.learner?.avatarUrl}}" onerror="this.src='../../../../assets/images/default_avatar.png'" class="media-object">
     </div>
     <div class="media-body">
         <h5 class="media-heading title">{{commentParent.learner?.fullName}}
@@ -13,7 +13,7 @@
         <div class="child-comment">
             <div *ngFor="let comment of commentChildList" class="child-media">
                 <div class="media-left">
-                    <img src="../../../../assets/images/img1.jpg" class="media-object">
+                    <img src="{{comment.learner?.avatarUrl}}" onerror="this.src='../../../../assets/images/default_avatar.png'" class="media-object">
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading title">{{comment.learner?.fullName}}
@@ -25,7 +25,12 @@
 
                 </div>
             </div>
-
+            <div class="lds-ring" *ngIf="isCommenting">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             <div *ngIf="isLoggedin" class="child-media comment-input">
                 <div class="media-left">
                     <img [src]="avatarUrl" class="media-object">

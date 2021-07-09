@@ -52,7 +52,7 @@ const routes: Routes = [
     path:'wallet', component:WalletScreenComponent
   },
   {
-    path:'detail/:id/:name', component: CourseDetailScreenComponent
+    path:'detail/:id', component: CourseDetailScreenComponent
   },
   {
     path:'login', component: LoginScreenComponent

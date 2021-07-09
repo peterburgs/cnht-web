@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Enrollment } from 'src/app/models/enrollment.model';
 import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
@@ -25,35 +26,42 @@ export class LearnerManagermentComponent implements OnInit {
 
     if(this.authService.isAdmin()){
       this.isAdmin = true;
-      this.getListUser();
+      this.getAllUser();
       console.log('list');
     }
    
   }
 
   getListUser(){//
-  this.userService.getAllUser().subscribe(users =>
+  this.userService.getAllLearner().subscribe(users =>
     {
       if(users.count!=0){
-        this.listUsers = users.users
+        this.listUsers = users.users,
+        this.listSearch = this.listUsers
       } else this.listUsers = []
 
-      console.log('list 1' + this.listUsers.length);
+      
     });
   }
 
+
+
   searchUser(){
+
     if(this.titleSearch == "")  this.getAllUser();
     else{
-      this.userService.getListUserByTitle(this.titleSearch).subscribe(users =>
-        {
-          if(users.count!=0){
-            this.listUsers = users.users
-          } else this.listUsers = []
-        });
+    
+      this.getListUserByTitle(this.titleSearch);
       this.onLoadRouter();
+    
     }
 
+  }
+
+ listSearch: User[] = [];
+  getListUserByTitle(title: string){
+  this.listSearch = this.listUsers.filter(user => user.email.toLowerCase().includes(title.toLowerCase())  ||user.fullName.toLowerCase().includes(title.toLowerCase()) );
+ // this.listUsers = this.listSearch;
   }
 
   getAllUser(){
@@ -62,7 +70,6 @@ export class LearnerManagermentComponent implements OnInit {
   }
 
   
-
   isPaging(){
     return true;
   }
@@ -80,13 +87,13 @@ export class LearnerManagermentComponent implements OnInit {
   }
 
   onLoadRouter(){
-    
     this.router.navigate(['admin/managerment/learner'], {queryParams: {searchUser: this.titleSearch }, fragment: 'adminSearch'});
-   
+    console.log("length3: " + this.listUsers.length);
   }
 
   onLoadRouterDefault(){
     this.router.navigate(['admin/managerment/learner']);
+    console.log("length4: " + this.listUsers.length);
    
   }
 

@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Course } from 'src/app/models/course.model';
 import { Section } from 'src/app/models/section.model';
 import { CourseService } from 'src/app/service/course.service';
@@ -12,7 +14,8 @@ export class ContentCourseComponent implements OnInit , OnChanges{
 
   @Input() current_course = new Course();
   @Input() fragment: string= "learning";
-
+  firstSectionOrder!:number
+  isLoading= true;
   //Example
   listSection: Section[] =[];
 
@@ -36,10 +39,19 @@ export class ContentCourseComponent implements OnInit , OnChanges{
     console.log("Current course")
     console.log(this.current_course);
     this.courseService.getSectionByCourseId(this.current_course.id)
+    .pipe(
+      catchError((error)=>{
+          console.log(error)
+          this.isLoading= false;
+         return throwError(error)
+          
+      })
+    )
     .subscribe(data=>{
-      this.listSection= data.sections;
+      this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
+      this.firstSectionOrder= this.listSection[0].sectionOrder;
       console.log(data)
-      console.log("GET SECTION")
+      this.isLoading= false;
     })
     
     // this.courseService.getSectionByCourseId(this.current_course.id).subscribe(sections=>
