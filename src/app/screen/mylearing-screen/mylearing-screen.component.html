@@ -16,14 +16,29 @@
             <app-lecturer-card-course [isLearner]="true" *ngFor="let course of myCourseList" class="col-md-3" [course]="course">
             </app-lecturer-card-course>
         </div>
-        <div class="row" *ngIf="(inputSearch.value!='' ) && (searchedCourses.length!=0)">
-            <app-lecturer-card-course [isLearner]="true" *ngFor="let course of searchedCourses" class="col-md-3" [course]="course">
-            </app-lecturer-card-course>
+        <div class="lds-ring" *ngIf="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-        <div class="not-found" *ngIf="(inputSearch.value!='')  && (searchedCourses.length==0)">
-            <h3>Course not found!</h3>
+        <div *ngIf="!isLoading">
+            <div *ngIf="courseAmount==0" class="not-found">
+                <h4>You don't have any course!</h4>
+            </div>
+            <div *ngIf="courseAmount>0">
+                <div class="row" *ngIf="(inputSearch.value!='' ) && (searchedCourses.length!=0)">
+                    <app-lecturer-card-course [isLearner]="true" *ngFor="let course of searchedCourses" class="col-md-3" [course]="course">
+                    </app-lecturer-card-course>
+                </div>
+                <div class="not-found" *ngIf="(inputSearch.value!='')  && (searchedCourses.length==0)">
+                    <h3>Course not found!</h3>
+
+                </div>
+            </div>
 
         </div>
+
 
     </div>
 

@@ -126,13 +126,13 @@ export class CourseSectionComponent implements OnInit {
   // getVideo(idLecture:string, order:number){
   //   console.log("from video");
 
-  //   // this.fullCourseService.getLectureVideo(idLecture).subscribe((video)=>{
-  //   //   this.durationVideo[order]=2;
-  //   // })
+    // this.fullCourseService.getLectureVideo(idLecture).subscribe((video)=>{
+    //   this.durationVideo[order]=2;
+    // })
 
   //   this.durationVideo[order]=2
-  //   // check
-  //   //
+    // check
+    //
    
     
   //   this.hasVideo=true;

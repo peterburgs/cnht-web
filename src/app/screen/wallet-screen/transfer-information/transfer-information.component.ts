@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { PriceFormat } from 'src/app/util/priceformat';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { DepositRequest } from 'src/app/models/deposit-request.model';
+import { STATUSES } from 'src/app/models/statuses';
+import { User } from 'src/app/models/user.model';
+import { DepositRequestService } from 'src/app/service/deposit-request.service';
+import { UserService } from 'src/app/service/user.service';
+import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-transfer-information',
@@ -10,22 +15,31 @@ export class TransferInformationComponent implements OnInit {
 
   fileToUpLoad: File = new File([], 'hinh-a');
   thumnailUrl:string= "../../../../assets/images/wellet.png";
-  constructor() { }
-  moneyTransfer!: string;
+  
+  money_Transfer!: string;
   //* Show announcement
   showAnnouncement:boolean= false;
   actionToAlert!:string;
   message!:string;
   action!:string;
+  inputError="";
+  learner!:User;
 
+  constructor(private depositService:DepositRequestService,
+    private userService: UserService) { 
+    
+  }
   ngOnInit(): void {
-    
+    if(localStorage.getItem('isLoggedin')=='true')
+    {
+      let email=localStorage.getItem('uemail');
+      if(email!=null)
+        this.userService.getUserByEmail(email)
+        .subscribe(responseData=> this.learner= responseData.users[0])
+    }
   }
 
-  handlePriceFormat(){
-    this.moneyTransfer= PriceFormat(Number(this.moneyTransfer))
-    
-  }
+ 
 
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -52,7 +66,8 @@ export class TransferInformationComponent implements OnInit {
    * Create deposit request
    */
   createDepositeRequest(){
-    const money = Number(this.moneyTransfer)
+
+    const money = Number(this.money_Transfer.replace('.',''))
     
     if(money>1000)
     {
@@ -81,14 +96,49 @@ export class TransferInformationComponent implements OnInit {
     this.showAnnouncement= false;
   }
 
+
   implementAction(action_return:string){
     if(action_return=="confirm_transfer")
     {
       //TODO: Send deposite request to admin
+      if(this.learner){
+        
+        const deposit:DepositRequest={
+          id:"",
+          learnerId: this.learner.id, 
+          amount: Number(this.money_Transfer.replace('.','')),
+          imageUrl: this.thumnailUrl,
+          depositRequestStatus: STATUSES.PENDING,
+          createdAt: new Date(),
+          updatedAt:new Date()
+        }
+
+        console.log(deposit);
+        
+      }
       
     }
 
   }
 
+  //Format money
+  priceInputFormator(input:string):string{
+    var temp;
+    console.log(Number(input).toString())
+
+    while(input.includes('.')){
+      input= input.replace('.','')
+
+    }
+
+    if(Number(input).toString()==='NaN') 
+    {      return '0';
+      
+    }
+    else{
+      return  FormatPrice(+input,0,3,'.',',');
+    }
+  }
+  
 
 }

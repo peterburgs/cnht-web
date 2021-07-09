@@ -54,8 +54,7 @@ export class CommentComponent implements OnInit, OnChanges {
       this.getCommentByLectureId();
     })
 
-    console.log("ON init")
-    this.userService.getUserInLocalStore().subscribe(user=>this.learner= user)
+    //this.userService.getUserInLocalStore().subscribe(user=>this.learner= user)
     
   }
 
@@ -73,7 +72,7 @@ export class CommentComponent implements OnInit, OnChanges {
       this.isLoggedin= true;
       let email=localStorage.getItem('uemail');
       if(email!=null)
-       this.userService.getUserByEmail(email).subscribe(responseData=> this.learner= responseData.users[0])
+        this.userService.getUserByEmail(email).subscribe(responseData=> this.learner= responseData.users[0])
       if(localStorage.getItem('uphotoUrl'))
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');

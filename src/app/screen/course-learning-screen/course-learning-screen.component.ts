@@ -21,6 +21,7 @@ export class CourseLearningScreenComponent implements OnInit {
   lectureId!:string;
   videoURL : any;
   learner = new User()
+  hidden_comment=true;
 
   constructor(
     private route: ActivatedRoute,

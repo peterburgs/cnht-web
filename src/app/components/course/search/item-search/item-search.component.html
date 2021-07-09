@@ -4,7 +4,7 @@
     </div>
     <div class="content-course">
         <div class="pull-left">
-            <a class="course-heading" routerLink="/detail/{{courseItem.id}}/{{courseItem.title}}" (click)=" changeRouter()" fragment="detail">{{courseItem.title}}</a>
+            <a class="course-heading" routerLink="/detail/{{courseItem.id}}" (click)=" changeRouter()" fragment="detail">{{courseItem.title}}</a>
             <!-- <h6 class = "list-group-item-text">{{courseItem.teacher}}</h6> -->
             <p class="list-group-item-text">{{courseItem.courseDescription |shortenDescription}}</p>
             <div class="delail-information-course">

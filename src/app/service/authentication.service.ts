@@ -43,35 +43,6 @@ export  class authenticationService {
       }
   }
 
-  // signUp(socialUser: SocialUser): boolean{
-  //   //handle create new user
-  //    const user:User = {
-  //      id:"",
-  //      email:socialUser.email,
-  //      userRole: ROLES.LEARNER,
-  //      balance: 0,
-  //      avatarUrl:socialUser.photoUrl,
-  //      fullName: socialUser.name
-  //    }
-  //    this.storeUser(socialUser);
-  //    //TODO: save user by post method
-  //    this.http
-  //    .post<User>('URL', user)
-  //    .subscribe(responseData=>{
-  //      console.log(responseData);
-  //    })
-
-  //    this.loggedIn=true;
-  //    this.logger.next(this.loggedIn);
-     
-  //    return true;}
-
-  //    this.loggedIn=true;
-  //    this.logger.next(this.loggedIn);
-  //    return true;
-
-  // }
-
   isAdmin(){ //checkadmin login
     if(typeof(localStorage)){
       if( localStorage.getItem('isLoggedin')=='true' && localStorage.getItem('role') == ROLES.ADMIN)
@@ -102,7 +73,7 @@ export  class authenticationService {
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
-      params:new HttpParams().set('userRole', ROLES.ADMIN)
+      params:new HttpParams().set('userRole', ROLES.LEARNER)
     };
     console.log(config);
     return  this.http
