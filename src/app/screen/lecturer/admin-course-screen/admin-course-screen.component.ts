@@ -16,6 +16,7 @@ export class AdminCourseScreenComponent implements OnInit {
   message: string = "Find my course by title ....";
   titleSearch: string = "";
   listCourse: Course[] = [];
+ 
   //Login check
   public userDetails? = Object;
   constructor(private router: Router, 
@@ -76,14 +77,14 @@ export class AdminCourseScreenComponent implements OnInit {
     this.router.navigateByUrl('/admin/login').then();
   }
   onCreateCourse(){
-    this.isLoading=false;
+    this.isLoading=true;
     this.fullCourseService.createCourse();
 
-    const promise= new Promise((resolve, reject)=>{
-      setTimeout(()=>{
-        this.router.navigate(['../','course',  this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) },2000)
-        this.isLoading=true;
-      });
+    this.fullCourseService.getSbjCreateCourse().subscribe(course=>{
+      this.isLoading = false;
+      this.router.navigate(['../','course',  this.fullCourseService.getCourseInfo().id], {relativeTo:this.route}) ;
+    })
+   
   }
 
   searchCourse($event: string){

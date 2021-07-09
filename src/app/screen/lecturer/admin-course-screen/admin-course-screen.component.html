@@ -1,5 +1,5 @@
 <div class="home-screen">
-  <div class = "search-course">
+  <div class = "search-course container">
     <app-search-title class = "pull-right" [message] = "message"
     (sendTitleSearch) = "searchCourse($event)"
     ></app-search-title>
@@ -8,13 +8,13 @@
         <div class="col-sm-3">
             <button class="btn-new-course" (click)="onCreateCourse()">Create new course</button> 
         </div>
-        <div *ngIf="isLoading" class="col-sm-9">
+        <!-- <div *ngIf="isLoading" class="col-sm-9">
             <div class="text-center d-flex justify-content-center">
                 <div class="spinner-border  m-3" role="status">
                   <span class="sr-only">Loading...</span>
                 </div>
               </div>
-        </div>
+        </div> -->
       
         
     </div>
@@ -31,5 +31,7 @@
     
     <br><br>
 </div>
-
+<div *ngIf="isLoading" class="background-loading">
+  <div class="lds-ellipsis loading"><div></div><div></div><div></div><div></div></div>
+</div>
 

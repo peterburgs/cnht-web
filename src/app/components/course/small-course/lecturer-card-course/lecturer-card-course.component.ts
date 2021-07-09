@@ -11,7 +11,7 @@ import { FullCourseService } from 'src/app/service/full-course.service';
 export class LecturerCardCourseComponent implements OnInit {
   @Input() course= new Course();
   @Input() isLearner: boolean=false;
-  
+  baseUrl='https://us-central1-supple-craft-318515.cloudfunctions.net/app';
   constructor(private route:ActivatedRoute,
     private router:Router, private fullCourseService: FullCourseService) { }
 
@@ -23,7 +23,6 @@ export class LecturerCardCourseComponent implements OnInit {
     // this.fullCourseService.getDataServe();
    const promise= new Promise((resolve, reject)=>{
     setTimeout(()=>{
-      
       this.router.navigate(['../','course',idItem], {relativeTo:this.route}) },1500)
     });
    // this.router.navigate(['../','course',idItem],{relativeTo:this.route})

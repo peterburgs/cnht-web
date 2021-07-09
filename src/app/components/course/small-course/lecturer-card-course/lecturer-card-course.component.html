@@ -1,5 +1,5 @@
 <div class="card">
-    <img class="img-fluid img-course" src="../../../assets/images/img1.jpg" alt="">
+    <img class="img-fluid img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="">
     <div class="info-course">
         <div class="name">
             <a routerLink="/detail/{{course.id}}" class="course-name">{{course.title |shorten}}</a>

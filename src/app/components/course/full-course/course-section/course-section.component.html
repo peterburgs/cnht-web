@@ -14,22 +14,34 @@
   <div class="div-main">
     <ul class="list-group flex-fill">
       <li class="list-group-item title-section d-flex label-section border-radius" >
-  
-        <input class="form-control w-65 title-section clean-border" #inputSection
-        [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
-       <button  *ngIf="changeSection" class="btn btn-primary" title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)">
-         Save
-       </button>
-       
-        <button class="btn btn-danger" title="Delete section" 
-        (click)="onDeleteSection()">
-          Delete
-        </button>
+        
+         
+          <div class="div-box col-sm-10">
+            <input class="form-control title-section clean-border input-box" #inputSection
+            [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
+          </div>
+          <div class="div-box col-sm-2">
+            <!-- <button  *ngIf="changeSection " class="btn btn-primary " title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)">
+              Save
+            </button> -->
+            <button type="button" *ngIf="changeSection " class="btn btn btn-success btn-circle btn-lg btn-circle" title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)"><i class="fa fa-check"></i></button>
+            <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i></button>
+
+          </div>
+          <!-- <div class="div-box  col-sm-1">
+           <button class="btn btn-danger" title="Delete section" 
+            (click)="onDeleteSection()">
+              Delete
+            </button> -->
+            <!-- <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-danger btn-circle btn-lg"><i class="glyphicon glyphicon-heart"></i></button>
+
+          </div>  -->
+
       </li>
 
       <li
         *ngFor="let lecture of sectionDummy.lecture; let i = index; let len = count"
-        class="
+        class=" lecture-item
           list-group-item
           d-flex
           justify-content-between
@@ -58,31 +70,24 @@
                 (click)="clickEditLecture($event,i)"
               >
               <button *ngIf="eventSave[i]" (click)="inputLecture.click(); saveLecture(lecture.id,i);" class="btn btn-primary">Save</button>
-              <button class="contain-video btn btn-success"  (click)="onEditLession(lecture.id)">{{durationVideo[i]!=0 ? 'Upload Video':'Upload new Video'}} </button>
-              <span class="contain-video-time">{{ durationVideo[i]}}</span>
+              <button class="contain-video btn btn-outline-primary"  (click)="onEditLession(lecture.id)">{{durationVideo[i]!=0 ? 'Upload Video':'Upload new Video'}} </button>
+              <span class="contain-video-time">1m30</span>
             </div>
             <div class="div-edit">
               
-              <button class="btn btn-danger" title="Delete lession" 
+              <button class="btn btn-outline-danger" title="Delete lession" 
               (click)="onDeleteLession(lecture.id)">
                 Delete
               </button>
             </div>
           </div>
 
-          <div>
-            <ul class="ul-deco">
-              <button *ngIf="i == len - 1 " class="btn-create-new" 
-              (click)="onCreateLession(sectionDummy.section_id)">
-                Create new lession
-              </button>
-            </ul>  
-          </div>
+         
         </div>
       </li>
       <div>
         <ul class="ul-deco">
-          <button *ngIf="!sectionDummy.lecture.length" class="btn-create-new" 
+          <button  class="btn-create-new" 
           (click)="onCreateLession(sectionDummy.section_id)">
             Create new lession
           </button>

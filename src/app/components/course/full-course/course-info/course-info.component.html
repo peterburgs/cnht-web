@@ -1,6 +1,6 @@
 <div  class="container d-flex flex-fill flex-row bd-highlight ">
     <div class="p-2 item-edit edit-image">
-        <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course">
+        <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course empty-thumbnail">
           <p class="p-emty-thumbnail">Empty thumbnail</p>
         </div>
         <img *ngIf="course.thumbnailUrl" name="thumbnailUrl" class="image-course"
@@ -48,7 +48,7 @@
               class="form-select text-deco form-select-lg mb-3 w-50" aria-label=".form-select-lg example" >
                
                 <option  *ngFor="let grade of grades " [value]="grade" 
-                [ngValue]="grade" [selected]="grade==course.grade" >
+                [ngValue]="grade" [selected]="grade==mCourse.grade" >
                   {{grade}}</option>
               </select>
               </div>  
