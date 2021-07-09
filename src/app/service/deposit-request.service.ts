@@ -221,9 +221,90 @@ private depositRequestList: DepositRequest[] = [];
             headers: new HttpHeaders().set('Authorization','Bearer '+ token) ,
         };
         return this.http
-        .post<{message:string, count:number, depositRequest:Comment }>
+        .post<{message:string, count:number, depositRequest:DepositRequest }>
         ( this.baseUrl+'/deposit-requests',deposit,config)
         
+    }
+
+
+    uploadDepositImage(file: File, depositRequestId: string) {
+            
+        console.log('Upload Thumbnail');
+        console.log(file);
+       
+        const fileId = new Date().getTime().toString();
+        const chunkSize = 5 * 1024 * 1024;
+        const chunksQuantity = Math.ceil(file.size / chunkSize);
+        const chunksQueue = [...Array(chunksQuantity)]
+          .map((_, index) => index)
+          .reverse();
+    
+        const upload = (chunk: Blob, chunkId: number) => {
+          return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open(
+              'post',
+              `${this.baseUrl}deposit-requests/${depositRequestId}/upload`
+            );
+    
+            xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+            xhr.setRequestHeader('X-Chunk-Id', String(chunkId));
+            xhr.setRequestHeader('X-Content-Id', fileId);
+            xhr.setRequestHeader('X-Chunk-Length', String(chunk.size));
+            xhr.setRequestHeader('X-Content-Length', String(file.size));
+            xhr.setRequestHeader('X-Content-Name', file.name);
+            xhr.setRequestHeader('X-Chunks-Quantity', String(chunksQuantity));
+    
+            // Set token to request header
+            xhr.setRequestHeader(
+              'Authorization',
+              `Bearer ` + localStorage.getItem('token')
+            );
+    
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                resolve({ status: 200, data: JSON.parse(this.responseText) });
+              }
+              if (xhr.readyState === 4 && xhr.status === 201) {
+                resolve({ status: 201, data: JSON.parse(this.responseText) });
+              }
+            };
+    
+            xhr.onerror = reject;
+    
+            xhr.send(chunk);
+          });
+        };
+    
+        const sendNext = () => {
+          if (!chunksQueue.length) {
+            console.log('All parts uploaded');
+    
+            return;
+          }
+          const chunkId = chunksQueue.pop();
+          const begin = chunkId! * chunkSize;
+          const chunk = file.slice(begin, begin + chunkSize);
+    
+          upload(chunk, chunkId!)
+            .then((res) => {
+              const castedData = res as {
+                status: number;
+                data: { [index: string]: string };
+              };
+              if (castedData.status === 201) {
+                console.log(castedData.data);
+                console.log('***', 'Upload successfully');
+              }
+    
+              sendNext();
+            })
+            .catch(() => {
+              chunksQueue.push(chunkId!);
+            });
+        };
+    
+        sendNext();
     }
 
     updateStatusForAllNotConfirm(){

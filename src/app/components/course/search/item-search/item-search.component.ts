@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { CourseService } from 'src/app/service/course.service';
-import { PriceFormat } from 'src/app/util/priceformat';
+import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-item-search',
@@ -33,7 +33,8 @@ export class ItemSearchComponent implements OnInit {
 }
 
   handlePriceFormat(price:number):any{
-   return PriceFormat(price)
+    return  FormatPrice(+price,0,3,'.',',');
+
   }
 
 

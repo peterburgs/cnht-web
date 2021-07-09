@@ -17,7 +17,8 @@ export class SmallCourseComponent implements OnInit {
   }
 
   handlePriceFormat(price:number):any{
-      return PriceFormat(price)
+    return PriceFormat(price,0,3,'.',',');
+
   }
 
 }

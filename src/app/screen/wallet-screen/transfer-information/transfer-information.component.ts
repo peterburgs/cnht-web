@@ -1,8 +1,11 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
 import { STATUSES } from 'src/app/models/statuses';
 import { User } from 'src/app/models/user.model';
 import { DepositRequestService } from 'src/app/service/deposit-request.service';
+import { FullCourseService } from 'src/app/service/full-course.service';
 import { UserService } from 'src/app/service/user.service';
 import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 
@@ -26,7 +29,8 @@ export class TransferInformationComponent implements OnInit {
   learner!:User;
 
   constructor(private depositService:DepositRequestService,
-    private userService: UserService) { 
+    private userService: UserService,
+    private fullCourseService:FullCourseService) { 
     
   }
   ngOnInit(): void {
@@ -41,7 +45,7 @@ export class TransferInformationComponent implements OnInit {
 
  
 
-  handleFileInput(event: Event) {
+  handleImageFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
@@ -56,6 +60,7 @@ export class TransferInformationComponent implements OnInit {
       console.log(this.thumnailUrl)
       reader.readAsDataURL(this.fileToUpLoad);
     }
+
   }
 
   cancelUploadImage(){
@@ -114,6 +119,21 @@ export class TransferInformationComponent implements OnInit {
         }
 
         console.log(deposit);
+        this.depositService.createDepositRequest(deposit)
+        .pipe(
+          catchError((error)=>{
+              console.log(error)
+              
+             return throwError(error)
+              
+          })
+        )
+        .subscribe(response=>{
+            this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
+            
+        })
+        this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
+
         
       }
       
