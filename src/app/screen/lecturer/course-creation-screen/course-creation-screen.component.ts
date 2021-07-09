@@ -203,72 +203,183 @@ export class CourseCreationScreenComponent implements OnInit {
 
   onConfirmSave() {
     console.log(this.typeSelection)
-    if (this.typeSelection == VideoType.section) {
-      if (
-        this.wayModify == ModifyType.edit ||
-        this.wayModify == ModifyType.new
-      ) {
-        this.fullCourseService.handleUpdate(this.titleBinding);
-      } else {
-        this.fullCourseService.handleUpate();
-      }
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.isLoading = true;
-          this.modalService.dismissAll();
-            // window.location.reload();
-        }, 6000);
-      });
+     if (this.typeSelection == VideoType.section) {
+          if(this.wayModify == ModifyType.new){
+            this.fullCourseService.handleCreateSection(this.titleBinding).subscribe(response=>{
+              if(response.count>0){
+                this.isLoading = true;
+                this.modalService.dismissAll();
+                window.location.reload();
+              }
+              else{
+                alert('Error happen, please try again')
+              }
+              
+           }, error =>{
+             console.log('error');
+
+           })
+          }
+          else if(this.wayModify == ModifyType.delete){
+            this.fullCourseService.onDeleteSection().subscribe(response=>{
+              if(response.message=="Delete section successfully"){
+                this.isLoading = true;
+                this.modalService.dismissAll();
+                window.location.reload();
+              }
+              else{
+                alert('Error happen, please try again')
+                window.location.reload();
+              }
+           }, error =>{
+            console.log('error');
+
+          })
+           
+          }
+         else if (this.wayModify == ModifyType.goUp){
+                this.fullCourseService.onUpSection()?.subscribe((response)=>{
+                    if(response && response.count <= 0){
+                      alert('Error happen, please try again')
+                      window.location.reload();
+                    }
+                    else{
+                      this.isLoading = true;
+                      this.modalService.dismissAll();
+                      window.location.reload();
+                
+                    }
+                }, error =>{
+                  console.log('error');
+     
+                })
+               
+          }
+          else if (this.wayModify == ModifyType.goDown){
+            this.fullCourseService.onDownSection()?.subscribe((response)=>{
+              if(response && response.count==0){
+                alert('Error happen, please try again')
+                
+              }
+              else{
+                this.isLoading = true;
+                this.modalService.dismissAll();
+                window.location.reload();
+                
+              }
+          }, error =>{
+            console.log('error');
+
+          })
+        }
     } else if (this.typeSelection == VideoType.lession) {
-      console.log(this.wayModify);
-      if (this.wayModify == ModifyType.new) {
-        this.fullCourseService.handleUpdate(this.titleBinding);
-      } else if (this.wayModify == ModifyType.edit) {
-        this.onFileUpload();
-      } else {
-        console.log('hello');
-        this.fullCourseService.handleUpate();
+      if(this.wayModify == ModifyType.new)    
+        {
+            
+              this.fullCourseService.handleCreateLecture(this.titleBinding)?.subscribe(response=>{
+                if(response && response.count<0){
+                  alert('Error happen, please try again')
+                }
+                else{
+                  this.isLoading = true;
+                  this.modalService.dismissAll();
+                  window.location.reload();
+                }
+             }, error =>{
+              console.log('error');
+ 
+            })
+        }
+      else if (this.wayModify ==ModifyType.edit){
+        this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
       }
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.isLoading = true;
-          this.modalService.dismissAll();
-            // window.location.reload();
-        }, 6000);
-      });
+      else if(this.wayModify == ModifyType.delete){
+          
+              this.fullCourseService.onDeleteLecture().subscribe(response=>{
+                if(response.message=="Delete lecture successfully"){
+                  this.isLoading = true;
+                  this.modalService.dismissAll();
+                  window.location.reload();
+                }
+                else{
+                  alert('Error happen, please try again')
+                  window.location.reload();
+                }
+             }, error =>{
+              console.log('error');
+              alert('Error happen, please try again')
+              window.location.reload();
+            })
+            }
+     
+      else if (this.wayModify == ModifyType.goUp){
+        this.fullCourseService.onUpLecture()?.subscribe((response)=>{
+          if(response && response.count==0){
+            alert('Error happen, please try again')
+          }
+          else{
+            this.isLoading = true;
+            this.modalService.dismissAll();
+            window.location.reload();
+          }
+      }  , error =>{
+        console.log('error');
+        alert('Error happen, please try again')
+        window.location.reload();
+      })}
+      else if (this.wayModify ==ModifyType.goDown){
+        this.fullCourseService.onDownLecture()?.subscribe((response)=>{
+          if(response && response.count==0){
+            alert('Error happen, please try again')
+          }
+          else{
+            this.isLoading = true;
+            this.modalService.dismissAll();
+            window.location.reload();
+          }
+      }, error =>{
+        console.log('error');
+        alert('Error happen, please try again')
+        window.location.reload();
+      })
+
+      // console.log(this.wayModify);
+      // if (this.wayModify == ModifyType.new) {
+      //   this.fullCourseService.handleUpdate(this.titleBinding);
+      // } else if (this.wayModify == ModifyType.edit) {
+      //   this.onFileUpload();
+      // } else {
+      //   console.log('hello');
+      //   this.fullCourseService.handleUpate();
+      // }
+      // const promise = new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     this.isLoading = true;
+      //     this.modalService.dismissAll();
+      //       // window.location.reload();
+      //   }, 6000);
+      // });
     } 
-     if (
+    else if (
       this.fullCourseService.wayModify == ModifyType.delete &&
       this.fullCourseService.typeSelection == VideoType.course
     ) {
-      // this.router.navigate(['../','course','new'], {relativeTo:this.route})
-      this.fullCourseService.handleUpate();
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
+
+      this.fullCourseService.onDeleteCourse().subscribe(response=>{
+        if(response.message=="Delete course successfully"){
           this.router.navigateByUrl('/admin/home').then();
-          //  this.activeModal.close();
           this.modalService.dismissAll();
-        }, 6000);
-        this.isLoading = true;
-      });
-    } else {
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.modalService.dismissAll();
-            // window.location.reload();
-        }, 6000);
-        this.isLoading = true;
-      });
-      this.modalService.dismissAll();
-        // window.location.reload();
-    }
-  }
-  onFileUpload() {
-    // const videoLecture= this.fileVideo?.nativeElement.files[0];
-    // const file = new FormData();
-    // file.set('file', this.fileToUpLoad);
-    this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
-  }
+        }
+        else{
+          alert('problem having')
+        }
+      }, error =>{
+        console.log('error');
+        alert('Error happen, please try again')
+        window.location.reload();
+      })
+    } 
+  }}
   goBack() {
     this.router.navigateByUrl('/admin/home').then();
   }

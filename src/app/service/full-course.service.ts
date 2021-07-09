@@ -93,7 +93,7 @@ export class FullCourseService {
       console.log(mCourse.id);
       if (mCourse.id == this.idCourse) {
         console.log(mCourse);
-        console.log("thaoooo")
+        console.log('thaoooo');
         this.course = mCourse;
       }
     });
@@ -163,7 +163,8 @@ export class FullCourseService {
     let sectionUp: Section = this.getSectionSelection()[0];
     if (sectionUp.sectionOrder <= 0) {
       console.log('Can not up this section');
-      return;
+      return this.onSaveSection(sectionUp);
+
     }
     // Find section above
     //   let sectionSwap: Section=this.sections
@@ -177,21 +178,34 @@ export class FullCourseService {
     }
     //find swap lecture
     let lectureSwap: Lecture[] = this.lectures.filter((lecture) => {
-      lecture.sectionId == sectionSwap.id;
+      return lecture.sectionId == sectionSwap.id;
     });
     let lectureUp: Lecture[] = this.lectures.filter((lecture) => {
-      lecture.sectionId == sectionUp.id;
+      return lecture.sectionId == sectionUp.id;
     });
-    //Update lecture in side
-    lectureSwap.forEach((lecture) => {
-      lecture.lectureOrder = lecture.lectureOrder + lectureUp.length;
-      this.onSaveLecture(lecture);
-    });
+    //Just change lectureOrder when both section have lecture
+    if(lectureUp.length>0 && lectureSwap.length>0){
+      let startSwap =
+      lectureUp[lectureUp.length - 1].lectureOrder - lectureSwap.length + 1;
 
-    lectureUp.forEach((lecture) => {
-      lecture.lectureOrder = lecture.lectureOrder - lectureSwap.length;
-      this.onSaveLecture(lecture);
-    });
+    let startUp = lectureSwap[0].lectureOrder;
+    //Update lecture in side
+
+    for (let s = 0; s < lectureSwap.length; s++) {
+      lectureSwap[s].lectureOrder = startSwap + s;
+      this.onSaveLecture(lectureSwap[s]);
+    }
+    for (let u = 0; u < lectureUp.length; u++) {
+      lectureUp[u].lectureOrder = startUp + u;
+      this.onSaveLecture(lectureUp[u]);
+    }
+    }
+  
+
+    // lectureUp.forEach((lecture) => {
+    //   lecture.lectureOrder = lecture.lectureOrder - lectureSwap.length;
+    //   this.onSaveLecture(lecture);
+    // });
 
     //Update case: different section
     let tmpOrder = sectionSwap.sectionOrder;
@@ -199,7 +213,7 @@ export class FullCourseService {
     this.onSaveSection(sectionSwap);
 
     sectionUp.sectionOrder = tmpOrder;
-    this.onSaveSection(sectionUp);
+   return this.onSaveSection(sectionUp);
 
     // console.log('First section swap up'+sectionSwap);
     // this.onSaveSection(sectionSwap);
@@ -213,7 +227,7 @@ export class FullCourseService {
     //Last section canot down
     if (sectionDown.id == this.sections[this.sections.length - 1].id) {
       console.log('Can not down this section' + sectionDown);
-      return;
+      return this.onSaveSection(sectionDown);
     }
     let sectionSwap = new Section();
     //find the section below
@@ -225,23 +239,29 @@ export class FullCourseService {
     }
     // if (sectionSwap) {
     //find swap lecture
+    
     let lectureSwap: Lecture[] = this.lectures.filter((lecture) => {
       lecture.sectionId == sectionSwap.id;
     });
     let lectureDown: Lecture[] = this.lectures.filter((lecture) => {
       lecture.sectionId == sectionDown.id;
     });
-    //Update lecture in side
-    lectureSwap.forEach((lecture) => {
-      lecture.lectureOrder = lecture.lectureOrder - lectureDown.length;
-      this.onSaveLecture(lecture);
-      });
-      console.log(lectureSwap);
-      console.log(lectureDown);
-    lectureDown.forEach((lecture) => {
-      lecture.lectureOrder = lecture.lectureOrder + lectureSwap.length;
-      this.onSaveLecture(lecture);
-    });
+    if(lectureSwap.length>0 && lectureDown.length>0){
+      let startSwap = lectureDown[0].lectureOrder;
+
+      let startDown =
+        lectureSwap[lectureSwap.length - 1].lectureOrder - lectureDown.length + 1;
+  
+      for (let s = 0; s < lectureSwap.length; s++) {
+        lectureSwap[s].lectureOrder = startSwap + s;
+        this.onSaveLecture(lectureSwap[s]);
+      }
+      for (let u = 0; u < lectureDown.length; u++) {
+        lectureDown[u].lectureOrder = startDown + u;
+        this.onSaveLecture(lectureDown[u]);
+      }
+    }
+    
 
     let tmpOrder = sectionSwap.sectionOrder;
     sectionSwap.sectionOrder = sectionDown.sectionOrder;
@@ -249,10 +269,10 @@ export class FullCourseService {
     this.onSaveSection(sectionSwap);
 
     sectionDown.sectionOrder = tmpOrder;
-    this.onSaveSection(sectionDown);
+    return this.onSaveSection(sectionDown);
     // }
   }
-  onUpLession() {
+  onUpLecture() {
     let lectureUp: Lecture = this.getLectureSelection();
     //Don't run anything if the first lession
     if (lectureUp.id == this.lectures[0].id) {
@@ -276,8 +296,8 @@ export class FullCourseService {
     //Swap lecture in difference section
     if (lectureSwap.sectionId != lectureUp.sectionId) {
       lectureUp.sectionId = lectureSwap.sectionId;
-      this.onSaveLecture(lectureUp);
-      return;
+      return this.onSaveLecture(lectureUp);
+      
     }
     //Comon case
     let tmpOrder = lectureSwap.lectureOrder;
@@ -285,10 +305,10 @@ export class FullCourseService {
     this.onSaveLecture(lectureSwap);
 
     lectureUp.lectureOrder = tmpOrder;
-    this.onSaveLecture(lectureUp);
+   return  this.onSaveLecture(lectureUp);
   }
 
-  onDownLession() {
+  onDownLecture() {
     let lectureDown: Lecture = this.getLectureSelection();
     if (lectureDown.id == this.lectures[this.lectures.length - 1].id) {
       //Case: as section empty below
@@ -311,8 +331,7 @@ export class FullCourseService {
       for (let i = 0; i < this.sections.length - 1; i++) {
         if (this.sections[i].id == lectureDown.sectionId) {
           lectureDown.sectionId = this.sections[i + 1].id;
-          this.onSaveLecture(lectureDown);
-          return;
+         return this.onSaveLecture(lectureDown);
         }
       }
     }
@@ -326,15 +345,14 @@ export class FullCourseService {
     }
     if (lectureSwapDown.sectionId != lectureDown.sectionId) {
       lectureDown.sectionId = lectureSwapDown.sectionId;
-      this.onSaveLecture(lectureDown);
-      return;
+      return this.onSaveLecture(lectureDown);
     }
     let tmpOrder = lectureSwapDown.lectureOrder;
     lectureSwapDown.lectureOrder = lectureDown.lectureOrder;
     this.onSaveLecture(lectureSwapDown);
 
     lectureDown.lectureOrder = tmpOrder;
-    this.onSaveLecture(lectureDown);
+   return this.onSaveLecture(lectureDown);
   }
 
   //================ HTTP ===============
@@ -510,116 +528,159 @@ export class FullCourseService {
 
   //Another
   handleUpate() {
-    if (this.typeSelection == VideoType.course) {
-      switch (this.wayModify) {
-        case ModifyType.delete:
-          return this.onDeleteCourse();
+    // if (this.typeSelection == VideoType.course) {
+    //   switch (this.wayModify) {
+    //     case ModifyType.delete:
+    //       return this.onDeleteCourse();
 
-        case ModifyType.save:
-          return this.onSaveCourse();
-      }
-    } else if (this.typeSelection == VideoType.section) {
-      switch (this.wayModify) {
-        case ModifyType.delete:
-          return this.onDeleteSection();
+    //     case ModifyType.save:
+    //       return this.onSaveCourse();
+    //   }
+    // } else if (this.typeSelection == VideoType.section) {
+    //   switch (this.wayModify) {
+    //     case ModifyType.delete:
+    //       return this.onDeleteSection();
 
-        case ModifyType.goUp:
-          return this.onUpSection();
+    //     case ModifyType.goUp:
+    //       return this.onUpSection();
 
-        case ModifyType.goDown:
-          return this.onDownSection();
-      }
-    } else if (this.typeSelection == VideoType.lession) {
-      switch (this.wayModify) {
-        case ModifyType.delete:
-          return this.onDeleteLecture();
+    //     case ModifyType.goDown:
+    //       return this.onDownSection();
+    //   }
+    // } else if (this.typeSelection == VideoType.lession) {
+    //   switch (this.wayModify) {
+    //     case ModifyType.delete:
+    //       return this.onDeleteLecture();
 
-        case ModifyType.goUp:
-          return this.onUpLession();
+    //     case ModifyType.goUp:
+    //       return this.onUpLession();
 
-        case ModifyType.goDown:
-          return this.onDownLession();
+    //     case ModifyType.goDown:
+    //       return this.onDownLession();
+    //   }
+    // }
+  }
+  handleCreateLecture(title:string){
+    let tmpLecture = new Lecture();
+    //TODO: add more about File Video
+    tmpLecture.title = title;
+
+    tmpLecture.sectionId = this.getSectionSelection()[0].id;
+    console.log('sectio select');
+    console.log(tmpLecture.sectionId);
+    tmpLecture.isHidden = false;
+    let fromOrder = this.lectures.length - 1;
+    for (let i = 0; i < this.listDeepSection.length; i++) {
+      if (this.listDeepSection[i].section_id == tmpLecture.sectionId) {
+        if (this.listDeepSection[i].lecture.length > 0) {
+          tmpLecture.lectureOrder =
+            this.listDeepSection[i].lecture[
+              this.listDeepSection[i].lecture.length - 1
+            ].lectureOrder + 1;
+        } else {
+          //Case: when dosen't has any lecture in this course, it make listDeepSection.lecture is null
+          if (this.lectures.length <= 0) {
+            tmpLecture.lectureOrder = 0;
+            this.onCreateLecture(tmpLecture);
+            return;
+          }
+          tmpLecture.lectureOrder =
+            this.listDeepSection[i - 1].lecture[
+              this.listDeepSection[i - 1].lecture.length - 1
+            ].lectureOrder + 1;
+        }
       }
     }
+    for (let j = 0; j < this.lectures.length; j++) {
+      if (this.lectures[j].lectureOrder == tmpLecture.lectureOrder - 1) {
+        fromOrder = j;
+      }
+    }
+    for (let k = fromOrder + 1; k < this.lectures.length; k++) {
+      this.lectures[k].lectureOrder = this.lectures[k].lectureOrder + 1;
+      this.onSaveLecture(this.lectures[k]);
+    }
+    return this.onCreateLecture(tmpLecture);
+  }
+  handleEditTitleLecture(title:string){
+    var tmpLecturer = this.getLectureSelection();
+
+   
+      tmpLecturer.title = title;
+     return this.onSaveLecture(tmpLecturer);
+  }
+  handleEditSection(title:string){
+    var tmpSection = this.getSectionSelection()[0];
+    console.log(tmpSection);
+   
+      tmpSection.title = title;
+    return this.onSaveSection(tmpSection);
+    
+  }
+  handleCreateSection(title: string) {
+    let tmpSection = new Section();
+    tmpSection.title = title;
+    tmpSection.courseId = this.idCourse;
+    tmpSection.isHidden = false;
+
+    if (this.sections.length > 0) {
+      tmpSection.sectionOrder =
+        this.sections[this.sections.length - 1].sectionOrder + 1;
+    } else {
+      tmpSection.sectionOrder = 0;
+    }
+    console.log('Section new');
+    console.log(tmpSection);
+    return this.onCreateSection(tmpSection);
   }
   //Edit and new
-  handleUpdate(title: string) {
-    if (this.wayModify == ModifyType.edit) {
-      if (this.typeSelection == VideoType.lession) {
-        var tmpLecturer = this.getLectureSelection();
+  // handleUpdate(title: string) {
+  //   // if (this.wayModify == ModifyType.new) {
+      
+  //   //   } else if (this.typeSelection == VideoType.lession) {
+  //   //     let tmpLecture = new Lecture();
+  //   //     //TODO: add more about File Video
+  //   //     tmpLecture.title = title;
 
-        if (tmpLecturer != null) {
-          tmpLecturer.title = title;
-          this.onSaveLecture(tmpLecturer);
-        }
-      } else {
-        var tmpSection = this.getSectionSelection()[0];
-        console.log(tmpSection);
-        if (tmpSection != null) {
-          tmpSection.title = title;
-          this.onSaveSection(tmpSection);
-        }
-      }
-    } else if (this.wayModify == ModifyType.new) {
-      if (this.typeSelection == VideoType.section) {
-        let tmpSection = new Section();
-        tmpSection.title = title;
-        tmpSection.courseId = this.idCourse;
-        tmpSection.isHidden = false;
-
-        if (this.sections.length > 0) {
-          tmpSection.sectionOrder =
-            this.sections[this.sections.length - 1].sectionOrder + 1;
-        } else {
-          tmpSection.sectionOrder = 0;
-        }
-        console.log('Section new');
-        console.log(tmpSection);
-        this.onCreateSection(tmpSection);
-      } else if (this.typeSelection == VideoType.lession) {
-        let tmpLecture = new Lecture();
-        //TODO: add more about File Video
-        tmpLecture.title = title;
-
-        tmpLecture.sectionId = this.getSectionSelection()[0].id;
-        console.log('sectio select');
-        console.log(tmpLecture.sectionId);
-        tmpLecture.isHidden = false;
-        let fromOrder = this.lectures.length - 1;
-        for (let i = 0; i < this.listDeepSection.length; i++) {
-          if (this.listDeepSection[i].section_id == tmpLecture.sectionId) {
-            if (this.listDeepSection[i].lecture.length > 0) {
-              tmpLecture.lectureOrder =
-                this.listDeepSection[i].lecture[
-                  this.listDeepSection[i].lecture.length - 1
-                ].lectureOrder + 1;
-            } else {
-              //Case: when dosen't has any lecture in this course, it make listDeepSection.lecture is null
-              if (this.lectures.length <= 0) {
-                tmpLecture.lectureOrder = 0;
-                this.onCreateLecture(tmpLecture);
-                return;
-              }
-              tmpLecture.lectureOrder =
-                this.listDeepSection[i - 1].lecture[
-                  this.listDeepSection[i - 1].lecture.length - 1
-                ].lectureOrder + 1;
-            }
-          }
-        }
-        for (let j = 0; j < this.lectures.length; j++) {
-          if (this.lectures[j].lectureOrder == tmpLecture.lectureOrder - 1) {
-            fromOrder = j;
-          }
-        }
-        for (let k = fromOrder + 1; k < this.lectures.length; k++) {
-          this.lectures[k].lectureOrder = this.lectures[k].lectureOrder + 1;
-          this.onSaveLecture(this.lectures[k]);
-        }
-        this.onCreateLecture(tmpLecture);
-      }
-    }
-  }
+  //   //     tmpLecture.sectionId = this.getSectionSelection()[0].id;
+  //   //     console.log('sectio select');
+  //   //     console.log(tmpLecture.sectionId);
+  //   //     tmpLecture.isHidden = false;
+  //   //     let fromOrder = this.lectures.length - 1;
+  //   //     for (let i = 0; i < this.listDeepSection.length; i++) {
+  //   //       if (this.listDeepSection[i].section_id == tmpLecture.sectionId) {
+  //   //         if (this.listDeepSection[i].lecture.length > 0) {
+  //   //           tmpLecture.lectureOrder =
+  //   //             this.listDeepSection[i].lecture[
+  //   //               this.listDeepSection[i].lecture.length - 1
+  //   //             ].lectureOrder + 1;
+  //   //         } else {
+  //   //           //Case: when dosen't has any lecture in this course, it make listDeepSection.lecture is null
+  //   //           if (this.lectures.length <= 0) {
+  //   //             tmpLecture.lectureOrder = 0;
+  //   //             this.onCreateLecture(tmpLecture);
+  //   //             return;
+  //   //           }
+  //   //           tmpLecture.lectureOrder =
+  //   //             this.listDeepSection[i - 1].lecture[
+  //   //               this.listDeepSection[i - 1].lecture.length - 1
+  //   //             ].lectureOrder + 1;
+  //   //         }
+  //   //       }
+  //   //     }
+  //   //     for (let j = 0; j < this.lectures.length; j++) {
+  //   //       if (this.lectures[j].lectureOrder == tmpLecture.lectureOrder - 1) {
+  //   //         fromOrder = j;
+  //   //       }
+  //   //     }
+  //   //     for (let k = fromOrder + 1; k < this.lectures.length; k++) {
+  //   //       this.lectures[k].lectureOrder = this.lectures[k].lectureOrder + 1;
+  //   //       this.onSaveLecture(this.lectures[k]);
+  //   //     }
+  //   //     this.onCreateLecture(tmpLecture);
+  //   //   }
+    
+  // }
   handleUpdateWithThumbnail(file: File) {
     // const file = new FormData();
     // file.set('file', imgFile);
@@ -756,15 +817,15 @@ export class FullCourseService {
     this.lectures = [];
     this.onCreateCourse(this.course);
   }
-  onSaveSection(section: Section): Observable<Section> {
+  onSaveSection(section: Section): Observable<{ message: String; count: Number; section: Section }> {
     //TODO: Http
 
     console.log('Save section ');
     console.log(section);
     const url = `${this.apiUrlSection}/${section.id}`;
 
-    this.http
-      .put<{ message: String; count: Number; section: Section }>(
+    return this.http
+      .put<{ message: string; count: number; section: Section }>(
         url,
         {
           title: section.title,
@@ -773,17 +834,17 @@ export class FullCourseService {
           isHidden: section.isHidden,
         },
         httpOptions
-      )
-      .subscribe((response) => {
-        console.log(response);
-      });
+      );
+      // .subscribe((response) => {
+      //   console.log(response);
+      // });
 
     // this.mSectionList.forEach((dataSection)=>{
     //     if(dataSection.id== sectionId){
     //       dataSection.title=section.title;
     //     }
     // })
-    return of(section);
+    
   }
 
   onSaveLecture(lecture: Lecture) {
@@ -793,8 +854,8 @@ export class FullCourseService {
     const url = `${this.apiUrlLecture}/${lecture.id}`;
     console.log(url);
     // return this.http.put<Lecture>(url, lecturer, httpOptions);
-    this.http
-      .put<{ message: String; count: Number; lecture: Lecture }>(
+    return this.http
+      .put<{ message: string; count: number; lecture: Lecture }>(
         url,
         {
           id: lecture.id,
@@ -806,12 +867,12 @@ export class FullCourseService {
           sectionId: lecture.sectionId,
         },
         httpOptions
-      )
-      .subscribe((response) => {
-        console.log('hhsjdsd');
-        console.log(response);
-        return response.lecture;
-      });
+      );
+      // .subscribe((response) => {
+      //   console.log('hhsjdsd');
+      //   console.log(response);
+      //   return response.lecture;
+      // });
   }
   onSaveCourse() {
     //TODO: Http
@@ -843,21 +904,21 @@ export class FullCourseService {
     //TODO: Http
     const url = `${this.apiUrlSection}/${this.idItem}`;
     return this.http
-      .delete<{ message: string }>(url, httpOptions)
-      .subscribe((response) => {
-        console.log(response.message);
-        console.log('Delete Section :' + this.idItem);
-      });
+      .delete<{ message: any }>(url, httpOptions);
+      
+      // .subscribe((response) => {
+      //   console.log(response.message);
+      //   console.log('Delete Section :' + this.idItem);
+      // });
   }
   onDeleteCourse() {
     //TODO: Httpf
     const url = `${this.apiUrlCourse}/${this.idCourse}`;
-    return this.http
-      .delete<{ message: string }>(url, httpOptions)
-      .subscribe((response) => {
-        console.log(response.message);
-        console.log('Delete Course :' + this.idItem);
-      });
+    return this.http.delete<{ message: string }>(url, httpOptions);
+    // .subscribe((response) => {
+    //   console.log(response.message);
+    //   console.log('Delete Course :' + this.idItem);
+    // });
   }
   onDeleteLecture() {
     //TODO: Http
@@ -865,15 +926,15 @@ export class FullCourseService {
     console.log('delete');
     console.log(url);
     return this.http
-      .delete<{ message: string }>(url, httpOptions)
-      .subscribe((response) => {
-        console.log(response.message);
-        console.log('Delete Section :' + this.idItem);
-      });
+      .delete<{ message: string }>(url, httpOptions);
+      // .subscribe((response) => {
+      //   console.log(response.message);
+      //   console.log('Delete Section :' + this.idItem);
+      // });
   }
   onCreateSection(section: Section) {
     // const requestOptions: HttpHeaders = { headers: this.authHeader };
-    this.http
+    return this.http
       .post<{ message: String; count: Number; section: Section }>(
         this.apiUrlSection,
         {
@@ -885,12 +946,12 @@ export class FullCourseService {
           updatedAt: section.updatedAt,
         },
         httpOptions
-      )
-      .subscribe((response) => {
-        if (response.count > 0) {
-        }
-        console.log(response);
-      });
+      );
+      // .subscribe((response) => {
+      //   if (response.count > 0) {
+      //   }
+      //   console.log(response);
+      // });
   }
 
   onCreateCourse(course: Course) {
@@ -955,10 +1016,10 @@ export class FullCourseService {
           isHidden: lecture.isHidden,
         },
         httpOptions
-      )
-      .subscribe((response) => {
-        console.log(response);
-      });
+      );
+      // .subscribe((response) => {
+      //   console.log(response);
+      // });
   }
   //=============== Create HTTP===================
 

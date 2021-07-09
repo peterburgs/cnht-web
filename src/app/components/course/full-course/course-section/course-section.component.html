@@ -8,20 +8,23 @@
       <i class="fa fa-chevron-down icon-decorate"></i>
     </div>
   </div>
+<!--  -->
+
+  <!--  -->
   <div class="div-main">
     <ul class="list-group flex-fill">
       <li class="list-group-item title-section d-flex label-section border-radius" >
   
-        <input class="form-control w-50 title-section clean-border"
+        <input class="form-control w-65 title-section clean-border" #inputSection
         [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
-       <div  *ngIf="changeSection" class="div-icon" title="Edit section" (click)="saveSection(sectionDummy.section_id)">
-         <i class="fa fa-save icon-decorate  fa-9x"></i>
-       </div>
+       <button  *ngIf="changeSection" class="btn btn-primary" title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)">
+         Save
+       </button>
        
-        <div class="div-icon" title="Delete section" 
+        <button class="btn btn-danger" title="Delete section" 
         (click)="onDeleteSection()">
-          <i class="fa fa-trash icon-decorate"></i>
-        </div>
+          Delete
+        </button>
       </li>
 
       <li
@@ -60,10 +63,10 @@
             </div>
             <div class="div-edit">
               
-              <div class="div-icon-mini" title="Delete lession" 
+              <button class="btn btn-danger" title="Delete lession" 
               (click)="onDeleteLession(lecture.id)">
-                <i class="fa fa-trash icon-decorate icon-delete"></i>
-              </div>
+                Delete
+              </button>
             </div>
           </div>
 

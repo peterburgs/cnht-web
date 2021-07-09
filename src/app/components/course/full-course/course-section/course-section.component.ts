@@ -42,7 +42,12 @@ export class CourseSectionComponent implements OnInit {
   }
   saveSection(idSection:string){
       this.fullCourseService.setSelection(idSection, VideoType.section, ModifyType.edit);
-      this.fullCourseService.handleUpdate(this.sectionTitle);
+      this.fullCourseService.handleEditSection(this.sectionTitle).subscribe(response=>{
+        if(response.count<0){
+          console.log(response);
+          alert('Error happen try again');
+        }
+      });
       this.changeSection=false;
       
   }
@@ -56,7 +61,7 @@ export class CourseSectionComponent implements OnInit {
   saveLecture(idLecture:string, order:number){
 
     this.fullCourseService.setSelection(idLecture, VideoType.lession, ModifyType.edit)
-    this.fullCourseService.handleUpdate(this.lectureTitle);
+    this.fullCourseService.handleEditTitleLecture(this.lectureTitle);
     this.eventSave[order]=false;
   }
   enableChangeLecture(event:any){
