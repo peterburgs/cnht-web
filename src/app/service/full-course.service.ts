@@ -453,6 +453,8 @@ export class FullCourseService {
       }).catch(error=>{
         this.sbjSectionDummy.next(this.listDeepSection);
       });
+
+
     // this.sections= this.mSectionList;
     // this.lectures= this.mLectureList;
     // this.videos= this.mVideo;
@@ -466,6 +468,7 @@ export class FullCourseService {
     //        this.listDeepSection.push(
     //          new SectionDummy(section.id, section.title, tmpLecturers)
     //        );
+    //        this.sbjSectionDummy.next(this.listDeepSection);
     // })
   }
   getLectures(): Observable<Lecture[]> {
@@ -528,40 +531,6 @@ export class FullCourseService {
     this.getData();
   }
 
-  //Another
-  handleUpate() {
-    // if (this.typeSelection == VideoType.course) {
-    //   switch (this.wayModify) {
-    //     case ModifyType.delete:
-    //       return this.onDeleteCourse();
-
-    //     case ModifyType.save:
-    //       return this.onSaveCourse();
-    //   }
-    // } else if (this.typeSelection == VideoType.section) {
-    //   switch (this.wayModify) {
-    //     case ModifyType.delete:
-    //       return this.onDeleteSection();
-
-    //     case ModifyType.goUp:
-    //       return this.onUpSection();
-
-    //     case ModifyType.goDown:
-    //       return this.onDownSection();
-    //   }
-    // } else if (this.typeSelection == VideoType.lession) {
-    //   switch (this.wayModify) {
-    //     case ModifyType.delete:
-    //       return this.onDeleteLecture();
-
-    //     case ModifyType.goUp:
-    //       return this.onUpLession();
-
-    //     case ModifyType.goDown:
-    //       return this.onDownLession();
-    //   }
-    // }
-  }
   handleCreateLecture(title:string){
     let tmpLecture = new Lecture();
     //TODO: add more about File Video
@@ -635,64 +604,17 @@ export class FullCourseService {
     console.log(tmpSection);
     return this.onCreateSection(tmpSection);
   }
-  //Edit and new
-  // handleUpdate(title: string) {
-  //   // if (this.wayModify == ModifyType.new) {
-      
-  //   //   } else if (this.typeSelection == VideoType.lession) {
-  //   //     let tmpLecture = new Lecture();
-  //   //     //TODO: add more about File Video
-  //   //     tmpLecture.title = title;
-
-  //   //     tmpLecture.sectionId = this.getSectionSelection()[0].id;
-  //   //     console.log('sectio select');
-  //   //     console.log(tmpLecture.sectionId);
-  //   //     tmpLecture.isHidden = false;
-  //   //     let fromOrder = this.lectures.length - 1;
-  //   //     for (let i = 0; i < this.listDeepSection.length; i++) {
-  //   //       if (this.listDeepSection[i].section_id == tmpLecture.sectionId) {
-  //   //         if (this.listDeepSection[i].lecture.length > 0) {
-  //   //           tmpLecture.lectureOrder =
-  //   //             this.listDeepSection[i].lecture[
-  //   //               this.listDeepSection[i].lecture.length - 1
-  //   //             ].lectureOrder + 1;
-  //   //         } else {
-  //   //           //Case: when dosen't has any lecture in this course, it make listDeepSection.lecture is null
-  //   //           if (this.lectures.length <= 0) {
-  //   //             tmpLecture.lectureOrder = 0;
-  //   //             this.onCreateLecture(tmpLecture);
-  //   //             return;
-  //   //           }
-  //   //           tmpLecture.lectureOrder =
-  //   //             this.listDeepSection[i - 1].lecture[
-  //   //               this.listDeepSection[i - 1].lecture.length - 1
-  //   //             ].lectureOrder + 1;
-  //   //         }
-  //   //       }
-  //   //     }
-  //   //     for (let j = 0; j < this.lectures.length; j++) {
-  //   //       if (this.lectures[j].lectureOrder == tmpLecture.lectureOrder - 1) {
-  //   //         fromOrder = j;
-  //   //       }
-  //   //     }
-  //   //     for (let k = fromOrder + 1; k < this.lectures.length; k++) {
-  //   //       this.lectures[k].lectureOrder = this.lectures[k].lectureOrder + 1;
-  //   //       this.onSaveLecture(this.lectures[k]);
-  //   //     }
-  //   //     this.onCreateLecture(tmpLecture);
-  //   //   }
-    
-  // }
+  
   handleUpdateWithThumbnail(file: File) {
     // const file = new FormData();
     // file.set('file', imgFile);
 
     console.log('Upload Thumbnail');
     console.log(file);
-    // let url= this.baseURL+'/thumbnail/'+this.course.id;
-    // this.http.post(url, file).subscribe(response=>{
-    //     console.log('response');
-    // });
+    let url= this.baseURL+'/thumbnail/'+this.course.id;
+    this.http.post(url, file).subscribe(response=>{
+        console.log('response');
+    });
 
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
@@ -1008,7 +930,7 @@ export class FullCourseService {
     console.log(lecture);
     return this.http
       .post<{ message: String; count: Number; lecture: Lecture }>(
-        this.apiUrlLecture+'s',
+        this.apiUrlLecture,
         {
           id: lecture.id,
           title: lecture.title,

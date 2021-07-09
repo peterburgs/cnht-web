@@ -2,7 +2,7 @@
   <div class="div-contain">
     <div class="div-back" (click)="goBack()">
       <span> <i class="fa fa-long-arrow-left icon-decorate" 
-        title="Lesson go up" ></i>Back to course</span></div>
+        title="Lesson go up" ></i>Back to courses</span></div>
     </div>
    
   <app-course-info [course]="course"></app-course-info>
@@ -61,14 +61,15 @@
       <div *ngIf="(typeSelection == 1) && ( wayModify==1)" >
         <input
           #file
-          type="file"
+          type="file" 
           accept="video/mp4,video/x-m4v,video/*"
-          (change)="handleFileInput($event)"
+          (change)="handleFileInput($event); readVideoUrl($event)"
         />
         <button class="btn-upload" (click)="file.click()">
           Upload Video
         </button>
         <span class="url-video">{{ urlVideo }}</span>
+        <video #video style="display: none;" *ngIf="videoURL" width="320" height="240" controls [attr.src]="videoURL" (loadedmetadata)="getDuration($event)"></video>
       </div>
     
     

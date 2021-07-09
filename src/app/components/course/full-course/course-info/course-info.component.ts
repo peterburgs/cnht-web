@@ -101,15 +101,46 @@ export class CourseInfoComponent implements OnInit {
       this.fullCourseService.setIsValid(false);}
     //this.fullCourseService.setIsValid(this.infoCourse.valid);
   }
+
+
   formatCurrency() {
-    while (this.priceFormat.charAt(0) === '0') {
+   while (this.priceFormat.charAt(0) === '0') {
       this.priceFormat = this.priceFormat.substring(1);
     }
-    this.course.price=parseInt(this.priceFormat.replace(/\D/g, ''));
-    this.priceFormat = this.priceFormat
-      .replace(/\D/g, '')
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    console.log(this.priceFormat);
+     this.course.price=parseInt(this.priceFormat.replace(/\D/g, ''));
+     let price=this.course.price;
+     let format='';
+    //  while(price>999){
+
+    //  }
+
+    // this.priceFormat = this.priceFormat
+    //   .replace(/\D/g, '')
+    //   .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    // console.log(this.priceFormat);
+    var price_format="";
+    var priceString: string = price + "";
+    while(priceString.length  - 3 > 0){
+        price_format ="." + priceString.substring(priceString.length - 3) +  price_format;
+        priceString = priceString.substring(0, priceString.length - 3);
+        console.log(price_format);
+    }
+    this.priceFormat = priceString + price_format
+    // var price_format="";
+    // var zero;
+  
+    // let price=this.course.price;
+    // if(price<1000) this.priceFormat= String(price);  
+    // while(price%1000==0)
+    // {
+    //   price= price/1000;
+      
+    //    zero =price_format;
+    //   price_format = ('.000').concat(price_format);
+    // }
+    // zero = price_format;
+    // this.priceFormat=price.toString()+ price_format;
+    
   }
   formatType(type:COURSE_TYPE){
     return type; 

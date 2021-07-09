@@ -14,6 +14,7 @@ import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { NgForm } from '@angular/forms';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { Course } from 'src/app/models/course.model';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-creation-screen',
@@ -25,7 +26,9 @@ export class CourseCreationScreenComponent implements OnInit {
   @ViewChild('error_happen', { static: true }) error_happen?: ElementRef;
   // @ViewChild('nameTitle', { read: NgForm  }) nameTitle?: ElementRef;
   @ViewChild('file', { static: false }) fileVideo?: ElementRef;
+  
   sections: SectionDummy[] = [];
+  videoURL: SafeUrl='';
 
   wayModify: ModifyType = ModifyType.edit;
   sectionCurrent = new Section();
@@ -45,7 +48,8 @@ export class CourseCreationScreenComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private fullCourseService: FullCourseService,
-    private authService: authenticationService
+    private authService: authenticationService,
+    private sanitizer: DomSanitizer
   ) {}
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -75,6 +79,9 @@ export class CourseCreationScreenComponent implements OnInit {
     } else {
       this.isNotify = false;
     }
+    this.titleBinding='';
+    this.fileToUpLoad= new File([], 'default')
+    this.urlVideo='';
     this.modalService.open(this.content, { centered: true, size: 'lg' });
   }
   openNotifyError() {
@@ -294,7 +301,11 @@ export class CourseCreationScreenComponent implements OnInit {
           }
           )
       } else if (this.wayModify == ModifyType.edit) {
-        this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
+        if(this.fileToUpLoad.name != "default"){
+          console.log(this.fileToUpLoad.stream.length);
+          this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
+        }
+       
       } else if (this.wayModify == ModifyType.delete) {
         this.fullCourseService.onDeleteLecture().subscribe(
           (response) => {
@@ -374,5 +385,18 @@ export class CourseCreationScreenComponent implements OnInit {
   }
   goBack() {
     this.router.navigateByUrl('/admin/home').then();
+  }
+  readVideoUrl(event: any) {
+    const files = event.target.files;
+    if (files && files[0]) {
+      
+      this.videoURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(files[0]));
+    }
+  }
+
+  getDuration(e:any) {
+    const duration = e.target.duration;
+    console.log('Thao va Thanh')
+    console.log(duration);
   }
 }

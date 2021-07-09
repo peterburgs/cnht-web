@@ -89,7 +89,7 @@
     font-size: x-large;
 }
 .icon-decorate{
-    margin-right: 2rem;
+    margin-right: 0.6rem;
 }
 .section-title{
  font-weight: bold;
@@ -98,12 +98,12 @@
 }
 
 .custome-dialog-title{
-  margin-left: 3rem;
+  margin-left: 2rem;
   padding-bottom: 0px;
 }
 
 .edit-screen{
-    background: aliceblue;
+    background: #EEEEEE;
 }
 .background-loading{
     position: fixed;
