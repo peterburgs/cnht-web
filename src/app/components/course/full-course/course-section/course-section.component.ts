@@ -1,14 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { config } from 'rxjs';
 
-import { Upload } from 'src/app/models/file-upload';
 import { ModifyType } from 'src/app/models/ModifyType';
-import { Section } from 'src/app/models/section.model';
+
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { VideoType } from 'src/app/models/VideoType.model';
 import { FullCourseService } from '../../../../service/full-course.service';
-import { UploadService } from '../upload.service';
+
 @Component({
   selector: 'app-course-section',
   templateUrl: './course-section.component.html',
@@ -47,6 +45,9 @@ export class CourseSectionComponent implements OnInit {
           console.log(response);
           alert('Error happen try again');
         }
+      }, error=>{
+        alert('Server disconnect at this time, try again');
+        
       });
       this.changeSection=false;
       
@@ -61,7 +62,12 @@ export class CourseSectionComponent implements OnInit {
   saveLecture(idLecture:string, order:number){
 
     this.fullCourseService.setSelection(idLecture, VideoType.lession, ModifyType.edit)
-    this.fullCourseService.handleEditTitleLecture(this.lectureTitle);
+    this.fullCourseService.handleEditTitleLecture(this.lectureTitle).subscribe
+    (response=>{
+    }, error=>{
+      alert('Server disconnect at this time, try again');
+    });
+    
     this.eventSave[order]=false;
   }
   enableChangeLecture(event:any){

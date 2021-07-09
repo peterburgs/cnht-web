@@ -1,6 +1,8 @@
 <div  class="container d-flex flex-fill flex-row bd-highlight ">
     <div class="p-2 item-edit edit-image">
-        
+        <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course">
+          <p class="p-emty-thumbnail">Empty thumbnail</p>
+        </div>
         <img *ngIf="course.thumbnailUrl" name="thumbnailUrl" class="image-course"
 
         [src]="'https://us-central1-supple-craft-318515.cloudfunctions.net/app'+course.thumbnailUrl"

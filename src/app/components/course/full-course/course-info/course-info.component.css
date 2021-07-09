@@ -26,6 +26,14 @@
     height:200px;
     width: 320px;
 }
+.p-emty-thumbnail{
+    color: #c4c4c4;
+    font-size: 14px;
+   font-weight: bold;;
+}
+.empty-thumbnail{
+    border: 2px dashed #c4c4c4;
+}
 .btn-upload{
     width: 170px;
     background: rgb(64, 129, 250);;
