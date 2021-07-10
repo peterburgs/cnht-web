@@ -54,9 +54,6 @@ export class ContentCourseComponent implements OnInit , OnChanges{
       this.isLoading= false;
     })
     
-    // this.courseService.getSectionByCourseId(this.current_course.id).subscribe(sections=>
-    //    this.listSection= sections
-    //   )
   }
 
 }

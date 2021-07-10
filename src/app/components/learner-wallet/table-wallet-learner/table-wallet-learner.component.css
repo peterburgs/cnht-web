@@ -70,6 +70,23 @@ th:nth-child(1) {
     width: 100%;
 }
 
+.btn-reload {
+    font-size: 14px;
+    width: 80px;
+    height: 35px;
+    color: white;
+    background-color: #919191;
+    float: right;
+    margin-right: 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+}
+
+.bnt-reload i {
+    font-size: 17px;
+}
+
 
 /********************loading *************/
 

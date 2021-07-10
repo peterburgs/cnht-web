@@ -1,19 +1,52 @@
-.container {}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Roboto+Slab:wght@300;400;500&display=swap');
+.boundary {
+    background-color: rgb(217, 226, 228);
+    margin-top: 0px;
+    height: 100vh;
+    text-align: center;
+}
+
+.img-background {
+    position: absolute;
+    width: 70%;
+    top: 0vh;
+    height: 70vh;
+    left: 0;
+    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.background {
+    width: 73%;
+    height: 70vh;
+    top: 15vh;
+    left: 14%;
+    position: absolute;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.288);
+}
 
 .sign-in {
     text-align: center;
-    margin-top: 200px;
+    position: absolute;
+    left: 70%;
+    height: 50%;
+    top: 30%;
 }
 
 .sign-in .btn button {
     display: block;
     text-align: center;
-    margin-top: 20px;
-    border-radius: 5px;
-    width: 200px;
     outline: none;
-    border: none;
-    height: 35px;
+    border: 1px solid gainsboro;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: black;
+    font-weight: 500;
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 2px 2px 2px rgba(46, 46, 46, 0.356);
 }
 
 .btn {
@@ -21,26 +54,26 @@
 }
 
 .btn button:hover {
-    background-color: rgb(5, 5, 158);
+    background-color: rgb(193, 193, 255);
     transition: all 0.2s;
 }
 
 .app-title {
-    font-weight: 800;
-    font-size: 28px;
+    font-weight: 400;
+    font-size: 25px;
+    /* font-family: 'Noto Sans', sans-serif; */
+    font-family: 'Roboto Slab', serif;
 }
 
 .btn-signin:focus {
-    background-color: rgb(35, 135, 182);
-}
-
-.btn-signin {
-    background-color: #4EBEE1;
+    background-color: rgb(204, 218, 224);
 }
 
 .btn-signin i {
     font-size: 20px;
+    font-weight: 600;
     padding-right: 5px;
+    color: rgb(223, 11, 11);
 }
 
 .lds-ellipsis {

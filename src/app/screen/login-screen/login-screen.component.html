@@ -1,14 +1,18 @@
-<div class="container">
-    <div class="sign-in">
-        <h3 class="app-title">CÙNG NHAU HỌC TOÁN</h3>
-        <div *ngIf="!isLoading" class="btn">
-            <button (click)="loginWithGoogle()" class="btn-primary btn-signin"><i class="fa fa-google"></i> Sign in with Google</button>
-        </div>
-        <div class="lds-ellipsis" *ngIf="isLoading">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+<div class="boundary">
+    <div class="background">
+        <img class="img-background" src="../../../assets/images/loginback.jpg" alt="">
+        <div class="sign-in">
+            <h3 class="app-title">CÙNG NHAU HỌC TOÁN</h3>
+            <div *ngIf="!isLoading" class="btn">
+                <button (click)="loginWithGoogle()" class="btn-primary btn-signin"><i class="fa fa-google"></i> Sign in with Google</button>
+            </div>
+            <div class="lds-ellipsis" *ngIf="isLoading">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
+
 </div>

@@ -78,7 +78,16 @@ export class CardImageComponent implements OnInit ,OnChanges{
           if(email!=null)
           {
             //get user balance to check
-            this.userService.getUserByEmail(email).subscribe(responseData=>{
+            this.userService.getUserByEmail(email)
+            .pipe(
+              catchError((error)=>{
+                  console.log(error)
+                 
+                 return throwError(error)
+                  
+              })
+            )
+            .subscribe(responseData=>{
             this.learner= responseData.users[0];
             console.log(this.learner)
             this.isBought_();
@@ -95,8 +104,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     
     this.getFirstSection(this.course.id);
     console.log(this.sectionId)
-    this.getFirstLecture(this.sectionId);
-    console.log(this.lectureId)
+   
   }
 
   ngOnChanges(changes:SimpleChanges){
@@ -162,10 +170,17 @@ export class CardImageComponent implements OnInit ,OnChanges{
   getFirstSection(courseId:string ){
 
     this.courseService.getSectionByCourseId(courseId)
-    .subscribe(data=>this.sections= data.sections)
+    .subscribe(data=>{
+      this.sections= data.sections
+      if(this.sections.length>0)
+      {
+        this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+        this.getFirstLecture(this.sectionId);
+        console.log(this.lectureId)
+      }
+    })
 
-    if(this.sections.length>0)
-      this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+    
   }
 
   /**
@@ -176,13 +191,14 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
    this.courseService.getLecturesBySectionId(sectionId)
     .subscribe(responseData=>{
-      this.lecture=responseData.lectures
+      this.lecture=responseData.lectures;
+      if(this.lecture.length>0)
+      this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
+     else
+        this.lectureId="";
     })
 
-    if(this.lecture.length>0)
-     this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
-    else
-       this.lectureId="";
+   
   }
 
   /**

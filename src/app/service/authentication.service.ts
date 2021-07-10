@@ -67,13 +67,15 @@ export  class authenticationService {
 
 
   //TODO: authenticate 
-  signIn(socialUser: SocialUser){
-
-    let isDone:boolean=false;
+  signIn(socialUser: SocialUser,isAdmin: boolean){
+    
+    let role= ROLES.LEARNER;
+    if(isAdmin) role= ROLES.ADMIN;
+    
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
-      params:new HttpParams().set('userRole', ROLES.ADMIN)
+      params:new HttpParams().set('userRole', role)
     };
     console.log(config);
     return  this.http

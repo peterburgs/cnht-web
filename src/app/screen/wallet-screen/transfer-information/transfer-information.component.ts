@@ -112,7 +112,7 @@ export class TransferInformationComponent implements OnInit {
           id:"",
           learnerId: this.learner.id, 
           amount: Number(this.money_Transfer.replace('.','')),
-          imageUrl: this.thumnailUrl,
+          imageUrl: "abc",
           depositRequestStatus: STATUSES.PENDING,
           createdAt: new Date(),
           updatedAt:new Date()
@@ -122,8 +122,7 @@ export class TransferInformationComponent implements OnInit {
         this.depositService.createDepositRequest(deposit)
         .pipe(
           catchError((error)=>{
-              console.log(error)
-              
+              console.log(error)  
              return throwError(error)
               
           })
@@ -132,7 +131,6 @@ export class TransferInformationComponent implements OnInit {
             this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
             
         })
-        this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
 
         
       }

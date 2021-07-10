@@ -24,6 +24,8 @@ export class TableWalletLearnerComponent implements OnInit {
   confirm= STATUSES.CONFIRM;
   deny = STATUSES.DENIED
   isLoading=true;
+  private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+
   constructor(
     private userService: UserService,
     private depositRequestService: DepositRequestService
@@ -53,18 +55,18 @@ export class TableWalletLearnerComponent implements OnInit {
 
   showImg(imageUrl: string){
     this.isViewImg = true;
-    this.path_img_view= imageUrl;
+    this.path_img_view=this.baseUrl+ '/'+imageUrl;
   }
 
   getDepositHistory(){
+    console.log("Click")
      this.depositRequestService.getByIdLearner(this.learner.id)
      .pipe(
       catchError((error)=>{
           console.log(error)
           if(error.error.count==0)
             this.isLoading= false;         
-          return throwError(error)
-       
+          return throwError(error)       
       })
     )
     .subscribe(responseData=>{

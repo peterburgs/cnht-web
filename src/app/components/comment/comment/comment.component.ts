@@ -26,7 +26,7 @@ export class CommentComponent implements OnInit, OnChanges {
 
   isLoadingComment=true;
   successfulComment=true;
-  learner!: User;
+  user!: User;
   avatarUrl!: string | null;
   isLoggedin: boolean=false;
   commentList:Comment[]=[];
@@ -71,8 +71,10 @@ export class CommentComponent implements OnInit, OnChanges {
     {
       this.isLoggedin= true;
       let email=localStorage.getItem('uemail');
+      
+
       if(email!=null)
-        this.userService.getUserByEmail(email).subscribe(responseData=> this.learner= responseData.users[0])
+        this.userService.getUserByEmail(email).subscribe(responseData=> this.user= responseData.users[0])
       if(localStorage.getItem('uphotoUrl'))
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');
@@ -143,12 +145,12 @@ export class CommentComponent implements OnInit, OnChanges {
   }
 
   postComment(){
-    if(this.learner!=undefined){
+    if(this.user!=undefined){
       const comment: Comment= {
         id:  "",
         commentText: this.commentInput,
         parentId:"" ,
-        userId: this.learner.id,
+        userId: this.user.id,
         lectureId:  this.lectureId,
         createdAt: new Date(),
         updatedAt:  new Date(),

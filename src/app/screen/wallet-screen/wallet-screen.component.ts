@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
 import { PriceFormat } from 'src/app/util/priceformat';
 
@@ -11,7 +12,8 @@ export class WalletScreenComponent implements OnInit {
 
   isHiden: boolean= true;
   balance: number=0;
-  constructor(private userService:UserService) { }
+  constructor(private userService:UserService,
+    private router: Router) { }
 
   ngOnInit(): void {
     if(localStorage.getItem('isLoggedin')=='true'){
@@ -25,11 +27,14 @@ export class WalletScreenComponent implements OnInit {
           console.log(this.balance)
         }
     }
+    else{
+      this.router.navigate(['/login'])
+    }
 
   }
 
   handlePriceFormat(price:number):any{
-
+    if(price==0) return "0 VND"
     return PriceFormat(price,0,3,'.',',');
   }
 
