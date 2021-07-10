@@ -19,7 +19,7 @@
 
 
 .flex-column {
-  height: 70vh;
+  height: 40vh;
 }
 
 #page-content {
@@ -33,6 +33,14 @@
 /* Other Classes for Page Styling */
 
 .flex-column {
-  background: #007bff;
-  background: linear-gradient(to right, #0062E6, #33AEFF);
+  background: #354658;
+  /* background: linear-gradient(to right, #436ca0, #65bffa); */
+}
+
+.content{
+  /* margin-top: -20px !important; */
+}
+
+#page-content{
+ 
 }

@@ -1,13 +1,14 @@
 <div class="home-screen">
-  <div class = "search-course container">
-    <app-search-title class = "pull-right" [message] = "message"
-    (sendTitleSearch) = "searchCourse($event)"
-    ></app-search-title>
-  </div>  
+  
     <div class="container div-loading">
         <div class="col-sm-3">
             <button class="btn-new-course" (click)="onCreateCourse()">Create new course</button> 
         </div>
+        <div class = " col-sm-9 search-course">
+          <app-search-title class = "pull-right" [message] = "message"
+          (sendTitleSearch) = "searchCourse($event)"
+          ></app-search-title>
+        </div>  
         <!-- <div *ngIf="isLoading" class="col-sm-9">
             <div class="text-center d-flex justify-content-center">
                 <div class="spinner-border  m-3" role="status">
@@ -18,7 +19,14 @@
       
         
     </div>
-    <div *ngIf="!listCourse.length" class="container div-no-found"><span  align="center" class="no-found">
+     <div *ngIf="isLoading">
+            <div class="text-center d-flex justify-content-center">
+                <div class="spinner-border  m-3" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+        </div>
+    <div *ngIf="!listCourse.length && !isLoading" class="container div-no-found"><span  align="center" class="no-found">
         No Course here
     </span></div>
     <div *ngIf="listCourse != []" class="container wrapper">

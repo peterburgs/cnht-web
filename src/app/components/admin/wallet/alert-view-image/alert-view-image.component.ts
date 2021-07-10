@@ -15,7 +15,7 @@ export class AlertViewImageComponent implements OnInit {
   @Input() learner: User = new User();
   @Input() deposit: DepositRequest = new DepositRequest();
   @Output() close = new EventEmitter<void>();
-
+  baseUrl: string = "https://us-central1-supple-craft-318515.cloudfunctions.net/app/";
   onClose(){
     this.close.emit();
   }

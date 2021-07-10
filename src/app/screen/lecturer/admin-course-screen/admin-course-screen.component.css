@@ -6,7 +6,7 @@
     background: rgb(64, 129, 250);;
     border-radius: 10px;
     margin-left: 5px;
-    
+    margin-top: 30px;
     margin-bottom: 20px;
     height: 40px;
     font-size: large;
@@ -49,12 +49,16 @@
 
 .search-course{
    /* width: 40vw; */
-  margin-top: 70px;
+  margin-top: 30px;
+}
+
+.spinner-border{
+
 }
 
 app-search-title{
     width: 40vw;
-
+    height: 30px;
 }
 
 .loading{

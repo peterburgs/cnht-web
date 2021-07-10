@@ -13,6 +13,12 @@
                     </tr>
                 </thead>    
                 <tbody>
+                    <div class="lds-ring" *ngIf="isLoading">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
 
                     <tr *ngFor="let user of listUsers">
                         <td>{{user.email}}</td>

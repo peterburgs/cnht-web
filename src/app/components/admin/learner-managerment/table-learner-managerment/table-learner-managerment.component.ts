@@ -14,9 +14,11 @@ export class TableLearnerManagermentComponent implements OnInit {
   @Input() listUsers: User[] = [];
   APPROVE: string = "error";
   isChange = false;
+  isLoading: boolean = true;
    constructor(public userService: UserService) { }
  
    ngOnInit(): void {
+     this.isLoading = true;
      this.getListEnrollment();
    }
 
@@ -25,8 +27,9 @@ export class TableLearnerManagermentComponent implements OnInit {
      this.userService.getAllEnrollment().subscribe(data =>
        {
          if(data.count > 0)
-           this.listEnrollment = data.enrollments
-         else this.listEnrollment = []
+           this.listEnrollment = data.enrollments;
+         else this.listEnrollment = [];
+         this.isLoading = false;
        })
    }
  

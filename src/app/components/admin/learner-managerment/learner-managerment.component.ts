@@ -42,6 +42,7 @@ export class LearnerManagermentComponent implements OnInit {
       } else this.listUsers = []
 
       
+      
     });
   }
 

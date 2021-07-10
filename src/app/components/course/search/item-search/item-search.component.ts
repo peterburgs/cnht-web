@@ -12,23 +12,26 @@ import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 export class ItemSearchComponent implements OnInit {
 
   @Input() courseItem: Course = new Course();
+  baseUrl: string = "https://us-central1-supple-craft-318515.cloudfunctions.net/app/";
 
   constructor(private courseService: CourseService,
     private router: Router) { }
 
  
   ngOnInit(): void {
+    this.getTotalNumberOfCourse(this.courseItem.id);
   }
 
   numberStudent: number = 0;
   getTotalNumberOfCourse(courseId: string){
-    this.courseService.getstudentJoinedNumber(courseId).subscribe(
+    this.courseService.getstudentJoinedNumber(this.courseItem.id).subscribe(
       responseData=>{
         this.numberStudent= responseData.count;
+        console.log("vap")
       }
     )
 
-    return this.numberStudent;
+   // return this.numberStudent;
 
 }
 
