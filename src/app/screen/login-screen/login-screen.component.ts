@@ -42,7 +42,6 @@ export class LoginScreenComponent implements OnInit {
         console.log(this.socialUser);
         this.isLoading=true;
         //authenticate on server
-
         this.authService.signIn(this.socialUser,this.isAdmin)
         .subscribe(responseData=>{
           

@@ -31,7 +31,7 @@ export class ContentCourseComponent implements OnInit , OnChanges{
 
   ngOnChanges(changes:SimpleChanges ):void{
     if(changes.current_course)
-      this.ngOnInit()
+      this.getListSection()
   }
 
   //TODO: get list  section of a course

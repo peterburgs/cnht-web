@@ -39,15 +39,11 @@ export class CommentService{
      */
     saveComment(comment: Comment){
       const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-      const data = {'comment': comment};
       const config = { 
         headers: new HttpHeaders().set('Authorization','Bearer '+ token) ,
-    };
-    return  this.http
-     .post<{message:string, count:number, comment:Comment }>( this.baseUrl+'/comments',comment,config)
-     
-      // listComment.push(comment)
-      // return of(listComment);
+      };
+      return  this.http
+      .post<{message:string, count:number, comment:Comment }>( this.baseUrl+'/comments',comment,config)
     }
 
   
@@ -59,11 +55,15 @@ export class CommentService{
    */
   getCommentByLectureId(lectureId:string){
     
+    const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+    const tokenType= "Bearer "
+    const header = new HttpHeaders().set('Authorization', tokenType + token);
     return this.http
         .get<{message:string,count:number, comments: Comment[]}>(
             this.baseUrl+ '/comments',
             {
-                params:new HttpParams().set('lectureId',lectureId).set('isHidden',false)
+                params:new HttpParams().set('lectureId',lectureId).set('isHidden',false),
+                headers: header
             }
         )
         .pipe(

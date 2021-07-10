@@ -21,13 +21,14 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   constructor(private CourseService:CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    this.getCourse();
+    //this.getCourse();
     
   }
 
   ngOnChanges(changes:SimpleChanges):void{
-      if(changes)
+      if(changes.courseType)
       {
+        console.log('Change type')
        this.getCourse();
       }
   }
@@ -37,7 +38,8 @@ export class GradeCourseComponent implements OnInit, OnChanges {
     this.smallCourses=[]
     this.CourseService.getListCourseGrade(this.grade, this.courseType)
     .pipe(
-      catchError((error)=>{
+      catchError(
+        (error)=>{
           console.log(error)
           this.isLoading=false;
          return throwError(error)

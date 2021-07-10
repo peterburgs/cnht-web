@@ -34,6 +34,8 @@ export class AlertComponent implements OnInit {
 
     if(this.action=="buy"){
       this.action_return.emit('buy');
+      this.onClose()
+
     }
     
     if(this.action=="transfer_money")
@@ -43,6 +45,9 @@ export class AlertComponent implements OnInit {
     }
     if(this.action=="money_invalid" || this.action=="image_invalid"){
       this.action_return.emit('yes');
+      this.onClose();
+    }
+    if(this.action=='success'||this.action=='not_success'){
       this.onClose();
     }
   }

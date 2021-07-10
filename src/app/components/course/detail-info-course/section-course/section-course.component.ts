@@ -53,7 +53,7 @@ export class SectionCourseComponent implements OnInit, OnChanges {
   
     this.courseService.getLecturesBySectionId(sectionId).subscribe(responseData=>{
       this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
-     
+      
       this.loadLecture(this.listLecture[0].id)
     })
   }

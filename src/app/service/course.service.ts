@@ -18,146 +18,6 @@ import { authenticationService } from "./authentication.service";
 
 export class CourseService{
 
-    private courses: Course[]=[{
-        id: "1",
-        title: "Giải phương trình bậc 3",
-        courseDescription: "Description",
-        price:150000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-    },
-    {
-        id: "2",
-        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TWELFTH,
-        thumbnailUrl: "string",
-        createdAt:new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    },
-    {
-        id: "3",
-        title: "Giai tích căn bản",
-        courseDescription: "Description",
-        price:200000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TWELFTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-    },
-    {
-        id: "4",
-        title: "Giai tích căn bản",
-        courseDescription: "Description",
-        price:200000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TWELFTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-    },
-    {
-        id: "5",
-        title: "Giai tích căn bản",
-        courseDescription: "Description",
-        price:200000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.ELEVENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-    },
-    {
-        id: "6",
-        title: "Giai tích căn bản",
-        courseDescription: "Description",
-        price:200000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.ELEVENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-    },
-    {
-        id: "7",
-        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TWELFTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    },
-    {
-        id: "8",
-        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    },
-    {
-        id: "9",
-        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.THEORY,
-        grade: GRADES.TENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    },
-    {
-        id: "10",
-        title: "Tìm diện tích khối trụ bằng phương pháp căn bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.EXAMINATION_SOLVING,
-        grade: GRADES.TENTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    },
-    {
-        id: "11",
-        title: "Tìm diện tích khối trụ  bản như trên",
-        courseDescription: "Description",
-        price:170000,
-        courseType: COURSE_TYPE.EXAMINATION_SOLVING,
-        grade: GRADES.TWELFTH,
-        thumbnailUrl: "string",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isHidden: false
-        
-    }
-    
-];
     private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 
     private httpOptions = {
@@ -201,19 +61,7 @@ export class CourseService{
         
     }
 
-
-    //TODO: send request getting all course
-    getListCourse():Observable<Course[]>{
-        
-        this.http
-        .get<{message:string,count:number, courses: Course[]}>(
-            this.baseUrl+'/courses'
-        )
-        
-        const courses= this.courses;
-        return of(courses);
-        
-    }
+ 
 
     //!DONE
     //* Get course by course id
@@ -232,15 +80,9 @@ export class CourseService{
         );
     }
 
-    getCourses(){
-        return this.courses;
-    }
-
     //TODO: CHECK PARAM courseType
     getListCourseFilter(courseType: COURSE_TYPE ,grade: GRADES){
-        // const courses= this.courses.filter(course =>course.grade===grade && course.courseType === courseType);
-        // return of(courses);
-         // return this.http
+       
          return this.http
          .get<{message:string,count:number, courses: Course[]}>(
              'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/courses',
@@ -291,10 +133,13 @@ export class CourseService{
     //TODO: Get student join  in a course
     getstudentJoinedNumber(courseId:string){
         //get enrollment where courseId return list enrollment
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
         return this.http
         .get<{message:string,count:number,enrollments: Enrollment[]}>(this.baseUrl+'/enrollments', 
             {
-                params: new HttpParams().set('courseId', courseId)
+                params: new HttpParams().set('courseId', courseId), headers: header
             }
         )
         .pipe(
@@ -372,9 +217,13 @@ export class CourseService{
      * @returns Observable<Course[]>
      */
     getMyCourses(learnerId: string){
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
         return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(this.baseUrl+ '/enrollments',
         {
+            headers: header,
             params: new HttpParams().set('learnerId', learnerId)
         })
    
@@ -390,5 +239,20 @@ export class CourseService{
         var number = 0;
        this.getstudentJoinedNumber(id).subscribe(list => number = list.count);
        return number;
+    }
+
+    getVideoLength(lectureId: string){
+        
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
+        return this.http
+        .get<{message:string,count:number, length: Comment[]}>(
+            this.baseUrl+ `/lectures/${lectureId}/video/lenght`,
+            {
+                headers: header
+            }
+        )
+            
     }
 }

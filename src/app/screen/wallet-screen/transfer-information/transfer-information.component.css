@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 .transfer {
-    background-color: #dfdfdf;
+    background-color: #eeeeee;
     padding: 10px 20px;
     border-radius: 10px;
     margin: 10px;
@@ -64,22 +64,21 @@
 }
 
 .btn-select-img {
-    background-color: #000;
+    background-color: rgb(1, 99, 211);
     color: #fff;
     font-size: 15px;
     padding: 3px;
     font-weight: 400;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: none;
     height: 35px;
+    margin-left: -100px;
     vertical-align: middle;
-    border-radius: 14px;
-    margin-left: 5px;
+    border-radius: 7px;
     text-align: center;
     outline: none;
-    margin-bottom: 8px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .load-img {
@@ -91,30 +90,36 @@
 .image-course {
     border-radius: 10px;
     height: 300px;
-    max-width: 270px;
+    max-width: 300px;
 }
 
 .btn-action {
-    margin: 20px 70px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     text-align: center;
     display: flex;
-    justify-content: space-between;
+    margin-left: 32%;
 }
 
 .btn-action button {
-    border-radius: 10px;
+    border-radius: 7px;
     border: none;
     outline: none;
     font-size: 17px;
+    height: 35px;
     padding: 5px 10px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     text-align: center;
     color: #FFFFFF;
+    box-shadow: 2px 2px 3px rgba(22, 22, 22, 0.25);
 }
 
 .btn-cancel {
     background: #E1604E;
+    margin-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .btn-cancel:hover {
@@ -135,4 +140,71 @@
 
 .btn-create-request:hover {
     background-color: #0692e4;
+}
+
+
+/*****************************/
+
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: rgb(37, 106, 255);
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 8px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 8px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+    left: 32px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 56px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(24px, 0);
+    }
 }

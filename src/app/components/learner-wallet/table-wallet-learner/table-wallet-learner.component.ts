@@ -7,6 +7,7 @@ import { STATUSES } from 'src/app/models/statuses';
 import { User } from 'src/app/models/user.model';
 import { DepositRequestService } from 'src/app/service/deposit-request.service';
 import { UserService } from 'src/app/service/user.service';
+import { PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-table-wallet-learner',
@@ -24,8 +25,7 @@ export class TableWalletLearnerComponent implements OnInit {
   confirm= STATUSES.CONFIRM;
   deny = STATUSES.DENIED
   isLoading=true;
-  private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
-
+  selected_deposit!: DepositRequest;
   constructor(
     private userService: UserService,
     private depositRequestService: DepositRequestService
@@ -53,9 +53,9 @@ export class TableWalletLearnerComponent implements OnInit {
     this.isViewImg = false;
   }
 
-  showImg(imageUrl: string){
+  showImg(deposit: DepositRequest){
     this.isViewImg = true;
-    this.path_img_view=this.baseUrl+ '/'+imageUrl;
+    this.selected_deposit=deposit;
   }
 
   getDepositHistory(){
@@ -77,6 +77,10 @@ export class TableWalletLearnerComponent implements OnInit {
 
   dateFormater(date: Date):string{
     return moment(date).format('MMMM Do YYYY, h:mm:ss a').toString();
+  }
+
+  priceFormat(price: number):any{
+    return PriceFormat(price,0,3,'.',',')
   }
 
 }

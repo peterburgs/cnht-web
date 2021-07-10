@@ -1,7 +1,7 @@
 <div class="card shadow mb-4 table-detail">
     <div class="title-table">
         <span>Deposit history</span>
-        <button class="btn-reload" type="button" (click)="getDepositHistory()"> <i class="fas fa-redo-alt"></i> Reload</button>
+        <button class="btn-reload" type="button" (click)="getDepositHistory()"> <i class="bi bi-arrow-repeat"></i> Reload</button>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -35,9 +35,9 @@
                             </div>
                         </td>
                         <td>
-                            <div class="amount">{{item.amount}}</div>
+                            <div class="amount">{{priceFormat(item.amount)}}</div>
                         </td>
-                        <td><button class="btn-admin " (click)="showImg(item.imageUrl)"> View </button></td>
+                        <td><button class="btn-admin " (click)="showImg(item)"> View </button></td>
 
                     </tr>
 
@@ -45,9 +45,8 @@
             </table>
 
             <!-- alert-view -->
-            <app-alert-view-image [message]="message_view_img" [path_img]="path_img_view" *ngIf="isShowImg()" (close)="onHandleError()">
+            <app-alert-view-image [message]="message_view_img" [deposit]="selected_deposit" *ngIf="isShowImg()" (close)="onHandleError()"></app-alert-view-image>
 
-            </app-alert-view-image>
             <!-- end-alert-view -->
 
         </div>
