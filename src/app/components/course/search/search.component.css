@@ -16,6 +16,10 @@
     
 }
 
+.col-md-9{
+  margin: 0;
+}
+
 .nav-search-blank{
  
     height: 105px;

@@ -15,10 +15,16 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th (click) = "sortDate()">Date Time</th>
+                        <th (click) = "sortDate()">Date Time
+                            <i *ngIf = "isSortDateUp" class="fa fa-arrow-up"></i>
+                            <i *ngIf = "isSortDateDown" class="fa fa-arrow-down"></i>
+                        </th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th (click) = "sortAmount()">Amount</th>
+                        <th (click) = "sortAmount()">Amount
+                            <i *ngIf = "isSortAmountUp" class="fa fa-arrow-up"></i>
+                            <i *ngIf = "isSortAmountDown" class="fa fa-arrow-down"></i>
+                        </th>
                         <th>Image</th>
                         <th >Actions</th>
 
@@ -26,6 +32,13 @@
                     
                 </thead>
                 <tbody>
+                    <div class="lds-ring" *ngIf="isLoading">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                
                    
                     <tr *ngFor = "let item of listSearch">
                         <td>

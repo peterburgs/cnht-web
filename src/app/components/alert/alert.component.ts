@@ -13,6 +13,7 @@ export class AlertComponent implements OnInit {
   @Input() action:string="";
   @Output() close = new EventEmitter<void>();
   @Output() action_return= new EventEmitter<string>();
+  baseUrl: string = "https://us-central1-supple-craft-318515.cloudfunctions.net/app/";
   onClose(){
     this.close.emit();
   

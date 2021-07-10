@@ -47,6 +47,7 @@ export class TableWalletAdminComponent implements OnInit {
   depositRequests: DepositRequest[] = [];
   isConfirmAll: boolean = false;
   @Input() admin: User = new User();
+  isLoading: boolean = true;
   @Output() changBalanceAdmin = new EventEmitter<number>();
 
   constructor(public userService: UserService, 
@@ -66,6 +67,7 @@ export class TableWalletAdminComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getAllList();
     this.getAllListLearner();
     console.log(this.depositRequests.length);
@@ -73,8 +75,13 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
   eSortDate: SORT= SORT.CURRENT;
-
+  isSortDateUp: boolean = false;
+  isSortDateDown: boolean = false;
    sortDate() {
+    this.isSortDateUp = false;
+    this.isSortDateDown = false;
+    this.isSortAmountUp = false;
+    this.isSortAmountDown = false;
      this.eSortAmount = SORT.CURRENT;
      this.eSortDate  = this.eSortDate + this.updateSort(this.eSortDate);
 
@@ -83,11 +90,13 @@ export class TableWalletAdminComponent implements OnInit {
       this.getAllList();} 
 
       else if(this.eSortDate == SORT.INCREASE){
+        this.isSortDateDown = true;
           this.listSearch = this.listSearch.sort((a, b) => {
             return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
           });
       }
       else {
+        this.isSortDateUp = true;
         this.listSearch = this.listSearch.sort((a, b) => {
           return <any>new Date(a.createdAt) - <any>new Date(b.createdAt);
         });
@@ -98,23 +107,29 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
   eSortAmount: SORT= SORT.CURRENT;
-  
+  isSortAmountUp: boolean = false;
+  isSortAmountDown: boolean = false;
   sortAmount(){
     this.eSortDate = SORT.CURRENT;
     this.eSortAmount = this.eSortAmount + this.updateSort(this.eSortAmount);
-
+    this.isSortAmountUp = false;
+    this.isSortAmountDown = false;
+    this.isSortDateUp = false;
+    this.isSortDateDown = false;
     if(this.eSortAmount == SORT.CURRENT)
     {
+
       this.getAllList();} 
 
   else if(this.eSortAmount == SORT.DECREASE){
    
+    this.isSortAmountUp = true;
     this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
       return deposit1.amount - deposit2.amount;
    });
   }
   else {
- 
+    this.isSortAmountDown = true;
     this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
       return deposit2.amount - deposit1.amount;
    });
@@ -122,28 +137,30 @@ export class TableWalletAdminComponent implements OnInit {
 
   }
 
-  eSortName: SORT = SORT.CURRENT;
-  sortName(){
-    this.eSortDate = SORT.CURRENT;
-    this.eSortAmount = SORT.CURRENT;
-    this.eSortName = this.eSortName + this.updateSort(this.eSortName);
 
-    if(this.eSortName == SORT.CURRENT)
-    {
-      this.getAllList();} 
 
-  else if(this.eSortName == SORT.DECREASE){
+  // eSortName: SORT = SORT.CURRENT;
+  // sortName(){
+  //   this.eSortDate = SORT.CURRENT;
+  //   this.eSortAmount = SORT.CURRENT;
+  //   this.eSortName = this.eSortName + this.updateSort(this.eSortName);
+
+  //   if(this.eSortName == SORT.CURRENT)
+  //   {
+  //     this.getAllList();} 
+
+  // else if(this.eSortName == SORT.DECREASE){
    
   
   
-  }
-  else {
+  // }
+  // else {
  
    
  
-  }
+  // }
 
-  }
+  // }
 
   updateSort(sort: SORT){
     console.log("sort: " + sort);
@@ -192,7 +209,8 @@ export class TableWalletAdminComponent implements OnInit {
     this.userService.getAllLearner().subscribe(
       users => {
         if(users.count != 0){
-          this.listLearner = users.users
+          this.listLearner = users.users,
+          this.isLoading = false;
         }
       }
     )

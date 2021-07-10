@@ -4,6 +4,7 @@
 
 .form-group{
     align-items: center;
+    height: 30px;
 }
 
 .form-control:focus{
