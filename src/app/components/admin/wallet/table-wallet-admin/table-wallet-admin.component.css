@@ -152,6 +152,8 @@ mat-slide-toggle{
 
 th{
     cursor: pointer;
+    background-color: #0398c5;
+    color: #fff;
 }
 
 /********************loading *************/
@@ -198,4 +200,25 @@ th{
         transform: rotate(360deg);
     }
 }
+
+
+ngb-pagination ::ng-deep a {
+    color: #4EBEE1 !important;
+    border: none !important;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link {
+    border-color: solid 1px rgb(171, 236, 228);
+    border-radius: 5px;
+    background-color: #e1f0f5;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+  }
+  
+  ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+  }
+
 

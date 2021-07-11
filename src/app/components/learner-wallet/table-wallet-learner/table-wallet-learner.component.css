@@ -60,6 +60,8 @@ tr td:nth-child(1) {
 th {
     text-align: center;
     cursor: pointer;
+    background-color: #0398c5;
+    color: #fff;
 }
 
 th:nth-child(1) {

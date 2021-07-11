@@ -19,6 +19,8 @@ export class LearnerManagermentComponent implements OnInit {
   APPROVE: string = "error";
   isChange = false;
   isAdmin: boolean = false;
+
+
   constructor(private userService: UserService, private router: Router,
     private route: ActivatedRoute,
     private authService: authenticationService) { }

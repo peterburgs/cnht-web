@@ -26,18 +26,20 @@
                 </div>
               </div>
         </div>
+   <div class = "list-course">
     <div *ngIf="!listCourse.length && !isLoading" class="container div-no-found"><span  align="center" class="no-found">
-        No Course here
-    </span></div>
-    <div *ngIf="listCourse != []" class="container wrapper">
-       
-        <app-lecturer-card-course  *ngFor="let course of listCourse"
-         [course]="course"></app-lecturer-card-course>
-    </div>
-    
-       
-    
-    <br><br>
+      No Course here
+  </span></div>
+  <div *ngIf="listCourse != []" class="container wrapper">
+     
+      <app-lecturer-card-course  *ngFor="let course of listCourse"
+       [course]="course"></app-lecturer-card-course>
+  </div>
+  
+     
+  <br><br>
+   </div>
+   
 </div>
 <div *ngIf="isLoading" class="background-loading">
   <div class="lds-ellipsis loading"><div></div><div></div><div></div><div></div></div>

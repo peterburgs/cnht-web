@@ -1,14 +1,17 @@
 .home-screen {
-    margin-top: 55px;
+    margin-top: 5vh;
 }
+
+
 .btn-new-course{
     width: 200px;
-    background: rgb(64, 129, 250);;
+    /* background: rgb(64, 129, 250);; */
+    background: #4EBEE1;
     border-radius: 10px;
     margin-left: 5px;
-    margin-top: 30px;
+    margin-top: 4vh;
     margin-bottom: 20px;
-    height: 40px;
+    height: 35px;
     font-size: large;
     padding: 4px;
     font-family: 'Roboto', sans-serif;
@@ -54,6 +57,15 @@
 
 .spinner-border{
 
+}
+
+.list-course {
+  background-color: #eeebeb;
+  text-align: center;
+  height: 100%;
+}
+.container .wrapper{
+  text-align: center;
 }
 
 app-search-title{
@@ -124,5 +136,9 @@ app-search-title{
     100% {
       transform: translate(24px, 0);
     }
+  }
+
+  .pull-right{
+    margin-right: -8vw;
   }
   

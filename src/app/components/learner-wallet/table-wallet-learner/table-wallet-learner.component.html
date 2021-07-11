@@ -33,7 +33,7 @@
                             <div><span>Status: </span>
                                 <span class="badge btn-status" *ngIf="item.depositRequestStatus==pendding">{{item.depositRequestStatus}}</span>
                                 <span class="badge btn-status" *ngIf="item.depositRequestStatus==confirm">Confirm at: {{item.updatedAt}}</span>
-                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==deny">{{item.depositRequestStatus}}</span>
+                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==deny"  style="background-color: crimson;">{{item.depositRequestStatus}} at: {{item.updatedAt}}</span>
 
                             </div>
                         </td>
