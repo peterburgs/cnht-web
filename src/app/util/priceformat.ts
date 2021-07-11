@@ -13,7 +13,7 @@ export function PriceFormat(price: Number, n:Number, x: Number, s:any, c:any):an
 
   return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','))+' VND';
 
-}
+}   
 
 /**
  * Number.prototype.format(n, x, s, c)
