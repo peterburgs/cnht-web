@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { throwIfEmpty } from 'rxjs/operators';
 
 import { ModifyType } from 'src/app/models/ModifyType';
 
@@ -52,45 +53,13 @@ export class CourseSectionComponent implements OnInit {
       this.changeSection=false;
       
   }
-  clickEditLecture($event:any,order:number){
-    console.log('save');
-    this.eventSave[order]=true;
-    this.lectureTitle=$event.target.value;
-    console.log(this.lectureTitle);
-
-  }
-  saveLecture(idLecture:string, order:number){
-
-    this.fullCourseService.setSelection(idLecture, VideoType.lession, ModifyType.edit)
-    this.fullCourseService.handleEditTitleLecture(this.lectureTitle).subscribe
-    (response=>{
-    }, error=>{
-      alert('Server disconnect at this time, try again');
-    });
-    
-    this.eventSave[order]=false;
-  }
-  enableChangeLecture(event:any){
-    
-    this.changeLecture=true;
-    this.lectureTitle=event?.target.value;
-   
-  }
-  onEditLession(id:string) {
-    this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.edit);
-    this.fullCourseService.onNotifyContent();
-    console.log(id);
-  }
+  
   onEditSection(){
    
     this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.edit);
     this.fullCourseService.onNotifyContent();
   }
-  onDeleteLession(id:string){
-    this.fullCourseService
-    .setSelection(id, VideoType.lession, ModifyType.delete);
-    this.fullCourseService.onNotifyContent();
-  }
+
   onDeleteSection(){
     this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.delete);
     this.fullCourseService.onNotifyContent();
@@ -110,19 +79,7 @@ export class CourseSectionComponent implements OnInit {
     this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.goDown);
     this.fullCourseService.onNotifyContent();
   }
-  onUpLession(id:string){
-       //handle something
-      //  this.fullCourseService.setCurrentSectionSelection(id);
-      //  this.fullCourseService.setSelection("", VideoType.lession, ModifyType.new);
-      //  this.fullCourseService.onEditContent();
-      this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.goUp);
-      this.fullCourseService.onNotifyContent();
-  }
-  onDownLession(id:string){
-    this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.goDown);
-    this.fullCourseService.onNotifyContent();
-  }
-
+  
   // getVideo(idLecture:string, order:number){
   //   console.log("from video");
 

@@ -1,5 +1,6 @@
 <div  class="container d-flex flex-fill flex-row bd-highlight ">
     <div class="p-2 item-edit edit-image">
+      <div class="emty-thumbnail">
         <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course empty-thumbnail">
           <p class="p-emty-thumbnail">Empty thumbnail</p>
         </div>
@@ -8,10 +9,12 @@
         [src]="'https://us-central1-supple-craft-318515.cloudfunctions.net/app'+course.thumbnailUrl"
         id="thumbnailUrl"  
         alt="img-course">
+      </div>  
+      
       
           <input #file type="file" accept="image/*" class="image-input"
           (change)="handleFileInput($event)">
-         <button class="btn-upload" (click)="file.click()"  >Upload thumbnail</button>
+         <button class="btn-upload" (click)="file.click()"> <i class="bi bi-upload icon-margin"></i>Upload thumbnail</button>
       
        
     </div>
@@ -66,19 +69,19 @@
 
           <div class="mb-3 row ">
             <label for="price" class="col-sm-2 col-form-label">Price</label>
-            <div class="col-sm-2 ">
+            <div class="col-sm-3 ">
               <input type="text"   class="text-deco input-price form-control text-deco" id="price" type="text" 
               matInput 
               name=price  
               [(ngModel)]="priceFormat"
-              (keydown)="formatCurrency()"
+              (keyup)="formatCurrency()"
               data-type="currency"
               #price=ngModel 
               type="text"
              placeholder="Price course">
 
             </div>  
-            <span class="col-sm-8 currency col-form-label">VND</span> 
+            <span class="col-sm-7 currency col-form-label">VND</span> 
           </div>
 
           <div class="mb-3 row ">
@@ -86,7 +89,7 @@
             </div>
             <div class="col-sm-2">
               <button class="btn-create-new btn-save" (click)="onSave()" [disabled]="!infoCourse.valid"> 
-                Save Change
+                <i class="bi bi-save icon-margin"></i> Save Change
               </button>
             </div>
            

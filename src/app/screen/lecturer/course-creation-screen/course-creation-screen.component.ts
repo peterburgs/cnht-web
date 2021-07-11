@@ -43,13 +43,15 @@ export class CourseCreationScreenComponent implements OnInit {
   isNotify = false;
   course: Course = new Course();
   isLoading = true;
+  duration=0;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private fullCourseService: FullCourseService,
     private authService: authenticationService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+   
   ) {}
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -101,20 +103,35 @@ export class CourseCreationScreenComponent implements OnInit {
           this.idCourse = 'default';
         }
       });
+  
       this.fullCourseService.getSbjSectionDummy().subscribe((dummy) => {
         this.isLoading = false;
       });
+      this.fullCourseService.getSbjIsFinish().subscribe(status=>{
+        if(status== 200){
+          // this.modalService.dismissAll();
+          // //refresh
+          // window.location.reload();
+        }
+        else if (status == 404){
+          //
+          //refresh
+        }
+        
+      })
       //Update course in fullService
 
       this.fullCourseService.initCourses().subscribe((response) => {
-        console.log('Thanh');
+     
         console.log(response.courses);
         this.fullCourseService.setCourses(response.courses);
         this.fullCourseService.setIdCourseSelection(this.idCourse);
         this.fullCourseService.setCourseSelection();
         this.course = this.fullCourseService.getCourseInfo();
+      }, error=>{
+        console.log(error);
       });
-      this.fullCourseService.getDataServe();
+      this.fullCourseService.getData();
 
       //TODO: check is observ able or not
       this.sections = this.fullCourseService.getSectionDummy();
@@ -225,7 +242,9 @@ export class CourseCreationScreenComponent implements OnInit {
           },
           (error) => {
             this.modalService.dismissAll();
-            alert("Error happen!!! try again")
+            console.log(console.error());
+            
+            //alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.delete) {
@@ -242,38 +261,30 @@ export class CourseCreationScreenComponent implements OnInit {
           },
           (error) => {
             this.modalService.dismissAll();
-            alert("Error happen!!! try again")
+            console.log(console.error());
+            
+            //alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.goUp) {
         this.fullCourseService.onUpSection()?.subscribe(
           (response) => {
-            if (response && response.count <= 0) {
-              alert('Error happen, please try again');
-              window.location.reload();
-            } else {
-              this.isLoading = true;
-              this.modalService.dismissAll();
-              window.location.reload();
-            }
+
           },
           (error) => {
             this.modalService.dismissAll();
-            alert("Error happen!!! try again")
+            console.log(error);
+            
+            //alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.goDown) {
         this.fullCourseService.onDownSection()?.subscribe(
           (response) => {
-            if (response && response.count == 0) {
-              alert('Error happen, please try again');
-            } else {
-              this.isLoading = true;
-              this.modalService.dismissAll();
-              window.location.reload();
-            }
           },
           (error) => {
+            console.log(error.status);
+            
             this.modalService.dismissAll();
             alert("Error happen!!! try again")
           }
@@ -287,6 +298,7 @@ export class CourseCreationScreenComponent implements OnInit {
           .handleCreateLecture(this.titleBinding)?.subscribe(
           
             response => {
+              console.log(response);
               if (response && response.count < 0) {
                 alert('Error happen, please try again');
               } else {
@@ -297,13 +309,15 @@ export class CourseCreationScreenComponent implements OnInit {
             }
           , error=>{
             this.modalService.dismissAll();
-            alert("Error happen!!! try again")
+            console.log(console.error());
+            
+            //alert("Error happen!!! try again")
           }
           )
       } else if (this.wayModify == ModifyType.edit) {
         if(this.fileToUpLoad.name != "default"){
           console.log(this.fileToUpLoad.stream.length);
-          this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad);
+          this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad, this.duration);
         }
        
       } else if (this.wayModify == ModifyType.delete) {
@@ -320,44 +334,32 @@ export class CourseCreationScreenComponent implements OnInit {
           },
           (error) => {
             console.log('error');
-            alert('Error happen, please try again');
-            window.location.reload();
-          }
-        );
+            console.log(console.error());
+            
+            //alert("Error happen!!! try again")
+          })
+        
       } else if (this.wayModify == ModifyType.goUp) {
-        this.fullCourseService.onUpLecture()?.subscribe(
-          (response) => {
-            if (response && response.count == 0) {
-              alert('Error happen, please try again');
-            } else {
-              this.isLoading = true;
-              this.modalService.dismissAll();
-              window.location.reload();
-            }
-          },
-          (error) => {
-            console.log('error');
-            alert('Error happen, please try again');
-            window.location.reload();
-          }
-        );
+        this.fullCourseService.onUpLecture();
+        // this.fullCourseService.onUpLecture()?.subscribe(
+        //   (response) => {
+        //     if (response && response.count == 0) {
+        //       alert('Error happen, please try again');
+        //     } else {
+        //       this.isLoading = true;
+        //       this.modalService.dismissAll();
+        //      // window.location.reload();
+        //     }
+        //   },
+        //   (error) => {
+        //     console.log('error');
+        //     console.log(console.error());
+            
+        //     //alert("Error happen!!! try again")
+        //   }
+        // );
       } else if (this.wayModify == ModifyType.goDown) {
-        this.fullCourseService.onDownLecture()?.subscribe(
-          (response) => {
-            if (response && response.count == 0) {
-              alert('Error happen, please try again');
-            } else {
-              
-              this.modalService.dismissAll();
-              window.location.reload();
-            }
-          },
-          (error) => {
-            this.modalService.dismissAll();
-            alert("Error happen!!! try again")
-            window.location.reload();
-          }
-        );
+        this.fullCourseService.onDownLecture();
 
         
       }
@@ -378,7 +380,9 @@ export class CourseCreationScreenComponent implements OnInit {
           (error) => {
            
             this.modalService.dismissAll();
-            alert("Error happen!!! try again")
+            console.log(console.error());
+            
+            //alert("Error happen!!! try again")
           }
         );
       }
@@ -386,17 +390,5 @@ export class CourseCreationScreenComponent implements OnInit {
   goBack() {
     this.router.navigateByUrl('/admin/home').then();
   }
-  readVideoUrl(event: any) {
-    const files = event.target.files;
-    if (files && files[0]) {
-      
-      this.videoURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(files[0]));
-    }
-  }
-
-  getDuration(e:any) {
-    const duration = e.target.duration;
-    console.log('Thao va Thanh')
-    console.log(duration);
-  }
+  
 }
