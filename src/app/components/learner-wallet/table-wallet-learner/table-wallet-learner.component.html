@@ -8,7 +8,10 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Date Time</th>
+                        <th (click) = "sortDate()">Date Time
+                            <i *ngIf = "isSortDateUp" class="fa fa-arrow-up"></i>
+                            <i *ngIf = "isSortDateDown" class="fa fa-arrow-down"></i>
+                        </th>
                         <th>Amount</th>
                         <th>Image</th>
 
@@ -45,7 +48,10 @@
             </table>
 
             <!-- alert-view -->
-            <app-alert-view-image [message]="message_view_img" [deposit]="selected_deposit" *ngIf="isShowImg()" (close)="onHandleError()"></app-alert-view-image>
+            <app-alert-view-image [message]="message_view_img"
+            [learner] = "learner"
+             [deposit]="selected_deposit" *ngIf="isShowImg()"
+              (close)="onHandleError()"></app-alert-view-image>
 
             <!-- end-alert-view -->
 

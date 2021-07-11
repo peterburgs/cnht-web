@@ -9,6 +9,13 @@ import { DepositRequestService } from 'src/app/service/deposit-request.service';
 import { UserService } from 'src/app/service/user.service';
 import { PriceFormat } from 'src/app/util/priceformat';
 
+const enum SORT{
+  CURRENT,
+  INCREASE,
+  DECREASE
+ 
+}
+
 @Component({
   selector: 'app-table-wallet-learner',
   templateUrl: './table-wallet-learner.component.html',
@@ -81,6 +88,41 @@ export class TableWalletLearnerComponent implements OnInit {
 
   priceFormat(price: number):any{
     return PriceFormat(price,0,3,'.',',')
+  }
+
+  eSortDate: SORT= SORT.CURRENT;
+  isSortDateUp: boolean = false;
+  isSortDateDown: boolean = false;
+   sortDate() {
+    this.isSortDateUp = false;
+    this.isSortDateDown = false;
+     this.eSortDate  = this.eSortDate + this.updateSort(this.eSortDate);
+
+     if(this.eSortDate == SORT.CURRENT)
+     {
+      this.getDepositHistory();} 
+
+      else if(this.eSortDate == SORT.INCREASE){
+        this.isSortDateDown = true;
+          this.depositHistory = this.depositHistory.sort((a, b) => {
+            return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
+          });
+      }
+      else {
+        this.isSortDateUp = true;
+        this.depositHistory = this.depositHistory.sort((a, b) => {
+          return <any>new Date(a.createdAt) - <any>new Date(b.createdAt);
+        });
+      }
+
+  
+  }
+
+  updateSort(sort: SORT){
+    if(sort == SORT.CURRENT || sort == SORT.INCREASE)
+        return 1;
+    else 
+        return -2;
   }
 
 }
