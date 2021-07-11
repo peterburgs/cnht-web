@@ -1,15 +1,20 @@
-import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChange,
+  SimpleChanges,
+} from '@angular/core';
 import { ViewChild } from '@angular/core';
-import { Form, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { VideoType } from 'src/app/models/VideoType.model';
-import { CourseService } from 'src/app/service/course.service';
-import { EventEmitter} from '@angular/core'
+
 import { FullCourseService } from '../../../../service/full-course.service';
-import { config, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 @Component({
   selector: 'app-course-info',
@@ -18,42 +23,28 @@ import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 })
 export class CourseInfoComponent implements OnInit {
   @ViewChild('infoCourse', { read: NgForm }) infoCourse!: any;
-  @Input() course :Course= new Course();
-  baseURL='https://us-central1-supple-craft-318515.cloudfunctions.net/app'
-  mCourse:Course= new Course();
-  imgPath?: Observable<string> ;
-  selectedValue:string='';
+  @Input() course: Course = new Course();
+  baseURL = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app';
+  mCourse: Course = new Course();
+  imgPath?: Observable<string>;
+  selectedValue: string = '';
   priceFormat = '000';
-  types = [
-    COURSE_TYPE.THEORY,
-    COURSE_TYPE.EXAMINATION_SOLVING,
-    
-  ];
-  grades=[
-    GRADES.TWELFTH,
-    GRADES.ELEVENTH,
-    GRADES.TENTH
-  ]
- 
+  types = [COURSE_TYPE.THEORY, COURSE_TYPE.EXAMINATION_SOLVING];
+  grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
+
   fileToUpLoad: File = new File([], '_Thumbnail');
   constructor(private fullCourseService: FullCourseService) {}
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    console.log(this.course.price);
-  }
+
   ngOnChanges(courseChange: SimpleChanges): void {
-    console.log(courseChange);
-    this.priceFormat=String(courseChange.course.currentValue.price);
-     this.formatCurrency();
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    
+    this.priceFormat = String(courseChange.course.currentValue.price);
+    this.formatCurrency();
   }
   ngOnInit(): void {
-    this.fullCourseService.getSbjCreateCourse().subscribe(course=>{
-      this.mCourse= course;
-    })
+    this.fullCourseService.getSbjCreateCourse().subscribe((course) => {
+      this.mCourse = course;
+    });
 
     if (this.fullCourseService.subsValid == null) {
       this.fullCourseService.subsValid =
@@ -61,7 +52,7 @@ export class CourseInfoComponent implements OnInit {
           this.validateInput();
         });
     }
-    this.priceFormat= String(this.course.price);
+    this.priceFormat = String(this.course.price);
   }
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -70,8 +61,6 @@ export class CourseInfoComponent implements OnInit {
       console.log('FileUpload -> files', fileList);
 
       this.fileToUpLoad = <File>fileList.item(0);
-
-
 
       var reader = new FileReader();
       //update Image to UI
@@ -95,87 +84,44 @@ export class CourseInfoComponent implements OnInit {
   validateInput() {
     this.fullCourseService.setCourse(this.course);
 
-    if(this.course.title  && this.course.courseDescription ){
-       this.fullCourseService.setIsValid(true);
+    if (this.course.title && this.course.courseDescription) {
+      this.fullCourseService.setIsValid(true);
+    } else {
+      this.fullCourseService.setIsValid(false);
     }
-      else{
-      this.fullCourseService.setIsValid(false);}
     //this.fullCourseService.setIsValid(this.infoCourse.valid);
   }
-
-
   formatCurrency() {
-   while (this.priceFormat.charAt(0) === '0') {
-      this.priceFormat = this.priceFormat.substring(1);
-    }
-    console.log(this.priceFormat);
-     this.course.price=parseInt(this.priceFormat.replace(/\D/g, ''));
-     let price=this.course.price;
-     console.log(price);
-     let format='';
-    //  while(price>999){
-
-    //  }
-
-    // this.priceFormat = this.priceFormat
-    //   .replace(/\D/g, '')
-    //   .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    // console.log(this.priceFormat);
-    // var price_format="";
-    // var priceString: string = price + "";
-    // while(priceString.length  - 3 > 0){
-    //     price_format ="." + priceString.substring(priceString.length - 3) +  price_format;
-    //     priceString = priceString.substring(0, priceString.length - 3);
-    //     console.log(price_format);
-    // }
-    // this.priceFormat = priceString + price_format
-    this.priceFormat= FormatPrice(price,0,3,'.',',');
-    
-    
-
+    this.course.price = parseInt(this.priceFormat.replace(/\D/g, ''));
+    let price = this.course.price;
+    this.priceFormat = FormatPrice(price, 0, 3, '.', ',');
   }
-    // var price_format="";
-    // var zero;
-  
-    // let price=this.course.price;
-    // if(price<1000) this.priceFormat= String(price);  
-    // while(price%1000==0)
-    // {
-    //   price= price/1000;
-      
-    //    zero =price_format;
-    //   price_format = ('.000').concat(price_format);
-    // }
-    // zero = price_format;
-    // this.priceFormat=price.toString()+ price_format;
-    
-  
-  formatType(type:COURSE_TYPE){
-    return type; 
+  formatType(type: COURSE_TYPE) {
+    return type;
   }
-  formatGrade(grade:GRADES){
+  formatGrade(grade: GRADES) {
     return grade;
   }
-  changeType(e:any) {
-    this.course.courseType= e.target.value;
+  changeType(e: any) {
+    this.course.courseType = e.target.value;
   }
-  changeGrade(e:any){
-    this.course.grade= e.target.value;
-  
+  changeGrade(e: any) {
+    this.course.grade = e.target.value;
   }
-  // formatImage(imgPath:string)){
-  //   if(imgPath!=null){
-
-  //   }
-  // }
-  onSave(){
-    this.fullCourseService.setSelection(this.course.id, VideoType.course, ModifyType.save);
-    this.fullCourseService.onSaveCourse().toPromise().then(response=>{
-
-    },error=>{
-        alert("Server error!!! try again")
-    })
-
+  onSave() {
+    this.fullCourseService.setSelection(
+      this.course.id,
+      VideoType.course,
+      ModifyType.save
+    );
+    this.fullCourseService
+      .onSaveCourse()
+      .toPromise()
+      .then(
+        (response) => {},
+        (error) => {
+          alert('Server error!!! try again');
+        }
+      );
   }
-
 }

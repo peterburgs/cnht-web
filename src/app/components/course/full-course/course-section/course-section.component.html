@@ -14,8 +14,6 @@
   <div class="div-main">
     <ul class="list-group flex-fill">
       <li class="list-group-item title-section d-flex label-section border-radius" >
-        
-         
           <div class="div-box col-sm-11">
             <input class="form-control title-section clean-border input-box" #inputSection
             [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
@@ -39,7 +37,12 @@
 
       </li>
       <app-course-lecture *ngFor="let item of sectionDummy.lecture;
-       let i = index" [lecture]="item" [lectureIndex]="i"></app-course-lecture>
+       let i = index" 
+       [lecture]="item"
+       [lectureIndex]="i"
+        [sectionIndex]="sectionIndex"
+        [globalLoading]="arrayLoading[i * sectionIndex]"
+        ></app-course-lecture>
    
       <div>
         <ul class="ul-deco">

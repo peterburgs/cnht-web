@@ -16,8 +16,10 @@ import { FullCourseService } from '../../../../service/full-course.service';
 export class CourseSectionComponent implements OnInit {
   
   @Input() sectionDummy: SectionDummy = new SectionDummy("1","default",[]);
+  @Input() sectionIndex: number=0;
   eventSave:boolean[]=[]
   durationVideo:number[]=[]
+  arrayLoading:boolean[]=[];
   urlVideo = '../';
   files?: File;
   hasVideo=false;
@@ -33,6 +35,7 @@ export class CourseSectionComponent implements OnInit {
       this.eventSave.push(false);
       this.durationVideo.push(0);
     }
+    this.arrayLoading= this.fullCourseService.getArrayLoading();
   }
   clickEditSection($event:any){
       this.sectionTitle=$event.target.value;

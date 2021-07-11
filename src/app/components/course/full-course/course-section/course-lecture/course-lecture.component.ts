@@ -21,7 +21,10 @@ export class CourseLectureComponent implements OnInit {
 
   @Input() lecture: Lecture= new Lecture();
   @Input() lectureIndex: number =0;
+  @Input() sectionIndex: number =0;
+  @Input() globalLoading:boolean=false;
   durationVideo:number[]=[]
+
   urlVideo = '../';
   videoURL: SafeUrl='';
   files?: File;
@@ -34,7 +37,7 @@ export class CourseLectureComponent implements OnInit {
   fileToUpload= new File([],'default');
   duration:number=0;
   eventSave=false;
-  loading=true;
+  
   timeVideo=0;
   sbjLoadingDuration= new Subject<number>();
   constructor(private fullCourseService: FullCourseService
@@ -50,9 +53,11 @@ export class CourseLectureComponent implements OnInit {
     this.sbjLoadingDuration.subscribe(duration=>{
         if(this.fileToUpload.name != 'default')
         {
-           this.fullCourseService.handleUpdateWithVideo(this.fileToUpload, this.duration);
+           this.fullCourseService.handleUpdateWithVideo(this.fileToUpload, this.duration, this.sectionIndex, this.lectureIndex);
+     
         }
     })
+    
   }
   getSbjLoadingDuration() {
     return this.sbjLoadingDuration.asObservable();
@@ -96,14 +101,6 @@ onDownLession(id:string){
  this.fullCourseService.onNotifyContent();
 }
 
-formatTime(duration:number){
- let duration_format='';
- let time= duration;
- duration_format= String(time/60)+':';
- time=time%60;
- if(time<10) return duration_format+ '0'+String(time);
- return duration_format + String(time);
-}
 onDeleteLession(id:string){
   this.fullCourseService
   .setSelection(id, VideoType.lession, ModifyType.delete);
@@ -114,11 +111,13 @@ handleFileInput(event: Event, idLecture: string) {
 }
 
 readVideoUrl(event: any, idLecture:string) {
+
   const files = event.target.files;
   if (files && files[0]) {
-    
-    
+
     this.fullCourseService.setSelection(idLecture,VideoType.lession, ModifyType.edit);
+    console.log(this.sectionIndex +' lecture '+this.lectureIndex);
+    this.fullCourseService.setPositionLoading(true, this.sectionIndex, this.lectureIndex);
     console.log('FileUpload -> files', files);
     this.fileToUpload = files[0];
     this.videoURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(files[0]));
@@ -128,6 +127,7 @@ readVideoUrl(event: any, idLecture:string) {
 
 getDuration(e:any) {
   this.duration= e.target.duration;
+  this.timeVideo=Math.round(this.duration); 
   this.sbjLoadingDuration.next(this.duration);
   
 }
