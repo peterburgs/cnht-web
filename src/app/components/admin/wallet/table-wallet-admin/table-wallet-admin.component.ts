@@ -89,7 +89,7 @@ export class TableWalletAdminComponent implements OnInit {
      {
       this.getAllList();} 
 
-      else if(this.eSortDate == SORT.INCREASE){
+      else if(this.eSortDate == SORT.DECREASE){
         this.isSortDateDown = true;
           this.listSearch = this.listSearch.sort((a, b) => {
             return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);
@@ -121,7 +121,7 @@ export class TableWalletAdminComponent implements OnInit {
 
       this.getAllList();} 
 
-  else if(this.eSortAmount == SORT.DECREASE){
+  else if(this.eSortAmount == SORT.INCREASE){
    
     this.isSortAmountUp = true;
     this.listSearch = this.listSearch.sort(function(deposit1, deposit2) {
