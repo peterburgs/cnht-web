@@ -26,7 +26,7 @@ export class CourseCreationScreenComponent implements OnInit {
   @ViewChild('error_happen', { static: true }) error_happen?: ElementRef;
   // @ViewChild('nameTitle', { read: NgForm  }) nameTitle?: ElementRef;
   @ViewChild('file', { static: false }) fileVideo?: ElementRef;
-  
+  arrLoading:boolean[]=[];
   sections: SectionDummy[] = [];
   videoURL: SafeUrl='';
 
@@ -105,17 +105,25 @@ export class CourseCreationScreenComponent implements OnInit {
       });
   
       this.fullCourseService.getSbjSectionDummy().subscribe((dummy) => {
+
         this.isLoading = false;
+        this.arrLoading= this.fullCourseService.getArrayLoading();
       });
       this.fullCourseService.getSbjIsFinish().subscribe(status=>{
         if(status== 200){
-          // this.modalService.dismissAll();
+          this.modalService.dismissAll();
+          this.isLoading=false;
           // //refresh
-          // window.location.reload();
+           window.location.reload();
         }
         else if (status == 404){
           //
           //refresh
+          this.modalService.dismissAll();
+          this.isLoading=false;
+          alert("Problem having, try again")
+          // //refresh
+           window.location.reload();
         }
         
       })
@@ -150,22 +158,7 @@ export class CourseCreationScreenComponent implements OnInit {
       }
     }
   }
-  // onSave(){
-  //   this.fullCourseService.onValidateInput();
-  //   this.isValid=this.fullCourseService.getValidate();
-  //   console.log(this.isValid);
-  //   if(this.isValid){
-  //       //Check condition here
-  //   this.fullCourseService.setSelection(this.idCourse, VideoType.course, ModifyType.save);
-  //   this.fullCourseService.handleUpate();
-  //   }
-  //   else{
-  //     this.fullCourseService.setSelection('default', VideoType.course, ModifyType.errorValid);
-  //   }
 
-  //   this.openVerticallyCentered();
-
-  // }
   onCreateSection() {
     this.fullCourseService.setSelection(
       'default',
@@ -194,7 +187,7 @@ export class CourseCreationScreenComponent implements OnInit {
     return 'Save';
   }
   customeContent() {
-    const confirmMessage = 'Are you sure delete  ';
+    const confirmMessage = 'Are you sure ';
     const createMessage = 'Save successful!!!';
     const validMessage = 'Input invalid!!!';
     const noticeMessage = 'Your working not save!!!';
@@ -202,10 +195,10 @@ export class CourseCreationScreenComponent implements OnInit {
     switch (this.wayModify) {
       case ModifyType.delete:
         if (this.typeSelection == VideoType.course)
-          return confirmMessage + 'course?';
+          return confirmMessage + 'delete this course?';
         else if (this.typeSelection == VideoType.section)
-          return confirmMessage + 'section?';
-        return confirmMessage + ' lession?';
+          return confirmMessage + 'delete this section?';
+        return confirmMessage + 'delete this lession?';
       case ModifyType.save:
         return createMessage;
       case ModifyType.errorValid:
@@ -214,27 +207,31 @@ export class CourseCreationScreenComponent implements OnInit {
         return noticeMessage;
       case ModifyType.goUp:
         if (this.typeSelection == VideoType.lession)
-          return confirmMessage + 'up level this lession?';
+          return confirmMessage + ' up level this lession?';
         return confirmMessage + ' up level this section?';
       case ModifyType.goDown:
         if (this.typeSelection == VideoType.section) {
-          return confirmMessage + 'down level this section?';
+          return confirmMessage + ' down level this section?';
         }
-        return confirmMessage + 'down level this lession?';
-        return '';
+        return confirmMessage + ' down level this lession?';
     }
     return '';
   }
 
   onConfirmSave() {
+    this.isLoading=true;
     console.log(this.typeSelection);
     if (this.typeSelection == VideoType.section) {
       if (this.wayModify == ModifyType.new) {
+        if(!this.titleBinding){
+          return;
+        }
         this.fullCourseService.handleCreateSection(this.titleBinding).subscribe(
           (response) => {
+            console.log(response);
             if (response.count > 0) {
-              this.isLoading = true;
               this.modalService.dismissAll();
+              this.isLoading = false;
               window.location.reload();
             } else {
               alert('Error happen, please try again');
@@ -243,15 +240,14 @@ export class CourseCreationScreenComponent implements OnInit {
           (error) => {
             this.modalService.dismissAll();
             console.log(console.error());
-            
-            //alert("Error happen!!! try again")
+            alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.delete) {
         this.fullCourseService.onDeleteSection().subscribe(
           (response) => {
             if (response.message == 'Delete section successfully') {
-              this.isLoading = true;
+              this.isLoading = false;
               this.modalService.dismissAll();
               window.location.reload();
             } else {
@@ -261,30 +257,32 @@ export class CourseCreationScreenComponent implements OnInit {
           },
           (error) => {
             this.modalService.dismissAll();
-            console.log(console.error());
-            
-            //alert("Error happen!!! try again")
+            alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.goUp) {
         this.fullCourseService.onUpSection()?.subscribe(
           (response) => {
-
+            this.isLoading = false;
+            this.modalService.dismissAll();
+            window.location.reload();
           },
           (error) => {
             this.modalService.dismissAll();
             console.log(error);
-            
-            //alert("Error happen!!! try again")
+            this.isLoading=false;
+            alert("Error happen!!! try again")
           }
         );
       } else if (this.wayModify == ModifyType.goDown) {
         this.fullCourseService.onDownSection()?.subscribe(
           (response) => {
+            this.modalService.dismissAll();
+            this.isLoading=false;
+            window.location.reload();
           },
           (error) => {
-            console.log(error.status);
-            
+            console.log(error.message);
             this.modalService.dismissAll();
             alert("Error happen!!! try again")
           }
@@ -294,15 +292,17 @@ export class CourseCreationScreenComponent implements OnInit {
     {
       if (this.wayModify == ModifyType.new) 
       {
+        if(!this.titleBinding){
+            return;
+        }
         this.fullCourseService
           .handleCreateLecture(this.titleBinding)?.subscribe(
-          
             response => {
               console.log(response);
               if (response && response.count < 0) {
                 alert('Error happen, please try again');
               } else {
-                this.isLoading = true;
+                this.isLoading = false;
                 this.modalService.dismissAll();
                 window.location.reload();
               }
@@ -311,20 +311,19 @@ export class CourseCreationScreenComponent implements OnInit {
             this.modalService.dismissAll();
             console.log(console.error());
             
-            //alert("Error happen!!! try again")
+            alert("Error happen!!! try again")
           }
           )
       } else if (this.wayModify == ModifyType.edit) {
-        if(this.fileToUpLoad.name != "default"){
-          console.log(this.fileToUpLoad.stream.length);
-          this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad, this.duration);
-        }
-       
+        // if(this.fileToUpLoad.name != "default"){
+        //   console.log(this.fileToUpLoad.stream.length);
+        //   this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad, this.duration);
+        // }
       } else if (this.wayModify == ModifyType.delete) {
         this.fullCourseService.onDeleteLecture().subscribe(
           (response) => {
+            this.isLoading=false;
             if (response.message == 'Delete lecture successfully') {
-              this.isLoading = true;
               this.modalService.dismissAll();
               window.location.reload();
             } else {
@@ -333,35 +332,17 @@ export class CourseCreationScreenComponent implements OnInit {
             }
           },
           (error) => {
-            console.log('error');
             console.log(console.error());
+            this.modalService.dismissAll();
+            alert("Error happen!!! try again")
             
-            //alert("Error happen!!! try again")
           })
         
       } else if (this.wayModify == ModifyType.goUp) {
+        //this.fullCourseService.onUpLecture();
         this.fullCourseService.onUpLecture();
-        // this.fullCourseService.onUpLecture()?.subscribe(
-        //   (response) => {
-        //     if (response && response.count == 0) {
-        //       alert('Error happen, please try again');
-        //     } else {
-        //       this.isLoading = true;
-        //       this.modalService.dismissAll();
-        //      // window.location.reload();
-        //     }
-        //   },
-        //   (error) => {
-        //     console.log('error');
-        //     console.log(console.error());
-            
-        //     //alert("Error happen!!! try again")
-        //   }
-        // );
       } else if (this.wayModify == ModifyType.goDown) {
         this.fullCourseService.onDownLecture();
-
-        
       }
     } else if (
         this.fullCourseService.wayModify == ModifyType.delete &&
@@ -370,19 +351,13 @@ export class CourseCreationScreenComponent implements OnInit {
     {
         this.fullCourseService.onDeleteCourse().subscribe(
           (response) => {
-            if (response.message == 'Delete course successfully') {
               this.router.navigateByUrl('/admin/home').then();
               this.modalService.dismissAll();
-            } else {
-              alert('problem having');
-            }
           },
           (error) => {
-           
             this.modalService.dismissAll();
             console.log(console.error());
-            
-            //alert("Error happen!!! try again")
+            alert("Error happen!!! try again")
           }
         );
       }

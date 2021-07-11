@@ -8,15 +8,15 @@
   <app-course-info [course]="course"></app-course-info>
 
   <app-course-section
-    *ngFor="let section of sections"
-    [sectionDummy]="section"
+    *ngFor="let section of sections; let i = index" 
+    [sectionDummy]="section" [sectionIndex]="i"
   ></app-course-section>
-  <ul>
+  <ul>  
     <button class="btn-create-new" (click)="onCreateSection()">
       <i class="bi bi-plus-lg icon-create icon-create"></i>  Create new Section
     </button>
   </ul>
-  <br />
+  <br/>
   <div class="div-save">
     
   </div>
@@ -88,4 +88,3 @@
   <div class="lds-ellipsis loading"><div></div><div></div><div></div><div></div></div>
 </div>
 
->
