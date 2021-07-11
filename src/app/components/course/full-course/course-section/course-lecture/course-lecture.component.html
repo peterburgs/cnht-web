@@ -1,0 +1,78 @@
+<div class="container div-main list-group flex-fill">
+  <li
+    class="
+      lecture-item
+      list-group-item
+      d-flex
+      justify-content-between
+      align-items-center
+      border-radius
+    "
+  >
+    <div class="div-updown col-sm-1">
+      <div class="div-icon-mini" (click)="onUpLession(lecture.id)">
+        <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
+      </div>
+      <div class="div-icon-mini" (click)="onDownLession(lecture.id)">
+        <i class="fa fa-chevron-down icon-decorate" title="Lesson go down"></i>
+      </div>
+    </div>
+
+    <input
+      #inputLecture
+      class="form-control contain-title col-sm-7 clean-border"
+      [value]="lecture.title"
+      title="Edit title"
+      (click)="clickEditLecture($event)"
+    />
+    <button
+      *ngIf="eventSave"
+      (click)="inputLecture.click(); saveLecture(lecture.id)"
+      class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1"
+    >
+    <i class="fa fa-check"></i>
+    </button>
+    <input
+      #file
+      type="file"
+      accept="video/mp4,video/x-m4v,video/*"
+      class="image-input"
+      style="display: none"
+      (change)="readVideoUrl($event, lecture.id);"
+    />
+    <!-- <button class="btn-upload" (click)="file.click()">Upload new video</button> -->
+    <button 
+      class="contain-video btn btn-outline-primary"
+      (click)="file.click()" [disabled]="loading"
+    >
+      <span *ngIf="loading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span><span *ngIf="loading"> Uploading...</span><span *ngIf="!loading">Upload Video</span>
+     
+    </button>
+    <span class="contain-video-time col-sm-1">{{timeVideo | duration}}</span>
+
+    <div class="div-edit">
+      <button
+        class="btn btn-outline-danger btn-circle btn-lg outline-delete"
+        title="Delete lession"
+        (click)="onDeleteLession(lecture.id)"
+      >
+      <i class="fa fa-times"></i>
+      </button>
+    </div>
+
+    <video
+      #video
+      style="display: none"
+      *ngIf="videoURL"
+      width="320"
+      height="240"
+      controls
+      [attr.src]="videoURL"
+      (loadedmetadata)="getDuration($event)"
+    ></video>
+  </li>
+</div>

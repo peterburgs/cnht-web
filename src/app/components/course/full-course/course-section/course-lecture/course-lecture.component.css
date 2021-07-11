@@ -1,0 +1,106 @@
+.btn-create-new{
+    width: 180px;
+    background: rgb(64, 129, 250);
+    border-radius: 10px;
+    
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: large;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    border: solid 1px #ffff;
+}
+.btn-create-new:hover{
+    color: rgb(64, 129, 250);
+    border: solid 1px rgb(64, 129, 250) ;
+    background: #ffff;
+}
+.btn-upload{
+    width: 170px;
+    background: rgb(64, 129, 250);;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: large;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: white;
+    border: solid 1px #ffff;
+}
+.btn-upload:hover{
+    color: rgb(64, 129, 250);
+    border: solid 1px rgb(64, 129, 250) ;
+    background: #ffff;
+}
+.border-radius{
+    border-radius: 7px;
+}
+.container{
+    display: flex;
+    font-size: 20px;
+}
+.div-icon{
+    width: 30px;
+    height: 30px;
+   align-items: center;
+   margin-left: 15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   display: flex;
+   font-size: large;
+}
+.div-icon:hover, .div-icon-mini:hover{
+    color: palevioletred;
+    cursor: pointer;
+}
+.div-icon-mini{
+    width: 25px;
+    height: 25px;
+   align-items: center;
+   margin-left: 15px;
+   margin-top: 3px;
+    font-size: large;
+}
+.div-row{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.div-updown{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0.5;
+    align-items: center;
+}
+.div-main{
+    border-radius: 15px;
+    flex-grow:11.5;
+}
+.btn-circle.btn-lg {
+    width: 40px;
+    height: 40px;
+    padding: 2px 0px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+   
+  }
+
+  .btn-circle{
+      margin: 5px;
+  }
+  .outline-save{
+    border: 2px #28a745 solid;
+  }
+  .outline-delete{
+    border: 2px #dc3545 solid;
+  }

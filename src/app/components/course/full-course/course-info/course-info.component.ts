@@ -10,6 +10,7 @@ import { CourseService } from 'src/app/service/course.service';
 import { EventEmitter} from '@angular/core'
 import { FullCourseService } from '../../../../service/full-course.service';
 import { config, Observable } from 'rxjs';
+import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -44,7 +45,7 @@ export class CourseInfoComponent implements OnInit {
   ngOnChanges(courseChange: SimpleChanges): void {
     console.log(courseChange);
     this.priceFormat=String(courseChange.course.currentValue.price);
-    console.log('Price'+ courseChange.course.currentValue.price);
+     this.formatCurrency();
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     
@@ -107,8 +108,10 @@ export class CourseInfoComponent implements OnInit {
    while (this.priceFormat.charAt(0) === '0') {
       this.priceFormat = this.priceFormat.substring(1);
     }
+    console.log(this.priceFormat);
      this.course.price=parseInt(this.priceFormat.replace(/\D/g, ''));
      let price=this.course.price;
+     console.log(price);
      let format='';
     //  while(price>999){
 
@@ -118,14 +121,19 @@ export class CourseInfoComponent implements OnInit {
     //   .replace(/\D/g, '')
     //   .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     // console.log(this.priceFormat);
-    var price_format="";
-    var priceString: string = price + "";
-    while(priceString.length  - 3 > 0){
-        price_format ="." + priceString.substring(priceString.length - 3) +  price_format;
-        priceString = priceString.substring(0, priceString.length - 3);
-        console.log(price_format);
-    }
-    this.priceFormat = priceString + price_format
+    // var price_format="";
+    // var priceString: string = price + "";
+    // while(priceString.length  - 3 > 0){
+    //     price_format ="." + priceString.substring(priceString.length - 3) +  price_format;
+    //     priceString = priceString.substring(0, priceString.length - 3);
+    //     console.log(price_format);
+    // }
+    // this.priceFormat = priceString + price_format
+    this.priceFormat= FormatPrice(price,0,3,'.',',');
+    
+    
+
+  }
     // var price_format="";
     // var zero;
   
@@ -141,7 +149,7 @@ export class CourseInfoComponent implements OnInit {
     // zero = price_format;
     // this.priceFormat=price.toString()+ price_format;
     
-  }
+  
   formatType(type:COURSE_TYPE){
     return type; 
   }

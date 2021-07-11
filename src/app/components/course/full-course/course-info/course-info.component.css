@@ -13,6 +13,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
     
 }
 .edit-description{
@@ -40,8 +41,8 @@
     position: relative;
 }
 .btn-upload{
-    width: 170px;
-    background: rgb(64, 129, 250);;
+    width: 200px;
+    background: #4EBEE1;
     border-radius: 10px;
     margin-left: 5px;
     margin-top: 20px;
@@ -79,8 +80,8 @@
     background: #ffff;
 }
 .btn-upload:hover{
-    color: rgb(64, 129, 250);
-    border: solid 1px rgb(64, 129, 250) ;
+    color: #4EBEE1;
+    border: solid 1px #4EBEE1 ;
     background: #ffff;
 }
 input[type='file']{
@@ -140,4 +141,7 @@ image{
     color: #4EBEE1;
     border: solid 1px #4EBEE1 ;
     background: #ffff;
+}
+.icon-margin{
+    margin-right: 5px;
 }
