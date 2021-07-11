@@ -18,7 +18,7 @@ export class FilterComponent implements OnInit {
   grade: string = GRADES.TWELFTH;
   category: string = COURSE_TYPE.THEORY;
   listFilter = ["theory", 
-  "examination solving"];
+  "examination solving", "test"];
   constructor() { }
 
   ngOnInit(): void {

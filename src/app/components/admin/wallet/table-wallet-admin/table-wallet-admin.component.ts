@@ -48,8 +48,9 @@ export class TableWalletAdminComponent implements OnInit {
   isConfirmAll: boolean = false;
   @Input() admin: User = new User();
   isLoading: boolean = true;
-  @Output() changBalanceAdmin = new EventEmitter<number>();
-
+  @Output() changeBalanceAdmin = new EventEmitter<number>();
+  page = 1;
+  pageSize = 10;
   constructor(public userService: UserService, 
     private _snackBar: MatSnackBar, 
     public depositRequestService: DepositRequestService,
@@ -71,6 +72,7 @@ export class TableWalletAdminComponent implements OnInit {
     this.getAllList();
     this.getAllListLearner();
     console.log(this.depositRequests.length);
+ 
     
   }
 
@@ -285,22 +287,28 @@ export class TableWalletAdminComponent implements OnInit {
   updateStatusDeposit(){
     // confirm or deny 
     // get deposit current for update
-    this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit).subscribe();
-
+   
     if(this.newStatusDeposit == STATUSES.CONFIRM){
       var user = this.getLearnerByIdLearner(this.depositCurrentRow.learnerId);
       user.balance = user.balance + this.depositCurrentRow.amount;
       this.admin.balance = this.admin.balance + this.depositCurrentRow.amount;
-      this.changBalanceAdmin.emit(this.admin.balance);
       this.userService.updateUser(user).subscribe();
-      this.userService.updateUser(this.admin).subscribe();
+      this.userService.updateUser(this.admin).subscribe(any =>{
+        this.changeBalanceAdmin.emit(this.admin.balance);
+      });
      
       //this.getAllList();
      
     }
+
+    this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit).subscribe(any =>{
+      this.getAllList();
+      this.openSnackBar("Reposit was updated !", "OK"); 
+     
+    });
+
    
-    this.openSnackBar("Reposit was updated !", "OK"); 
-    this.getAllList();
+   
 
   }
 

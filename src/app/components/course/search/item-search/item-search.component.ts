@@ -35,10 +35,10 @@ export class ItemSearchComponent implements OnInit {
 
 }
 
-  handlePriceFormat(price:number):any{
-    return  FormatPrice(+price,0,3,'.',',');
+handlePriceFormat(price:number):any{
+  return PriceFormat(price,0,3,'.',',');
 
-  }
+}
 
 
   changeRouter(){

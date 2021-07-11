@@ -24,11 +24,13 @@ export class TableLearnerManagermentComponent implements OnInit {
   APPROVE: string = "error";
   isChange = false;
   isLoading: boolean = true;
-
+  page = 1;
+  pageSize = 10;
    constructor(public userService: UserService) { }
  
    ngOnInit(): void {
      this.isLoading = true;
+     this.getAllLearner();
      this.getListUser();
      this.getListEnrollment();
    }
@@ -50,6 +52,9 @@ export class TableLearnerManagermentComponent implements OnInit {
    }
 
    getAllLearner(){
+    this.eSortEmail = SORT .CURRENT;
+    this.isSortEmailUp = false;
+    this.isSortEmailDown = false;
      this.userService.getAllLearner().subscribe(users =>
       {
         if(users.count >0) {

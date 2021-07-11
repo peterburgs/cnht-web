@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { fakeAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { Observable } from 'rxjs';
@@ -15,6 +16,7 @@ export class NavbarComponent implements OnInit {
 
   titleSearch: string = "";
   isLoggedin:boolean= false;
+  isAdmin: boolean = false;
   photo: any;
 
   constructor(public socialAuth: SocialAuthService,
@@ -41,6 +43,8 @@ export class NavbarComponent implements OnInit {
       }
       );
     }
+
+    if(this.authService.isAdmin()) this.isAdmin = true;
   }
 
   logOut(){
@@ -53,6 +57,10 @@ export class NavbarComponent implements OnInit {
     
   }
 
+  goToHomeAdmin(){
+    this.router.navigate(['/admin/home']);
+  }
+
   refreshComponent(){
     this.router.navigate([this.router.url])
  }
@@ -63,9 +71,11 @@ export class NavbarComponent implements OnInit {
 
  }
   onLoadSearch(){
+    if(this.titleSearch != ""){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['search'], {queryParams: {title: this.titleSearch }, fragment: 'loading'});
    
+   }
   }
 }

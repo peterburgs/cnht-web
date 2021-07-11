@@ -23,13 +23,16 @@
                     <a routerLink="login" class="btn-signin">Sign In</a>
                 </ng-template>
                 <ng-template #thenBlock>
-                    <a routerLink="/mylearning" class="btn-mycourse">My course</a>
-                    <a routerLink="/wallet" class="btn-mywallet ">My wallet</a>
+                    <a *ngIf = "!isAdmin" routerLink="/mylearning" class="btn-mycourse">My course</a>
+                    <a *ngIf = "!isAdmin" routerLink="/wallet" class="btn-mywallet ">My wallet</a>
+                    <div *ngIf = "isAdmin" style="width: 15vw;"></div>
+        
                     <div class="dropdown">
                         <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
                             <img [src]="photo" alt="{photo}" class="photo">
                         </button>
                         <div class="dropdown-menu">
+                            <button *ngIf = "isAdmin" class="dropdown-item" (click)="goToHomeAdmin()"> <i class="fa fa-home"></i> My home</button>  
                             <button class="dropdown-item" (click)="logOut()"> Log out</button>
                         </div>
                     </div>

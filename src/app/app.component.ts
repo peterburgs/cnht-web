@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router){}
   currentUrl=""
   isShowNavbar= true;
+  isShowNavbarAdmin = false;
   ngOnInit(): void {
     this.router.events.subscribe(router=>{
       this.currentUrl= this.router.url; 
@@ -19,6 +20,12 @@ export class AppComponent implements OnInit {
         this.isShowNavbar= false;
       }
       else this.isShowNavbar= true;
+
+      if(this.currentUrl.includes("/admin")){
+        this.isShowNavbarAdmin= true;
+        this.isShowNavbar = false;
+      }
+      else this.isShowNavbarAdmin= false;
     })
     
   }

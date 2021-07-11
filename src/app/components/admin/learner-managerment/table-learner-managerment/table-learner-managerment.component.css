@@ -2,6 +2,7 @@
     margin-top:-2vh;
     width: 90vw;
     margin-left: -5vw;
+    border-radius: 5px;
 }
 
 .modal{
@@ -53,8 +54,50 @@
     }
 }
 
+.table-responsive{
+    border-radius: 5px;
+}
+
+table{
+    border-radius: 5px !important;
+}
+
 th{
     color: #fff;
     background-color: #0061A8;
+    cursor: pointer;
+    border-radius: 5px;
 }
+
+thead
+{
+    border: none !important;
+} 
+tr{
+    border-radius: 5px;
+}
+
+.pagination{
+    margin-left: 70vw !important;
+    display: block;
+}
+
+ngb-pagination ::ng-deep a {
+    color: #4EBEE1 !important;
+    border: none !important;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link {
+    border-color: solid 1px rgb(171, 236, 228);
+    border-radius: 5px;
+    background-color: #e1f0f5;
+  }
+  
+  ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+  }
+  
+  ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
+    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+  }
 

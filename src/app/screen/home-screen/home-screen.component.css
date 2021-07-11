@@ -34,6 +34,7 @@
     font-size: 15px;
     color: #fff;
     transition: all 1s;
+    background-color: #DC3545;
 }
 
 .card:hover{

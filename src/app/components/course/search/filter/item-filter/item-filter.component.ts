@@ -55,7 +55,9 @@ export class ItemFilterComponent implements OnInit {
   setValueForTreeData(){
     if(this.category == COURSE_TYPE.THEORY)
         this.nameFilterCategory = "Theory";
-    else this.nameFilterCategory = "Examination Solving";
+    else if(this.category == COURSE_TYPE.EXAMINATION_SOLVING)
+      this.nameFilterCategory = "Examination Solving";
+    else this.nameFilterCategory = "Test";
 
     this.TREE_DATA = [
       {
