@@ -1,6 +1,7 @@
 <div class="course-card-search">
     <div class="img-course">
-        <img class="img-course img-fluid" [src]="baseUrl + courseItem.thumbnailUrl">
+        <img class="img-course img-fluid" [src]="baseUrl + courseItem.thumbnailUrl"
+        onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'">
     </div>
     <div class="content-course">
         <div class="pull-left">

@@ -5,8 +5,13 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Email</th>
-                        <th>Name</th>
+                        <th (click) = "sortEmail()">Email
+                            <i *ngIf = "isSortEmailUp" class="fa fa-arrow-up"></i>
+                            <i *ngIf = "isSortEmailDown" class="fa fa-arrow-down"></i></th>
+                        <th (click) = "sortName()">Name
+                            <i *ngIf = "isSortNameUp" class="fa fa-arrow-up"></i>
+                            <i *ngIf = "isSortNameDown" class="fa fa-arrow-down"></i>
+                        </th>
                         <th>Wallet</th>
                         <th>Course purchased</th>
 
@@ -20,7 +25,7 @@
                         <div></div>
                     </div>
 
-                    <tr *ngFor="let user of listUsers">
+                    <tr *ngFor="let user of listUserSort">
                         <td>{{user.email}}</td>
                         <td>{{user.fullName}}</td>
                         <td>{{balanceFormat(user.balance)}}</td>

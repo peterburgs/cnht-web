@@ -4,21 +4,32 @@ import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
 import { BalanceFormat } from 'src/app/util/balance-format';
 
+const enum SORT{
+  CURRENT,
+  INCREASE,
+  DECREASE
+ 
+}
+
 @Component({
   selector: 'app-table-learner-managerment',
   templateUrl: './table-learner-managerment.component.html',
   styleUrls: ['./table-learner-managerment.component.css']
 })
+
+
 export class TableLearnerManagermentComponent implements OnInit {
 
   @Input() listUsers: User[] = [];
   APPROVE: string = "error";
   isChange = false;
   isLoading: boolean = true;
+
    constructor(public userService: UserService) { }
  
    ngOnInit(): void {
      this.isLoading = true;
+     this.getListUser();
      this.getListEnrollment();
    }
 
@@ -32,6 +43,139 @@ export class TableLearnerManagermentComponent implements OnInit {
          this.isLoading = false;
        })
    }
+
+   listUserSort: User[] = [];
+   getListUser(){
+    this.listUserSort = this.listUsers;
+   }
+
+   getAllLearner(){
+     this.userService.getAllLearner().subscribe(users =>
+      {
+        if(users.count >0) {
+          this.listUsers  = users.users;
+          this.listUserSort = this.listUsers}
+      })
+   }
+
+   eSortName: SORT= SORT.CURRENT;
+   isSortNameUp: boolean = false;
+   isSortNameDown: boolean = false;
+
+   sortName(){
+    this.eSortWallet = SORT .CURRENT;
+    this.isSortWalletUp = false;
+    this.isSortWalletDown = false;
+
+    this.eSortEmail = SORT .CURRENT;
+    this.isSortEmailUp = false;
+    this.isSortEmailDown = false;
+
+     this.eSortName = this.eSortName + this.updateSort(this.eSortName);
+     this.isSortNameUp = false;
+     this.isSortNameDown = false;
+     if(this.eSortName == SORT.CURRENT)
+     {
+ 
+       this.getAllLearner();
+      } 
+ 
+   else if(this.eSortName == SORT.INCREASE){
+    
+     this.isSortNameUp = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => a.fullName.localeCompare(b.fullName));
+    }
+   
+   else {
+     this.isSortNameDown = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => b.fullName.localeCompare(a.fullName));
+
+   }
+ 
+   }
+
+   eSortWallet: SORT= SORT.CURRENT;
+   isSortWalletUp: boolean = false;
+   isSortWalletDown: boolean = false;
+
+   sortWallet(){
+    this.eSortName = SORT .CURRENT;
+    this.isSortNameUp = false;
+    this.isSortNameDown = false;
+
+    this.eSortEmail = SORT .CURRENT;
+    this.isSortEmailUp = false;
+    this.isSortEmailDown = false;
+    
+     this.eSortWallet = this.eSortWallet + this.updateSort(this.eSortWallet);
+     this.isSortWalletUp = false;
+     this.isSortWalletDown = false;
+     if(this.eSortWallet == SORT.CURRENT)
+     {
+ 
+       this.getAllLearner();
+      } 
+ 
+   else if(this.eSortWallet == SORT.INCREASE){
+    
+     this.isSortWalletUp = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => a.balance - b.balance);
+    }
+   
+   else {
+     this.isSortWalletDown = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => b.balance - a.balance);
+
+   }
+ 
+   }
+
+   eSortEmail: SORT= SORT.CURRENT;
+   isSortEmailUp: boolean = false;
+   isSortEmailDown: boolean = false;
+
+   sortEmail(){
+
+    this.eSortWallet = SORT .CURRENT;
+    this.isSortWalletUp = false;
+    this.isSortWalletDown = false;
+
+    this.eSortName = SORT .CURRENT;
+    this.isSortNameUp = false;
+    this.isSortNameDown = false;
+    
+     this.eSortEmail = this.eSortEmail + this.updateSort(this.eSortEmail);
+     this.isSortEmailUp = false;
+     this.isSortEmailDown = false;
+     if(this.eSortEmail == SORT.CURRENT)
+     {
+ 
+       this.getAllLearner();
+      } 
+ 
+   else if(this.eSortEmail == SORT.INCREASE){
+    
+     this.isSortEmailUp = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => a.email.localeCompare(b.email));
+    }
+   
+   else {
+     this.isSortEmailDown = true;
+     this.listUserSort = this.listUserSort.sort((a, b) => b.email.localeCompare(a.email));
+
+   }
+ 
+   }
+
+
+   updateSort(sort: SORT){
+    console.log("sort: " + sort);
+    if(sort == SORT.CURRENT || sort == SORT.INCREASE)
+        return 1;
+    else 
+        return -2;
+  }
+ 
  
    getTotalCourseForLearner(learnerId: string){
      return this.listEnrollment.filter(enrollment => enrollment.learnerId == learnerId).length;
