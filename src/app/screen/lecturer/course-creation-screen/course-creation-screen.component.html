@@ -13,7 +13,7 @@
   ></app-course-section>
   <ul>
     <button class="btn-create-new" (click)="onCreateSection()">
-      Create new Section
+      <i class="bi bi-plus-lg icon-create icon-create"></i>  Create new Section
     </button>
   </ul>
   <br />
@@ -58,19 +58,9 @@
         
       </div>
     </div>
-      <div *ngIf="(typeSelection == 1) && ( wayModify==1)" >
-        <input
-          #file
-          type="file" 
-          accept="video/mp4,video/x-m4v,video/*"
-          (change)="handleFileInput($event); readVideoUrl($event)"
-        />
-        <button class="btn-upload" (click)="file.click()">
-          Upload Video
-        </button>
-        <span class="url-video">{{ urlVideo }}</span>
-        <video #video style="display: none;" *ngIf="videoURL" width="320" height="240" controls [attr.src]="videoURL" (loadedmetadata)="getDuration($event)"></video>
-      </div>
+  
+     
+     
     
     
   </div>

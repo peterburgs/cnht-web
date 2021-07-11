@@ -70,6 +70,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { key } from './util/google_Key';
 import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
+import { CourseLectureComponent } from './components/course/full-course/course-section/course-lecture/course-lecture.component';
+import { Duration } from './util/duration.pipe';
 
 
 
@@ -124,7 +126,9 @@ import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.co
     AlertWarningComponent,
     EmptyBlockComponent,
     SearchTitleComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    CourseLectureComponent,
+    Duration
 
   
   ],

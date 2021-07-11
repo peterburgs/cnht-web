@@ -1,6 +1,13 @@
+:root {
+  --btn-blue: #548CA8;
+  --section-title:#292b2c;
+  --btn-save:#4EBEE1;
+  --pink-save:#f06292;
+  --background-loading:rgba(0, 0, 0, 0.75);
+}
 .btn-create-new{
-    width: 200px;
-    background: rgb(64, 129, 250);;
+    width: 230px;
+    background: #548CA8;
     border-radius: 10px;
     margin-left: 5px;
     margin-top: 5px;
@@ -16,8 +23,8 @@
     padding: 10px;
 }
 .btn-create-new:hover{
-    color: rgb(64, 129, 250);
-    border: solid 1px rgb(64, 129, 250) ;
+    color: var(--btn-blue);
+    border: solid 1px var(--btn-blue) ;
     background: #ffff;
 }
 .div-save{
@@ -26,24 +33,24 @@
     display: grid;
 }
 .btn-save{
-    background: #4EBEE1;
+    background: var(--btn-save);
     padding: 13px;
 
 }
 .btn-save:hover{
-    color: #4EBEE1;
-    border: solid 1px #4EBEE1 ;
+    color: var(--btn-save);
+    border: solid 1px var(--btn-save) ;
     background: #ffff;
 }
 .dark-modal .modal-content {
-    background-color: #292b2c;
+    background-color: var(--section-title);
     color: white;
   }
   .dark-modal .close {
     color: white;
   }
   .light-blue-backdrop {
-    background-color: #5cb3fd;
+    background-color: var(--btn-blue);
   }
 
   input[type='file']{
@@ -51,7 +58,7 @@
 }
 .btn-upload{
     width: 200px;
-    background: rgb(64, 129, 250);;
+    background: var(--btn-save);
     border-radius: 10px;
     margin-left: 5px;
     margin-top: 20px;
@@ -74,11 +81,11 @@
 .div-back{
     
     font-size: 20px;
-    color: #5cb3fd;
+    color: var(--btn-blue);
 }
 
 .div-back:hover{
-    color: #f06292 ;
+    color: var(--pink-save) ;
     cursor: pointer;
 }
 .container{
@@ -104,6 +111,7 @@
 
 .edit-screen{
     background: #EEEEEE;
+    margin-top: 85px;
 }
 .background-loading{
     position: fixed;
@@ -111,7 +119,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: var(--background-loading);
     z-index: 500000;
 }
 .loading{
@@ -178,4 +186,6 @@
       transform: translate(24px, 0);
     }
   }
-  
+  .icon-create{
+    margin-right: 5px;
+  }

@@ -16,16 +16,16 @@
       <li class="list-group-item title-section d-flex label-section border-radius" >
         
          
-          <div class="div-box col-sm-10">
+          <div class="div-box col-sm-11">
             <input class="form-control title-section clean-border input-box" #inputSection
             [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
           </div>
-          <div class="div-box col-sm-2">
+          <div class="div-box ">
             <!-- <button  *ngIf="changeSection " class="btn btn-primary " title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)">
               Save
             </button> -->
             <button type="button" *ngIf="changeSection " class="btn btn btn-success btn-circle btn-lg btn-circle" title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)"><i class="fa fa-check"></i></button>
-            <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-warning btn-circle btn-lg"><i class="fa fa-times"></i></button>
+            <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-danger btn-circle btn-lg"><i class="fa fa-times"></i></button>
 
           </div>
           <!-- <div class="div-box  col-sm-1">
@@ -38,57 +38,14 @@
           </div>  -->
 
       </li>
-
-      <li
-        *ngFor="let lecture of sectionDummy.lecture; let i = index; let len = count"
-        class=" lecture-item
-          list-group-item
-          d-flex
-          justify-content-between
-          align-items-center
-          container
-          border-radius"
-        
-      >
-        <div class="div-updown">
-          <div class="div-icon-mini" (click)="onUpLession(lecture.id)">
-            <i class="fa fa-chevron-up icon-decorate" title="Lesson go up" ></i>
-          </div>
-          <div class="div-icon-mini" (click)="onDownLession(lecture.id)">
-            <i
-              class="fa fa-chevron-down icon-decorate"
-              title="Lesson go down"
-            ></i>
-          </div>
-        </div>
-        <div class="div-session-contain form-row">
-          <div class="div-session-contain d-flex form-row">
-            <div class="div-session-contain d-flex form-row">
-              <input #inputLecture
-                class="form-control contain-title w-25 clean-border"
-                [value]="lecture.title" title="Edit title" 
-                (click)="clickEditLecture($event,i)"
-              >
-              <button *ngIf="eventSave[i]" (click)="inputLecture.click(); saveLecture(lecture.id,i);" class="btn btn-primary">Save</button>
-              <button class="contain-video btn btn-outline-primary"  (click)="onEditLession(lecture.id)">{{durationVideo[i]!=0 ? 'Upload Video':'Upload new Video'}} </button>
-              <span class="contain-video-time">1m30</span>
-            </div>
-            <div class="div-edit">
-              
-              <button class="btn btn-outline-danger" title="Delete lession" 
-              (click)="onDeleteLession(lecture.id)">
-                Delete
-              </button>
-            </div>
-          </div>
-
-         
-        </div>
-      </li>
+      <app-course-lecture *ngFor="let item of sectionDummy.lecture;
+       let i = index" [lecture]="item" [lectureIndex]="i"></app-course-lecture>
+   
       <div>
         <ul class="ul-deco">
           <button  class="btn-create-new" 
           (click)="onCreateLession(sectionDummy.section_id)">
+          <i class="bi bi-plus-lg icon-create"></i>
             Create new lession
           </button>
         </ul>  

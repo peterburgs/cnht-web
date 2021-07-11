@@ -80,8 +80,8 @@
     border-radius: 7px;
 }
 .btn-create-new{
-    width: 180px;
-    background: rgb(64, 129, 250);
+    width: 230px;
+    background: #548CA8;
     border-radius: 10px;
     
     margin-top: 5px;
@@ -96,8 +96,8 @@
     border: solid 1px #ffff;
 }
 .btn-create-new:hover{
-    color: rgb(64, 129, 250);
-    border: solid 1px rgb(64, 129, 250) ;
+    color: #548CA8;
+    border: solid 1px #548CA8 ;
     background: #ffff;
 }
 .edit-screen {
@@ -140,7 +140,7 @@ padding:0px;
     border-radius: 45px;
     background: #fff;
    margin-right: 20px;
-   margin-left: 15px;
+   /* margin-left: 15px; */
 }
 
 .alert-body{
@@ -157,17 +157,21 @@ padding:0px;
     color: rgb(34, 33, 33);
 }
 .btn-circle.btn-lg {
-    width: 50px;
-    height: 50px;
-    padding: 10px 16px;
+    width: 40px;
+    height: 40px;
+    padding: 2px 0px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 25px;
+    border: 2px #fff solid;
   }
 
   .btn-circle{
       margin: 5px;
   }
-  .lecture-item{
-      
-  }
+.div-box{
+    display: flex;
+}
+.icon-create{
+    margin-right: 5px;
+}
