@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 .hotest-course {
-    background: #F4F4F4;
+    background: #f1f0f0;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
     /* padding-bottom: 10px; */
     /* border: solid 2px #0417bd; */
@@ -35,9 +35,9 @@
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 19px;
     line-height: 29px;
-    color: #0a1128;
+    color: #0f215a;
     letter-spacing: 1px;
     text-transform: uppercase;
     /* width: 50vw; */

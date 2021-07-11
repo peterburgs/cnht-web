@@ -37,21 +37,28 @@
             </span>VND
 
         </p>
-        <p class="input-error">{{inputError}}</p>
+        <button class="btn-select-img" type="button" (click)="file.click()">Select image</button>
+
         <div class="p-2 load-img">
             <img name="thumbnailUrl" class="image-course" [src]="thumnailUrl" id="thumbnailUrl" alt="img-course">
             <input #file type="file" hidden accept="image/*" (change)="handleImageFileInput($event)">
-            <button class="btn-select-img" type="button" (click)="file.click()">Select image</button>
 
         </div>
 
     </div>
-
+    <div class="lds-ellipsis" *ngIf="isLoading">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
     <div class="btn-action">
         <button class="btn-cancel" (click)="cancelUploadImage()">Cancel</button>
         <button class="btn-create-request" (click)="createDepositeRequest()">Create request now</button>
     </div>
 
 </div>
+
+<app-alert [actionToAlert]="'Ok'" [message]="'Create deposit request successfully. Now waiting for confirmation.'" [action]="'success'" *ngIf="successResquest" (close)="closeSuccess()"></app-alert>
 
 <app-alert [actionToAlert]="actionToAlert" [message]="message" [action]="action" (action_return)="implementAction($event)" *ngIf="showAnnouncement" (close)="closeHandler()"></app-alert>

@@ -27,6 +27,8 @@ export class TransferInformationComponent implements OnInit {
   action!:string;
   inputError="";
   learner!:User;
+  successResquest=false;
+  isLoading=false;
 
   constructor(private depositService:DepositRequestService,
     private userService: UserService,
@@ -71,15 +73,25 @@ export class TransferInformationComponent implements OnInit {
    * Create deposit request
    */
   createDepositeRequest(){
-
-    const money = Number(this.money_Transfer.replace('.',''))
-    
-    if(money>1000)
+    if(this.money_Transfer==undefined) 
     {
       this.showAnnouncement=true;
-      this.actionToAlert="Confirm"
-      this.message="You'v transfered "+money+"VND . Let's confirm!"
-      this.action="transfer_money"
+      this.actionToAlert="Yes"
+      this.message="You have to fill the money to transfer!"
+      this.action="money_invalid"
+
+      return;
+    }
+    const money = Number(this.money_Transfer.replace('.',''))
+    
+    if(money<1000)
+    {
+      this.showAnnouncement=true;
+      this.actionToAlert="Yes"
+      this.message="Your money have to greater than 1,000VND . Let's try again!"
+      this.action="money_invalid"
+
+     
     }
     else
     if(this.thumnailUrl=="../../../../assets/images/wellet.png")
@@ -91,9 +103,9 @@ export class TransferInformationComponent implements OnInit {
     }
     else{
       this.showAnnouncement=true;
-      this.actionToAlert="Yes"
-      this.message="Your money have to greater than 1,000VND . Let's try again!"
-      this.action="money_invalid"
+      this.actionToAlert="Confirm"
+      this.message="You'v transfered "+money+"VND . Let's confirm!"
+      this.action="transfer_money"
     }
   }
 
@@ -101,38 +113,49 @@ export class TransferInformationComponent implements OnInit {
     this.showAnnouncement= false;
   }
 
+  closeSuccess(){
+    this.successResquest=false;
+  }
 
   implementAction(action_return:string){
     if(action_return=="confirm_transfer")
     {
+      this.showAnnouncement=false;
       //TODO: Send deposite request to admin
       if(this.learner){
-        
+        const amount=Number(this.money_Transfer.replace('.',''));
         const deposit:DepositRequest={
           id:"",
           learnerId: this.learner.id, 
-          amount: Number(this.money_Transfer.replace('.','')),
-          imageUrl: this.thumnailUrl,
+          amount: amount ,
+          imageUrl: "abc",
           depositRequestStatus: STATUSES.PENDING,
           createdAt: new Date(),
           updatedAt:new Date()
         }
 
         console.log(deposit);
+        this.isLoading=true;
         this.depositService.createDepositRequest(deposit)
         .pipe(
           catchError((error)=>{
-              console.log(error)
-              
-             return throwError(error)
-              
+              console.log(error)  
+              this.isLoading=false;
+              this.showAnnouncement=true;
+              this.actionToAlert="Ok"
+              this.message="Error system. Please try again!"
+              this.action="not_success"
+              this.thumnailUrl="../../../../assets/images/wellet.png"
+              return throwError(error)
           })
         )
         .subscribe(response=>{
-            this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
-            
+          this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
+          this.isLoading=false;
+          this.successResquest=true;
+          this.thumnailUrl="../../../../assets/images/wellet.png"
+          
         })
-        this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
 
         
       }

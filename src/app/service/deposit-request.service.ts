@@ -244,7 +244,7 @@ private depositRequestList: DepositRequest[] = [];
             const xhr = new XMLHttpRequest();
             xhr.open(
               'post',
-              `${this.baseUrl}deposit-requests/${depositRequestId}/upload`
+              `${this.baseUrl}/deposit-requests/${depositRequestId}/upload`
             );
     
             xhr.setRequestHeader('Content-Type', 'application/octet-stream');
@@ -267,6 +267,10 @@ private depositRequestList: DepositRequest[] = [];
               }
               if (xhr.readyState === 4 && xhr.status === 201) {
                 resolve({ status: 201, data: JSON.parse(this.responseText) });
+              }
+
+              if (xhr.readyState === 4 && xhr.status === 500) {
+                console.log(JSON.parse(this.responseText))
               }
             };
     
@@ -296,6 +300,7 @@ private depositRequestList: DepositRequest[] = [];
                 console.log(castedData.data);
                 console.log('***', 'Upload successfully');
               }
+              
     
               sendNext();
             })

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {SocialAuthService, SocialUser, GoogleLoginProvider} from 'angularx-social-login'
 import {  authenticationService } from 'src/app/service/authentication.service';
 
@@ -14,12 +14,24 @@ export class LoginScreenComponent implements OnInit {
   socialUser = new SocialUser();
   isLoggedin: boolean= false;  
   isLoading: boolean= false;
+  isAdmin=false;
   constructor( 
     public socialAuthService: SocialAuthService,
     public route: Router,
+    private activeRouter: ActivatedRoute,
     public authService: authenticationService) { }
 
   ngOnInit(): void {
+
+    //admin will get login link with fragment admin
+    this.activeRouter.fragment.subscribe(frag=>{
+      if(frag=='admin'){
+        this.isAdmin=true
+      }
+      else
+        this.isAdmin= false;
+    })
+
     //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -30,7 +42,7 @@ export class LoginScreenComponent implements OnInit {
         console.log(this.socialUser);
         this.isLoading=true;
         //authenticate on server
-        this.authService.signIn(this.socialUser)
+        this.authService.signIn(this.socialUser,this.isAdmin)
         .subscribe(responseData=>{
           
             console.log(responseData);
@@ -48,27 +60,7 @@ export class LoginScreenComponent implements OnInit {
         })      
     
       }  
-      //   if(this.authService.isExistedAccount(this.socialUser.email))
-      //   {
-      //     if(this.authService.signIn(this.socialUser)){
-      //       if(this.authService.isAdmin() ){
-      //         console.log("isadmin");
-      //         this.isAdminSignIn();}
-      //         else
-      //         this.route.navigate(['/home']);
-      //     };
-      //   }
-      //   else{
-      //      if(this.authService.signUp(this.socialUser)){
-      //       if(this.authService.isAdmin() ){
-      //         console.log("isadmin");
-      //         this.isAdminSignIn();}
-      //         else
-      //         this.route.navigate(['/home']);
-      //      }
-      //   } 
-      // }
-     
+         
       
     });
   }

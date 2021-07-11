@@ -1,8 +1,8 @@
-<div class="container">
+<div class="boundary">
     <div class="sign-in">
         <h3 class="app-title">CÙNG NHAU HỌC TOÁN</h3>
         <div *ngIf="!isLoading" class="btn">
-            <button (click)="loginWithGoogle()" class="btn-primary btn-signin"><i class="fa fa-google"></i> Sign in with Google</button>
+            <button (click)="loginWithGoogle()" class="btn-primary btn-signin"><img class="google-icon" src="../../../assets/images/google.svg" alt="google"> Sign in with Google</button>
         </div>
         <div class="lds-ellipsis" *ngIf="isLoading">
             <div></div>
@@ -11,4 +11,5 @@
             <div></div>
         </div>
     </div>
+
 </div>

@@ -100,10 +100,14 @@ export class UserService{
     
     checkEnrollment(courseId: string, userId: string){
         //TODO: interact with database and check that user enrollment that course or not
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
         return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(
             this.baseUrl+'/enrollments',
             {
+                headers: header,
                 params:new HttpParams().set('courseId', courseId ).set('learnerId',userId)
             }
         )
@@ -118,9 +122,12 @@ export class UserService{
 
     getAllEnrollment(){
         
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+        const tokenType= "Bearer "
+        const header = new HttpHeaders().set('Authorization', tokenType + token);
        return this.http
         .get<{message:string,count:number, enrollments: Enrollment[]}>(
-            this.baseUrl+ '/enrollments', {headers: this.httpOptions.headers})
+            this.baseUrl+ '/enrollments', {headers: header})
     }
 
 
@@ -155,7 +162,7 @@ export class UserService{
             "updateAt": user.updatedAt
         }
 
-        return this.http.put<(any)>
+        return this.http.put<{message:string,count:number, user: User}>
             (this.baseUrl + "/users/" +user.id, body, {
                 headers: this.httpOptions.headers,
                // params: new HttpParams().set('id', deposit.id)
@@ -227,6 +234,8 @@ export class UserService{
         //update balance of use
 
     }
+
+    
 
     //TODO:SEND GET METHOD TO GET USER BY USER ID
     getUserById(learnerId:string){

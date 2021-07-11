@@ -30,6 +30,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   actionToAlert:string="";
   showInform:boolean= false;
   action:string="";
+  successfullBought= false;
 
   sections: Section[]=[];
   lecture:Lecture[]=[];
@@ -45,7 +46,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
   ngOnInit(): void {
 
     console.log(this.course);
-
     //when click back on brower, we have to get course again by url 
     if(this.course==null){
       this.activeRouter.params.subscribe(params=>{
@@ -59,49 +59,58 @@ export class CardImageComponent implements OnInit ,OnChanges{
     if(localStorage.getItem('isLoggedin')=='true')
     {
       this.isLoggedin= of(true);
+      this.authService.checkIsLoggedin().subscribe(
+        isLoggedin =>{
+          this.isLoggedin= of(isLoggedin) 
+          
+        });
     } 
     else{
       this.isLoggedin=of(false)
+      this.isBought=false;
+      this.isLoading=false;
     }
  
     //Subcibe loggedin status
-    this.authService.checkIsLoggedin().subscribe(
-      isLoggedin =>{
-        this.isLoggedin= of(isLoggedin) 
-        
-      });
-
-      this.isLoggedin.subscribe(islogin=>{
-        if(islogin){
-          console.log("IS LOGGIN =TRUE")
-          let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
-          if(email!=null)
-          {
-            //get user balance to check
-            this.userService.getUserByEmail(email).subscribe(responseData=>{
-            this.learner= responseData.users[0];
-            console.log(this.learner)
-            this.isBought_();
+    
+    this.isLoggedin.subscribe(islogin=>{
+      if(islogin){
+        let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
+        if(email!=null)
+        {
+          //get user balance to check
+          this.userService.getUserByEmail(email)
+          .pipe(
+            catchError((error)=>{
+                console.log(error)
+                
+                return throwError(error)
+                
             })
-          }
+          )
+          .subscribe(responseData=>{
+          this.learner= responseData.users[0];
+          console.log(this.learner)
+          this.isBought_();
+          })
         }
-        else{
-          this.isBought=false;
-        }
-        
-      })    
+      }
+      else{
+        this.isBought=false;
+      }
+      
+    })    
 
     //check status of isLoggedin, if it's true, update learner
     
     this.getFirstSection(this.course.id);
     console.log(this.sectionId)
-    this.getFirstLecture(this.sectionId);
-    console.log(this.lectureId)
+   
   }
 
   ngOnChanges(changes:SimpleChanges){
     if(changes.isBought)
-    this.isBought_();
+     this.isBought_();
   }
 
   //Checkout this course is bought by user if user loggedin
@@ -109,6 +118,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     if(!this.isLoggedin)
     {
       this.isBought= false;
+      
     }
     else
      //check is bought
@@ -162,10 +172,17 @@ export class CardImageComponent implements OnInit ,OnChanges{
   getFirstSection(courseId:string ){
 
     this.courseService.getSectionByCourseId(courseId)
-    .subscribe(data=>this.sections= data.sections)
+    .subscribe(data=>{
+      this.sections= data.sections
+      if(this.sections.length>0)
+      {
+        this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+        this.getFirstLecture(this.sectionId);
+        console.log(this.lectureId)
+      }
+    })
 
-    if(this.sections.length>0)
-      this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+    
   }
 
   /**
@@ -176,13 +193,14 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
    this.courseService.getLecturesBySectionId(sectionId)
     .subscribe(responseData=>{
-      this.lecture=responseData.lectures
+      this.lecture=responseData.lectures;
+      if(this.lecture.length>0)
+      this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
+     else
+        this.lectureId="";
     })
 
-    if(this.lecture.length>0)
-     this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
-    else
-       this.lectureId="";
+   
   }
 
   /**
@@ -226,6 +244,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   //Close alert
   closeHandler(){
     this.showInform= false;
+    this.successfullBought= false;
   }
 
   /**
@@ -241,30 +260,31 @@ export class CardImageComponent implements OnInit ,OnChanges{
     }
     //Buy course
     else{
-      if(action_return=='buy')
-      console.log(action_return)
-      let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
-      if(email!=null)
-      {
-        
+        if(action_return=='buy')
+        console.log(action_return)
+        let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
+        if(email!=null)
+        {
+          
           if(this.learner.id!= undefined)
           {
             //update  at here
             this.userService.buyCourse( this.learner.id ,this.course.id)
             .subscribe(responseData=>{
-              console.log("Bought successfully!")
-              console.log(responseData);
-               alert("Now you can learn this course");
-              this.isBought=true;
-              this.showInform=false;
 
+              //update user balance
+              const user:User=this.learner;
+              user.balance=user.balance-this.course.price;
+              this.userService.updateUser(user).subscribe(data=>{
+                this.learner= data.user;
+                console.log("Bought successfully!")
+                console.log(responseData);
+                this.isBought=true;
+                this.successfullBought=true;
+              })
+              
             })
-            
             //TODO: Inform that payment success
-            // this.action="success_payment";
-            // this.actionToAlert=""
-            // this.message="Now you can learn this course."
-            // this.showInform= true;
             console.log(this.showInform)
           }   
         }   

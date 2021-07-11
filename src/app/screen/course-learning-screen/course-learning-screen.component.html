@@ -17,6 +17,6 @@
 
     </div>
     <div class="col-md-4 content">
-        <app-content-course [current_course]="current_course"></app-content-course>
+        <app-content-course *ngIf="current_course!=undefined" [current_course]="current_course"></app-content-course>
     </div>
 </div>
