@@ -23,7 +23,7 @@ export class CourseLectureComponent implements OnInit {
   @Input() lectureIndex: number =0;
   @Input() sectionIndex: number =0;
   @Input() globalLoading:boolean=false;
-  durationVideo:number[]=[]
+  durationVideo:number[]=[] 
 
   urlVideo = '../';
   videoURL: SafeUrl='';
