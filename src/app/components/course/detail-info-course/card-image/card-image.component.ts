@@ -19,7 +19,7 @@ import { PriceFormat } from 'src/app/util/priceformat';
 })
 export class CardImageComponent implements OnInit ,OnChanges{
 
-  @Input() course = new Course();
+  @Input() course!:Course;
   isBought!: boolean;
   isLoggedin!: Observable<boolean>;
   learner!: User;
@@ -36,6 +36,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
   lecture:Lecture[]=[];
   lectureId: string="";
   sectionId:string="";
+  isBuying=false;
+  failBought=false;
 
   constructor(private router:Router,
     private userService: UserService,
@@ -123,7 +125,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
     else
      //check is bought
     {
-      console.log("isBought function")
+      if(this.course!=undefined){
+        console.log("isBought function")
       this.userService.checkEnrollment(this.course.id, this.learner.id)
       .pipe(
         catchError((error)=>{
@@ -140,6 +143,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
        this.isBought= true;
        this.isLoading=false;
     })  
+      }
+      
    }
   }
 
@@ -245,6 +250,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
   closeHandler(){
     this.showInform= false;
     this.successfullBought= false;
+    this.failBought=false;
+
   }
 
   /**
@@ -269,16 +276,38 @@ export class CardImageComponent implements OnInit ,OnChanges{
           if(this.learner.id!= undefined)
           {
             //update  at here
+            this.isBuying=true;
             this.userService.buyCourse( this.learner.id ,this.course.id)
+            .pipe(
+              catchError((error)=>{
+                  console.log(error)
+                  this.failBought=true;
+                  this.isBuying= false;
+                 return throwError(error)
+                  
+              })
+            )
             .subscribe(responseData=>{
 
               //update user balance
               const user:User=this.learner;
               user.balance=user.balance-this.course.price;
-              this.userService.updateUser(user).subscribe(data=>{
+              this.userService.updateUser(user)
+              .pipe(
+                catchError((error)=>{
+                    console.log(error)
+                    this.failBought=true;
+
+                    this.isBuying= false;
+                   return throwError(error)
+                    
+                })
+              )
+              .subscribe(data=>{
                 this.learner= data.user;
                 console.log("Bought successfully!")
                 console.log(responseData);
+                this.isBuying=false;
                 this.isBought=true;
                 this.successfullBought=true;
               })

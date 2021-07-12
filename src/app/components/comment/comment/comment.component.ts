@@ -8,7 +8,6 @@ import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { CommentService } from 'src/app/service/comment.service';
 import { UserService } from 'src/app/service/user.service';
-import { listComment } from 'src/app/util/mockData';
 import { CommentChild } from '../CommentChild';
 
 @Component({

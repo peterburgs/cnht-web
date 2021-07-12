@@ -7,10 +7,10 @@
 
     <div class="collapse" [id]="'section'+ section.id">
         <div class="lecturre-list">
-            <ul>
+            <ul *ngIf="listLecture!=undefined">
                 <li *ngFor="let lecture of listLecture" [ngClass]="{'activeLecture': selectedLecture===lecture.id}">
                     <a class="title-lecture" style="cursor: pointer;" (click)="loadLecture(lecture.id)">{{lecture.title}} </a>
-                    <h6 class="time"><i class="bi bi-clock-fill icon"></i>{{getVideoByLectureId(lecture.id)}}</h6>
+                    <h6 class="time"><i class="bi bi-clock-fill icon"></i>{{formatTime(lecture.length)}}</h6>
                 </li>
 
             </ul>

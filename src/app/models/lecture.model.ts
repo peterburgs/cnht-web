@@ -7,4 +7,5 @@ export class Lecture{
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
     isHidden: boolean = false;
+    length:number=0;
 }

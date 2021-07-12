@@ -47,7 +47,7 @@ export class AlertComponent implements OnInit {
       this.action_return.emit('yes');
       this.onClose();
     }
-    if(this.action=='success'||this.action=='not_success'){
+    if(this.action=='success'||this.action=='not_success'||'error'){
       this.onClose();
     }
   }

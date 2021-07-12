@@ -145,16 +145,28 @@
 
 /*****************************/
 
+.loading {
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 5000;
+}
+
 .lds-ellipsis {
     display: inline-block;
     position: relative;
     width: 80px;
     height: 80px;
+    z-index: 50002;
 }
 
 .lds-ellipsis div {
     position: absolute;
-    top: 33px;
+    top: 50vh;
     width: 13px;
     height: 13px;
     border-radius: 50%;

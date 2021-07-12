@@ -166,9 +166,7 @@ export class UserService{
             (this.baseUrl + "/users/" +user.id, body, {
                 headers: this.httpOptions.headers,
                // params: new HttpParams().set('id', deposit.id)
-             }).pipe(
-                catchError(this.handleError)
-              );
+             })
     }
    
 

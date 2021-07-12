@@ -9,7 +9,6 @@ import { GRADES } from "../models/grades";
 import { Lecture } from "../models/lecture.model";
 import { Section } from "../models/section.model";
 import { Video } from "../models/video.model";
-import {lectureList, sectionList} from 'src/app/util/mockData'
 import { authenticationService } from "./authentication.service";
 
 @Injectable({
@@ -169,13 +168,9 @@ export class CourseService{
      */
     getSectionByCourseId(courseId: string){
        
-
        return this.http
         .get<{message:string,count:number, sections: Section[]}>(
-            this.baseUrl+ '/sections',
-        {
-            params: new HttpParams().set('courseId', courseId)
-        })
+            this.baseUrl+ `/sections/${courseId}`)
         
        // return sectionList.filter(section=> section.courseId === courseId);
     }
@@ -186,27 +181,20 @@ export class CourseService{
         
         return this.http
         .get<{message:string,count:number, lectures: Lecture[]}>(
-            this.baseUrl+'/lectures',
-        {
-            params: new HttpParams().set('sectionId', sectionId)
-        })
-        .pipe(
-            catchError(this.handleError)
-        );
+            this.baseUrl+`/lectures/${sectionId}`,
+       )
+        
     }
 
     //TODO: get video of a lecture by its id
     getVideoByLectureId(lectureId: string){
-        // Open command when have
-        // return this.http
-        // .get<Video>('URL',
-        // {
-        //     params: new HttpParams().set('lectureId', lectureId)
-        // }).pipe(
-        //     map((responseData)=>{ 
-        //         return responseData;
-        //     })
-        // );
+        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
+       
+        const key="RGhqHqXSZfjAiyXgzznYnHSKRvxiHBWvzLZFZTUxXhRjvqsagFwHzfXuQPWcTQALWHqGKUPBFmuLWmKavtRvBWriLgXWtCAuDrsukwgTBQfuPVOiSeWtLbNTgSjtgYtICvCzYSmxwIXGeurxyOcGlrjvcDaAIsDIBDziWipcZbBPVUlzwhnpvjPrVHghlOppHdRUxctaGRUcBQXUJutPBhNSzebikzpytuIADtOEswqcJxZsBvkwvDayDXrofHfpxOrYzTXLSvZTkXodWNimYNiTAlFywOcRFMFSaNYOQAsxsHiDFxnvwFHkwMivNjJqAalJaUqmUDHkrWnGWnPLEZogCTwQSbnTEZIIZEHoCdxWftJaddNbreSHUVlPhLTWSAcmdwkgCDASTRLGjClarTYPmTZppYyKJcCmQyKmmFFFvhFsSZevKWKCGcQVUmnbPKiIXGQWyUieQZEgBhqlJhbKkzmMoWZPzsioovcdmKBQNRRHKfBtnaROdYhrXaeA="+token;
+       const URL= this.baseUrl+`/lectures/${lectureId}/video/streaming?${key}`
+        return this.http
+        .get<{message:string,signedUrl:string}>(URL)
+       
     }
 
 
@@ -247,12 +235,12 @@ export class CourseService{
         const tokenType= "Bearer "
         const header = new HttpHeaders().set('Authorization', tokenType + token);
         return this.http
-        .get<{message:string,count:number, length: Comment[]}>(
-            this.baseUrl+ `/lectures/${lectureId}/video/lenght`,
+        .get<{message:string,count:number, video:Video}>(
+            this.baseUrl+ `/lectures/${lectureId}/video`,
             {
                 headers: header
             }
-        )
-            
+        )    
     }
+
 }
