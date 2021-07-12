@@ -149,7 +149,6 @@ export class CourseService{
     }
 
     
-    //TODO: get the number of lecture by courseId
     getLectureByCourseId(courseId: string){
         return this.http
         .get<{message:string,count:number,lectures: Lecture[]}>(this.baseUrl+'/courses/'+courseId+"/lectures" 
@@ -168,9 +167,13 @@ export class CourseService{
      */
     getSectionByCourseId(courseId: string){
        
+
        return this.http
         .get<{message:string,count:number, sections: Section[]}>(
-            this.baseUrl+ `/sections/${courseId}`)
+            this.baseUrl+ '/sections',
+        {
+            params: new HttpParams().set('courseId', courseId)
+        })
         
        // return sectionList.filter(section=> section.courseId === courseId);
     }
@@ -181,7 +184,10 @@ export class CourseService{
         
         return this.http
         .get<{message:string,count:number, lectures: Lecture[]}>(
-            this.baseUrl+`/lectures/${sectionId}`,
+            this.baseUrl+'/lectures',
+            {
+                params: new HttpParams().set('sectionId', sectionId)
+            }
        )
         
     }

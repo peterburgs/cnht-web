@@ -49,7 +49,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
     console.log(this.course);
     //when click back on brower, we have to get course again by url 
-    if(this.course==null){
+    if(this.course==null || this.course==undefined){
       this.activeRouter.params.subscribe(params=>{
         const id= params['id']
         this.courseService.getCourseById(id).subscribe(responseData=>{
