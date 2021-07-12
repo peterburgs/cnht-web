@@ -70,13 +70,12 @@ export class TableWalletLearnerComponent implements OnInit {
      this.depositRequestService.getByIdLearner(this.learner.id)
      .pipe(
       catchError((error)=>{
-          console.log(error)
           if(error.error.count==0)
             this.isLoading= false;         
           return throwError(error)       
       })
     )
-    .subscribe(responseData=>{
+    .toPromise().then(responseData=>{
       this.depositHistory=responseData.depositRequests;
       this.isLoading= false;
     })

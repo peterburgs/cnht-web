@@ -7,7 +7,8 @@
     top: 0%;
     width: 100%;
     z-index: 99999999;
-    height: 40px;
+    height: 55px;
+    vertical-align: middle;
 }
 
 .logo-text {
@@ -20,47 +21,8 @@
     cursor: pointer;
 }
 
-.form-group {
-    display: flex;
-}
-
-.form-group i {
-    position: absolute;
-    font-size: 23px;
-    margin-left: 15px;
-    padding-top: 7px;
-    color: rgb(73, 73, 73);
-}
-
-.search-input {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.form-group .form-control {
-    border-radius: 50px;
-    margin-left: 10px;
-    padding-left: 50px;
-}
-
 .action-button {
     text-align: center;
-}
-
-.action-button a {
-    width: 80px;
-    height: 20px;
-    background: #4EBEE1;
-    border-radius: 10px;
-    border: none;
-    display: inline-flex;
-    outline: none;
-    color: #FFFFFF;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    margin-left: 10px;
-   
-    text-decoration: none;
 }
 
 .navbar-toggler-icon i {
@@ -69,15 +31,15 @@
 
 .navbar-collapse {
     text-align: center;
-    display: flex;
-    margin-left: -10vw;
+    background-color: #FFFFFF;
+    margin-top: 5px;
 }
 
-.category-course{
+.category-course {
     text-align: center;
+    display: inline-flex;
+    justify-content: space-around;
 }
-
-
 
 @media (max-width: 762px) {
     .btn-category {
@@ -85,59 +47,46 @@
     }
 }
 
-
-.btn-category{
-   
-    display: block;
+.btn-category {
     cursor: pointer;
-    height: 30px;
-    padding: 5px;
-    margin-left: 10px;
-    text-align: center;
-    float: right;
     border-radius: 10px;
-    padding-right: 30px;
-    padding-left: 30px;
+    padding: 3px;
+    padding-right: 20px;
+    padding-left: 20px;
+    margin-left: 5px;
+    vertical-align: middle;
     font-size: 15px;
     color: #fff;
     transition: all 1s;
     background-color: #DC3545;
+    margin-bottom: 3px;
 }
 
-.btn-category:hover{
-    box-shadow:1px 1px 1px #DC3545;
+.btn-category:hover {
+    box-shadow: 1px 1px 1px #DC3545;
 }
 
-
-
- 
-
-a{
+a {
     text-decoration: none;
 }
 
 .dropdown-menu {
     min-width: auto !important;
-    margin-top: 10px;
-    margin-right: 30px !important;
+    margin-top: 8px;
+    margin-right: 50px !important;
 }
 
 .dropdown .btn-dropdown {
     background-color: transparent;
     border: none;
     outline: none;
+    margin-top: 5px;
 }
 
 .navbar-toggler:focus {
     box-shadow: none !important;
     font-size: 15px;
     color: rgb(194, 193, 193);
-}
-
-.form-group .form-control {
-    border-radius: 50px;
-    margin-left: 10px;
-    padding-left: 50px;
 }
 
 .action-button {
@@ -202,6 +151,6 @@ a{
     box-shadow: none !important;
 }
 
-.dropdown{
-    margin-left: 25vw;
+.dropdown {
+    margin-left: 13vw;
 }

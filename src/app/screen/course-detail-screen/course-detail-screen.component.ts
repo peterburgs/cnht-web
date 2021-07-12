@@ -12,7 +12,7 @@ import { Observable, of } from 'rxjs';
 export class CourseDetailScreenComponent implements OnInit {
 
   
-  selectedCourse = new Course();
+  selectedCourse!:Course;
   courseId!:string;
   constructor(
     private service: CourseService,

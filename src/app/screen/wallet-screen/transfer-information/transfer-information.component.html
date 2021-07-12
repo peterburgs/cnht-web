@@ -46,18 +46,22 @@
         </div>
 
     </div>
-    <div class="lds-ellipsis" *ngIf="isLoading">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+
     <div class="btn-action">
         <button class="btn-cancel" (click)="cancelUploadImage()">Cancel</button>
         <button class="btn-create-request" (click)="createDepositeRequest()">Create request now</button>
     </div>
 
 </div>
+<div class="loading" *ngIf="isLoading">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
 
 <app-alert [actionToAlert]="'Ok'" [message]="'Create deposit request successfully. Now waiting for confirmation.'" [action]="'success'" *ngIf="successResquest" (close)="closeSuccess()"></app-alert>
 

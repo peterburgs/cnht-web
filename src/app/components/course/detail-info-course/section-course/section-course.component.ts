@@ -14,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./section-course.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class SectionCourseComponent implements OnInit, OnChanges {
+export class SectionCourseComponent implements OnInit{
 
   @Input() section!: Section;
   @Input()firstSectionOrder!:number;
@@ -31,9 +31,21 @@ export class SectionCourseComponent implements OnInit, OnChanges {
     //load first lecture of first section on default
     console.log("On init")
     this.courseService.getLecturesBySectionId(this.section.id).subscribe(responseData=>{
-      this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})        
+
+      this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
+      for(let i=0;i<this.listLecture.length;i++){
+        this.courseService.getVideoLength(this.listLecture[i].id).toPromise()
+        .then(data=>{
+          console.log("data VIDEO")
+          console.log(data)
+          this.listLecture[i].length= data.video.length;
+        })
+        .catch(error=>console.log(error))
+       }
+
       if(this.section.sectionOrder==this.firstSectionOrder){
       this.loadLecture(this.listLecture[0].id)
+
       }
     })
 
@@ -45,26 +57,67 @@ export class SectionCourseComponent implements OnInit, OnChanges {
     
   }
 
-  ngOnChanges(changes:SimpleChanges){
-     
-  }
 
   getLecturesBySectionId( sectionId:string){
   
-    this.courseService.getLecturesBySectionId(sectionId).subscribe(responseData=>{
+    this.courseService.getLecturesBySectionId(sectionId)
+    .toPromise().then(responseData=>{
       this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
       
-      this.loadLecture(this.listLecture[0].id)
-    })
+       for(let i=0;i<this.listLecture.length;i++){
+        this.courseService.getVideoLength(this.listLecture[i].id).toPromise()
+        .then(data=>{
+          console.log("data VIDEO")
+          console.log(data)
+          this.listLecture[i].length= data.video.length;
+        })
+        .catch(error=>{
+          this.listLecture[i].length=0;
+        })
+       }
+        this.loadLecture(this.listLecture[0].id)
+
+      })
+
+  
   }
 
   //get video of lecture by lecture id
-  getVideoByLectureId(lectureId: string): string{
-    // this.courseService.getVideoByLectureId(lectureId).subscribe(video=>
-    //     this.video= video
-    // )
-    //return this.video.length;
-    return "1m30s"
+ 
+  formatTime(time:number){
+    if(time==undefined) return '00:00'
+    if(time==0) return '00:00'
+    if(time<60) return '00:'+time;
+    let h=0;
+    let m=0;
+    let s=0;
+    let format='';
+    if(time>3600){
+      h= Math.floor(time/3600);
+      m= Math.floor((time%3600)/60);
+      s= (time%3600)%60
+      format='0'+h+':';
+      if(m<10)
+        format+='0'+m+':';
+      else format+=m+':';
+      if(s<10)
+        format+='0'+s;
+      else format+=s;
+      return format;
+    }
+    else{
+      m= Math.floor(time/60);
+      s=time%60;
+      if(m<10)
+        format+='0'+m+':';
+      else
+        format+=m+':';
+        if(s<10)
+        format+='0'+s;
+      else format+=s;
+      return format;
+    }
+
   }
 
   loadLecture(lectureId:string)

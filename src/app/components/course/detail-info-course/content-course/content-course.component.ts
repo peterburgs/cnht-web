@@ -12,11 +12,12 @@ import { CourseService } from 'src/app/service/course.service';
 })
 export class ContentCourseComponent implements OnInit , OnChanges{
 
-  @Input() current_course = new Course();
+  @Input() current_course! : Course;
   @Input() fragment: string= "learning";
   firstSectionOrder!:number
   isLoading= true;
   //Example
+  courseId:string="";
   listSection: Section[] =[];
 
   constructor(
@@ -25,34 +26,39 @@ export class ContentCourseComponent implements OnInit , OnChanges{
     ) { }
 
   ngOnInit(): void {
-
-    this.getListSection();
+    console.log("INIT CONTENT")
+    this.router.params.subscribe(param=>{
+      this.courseId=param['courseId']
+    })
+    if(this.current_course!=undefined){
+      this.getListSection();
+    }
+    
   }
 
   ngOnChanges(changes:SimpleChanges ):void{
-    if(changes.current_course)
-      this.getListSection()
+    if(this.courseId!=''){
+      this.getListSection();
+    }
   }
 
   //TODO: get list  section of a course
   getListSection(){
     console.log("Current course")
     console.log(this.current_course);
-    this.courseService.getSectionByCourseId(this.current_course.id)
-    .pipe(
-      catchError((error)=>{
-          console.log(error)
-          this.isLoading= false;
-         return throwError(error)
-          
+    if(this.current_course!=undefined){
+      this.courseService.getSectionByCourseId(this.current_course.id)
+      .toPromise().then(data=>{
+        this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
+        this.firstSectionOrder= this.listSection[0].sectionOrder;
+        console.log(data)
+        this.isLoading= false;
       })
-    )
-    .subscribe(data=>{
-      this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
-      this.firstSectionOrder= this.listSection[0].sectionOrder;
-      console.log(data)
-      this.isLoading= false;
-    })
+      .catch(error=>{
+        this.isLoading=false;
+        console.log(error)
+      })    
+    }
     
   }
 

@@ -886,53 +886,7 @@ export class FullCourseService {
       updatedAt: new Date(),
     },
   ];
-  private mLectureList: Lecture[] = [
-    {
-      id: 'co1sec1lec1',
-      title: 'Video 1',
-      lectureOrder: 0,
-      isHidden: false,
-      sectionId: 'course1sec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'co1sec1lec2',
-      title: 'Video 2',
-      lectureOrder: 1,
-      isHidden: false,
-      sectionId: 'course1sec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'co1sec2lec1',
-      title: 'Video 1',
-      lectureOrder: 2,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'co1sec2lec2',
-      title: 'Video 2',
-      lectureOrder: 3,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'co1sec2lec3',
-      title: 'Video 3',
-      lectureOrder: 4,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
+ 
   private mVideo: Video[] = [
     {
       id: 'lec0',

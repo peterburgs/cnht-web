@@ -21,5 +21,14 @@
 
 
 </div>
-<app-alert [actionToAlert]="'Announcement'" [message]="'You have bought this course successfully. Right now, you can learn it!'" [action]="action" *ngIf="successfullBought" (close)="closeHandler()"></app-alert>
+<div class="loading" *ngIf="isBuying">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<app-alert [actionToAlert]="'Ok'" [message]="'We have some error.Please try again!'" [action]="'error'" *ngIf="failBought" (close)="closeHandler()"></app-alert>
+<app-alert [actionToAlert]="'Ok'" [message]="'You have bought this course successfully. Right now, you can learn it!'" [action]="action" *ngIf="successfullBought" (close)="closeHandler()"></app-alert>
 <app-alert [actionToAlert]="actionToAlert" [message]="message" [action]="action" *ngIf="showInform" (action_return)="implementAction($event)" (close)="closeHandler()"></app-alert>

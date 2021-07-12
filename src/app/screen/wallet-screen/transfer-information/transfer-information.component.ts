@@ -153,6 +153,7 @@ export class TransferInformationComponent implements OnInit {
           this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
           this.isLoading=false;
           this.successResquest=true;
+          this.money_Transfer=''
           this.thumnailUrl="../../../../assets/images/wellet.png"
           
         })

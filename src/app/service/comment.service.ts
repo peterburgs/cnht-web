@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Comment } from "../models/comment.model";
-import { listComment } from "../util/mockData";
 
 @Injectable({
     providedIn: 'root'
