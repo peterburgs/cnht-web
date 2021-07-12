@@ -51,7 +51,8 @@ export class SearchComponent implements OnInit {
           {
             this.listAllCourse = list.courses;
             this.isLoading = false;
-            this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
+            if(this.titleSearch)
+              this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           });
 
          
@@ -84,8 +85,6 @@ export class SearchComponent implements OnInit {
           this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           this.isUseFilter = false;
           this.setTextSearch(this.titleSearch);
-          console.log("lengt:" + this.listCourse.length);
-          console.log("t: " + this.titleSearch);
         }
         else
           if(this.listCourse.length === 0) 
@@ -169,7 +168,4 @@ export class SearchComponent implements OnInit {
           return false;
         return true;
     }
-
-
-
 }
