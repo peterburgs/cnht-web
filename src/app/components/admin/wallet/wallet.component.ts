@@ -13,7 +13,7 @@ import { BalanceFormat } from 'src/app/util/balance-format';
 })
 export class WalletComponent implements OnInit {
 
-  balance_admin: number = 10000;
+  balance_admin: number = 0;
   isAdmin: boolean = false;
   admin: User = new User();
   constructor(
@@ -36,7 +36,6 @@ export class WalletComponent implements OnInit {
                 this.balance_admin= dataUser.users[0].balance;
                 this.admin = dataUser.users[0];
               })
-              //console.log(this.balance_admin)
             }
         }
 
@@ -48,7 +47,6 @@ export class WalletComponent implements OnInit {
   
   updateBalanceAdmin($event :any){
     this.balance_admin = $event;
-    console.log("change: number");
     window.scrollTo(0, 0);
    //window.location.reload();
   }

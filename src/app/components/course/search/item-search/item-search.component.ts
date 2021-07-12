@@ -27,7 +27,6 @@ export class ItemSearchComponent implements OnInit {
     this.courseService.getstudentJoinedNumber(this.courseItem.id).subscribe(
       responseData=>{
         this.numberStudent= responseData.count;
-        console.log("vap")
       }
     )
 

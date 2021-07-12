@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
-import { PriceFormat } from 'src/app/util/priceformat';
 import {ThemePalette} from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
 import { DepositRequestService } from 'src/app/service/deposit-request.service';
 import { STATUSES } from 'src/app/models/statuses';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from "rxjs";
 import { BalanceFormat } from 'src/app/util/balance-format';
 
 const enum action {
@@ -45,7 +43,6 @@ export class TableWalletAdminComponent implements OnInit {
   newStatusDeposit: STATUSES = STATUSES.CONFIRM;
   @Input() getTitleSearch = new EventEmitter<string>();
   depositRequests: DepositRequest[] = [];
-  isConfirmAll: boolean = false;
   @Input() admin: User = new User();
   isLoading: boolean = true;
   @Output() changeBalanceAdmin = new EventEmitter<number>();
@@ -66,7 +63,6 @@ export class TableWalletAdminComponent implements OnInit {
     
   }
 
-
   ngOnInit(): void {
     this.isLoading = true;
     this.getAllList();
@@ -79,6 +75,7 @@ export class TableWalletAdminComponent implements OnInit {
   eSortDate: SORT= SORT.CURRENT;
   isSortDateUp: boolean = false;
   isSortDateDown: boolean = false;
+  //TODO: sort by date created
    sortDate() {
     this.isSortDateUp = false;
     this.isSortDateDown = false;
@@ -103,14 +100,13 @@ export class TableWalletAdminComponent implements OnInit {
           return <any>new Date(a.createdAt) - <any>new Date(b.createdAt);
         });
       }
-
-      console.log("sort update: " + this.eSortDate);
   
   }
 
   eSortAmount: SORT= SORT.CURRENT;
   isSortAmountUp: boolean = false;
   isSortAmountDown: boolean = false;
+  //TODO: sort by amount
   sortAmount(){
     this.eSortDate = SORT.CURRENT;
     this.eSortAmount = this.eSortAmount + this.updateSort(this.eSortAmount);
@@ -136,63 +132,25 @@ export class TableWalletAdminComponent implements OnInit {
       return deposit2.amount - deposit1.amount;
    });
   }
-
   }
 
-
-
-  // eSortName: SORT = SORT.CURRENT;
-  // sortName(){
-  //   this.eSortDate = SORT.CURRENT;
-  //   this.eSortAmount = SORT.CURRENT;
-  //   this.eSortName = this.eSortName + this.updateSort(this.eSortName);
-
-  //   if(this.eSortName == SORT.CURRENT)
-  //   {
-  //     this.getAllList();} 
-
-  // else if(this.eSortName == SORT.DECREASE){
-   
-  
-  
-  // }
-  // else {
- 
-   
- 
-  // }
-
-  // }
-
-  updateSort(sort: SORT){
-    console.log("sort: " + sort);
+//TODO: update status sort when we click header table
+  updateSort(sort: SORT){;
     if(sort == SORT.CURRENT || sort == SORT.INCREASE)
         return 1;
     else 
         return -2;
   }
   
-
+//TODO: check status is deny for change color status view
   isDeny(status: STATUSES){
     if(status == STATUSES.DENIED)
       return true;
     return false;
   }
 
-  setIsConfirmAll(){ 
-    
-    this.isConfirmAll = !this.isConfirmAll;
-    if(this.isConfirmAll) this.getListNotYetConfirm();
-    else {
-      this.listSearch = this.depositRequests;
-    };
-  }
-
-  getListNotYetConfirm(){
-   this.listSearch = this.depositRequests.filter(deposit => deposit.depositRequestStatus == STATUSES.PENDING);
-  }
-
   listTemp: DepositRequest[] = [];
+  //TODO: get all list deposit requests
   getAllList(){
     this.depositRequestService.getAll().subscribe(depositRequest =>
       {
@@ -207,6 +165,7 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
   listLearner :User[] = [];
+  //TODO: get all list learner to get full name and email for table 
   getAllListLearner(){
     this.userService.getAllLearner().subscribe(
       users => {
@@ -218,8 +177,8 @@ export class TableWalletAdminComponent implements OnInit {
     )
   }
 
-  
- //use
+
+ //TODO: get learner by learner id
   getLearnerByIdLearner(learnerId: string): User{
    for(let learner of this.listLearner)
       if (learner.id == learnerId)
@@ -228,34 +187,15 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
 
-  //not use
-  getFullNameByIdLearner(learnerId: string){
-    const user = this.listLearner.find(user => user.id == learnerId);
-    return user?.fullName;
-  }
-
-
-  //not use
-  getEmaiByIdLearner(learnerId: string){
-    const user = this.listLearner.find(user => user.id == learnerId);
-    return user?.email;
-  }
-
-
-
-  //use
   listSearch: DepositRequest[] = [];
+  //TODO: search deposit request by title search
   searchDeposit($event: any){
-   // const content = this.getTitleSearch.emit($event);
-    //get search
     if($event == "")
       this.getAllList();
     else this.getDepositsByNameOrEmailLearner($event);
-    
-    //this.depositRequestService.getDepositsByNameOrEmailLearner($event).subscribe(deposit => this.depositRequests = deposit);
-  }
+}
 
-  //use
+    //TODO: filter deposit request by name or email learner
   getDepositsByNameOrEmailLearner($event: string){
     this.listSearch = this.depositRequests.filter(
       learner => this.getLearnerByIdLearner(learner.learnerId).fullName.toLowerCase().includes($event.toLowerCase()) 
@@ -263,53 +203,43 @@ export class TableWalletAdminComponent implements OnInit {
     )
   }
 
-  
+    //TODO: get accept action from alert comfirm or deny
   getAcceptFromAlert($event: any){
     this.isAcceptAction = $event;
     if(this.isAcceptAction) this.updateStatusDeposit();
     
   }
 
-
-  
-  setActionConfirm(){ //when click btn confirm
+    //TODO: set message and action name when click btn confirm
+  setActionConfirm(){ 
     this.setMessageToAlert("Do you want CONFIRM this deposit request !", "Confirm");
     this.newStatusDeposit = STATUSES.CONFIRM;
 
   }
 
-  setActionDeny(){ //when click btn deny
+   //TODO: set message and action name when click btn deny
+  setActionDeny(){ 
     this.setMessageToAlert("Do you want DENY this deposit request !", "Deny");
     this.newStatusDeposit = STATUSES.DENIED;
   }
 
 
   updateStatusDeposit(){
-    // confirm or deny 
-    // get deposit current for update
-   
-    if(this.newStatusDeposit == STATUSES.CONFIRM){
-      var user = this.getLearnerByIdLearner(this.depositCurrentRow.learnerId);
-      user.balance = user.balance + this.depositCurrentRow.amount;
-      this.admin.balance = this.admin.balance + this.depositCurrentRow.amount;
-      this.userService.updateUser(user).subscribe();
-      this.userService.updateUser(this.admin).subscribe(any =>{
-        this.changeBalanceAdmin.emit(this.admin.balance);
-      });
-     
-      //this.getAllList();
-     
-    }
-
     this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit).subscribe(any =>{
       this.getAllList();
       this.openSnackBar("Reposit was updated !", "OK"); 
-     
+      
+        if(this.newStatusDeposit == STATUSES.CONFIRM){ //TODO: update balane for learner and admin 
+          var user = this.getLearnerByIdLearner(this.depositCurrentRow.learnerId);
+          user.balance = user.balance + this.depositCurrentRow.amount;
+          this.admin.balance = this.admin.balance + this.depositCurrentRow.amount;
+          this.userService.updateUser(user).subscribe();
+          this.userService.updateUser(this.admin).subscribe(any =>{
+            this.changeBalanceAdmin.emit(this.admin.balance);
+          });
+        }
+
     });
-
-   
-   
-
   }
 
   getDepositCurrentRow(item: DepositRequest){
@@ -324,10 +254,6 @@ export class TableWalletAdminComponent implements OnInit {
 
   reloadPage(){
     window.location.reload();
-  }
-
-  isPaging(){
-    return false;
   }
 
   isShowImg(){
@@ -351,22 +277,4 @@ export class TableWalletAdminComponent implements OnInit {
    return BalanceFormat(price);
  }
 
-  handlePriceFormat(price:number):any{
-
-    var price_format="";
-    var zero;
-    if(price == 0)
-      return 0 + "VND";
-    while(price%1000==0)
-    {
-      price= price/1000;
-      
-       zero =price_format;
-      price_format = ".000"+price_format;
-    }
-    zero = price_format;
-    price_format=price.toString()+ price_format+"VND";
-
-    return price_format;
-  }
 }

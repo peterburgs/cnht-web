@@ -1,18 +1,6 @@
- .footer {
-     /* margin-top: 150px;
-    height: 150px;
-    box-shadow: 1px -3px 5px 1px rgba(0, 0, 0, 0.1);
-    background-color: rgb(102, 102, 102);
-    color: white; */
-     /* position: absolute; */
-     /* width: 100%;
-    bottom: 0;
-    left: 0;
-    right: 0; */
- }
- /* .footer p {
-    margin-left: 10px;
-} */
+.col-md-4{
+    margin-left: 20px;
+}
  
  .flex-column {
      height: 40vh;
@@ -36,4 +24,10 @@
      /* margin-top: -20px !important; */
  }
  
- #page-content {}
+ .container{
+     margin: 0;
+ }
+
+ .end-footer{
+    margin-top: 30px;
+ }

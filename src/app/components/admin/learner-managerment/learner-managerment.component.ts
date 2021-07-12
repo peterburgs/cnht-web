@@ -94,13 +94,10 @@ export class LearnerManagermentComponent implements OnInit {
 
   onLoadRouter(){
     this.router.navigate(['admin/managerment/learner'], {queryParams: {searchUser: this.titleSearch }, fragment: 'adminSearch'});
-    console.log("length3: " + this.listUsers.length);
   }
 
   onLoadRouterDefault(){
     this.router.navigate(['admin/managerment/learner']);
-    console.log("length4: " + this.listUsers.length);
-   
   }
 
  

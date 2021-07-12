@@ -30,13 +30,11 @@ export class FilterComponent implements OnInit {
 
   receiveGrade($event: any){
     this.grade = $event;
-    console.log("qua con:" + this.grade);
     this.sendGradeChoose.emit(this.grade);
   }
 
   receiveCategory($event: any){
     this.category = $event;
-    console.log("qua con:" + this.category);
     this.sendCategoryChoose.emit($event);
   }
  

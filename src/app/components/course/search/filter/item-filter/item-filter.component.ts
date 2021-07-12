@@ -87,13 +87,10 @@ export class ItemFilterComponent implements OnInit {
      
     this.setValueForTreeData();
     this.dataSource.data = this.TREE_DATA;
-   // console.log(this.nameFilterCategory);
-
-
   }
 
   
-
+//TODO: user choose grade, we send event to filter 
   change(gradeIndex: string){
     this.grade = gradeIndex;
     this.sendGradeChoose.emit(this.grade);

@@ -19,12 +19,17 @@
             <div  *ngIf = "isFindList()" class="list-search-main">
                 <app-list-search [listCourseResult] = "listCourse"></app-list-search>
              </div>
-     
-             <div  *ngIf = "!isFindList()">
-                 <div class="not-found">
-                     No course found !
+
+                 <div *ngIf = "!isFindList()" class="not-found">
+                     <img src="../../../../assets/images/not-found.svg" 
+                     style=" height: 30vh; width: 30vw;
+                     margin-top: 10vh;
+                     margin-left: 10vw;
+                     display: flex;">
+                     <span style="margin-top: 10vh;
+                     margin-left: -5vw;">No course found !</span>
                  </div>
-             </div>
+           
         </div>
        
     </div>

@@ -49,18 +49,19 @@
 .price{
     align-items: center;
     height: 100%;
-    text-align: center;
+    text-align: center !important;
     vertical-align:middle;
+    margin-top: 3.5em;
     
 }
 
 .price-course{
-    padding-top: -80%;
+    /* padding-top: -80%; */
     color: #072F5F;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.5em;
     text-align: center;
-    display: block;
+    display: flex;
 }
 
 a{

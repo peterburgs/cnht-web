@@ -2,7 +2,13 @@
     <div *ngIf="!isLoading">
         <img class="image-thumbnail img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="{{course.title}}">
         <p class="price"> {{handlePriceFormat(course.price)}} </p>
-        <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
+
+        <div *ngIf = "isAdmin; then adminBlock else learnerBlock"></div>
+        <ng-template #adminBlock>
+            <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
+        </ng-template>
+        <ng-template #learnerBlock>
+            <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
             <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
         </ng-template>
@@ -10,6 +16,7 @@
             <button (click)="goToWallet()" class="btn-go-course "> <i class="bi bi-cart "></i> Buy now</button>
         </ng-template>
 
+        </ng-template>
     </div>
     <div class="lds-ring" *ngIf="isLoading">
         <div></div>

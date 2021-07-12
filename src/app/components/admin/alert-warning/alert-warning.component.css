@@ -25,6 +25,10 @@
     text-align: center;
 }
 
+p{
+    font-size: 16px;
+}
+
 .alert-box-actions{
     text-align: center;
 }
@@ -38,7 +42,7 @@
     margin-top: 20px;
     height: 35px;
     width: 100px;
-    border-radius: 25px;
+    border-radius: 15px;
     font-weight: 400;
 
 

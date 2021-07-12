@@ -38,6 +38,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   sectionId:string="";
   isBuying=false;
   failBought=false;
+  isAdmin = false;
 
   constructor(private router:Router,
     private userService: UserService,
@@ -102,6 +103,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
       }
       
     })    
+    // check admin
+    this.isAdmin = this.authService.isAdmin();
 
     //check status of isLoggedin, if it's true, update learner
     

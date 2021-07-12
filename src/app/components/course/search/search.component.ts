@@ -33,8 +33,8 @@ export class SearchComponent implements OnInit {
       ngOnInit(): void {
         this.isLoading = true;
         this.changeRouter();
-        this.getAllCourse();
         this.getTitleFormRouter();
+        this.getAllCourse();
         this.getListSearch();
         this.getFormFilterRouter();
         this.getListCourseFilter();
@@ -45,54 +45,46 @@ export class SearchComponent implements OnInit {
         this.router.onSameUrlNavigation = 'reload';
         }
 
+      //TODO: get all course, then search by title
       getAllCourse(){
-          this.courseService.getAllCourse().subscribe(list => 
-            
+          this.courseService.getAllCourse().subscribe(list =>            
           {
             this.listAllCourse = list.courses;
             this.isLoading = false;
             if(this.titleSearch)
               this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           });
-
-         
+       
       }
 
+      //TODO: set view text user want search
       setTextSearch(title: string){ // for view client title search
         this.textSearch = title;
       }
 
+      //TODO: get name type course, ex: TYPE_COURSE.THEORY = "theory"
       getNameTypeCourseByEnum(categoryIndex: number){
         return this.listFilter[categoryIndex];
       }
 
+      //TODO: get name grade, ex: GRADE.TENTH = "grade 10"
       getNameGradeByEnum(gradeIndex: number){
         return this.listGrade[gradeIndex];
       }
 
+      //TODO: get list search by title  
       getListSearch(){
-        if(this.titleSearch)
-        {
-          // this.courseService.getListCourseByTitle(this.titleSearch).subscribe(list => 
-            
-          //   {
-          //     if(list.count != 0)
-          //         this.listCourse = list.courses
-          //     else this.listCourse = []
-          //   });
-          // console.log("lengt:" + this.listAllCourse.length);
-          //this.getAllCourse();
+        if(this.titleSearch){
           this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           this.isUseFilter = false;
           this.setTextSearch(this.titleSearch);
         }
         else
-          if(this.listCourse.length === 0) 
-          {
+          if(this.listCourse.length === 0) {
             this.isUseFilter = true;}
-      
       }
 
+      //TODO: get title search form router, ex: http://localhost:4200/search?title=web#loading
       getTitleFormRouter(){ //use the title for search
        
         this.route.queryParams
@@ -104,7 +96,8 @@ export class SearchComponent implements OnInit {
         );
       }
 
-      getFormFilterRouter(){ // if change router we use filter for search
+      //TODO: get grade and type course form router, ex: http://localhost:4200/search?type=theory&grade=12#filter
+      getFormFilterRouter(){ 
       this.route.queryParams
         .subscribe(
           (queryParams: Params) => {
@@ -115,29 +108,24 @@ export class SearchComponent implements OnInit {
         );
       }
 
-
-      refreshComponent(){
-        this.router.navigate([this.router.url])
-    }
-
+    //TODO: receive grade from filter
     receiveGrade($event: any){
       this.grade = $event;
     }
 
+     //TODO: receive type course from filter, and get list for filter 
     receiveCategory($event: any){
       this.listCourse=[]
       this.category = $event;
       this.router.routeReuseStrategy.shouldReuseRoute = () => true;
-      console.log("event: " + "grade: " + this.grade + "type: " + this.category + "number:" + this.listCourse.length);
       this.reloadRouter();   //end choose filter for search
       this.isUseFilter = true;
       this.getListCourseFilter(); // get list by filter
     }
 
     getListCourseFilter(){
-      if(this.isUseFilter)
+      if(this.grade && this.isUseFilter)
       { 
-        //this.getFormFilterRouter();
         if(!this.category){ // set default search is title null
           this.category =COURSE_TYPE.THEORY;
           this.grade = GRADES.TWELFTH;
@@ -158,6 +146,7 @@ export class SearchComponent implements OnInit {
       
     }
 
+    //TODO: if user use filter, we change router
     reloadRouter(){
         this.router.navigate(['search'], {queryParams: {type: this.category, grade: this.grade }, fragment: 'filter'});
     }
