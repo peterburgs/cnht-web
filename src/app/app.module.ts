@@ -22,7 +22,6 @@ import { CourseInfoComponent } from './components/course/full-course/course-info
 import { CourseSectionComponent } from './components/course/full-course/course-section/course-section.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { UploadTaskComponent } from './components/course/full-course/course-section/upload-task/upload-task.component';
 import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './components/course/search/search.component';
 import { ItemSearchComponent } from './components/course/search/item-search/item-search.component';
@@ -72,6 +71,8 @@ import { key } from './util/google_Key';
 import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
 import { CourseLectureComponent } from './components/course/full-course/course-section/course-lecture/course-lecture.component';
 import { Duration } from './util/duration.pipe';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 
 
 
@@ -95,7 +96,6 @@ import { Duration } from './util/duration.pipe';
     CourseInfoComponent,
     CourseSectionComponent,
     AlertWarningComponent,
-    UploadTaskComponent,
     SearchComponent,
     ItemSearchComponent,
     ListSearchComponent,
@@ -128,9 +128,9 @@ import { Duration } from './util/duration.pipe';
     SearchTitleComponent,
     LoadingSpinnerComponent,
     CourseLectureComponent,
-    Duration
-
-  
+    Duration,
+    LoadingComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

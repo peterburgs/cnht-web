@@ -61,7 +61,7 @@
             <div class="col-sm-10">
               <textarea type="text" class="form-control text-deco" id="description" 
               name=description  [(ngModel)]="course.courseDescription"
-              rows="3" required 
+              rows="4" required 
               placeholder="Description course"  #description=ngModel></textarea>
             
             </div>
@@ -69,6 +69,7 @@
 
           <div class="mb-3 row ">
             <label for="price" class="col-sm-2 col-form-label">Price</label>
+           
             <div class="col-sm-3 ">
               <input type="text"   class="text-deco input-price form-control text-deco" id="price" type="text" 
               matInput 
@@ -79,11 +80,20 @@
               #price=ngModel 
               type="text"
              placeholder="Price course">
-
-            </div>  
-            <span class="col-sm-7 currency col-form-label">VND</span> 
+        
+            </div>
+         
+           
+            <span class="col-sm-2 currency col-form-label">VND
+              <div *ngIf="loadingCalculate" class="spinner-border spinner-border-sm text-danger loading-calculate icon-loading" role="status">
+              </div>
+            </span>
+          
+            <button class="btn btn-warning col-sm-2 btn-calculate" 
+            (click)="getEstimatePricing()">Calculate</button> 
+        
           </div>
-
+         
           <div class="mb-3 row ">
             <div class="col-sm-2 col-form-label">
             </div>

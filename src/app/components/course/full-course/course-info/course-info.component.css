@@ -145,3 +145,25 @@ image{
 .icon-margin{
     margin-right: 5px;
 }
+.loading-calculate{
+    margin-left: 10px;
+}
+.btn-calculate{
+    border-radius: 10px;
+    background: #FFC947;
+    color: white;
+   font-weight: bold;
+}
+.btn-calculate:hover{
+    background: white;
+    border: 2px solid #FFC947;
+    color: #FFC947;
+}
+.icon-loading{
+    color: #4EBEE1;
+    padding-left: 0px;
+    padding-right: 0px;
+    justify-content: center;
+    align-items: center;
+    
+}

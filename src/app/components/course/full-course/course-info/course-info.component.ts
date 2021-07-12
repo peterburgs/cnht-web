@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   OnInit,
-  SimpleChange,
   SimpleChanges,
 } from '@angular/core';
 import { ViewChild } from '@angular/core';
@@ -14,8 +13,8 @@ import { ModifyType } from 'src/app/models/ModifyType';
 import { VideoType } from 'src/app/models/VideoType.model';
 
 import { FullCourseService } from '../../../../service/full-course.service';
-import { Observable } from 'rxjs';
-import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
+import { Observable, Subscription } from 'rxjs';
+import { FormatPrice } from 'src/app/util/priceformat';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -29,10 +28,13 @@ export class CourseInfoComponent implements OnInit {
   imgPath?: Observable<string>;
   selectedValue: string = '';
   priceFormat = '000';
-  types = [COURSE_TYPE.THEORY, COURSE_TYPE.EXAMINATION_SOLVING];
+  types = [COURSE_TYPE.THEORY, COURSE_TYPE.EXAMINATION_SOLVING
+    , COURSE_TYPE.TEST];
   grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
-
+  loadingCalculate=false;
   fileToUpLoad: File = new File([], '_Thumbnail');
+
+  sbcEstimate:Subscription = new Subscription();
   constructor(private fullCourseService: FullCourseService) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {
@@ -46,12 +48,6 @@ export class CourseInfoComponent implements OnInit {
       this.mCourse = course;
     });
 
-    if (this.fullCourseService.subsValid == null) {
-      this.fullCourseService.subsValid =
-        this.fullCourseService.invokeValidModal.subscribe(() => {
-          this.validateInput();
-        });
-    }
     this.priceFormat = String(this.course.price);
   }
   handleFileInput(event: Event) {
@@ -72,7 +68,7 @@ export class CourseInfoComponent implements OnInit {
     }
   }
   btnDelete() {
-    this.validateInput();
+    // this.validateInput();
     this.fullCourseService.setSelection(
       'default',
       VideoType.course,
@@ -81,16 +77,6 @@ export class CourseInfoComponent implements OnInit {
     this.fullCourseService.onNotifyContent();
   }
 
-  validateInput() {
-    this.fullCourseService.setCourse(this.course);
-
-    if (this.course.title && this.course.courseDescription) {
-      this.fullCourseService.setIsValid(true);
-    } else {
-      this.fullCourseService.setIsValid(false);
-    }
-    //this.fullCourseService.setIsValid(this.infoCourse.valid);
-  }
   formatCurrency() {
     this.course.price = parseInt(this.priceFormat.replace(/\D/g, ''));
     let price = this.course.price;
@@ -123,5 +109,19 @@ export class CourseInfoComponent implements OnInit {
           alert('Server error!!! try again');
         }
       );
+  }
+  getEstimatePricing(){
+    this.loadingCalculate=true;
+    this.sbcEstimate = this.fullCourseService.getEstimatedCoursePricing()
+      .subscribe(response=>{
+        this.loadingCalculate=false;
+        this.course.price= response.price;
+        this.priceFormat= FormatPrice(this.course.price, 0, 3, '.', ',');
+      })
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.sbcEstimate.unsubscribe();
   }
 }

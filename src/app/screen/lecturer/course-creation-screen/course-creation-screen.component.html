@@ -42,29 +42,21 @@
     </div>
     <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection ==0)">
       <label for="name" class="col-sm-4 col-form-label">
-        Title {{ typeSelection == 0 ? "section" : "lession" }}</label
+        Title {{ typeSelection == 0 ? "section" : "lecture" }}</label
       >
       <div  class="col-sm-9">
         <input
           type="text"
           class="form-control"
           id="nameTitle"
-          [value]="
-            typeSelection == 0 ? sectionCurrent.title : lessionCurrent.title
-          "
           placeholder="Title course"  required
           name="nameTitle" [(ngModel)]="titleBinding"
         />
         
       </div>
     </div>
-  
-     
-     
-    
-    
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer remove-border">
     <button
       type="button"
       class="btn btn-light"
@@ -73,18 +65,14 @@
       Cancel
     </button>
     <button 
-      type="button" *ngIf="!isNotify"
+      type="button" 
       class="btn btn-primary"
       (click)="onConfirmSave()" 
     >
       Save
     </button>
   </div>
- 
-
 </ng-template>
 
-<div *ngIf="isLoading" class="background-loading">
-  <div class="lds-ellipsis loading"><div></div><div></div><div></div><div></div></div>
-</div>
+<app-loading [isLoading]="isLoading"></app-loading>
 
