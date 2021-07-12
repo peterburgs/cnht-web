@@ -169,34 +169,6 @@ export class UserService{
              })
     }
    
-
-
-    listSearch: User[] = [];
-    // getListUserByTitle(title: string){
-      
-    //     this.getAllUser().subscribe(user => {
-    //         if(user.count != 0)
-    //         {
-    //           this.listSearch = user.users.filter(user => user.fullName == title || user.email)
-    //         }
-    //     })
-
-    //     return this.listSearch;
-    // }
-    
-    // getListUserByFullName(name: string){
-       
-    //     const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-    //     const tokenType= "Bearer "
-    //     const header = new HttpHeaders().set('Authorization', tokenType + token);
-    //     const headers = { headers: header, params: new HttpParams().set('fullName', name)};
-    //    return this.http
-    //     .get<{message:string,count:number, users: User[]}>(
-    //         this.baseUrl+ '/users', headers)
-    // }
-
-
-
     //Get user by email
     getUserByEmail(email:string){
 
@@ -244,11 +216,5 @@ export class UserService{
         const headers = { headers: header ,params:new HttpParams().set('id', learnerId)};
         return this.http
         .get<{message:string,count:number, users: User[]}>( this.baseUrl+'/users',headers)
-    }
-
-    
-    getUserByUserId(id:string): User{
-        const user = this.users.find(user=>user.id == id)!;
-        return user;
     }
 }

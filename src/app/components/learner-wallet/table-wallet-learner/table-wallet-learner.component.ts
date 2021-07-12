@@ -66,6 +66,9 @@ export class TableWalletLearnerComponent implements OnInit {
   }
 
   getDepositHistory(){
+    this.isSortDateUp = false;
+    this.isSortDateDown = false;
+    this.eSortDate = SORT.CURRENT; //TODO: change status sort 
     console.log("Click")
      this.depositRequestService.getByIdLearner(this.learner.id)
      .pipe(
@@ -101,7 +104,7 @@ export class TableWalletLearnerComponent implements OnInit {
      {
       this.getDepositHistory();} 
 
-      else if(this.eSortDate == SORT.INCREASE){
+      else if(this.eSortDate == SORT.DECREASE){
         this.isSortDateDown = true;
           this.depositHistory = this.depositHistory.sort((a, b) => {
             return <any>new Date(b.createdAt) - <any>new Date(a.createdAt);

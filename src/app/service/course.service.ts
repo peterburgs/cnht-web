@@ -56,7 +56,10 @@ export class CourseService{
         this.baseUrl+ '/courses',
         {
             params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',false)
-        })
+        }).pipe(
+            
+           // catchError(this.handleError)
+        );
         
     }
 

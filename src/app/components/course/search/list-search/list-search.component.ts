@@ -18,7 +18,6 @@ export class ListSearchComponent implements OnInit {
   }
 
   getListCourseResult(){
-    // this.CourseService.getListCourse().subscribe(course => this.listCourseResult = course);
     return this.listCourseResult;
   }
 

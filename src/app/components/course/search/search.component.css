@@ -11,13 +11,13 @@
 }
 .list-search-main{
    
-    margin-top: 106px;
-    margin-left: 5vw;
+    /* margin-top: 106px;
+    margin-left: 5vw; */
     
 }
 
 .col-md-9{
-  margin: 0;
+  padding-left: 0 !important;
 }
 
 .nav-search-blank{
@@ -32,8 +32,8 @@
 }
 
 .list-filter-main{
-    margin-top: 100px;
-    padding-left: 30px;
+    margin-top: 18vh;
+    padding-left: 2vw;
     position: relative;
 }
 
@@ -48,20 +48,25 @@
 background-color: #fff;
     
 }
+.col-md-9{
+  margin-left: 27vw;
+}
 
 .not-found{
     border-radius: 8px;
     display: block;
    height:100vh;
-   margin-top: 100px;
+   /* margin-top: 15vh; */
    border-radius: 5px;
    margin-left: 5vw;
-   color: #aaa;
+   color: rgb(16, 9, 75);
    font-size: 22px;
-   padding-top: 30vh;
-   padding-left: 20vw;
-   font-weight: 400;
-   background-color: #fff;
+   /* padding-top: 30vh;
+   padding-left: 10vw; */
+   font-weight: 500;
+   /* background-color: #fff; */
+   text-align: center;
+  
 
 }
 .component-search-screen{

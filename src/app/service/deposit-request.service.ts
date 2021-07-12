@@ -154,11 +154,6 @@ private depositRequestList: DepositRequest[] = [];
           );
     }
 
-    getAllNotYetConfirm():Observable<DepositRequest[]>{
-        const depositRequests = this.depositRequests.filter(depositRequest => depositRequest.depositRequestStatus == STATUSES.PENDING);
-        return of (depositRequests);
-    }
-
     getByIdLearner(learnerId : string){
         return this.http
         .get<{message:string,count:number, depositRequests: DepositRequest[]}>(
@@ -188,8 +183,6 @@ private depositRequestList: DepositRequest[] = [];
     }
 
     updateStatus(deposit: DepositRequest, status: STATUSES){
-        // update status
-        //deposit.depositRequestStatus = status;
         const  body = {
             "id": deposit.id,
             "learnerId": deposit.learnerId,
@@ -199,19 +192,11 @@ private depositRequestList: DepositRequest[] = [];
             "createdAt":deposit.createdAt,
             "updatedAt": deposit.updatedAt
         };
-        // deposit.depositRequestStatus = status;
-        // deposit.updatedAt = new Date();
-        //this.httpOptions.headers = this.httpOptions.headers.set('id', deposit.id);
         return this.http.put<(any)>( this.baseUrl+ '/deposit-requests/' + deposit.id, body, {
             headers: this.httpOptions.headers,
-           // params: new HttpParams().set('id', deposit.id)
          }).pipe(
             catchError(this.handleError)
           );
-          
-         console.log("updade !");
-        // add wallet to wallet learner
-        // return true;
     }
 
     createDepositRequest(deposit:DepositRequest){
@@ -312,28 +297,4 @@ private depositRequestList: DepositRequest[] = [];
         sendNext();
     }
 
-  
-
-    updateStatusForAllNotConfirm(){
-        //get All list not yet confirm
-        // foreach list
-        // update each deposit
-    }
-
-    getDepositsByNameOrEmailLearner(content: string): Observable<DepositRequest[]>{
-         this.userList = [];
-         this.depositRequestList= [];
-        //depositRequestList
-     //  this.userService.getListUserByTitle(content).subscribe(user => this.userList = user);
-        for(let user of this.userList){
-            console.log(user.fullName);
-          const depositRequestList = this.depositRequests.filter(deposit => deposit.learnerId == user.id); 
-          if(depositRequestList.length > 0)
-                depositRequestList.forEach(deposit => this.depositRequestList.push(deposit));
-            console.log(depositRequestList.length);
-            console.log("list: " + this.depositRequestList.length);
-        }
-        return of(this.depositRequestList);
-        
-    }
 }
