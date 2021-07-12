@@ -10,10 +10,10 @@
     "
   >
     <div class="div-updown col-sm-1">
-      <div class="div-icon-mini" (click)="onUpLession(lecture.id)">
+      <div class="div-icon-mini" (click)="onUpLecture(lecture.id)">
         <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
       </div>
-      <div class="div-icon-mini" (click)="onDownLession(lecture.id)">
+      <div class="div-icon-mini" (click)="onDownLecture(lecture.id)">
         <i class="fa fa-chevron-down icon-decorate" title="Lesson go down"></i>
       </div>
     </div>
@@ -58,7 +58,7 @@
       <button
         class="btn btn-outline-danger btn-circle btn-lg outline-delete"
         title="Delete lession"
-        (click)="onDeleteLession(lecture.id)"
+        (click)="onDeleteLecture(lecture.id)"
       >
       <i class="fa fa-times"></i>
       </button>

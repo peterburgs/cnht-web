@@ -4,7 +4,7 @@ import { FullCourseService } from 'src/app/service/full-course.service';
 import { Upload } from 'src/app/models/file-upload';
 import { ElementRef, ViewChild } from '@angular/core';
 import { Section } from 'src/app/models/section.model';
-import { Lession } from 'src/app/models/lession.model';
+
 import { VideoType } from 'src/app/models/VideoType.model';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { NgForm } from '@angular/forms';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { Course } from 'src/app/models/course.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-course-creation-screen',
@@ -24,26 +25,28 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class CourseCreationScreenComponent implements OnInit {
   @ViewChild('content', { static: true }) content?: ElementRef;
   @ViewChild('error_happen', { static: true }) error_happen?: ElementRef;
-  // @ViewChild('nameTitle', { read: NgForm  }) nameTitle?: ElementRef;
   @ViewChild('file', { static: false }) fileVideo?: ElementRef;
   arrLoading:boolean[]=[];
   sections: SectionDummy[] = [];
   videoURL: SafeUrl='';
 
   wayModify: ModifyType = ModifyType.edit;
-  sectionCurrent = new Section();
-  lessionCurrent = new Lession('', '');
-  typeSelection = VideoType.lession;
-  fileToUpLoad: File = new File([], 'hinh-a');
+
+  typeSelection = VideoType.lecture;
   urlVideo?: string = '../';
-  isValid = true;
+
   idCourse: string = 'default';
   titleBinding = '';
-  loadingSpinner = false;
-  isNotify = false;
   course: Course = new Course();
   isLoading = true;
   duration=0;
+
+  scbSectionDummy :Subscription= new Subscription();
+  scbFinish :Subscription= new Subscription();
+  sbcInit :Subscription= new Subscription();
+  sbcType :Subscription= new Subscription();
+  sbcWay :Subscription= new Subscription();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -53,37 +56,9 @@ export class CourseCreationScreenComponent implements OnInit {
     private sanitizer: DomSanitizer,
    
   ) {}
-  handleFileInput(event: Event) {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      console.log('FileUpload -> files', fileList);
-
-      this.fileToUpLoad = <File>fileList.item(0);
-      var reader = new FileReader();
-
-      //update Image to UI
-      reader.onload = (event: any) => {
-        this.urlVideo = this.fileToUpLoad.name;
-      };
-      this.urlVideo = fileList.item(0)?.name;
-      reader.readAsDataURL(this.fileToUpLoad);
-    }
-  }
   openVerticallyCentered() {
     this.titleBinding = this.fullCourseService.getTitleContent();
-    if (
-      this.typeSelection == VideoType.course &&
-      (this.wayModify == ModifyType.save ||
-        this.wayModify == ModifyType.errorValid)
-    ) {
-      this.isNotify = true;
-    } else {
-      this.isNotify = false;
-    }
     this.titleBinding='';
-    this.fileToUpLoad= new File([], 'default')
-    this.urlVideo='';
     this.modalService.open(this.content, { centered: true, size: 'lg' });
   }
   openNotifyError() {
@@ -98,40 +73,32 @@ export class CourseCreationScreenComponent implements OnInit {
       this.route.params.subscribe((params: Params) => {
         this.idCourse = params['id'];
         this.fullCourseService.setIdCourse(this.idCourse);
-        console.log(this.idCourse);
-        if (params['id'] == null) {
-          this.idCourse = 'default';
-        }
       });
   
-      this.fullCourseService.getSbjSectionDummy().subscribe((dummy) => {
+     this.scbSectionDummy= this.fullCourseService.getSbjSectionDummy().subscribe((dummy) => {
 
         this.isLoading = false;
         this.arrLoading= this.fullCourseService.getArrayLoading();
       });
-      this.fullCourseService.getSbjIsFinish().subscribe(status=>{
+    this.scbFinish=  this.fullCourseService.getSbjIsFinish().subscribe(status=>{
         if(status== 200){
           this.modalService.dismissAll();
           this.isLoading=false;
-          // //refresh
            window.location.reload();
         }
-        else if (status == 404){
-          //
-          //refresh
+        else 
+        {
           this.modalService.dismissAll();
           this.isLoading=false;
           alert("Problem having, try again")
-          // //refresh
            window.location.reload();
         }
         
       })
       //Update course in fullService
 
-      this.fullCourseService.initCourses().subscribe((response) => {
-     
-        console.log(response.courses);
+      this.sbcInit= this.fullCourseService.initCourses()
+      .subscribe((response) => {
         this.fullCourseService.setCourses(response.courses);
         this.fullCourseService.setIdCourseSelection(this.idCourse);
         this.fullCourseService.setCourseSelection();
@@ -141,15 +108,14 @@ export class CourseCreationScreenComponent implements OnInit {
       });
       this.fullCourseService.getData();
 
-      //TODO: check is observ able or not
       this.sections = this.fullCourseService.getSectionDummy();
-      this.fullCourseService.getCurrentSelection().subscribe((type) => {
+     this.sbcType=  this.fullCourseService.getCurrentSelection().subscribe((type) => {
         this.typeSelection = type;
       });
-      this.fullCourseService.getWayModify().subscribe((way) => {
+    this.sbcWay=  this.fullCourseService.getWayModify().subscribe((way) => {
         this.wayModify = way;
       });
-
+      //Set observable to show dialog
       if (this.fullCourseService.subsEdit == null) {
         this.fullCourseService.subsEdit =
           this.fullCourseService.invokeNotifyModal.subscribe((content: any) => {
@@ -158,7 +124,15 @@ export class CourseCreationScreenComponent implements OnInit {
       }
     }
   }
-
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.scbSectionDummy.unsubscribe();
+    this.scbFinish.unsubscribe();
+    this.sbcInit.unsubscribe();
+    this.sbcType.unsubscribe();
+    this.sbcWay.unsubscribe();
+  }
   onCreateSection() {
     this.fullCourseService.setSelection(
       'default',
@@ -167,25 +141,46 @@ export class CourseCreationScreenComponent implements OnInit {
     );
     this.openVerticallyCentered();
   }
+  //Customise title in model confirmation
   customeTitle() {
+    let title="";
+
     switch (this.wayModify) {
       case ModifyType.edit:
-        return 'Edit';
+        title= 'Edit ';
+        break;
       case ModifyType.delete:
-        return 'Delete';
+        title= 'Delete ';
+        break;
       case ModifyType.new:
-        return 'Create';
+        title= 'Create ';
+        break;
       case ModifyType.errorValid:
-        return 'Error input';
+        title= 'Error input ';
+        break;
       case ModifyType.leave:
-        return 'Info';
+        title= 'Info ';
+        break;
       case ModifyType.goUp:
-        return 'Up';
+        title= 'Up ';
+        break;
       case ModifyType.goDown:
-        return 'Down';
+        title= 'Down ';
+        break;
+      default:
+        title ="Save "
     }
-    return 'Save';
+    if(this.typeSelection == VideoType.course){
+      title += "course"
+    } else if( this.typeSelection == VideoType.section){
+      title += "section";
+    }
+    else {
+      title += "lecture"
+    }
+    return title;
   }
+  //Customise content notify to user
   customeContent() {
     const confirmMessage = 'Are you sure ';
     const createMessage = 'Save successful!!!';
@@ -198,7 +193,7 @@ export class CourseCreationScreenComponent implements OnInit {
           return confirmMessage + 'delete this course?';
         else if (this.typeSelection == VideoType.section)
           return confirmMessage + 'delete this section?';
-        return confirmMessage + 'delete this lession?';
+        return confirmMessage + 'delete this lecture?';
       case ModifyType.save:
         return createMessage;
       case ModifyType.errorValid:
@@ -206,18 +201,18 @@ export class CourseCreationScreenComponent implements OnInit {
       case ModifyType.leave:
         return noticeMessage;
       case ModifyType.goUp:
-        if (this.typeSelection == VideoType.lession)
-          return confirmMessage + ' up level this lession?';
+        if (this.typeSelection == VideoType.lecture)
+          return confirmMessage + ' up level this lecture?';
         return confirmMessage + ' up level this section?';
       case ModifyType.goDown:
         if (this.typeSelection == VideoType.section) {
           return confirmMessage + ' down level this section?';
         }
-        return confirmMessage + ' down level this lession?';
+        return confirmMessage + ' down level this lecture?';
     }
     return '';
   }
-
+  //Handle action user confirm
   onConfirmSave() {
     this.isLoading=true;
     console.log(this.typeSelection);
@@ -228,36 +223,29 @@ export class CourseCreationScreenComponent implements OnInit {
         }
         this.fullCourseService.handleCreateSection(this.titleBinding).subscribe(
           (response) => {
-            console.log(response);
-            if (response.count > 0) {
+
               this.modalService.dismissAll();
               this.isLoading = false;
               window.location.reload();
-            } else {
-              alert('Error happen, please try again');
-            }
           },
           (error) => {
             this.modalService.dismissAll();
             console.log(console.error());
-            alert("Error happen!!! try again")
+            alert(error.status +" "+ error.message)
+            window.location.reload();
           }
         );
       } else if (this.wayModify == ModifyType.delete) {
         this.fullCourseService.onDeleteSection().subscribe(
           (response) => {
-            if (response.message == 'Delete section successfully') {
               this.isLoading = false;
               this.modalService.dismissAll();
               window.location.reload();
-            } else {
-              alert('Error happen, please try again');
-              window.location.reload();
-            }
           },
           (error) => {
             this.modalService.dismissAll();
             alert("Error happen!!! try again")
+            window.location.reload();
           }
         );
       } else if (this.wayModify == ModifyType.goUp) {
@@ -269,9 +257,9 @@ export class CourseCreationScreenComponent implements OnInit {
           },
           (error) => {
             this.modalService.dismissAll();
-            console.log(error);
             this.isLoading=false;
-            alert("Error happen!!! try again")
+            alert("Error happen!!! try again");
+            window.location.reload();
           }
         );
       } else if (this.wayModify == ModifyType.goDown) {
@@ -285,10 +273,11 @@ export class CourseCreationScreenComponent implements OnInit {
             console.log(error.message);
             this.modalService.dismissAll();
             alert("Error happen!!! try again")
+            window.location.reload();
           }
         );
       }
-    } else if (this.typeSelection == VideoType.lession)
+    } else if (this.typeSelection == VideoType.lecture)
     {
       if (this.wayModify == ModifyType.new) 
       {
@@ -299,26 +288,21 @@ export class CourseCreationScreenComponent implements OnInit {
           .handleCreateLecture(this.titleBinding)?.subscribe(
             response => {
               console.log(response);
-              if (response && response.count < 0) {
-                alert('Error happen, please try again');
-              } else {
+          
                 this.isLoading = false;
                 this.modalService.dismissAll();
                 window.location.reload();
-              }
+             
             }
           , error=>{
             this.modalService.dismissAll();
             console.log(console.error());
-            
             alert("Error happen!!! try again")
+            window.location.reload();
           }
           )
       } else if (this.wayModify == ModifyType.edit) {
-        // if(this.fileToUpLoad.name != "default"){
-        //   console.log(this.fileToUpLoad.stream.length);
-        //   this.fullCourseService.handleUpdateWithVideo(this.fileToUpLoad, this.duration);
-        // }
+
       } else if (this.wayModify == ModifyType.delete) {
         this.fullCourseService.onDeleteLecture().subscribe(
           (response) => {
@@ -329,13 +313,14 @@ export class CourseCreationScreenComponent implements OnInit {
             } else {
               this.modalService.dismissAll();
               alert("Error happen!!! try again")
+              window.location.reload();
             }
           },
           (error) => {
             console.log(console.error());
             this.modalService.dismissAll();
             alert("Error happen!!! try again")
-            
+            window.location.reload();
           })
         
       } else if (this.wayModify == ModifyType.goUp) {
@@ -358,6 +343,7 @@ export class CourseCreationScreenComponent implements OnInit {
             this.modalService.dismissAll();
             console.log(console.error());
             alert("Error happen!!! try again")
+            window.location.reload();
           }
         );
       }

@@ -23,17 +23,12 @@ export class CourseLectureComponent implements OnInit {
   @Input() lectureIndex: number =0;
   @Input() sectionIndex: number =0;
   @Input() globalLoading:boolean=false;
-  durationVideo:number[]=[] 
-
-  urlVideo = '../';
   videoURL: SafeUrl='';
   files?: File;
   hasVideo=false;
   changeLecture=false;
   videoFile:File=new File([],'lecture-video')
   lectureTitle='';
-  sectionTitle='';
-  changeSection=false;
   fileToUpload= new File([],'default');
   duration:number=0;
   eventSave=false;
@@ -54,7 +49,6 @@ export class CourseLectureComponent implements OnInit {
         if(this.fileToUpload.name != 'default')
         {
            this.fullCourseService.handleUpdateWithVideo(this.fileToUpload, this.duration, this.sectionIndex, this.lectureIndex);
-     
         }
     })
     
@@ -66,12 +60,11 @@ export class CourseLectureComponent implements OnInit {
     console.log('save');
     this.eventSave=true;
     this.lectureTitle=$event.target.value;
-    console.log(this.lectureTitle);
- 
+
   }
   saveLecture(idLecture:string){
 
-    this.fullCourseService.setSelection(idLecture, VideoType.lession, ModifyType.edit)
+    this.fullCourseService.setSelection(idLecture, VideoType.lecture, ModifyType.edit)
     this.fullCourseService.handleEditTitleLecture(this.lectureTitle).subscribe
     (response=>{
     }, error=>{
@@ -84,26 +77,26 @@ export class CourseLectureComponent implements OnInit {
     this.lectureTitle=event?.target.value;
    
   }
-  onEditLession(id:string) {
-    this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.edit);
+  onEditLecture(id:string) {
+    this.fullCourseService.setSelection(id, VideoType.lecture, ModifyType.edit);
     // this.fullCourseService.onNotifyContent();
     console.log(id);
   }
 
-  onUpLession(id:string){
-   this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.goUp);
+  onUpLecture(id:string){
+   this.fullCourseService.setSelection(id, VideoType.lecture, ModifyType.goUp);
    this.fullCourseService.setItemIndex(this.lectureIndex);
    this.fullCourseService.onNotifyContent();
 }
-onDownLession(id:string){
- this.fullCourseService.setSelection(id, VideoType.lession, ModifyType.goDown);
+onDownLecture(id:string){
+ this.fullCourseService.setSelection(id, VideoType.lecture, ModifyType.goDown);
  this.fullCourseService.setItemIndex(this.lectureIndex);
  this.fullCourseService.onNotifyContent();
 }
 
-onDeleteLession(id:string){
+onDeleteLecture(id:string){
   this.fullCourseService
-  .setSelection(id, VideoType.lession, ModifyType.delete);
+  .setSelection(id, VideoType.lecture, ModifyType.delete);
   this.fullCourseService.onNotifyContent();
 }
 handleFileInput(event: Event, idLecture: string) {
@@ -114,12 +107,12 @@ readVideoUrl(event: any, idLecture:string) {
 
   const files = event.target.files;
   if (files && files[0]) {
-
-    this.fullCourseService.setSelection(idLecture,VideoType.lession, ModifyType.edit);
+    this.fullCourseService.setSelection(idLecture,VideoType.lecture, ModifyType.edit);
     console.log(this.sectionIndex +' lecture '+this.lectureIndex);
     this.fullCourseService.setPositionLoading(true, this.sectionIndex, this.lectureIndex);
-    console.log('FileUpload -> files', files);
+
     this.fileToUpload = files[0];
+    //Show video to <video> to get duration
     this.videoURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(files[0]));
   }
 
@@ -129,6 +122,10 @@ getDuration(e:any) {
   this.duration= e.target.duration;
   this.timeVideo=Math.round(this.duration); 
   this.sbjLoadingDuration.next(this.duration);
-  
+}
+ngOnDestroy(): void {
+  //Called once, before the instance is destroyed.
+  //Add 'implements OnDestroy' to the class.
+  this.sbjLoadingDuration.unsubscribe();
 }
 }
