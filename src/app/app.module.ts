@@ -73,6 +73,7 @@ import { CourseLectureComponent } from './components/course/full-course/course-s
 import { Duration } from './util/duration.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
+import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 
 
 
@@ -157,7 +158,7 @@ import { ErrorPageComponent } from './components/loading/error-page/error-page.c
     MatCardModule
       
   ],
-  providers: [ CurrencyPipe,
+  providers: [ CurrencyPipe,AdminGuard,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

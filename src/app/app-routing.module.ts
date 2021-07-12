@@ -13,16 +13,18 @@ import { WalletScreenComponent } from './screen/wallet-screen/wallet-screen.comp
 import { SearchComponent } from './components/course/search/search.component';
 import { LearnerManagermentComponent } from './components/admin/learner-managerment/learner-managerment.component';
 import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component';
+import { AdminGuard } from './components/guard/admin/admin-guard.guard';
+import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 
 
 
 const routes: Routes = [
-  { path: 'admin/course/:id', component: CourseCreationScreenComponent },
+  { path: 'admin/course/:id', component: CourseCreationScreenComponent, canActivate:[AdminGuard] },
  
-  {path:'admin/home', component:AdminCourseScreenComponent},
+  {path:'admin/home', component:AdminCourseScreenComponent, canActivate:[AdminGuard]},
   
     {
-    path: 'admin/managerment/wallet', component: WalletComponent
+    path: 'admin/managerment/wallet', component: WalletComponent, canActivate:[AdminGuard]
   },
   {
     path:'learning/:courseId/:sectionId/:lectureId', component: CourseLearningScreenComponent
@@ -39,11 +41,9 @@ const routes: Routes = [
     path: 'wallet',
     component: WalletScreenComponent,
   },
-
   {
-    path: 'admin/managerment/learner', component: LearnerManagermentComponent
+    path: 'admin/managerment/learner', component: LearnerManagermentComponent, canActivate:[AdminGuard]
   },
-  
   { 
     path: 'lecturer', component: AdminCourseScreenComponent 
   },
@@ -61,19 +61,15 @@ const routes: Routes = [
     path:'search', component:SearchComponent
   },
   
-  { 
-    path: 'lecturer', component: AdminCourseScreenComponent 
-  },
-  { 
-    path: 'admin/edit', component: CourseCreationScreenComponent 
-  },
   {
     path: 'mylearning', component: MylearingScreenComponent
   },
-
-  { path: 'admin/course/new', component: CourseCreationScreenComponent },
-
- 
+  {
+    path:'not-found', component:ErrorPageComponent
+  },
+  {
+    path:'**', redirectTo:'/not-found'
+  }
 ];
 
 @NgModule({
