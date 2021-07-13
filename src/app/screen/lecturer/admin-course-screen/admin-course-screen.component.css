@@ -23,7 +23,8 @@
 }
 .wrapper{
     display: grid;
-  grid-template-columns: 300px 300px 300px 300px;
+  /* grid-template-columns: 300px 300px 300px 300px; */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 10px;
   
 }
@@ -31,6 +32,7 @@
     font-size: x-large;
    font-weight: bold;
    color: #c4c4c4;
+
    
    padding: 4rem;
 }
@@ -39,6 +41,7 @@
     justify-items: center;
     justify-content: center;
     text-align: center;
+
 }
 .div-loading{
     display: flex;
@@ -63,7 +66,7 @@
 .list-course {
   background-color: #eeebeb;
   text-align: center;
-  height: 100%;
+ 
 }
 .container .wrapper{
   text-align: center;
@@ -81,4 +84,10 @@ app-search-title{
     width: 45vw;
     padding: 16px;
     z-index: 9000000;
+}
+.empty-list{
+    height: 100vh;
+}
+.message-no-found{
+   padding-top: 20%;
 }

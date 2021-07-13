@@ -1,6 +1,6 @@
 .table-detail{
-    margin-top:-2vh;
-    width: 90vw;
+    margin-top:2vh;
+    /* width: 90vw; */
     margin-left: -5vw;
     border-radius: 5px;
 }
