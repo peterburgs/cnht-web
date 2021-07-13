@@ -1,9 +1,12 @@
 .container{
     /* margin-top: 200px; */
+    width: 100% !important;
 }
 
 .wallet-screen{
     background-color: #F0F2F5;
+    width: 100%;
+  
 }
 
 .empty-block{
