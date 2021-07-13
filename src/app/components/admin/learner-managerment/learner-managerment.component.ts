@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Enrollment } from 'src/app/models/enrollment.model';
-import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
@@ -53,11 +51,12 @@ export class LearnerManagermentComponent implements OnInit {
   }
 
   searchUser(){
-
+   
     if(this.titleSearch == "")  this.getAllUser();
     else{
     
       this.getListUserByTitle(this.titleSearch);
+      console.log(this.titleSearch + this.listSearch.length);
       this.onLoadRouter();
     
     }

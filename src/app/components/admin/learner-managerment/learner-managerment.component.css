@@ -7,8 +7,14 @@
     width: 100vw;
     align-items: center;
     text-align: center;
-    /* margin: 0; */
+    margin: 0;
+    margin-left: 5vw;
+    margin-right: 5vw;
     margin-top: 10vh;
+}
+
+.app-table-learner-managerment{
+    width: 90vw;
 }
 
 .search-input {
@@ -31,8 +37,8 @@
 
 
 .form-group {
-    display: block;
-    margin-left: 38vw !important;
+    display: flex;
+    margin-left: 60vw !important;
 
 }
 

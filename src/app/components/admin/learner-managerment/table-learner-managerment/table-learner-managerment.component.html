@@ -28,7 +28,7 @@
                         <div></div>
                     </div>
 
-                    <tr *ngFor="let user of listUserSort | slice: (page-1) * pageSize : page * pageSize">
+                    <tr *ngFor="let user of listUsers | slice: (page-1) * pageSize : page * pageSize">
                         <td>{{user.email}}</td>
                         <td>{{user.fullName}}</td>
                         <td>{{balanceFormat(user.balance)}}</td>
@@ -42,7 +42,7 @@
                 <ngb-pagination class="d-flex justify-content-end" 
                 [(page)]="page"
                 [pageSize]="pageSize"
-                [collectionSize]="listUserSort.length"></ngb-pagination>
+                [collectionSize]="listUsers.length"></ngb-pagination>
                 <!-- <pre>Current page: {{page}}</pre> -->
             </div>
            
