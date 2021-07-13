@@ -32,7 +32,7 @@
 
 .form-group {
     display: block;
-    margin-left: 55vw !important;
+    margin-left: 38vw !important;
 
 }
 
@@ -64,3 +64,6 @@
     margin-bottom: 1vh;
 }
 
+.icon-search{
+    margin-top: 7px;
+}

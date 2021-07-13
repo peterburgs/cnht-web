@@ -12,10 +12,13 @@
 
     </div>
   
-   <div class = "list-course">
-    <div *ngIf="!listCourse.length && !isLoading" class="container div-no-found"><span  align="center" class="no-found">
-      No Course here
-  </span></div>
+   <div class = "list-course container">
+    <div *ngIf="!listCourse.length && !isLoading " class="container div-no-found">
+        <div class="message-no-found empty-list ">
+            <span  align="center" class="no-found">
+                No Course here
+            </span>
+        </div></div>
   <div *ngIf="listCourse != []" class="container wrapper">
      
       <app-lecturer-card-course  *ngFor="let course of listCourse"
