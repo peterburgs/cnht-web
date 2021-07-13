@@ -1,18 +1,18 @@
 
 <div class="container" *ngIf = "!isAdmin" style="text-align: center;"> <h2>You can not contact this page !</h2></div>
-    <div *ngIf = "isAdmin" class="container">
-        <div class="d-flex form-group ">
-            <span class = "btn icon-search" ><i class="fa fa-search " (click) = "searchUser()"></i></span>
-            <input class="form-control search-input "  [(ngModel)] = "titleSearch"
-            (keyup.enter) = "searchUser()"
-            (keyup) = "searchUser()"
-            type="text "
-            
-            placeholder="Find learner by email or full name ">
-        </div>
-    
-        <div class="table-learner-managerment">
-            <!-- <label>{{userService.getAllUser()}}</label> -->
-            <app-table-learner-managerment [listUsers] = "listSearch"></app-table-learner-managerment>
-        </div>
+<div *ngIf = "isAdmin" class="container">
+    <div class="d-flex form-group ">
+        <span class = "btn icon-search" ><i class="fa fa-search " (click) = "searchUser()"></i></span>
+        <input class="form-control search-input "  [(ngModel)] = "titleSearch"
+        (keyup.enter) = "searchUser()"
+        (keyup) = "searchUser()"
+        type="text "
+        
+        placeholder="Find learner by email or full name ">
     </div>
+
+    <div class="table-learner-managerment">
+        <!-- <label>{{userService.getAllUser()}}</label> -->
+        <app-table-learner-managerment [listUsers] = "listSearch"></app-table-learner-managerment>
+    </div>
+</div>

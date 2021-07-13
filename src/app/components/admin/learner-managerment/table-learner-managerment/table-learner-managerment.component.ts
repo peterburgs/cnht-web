@@ -26,6 +26,7 @@ export class TableLearnerManagermentComponent implements OnInit {
   isLoading: boolean = true;
   page = 1;
   pageSize = 10;
+  titleSearch = "";
    constructor(public userService: UserService) { }
  
    ngOnInit(): void {
@@ -49,6 +50,7 @@ export class TableLearnerManagermentComponent implements OnInit {
    listUserSort: User[] = [];
    getListUser(){
     this.listUserSort = this.listUsers;
+    console.log("table: "  + this.listUsers); 
    }
 
    getAllLearner(){
@@ -59,7 +61,7 @@ export class TableLearnerManagermentComponent implements OnInit {
       {
         if(users.count >0) {
           this.listUsers  = users.users;
-          this.listUserSort = this.listUsers}
+          this.listUserSort = this.listUsers.filter(user => this)}
       })
    }
 
@@ -88,12 +90,12 @@ export class TableLearnerManagermentComponent implements OnInit {
    else if(this.eSortName == SORT.INCREASE){
     
      this.isSortNameUp = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => a.fullName.localeCompare(b.fullName));
+     this.listUsers = this.listUsers.sort((a, b) => a.fullName.localeCompare(b.fullName));
     }
    
    else {
      this.isSortNameDown = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => b.fullName.localeCompare(a.fullName));
+     this.listUsers = this.listUsers.sort((a, b) => b.fullName.localeCompare(a.fullName));
 
    }
  
@@ -124,12 +126,12 @@ export class TableLearnerManagermentComponent implements OnInit {
    else if(this.eSortWallet == SORT.INCREASE){
     
      this.isSortWalletUp = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => a.balance - b.balance);
+     this.listUsers = this.listUsers.sort((a, b) => a.balance - b.balance);
     }
    
    else {
      this.isSortWalletDown = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => b.balance - a.balance);
+     this.listUsers = this.listUsers.sort((a, b) => b.balance - a.balance);
 
    }
  
@@ -161,12 +163,12 @@ export class TableLearnerManagermentComponent implements OnInit {
    else if(this.eSortEmail == SORT.INCREASE){
     
      this.isSortEmailUp = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => a.email.localeCompare(b.email));
+     this.listUsers = this.listUsers.sort((a, b) => a.email.localeCompare(b.email));
     }
    
    else {
      this.isSortEmailDown = true;
-     this.listUserSort = this.listUserSort.sort((a, b) => b.email.localeCompare(a.email));
+     this.listUsers = this.listUsers.sort((a, b) => b.email.localeCompare(a.email));
 
    }
  
