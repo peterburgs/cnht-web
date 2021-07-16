@@ -55,6 +55,7 @@ export class FullCourseService {
   isValid = true;
   idCourse: string = 'default';
   status = 100;
+  maxLecture=1;
   wayModify = ModifyType.new;
   typeSelection = VideoType.lecture;
   invokeNotifyModal = new EventEmitter();
@@ -98,7 +99,20 @@ export class FullCourseService {
     });
 
   }
-
+  getMaxLenLecture(){
+    
+    if(this.listDeepSection){
+      let maxLen=0;
+        this.listDeepSection.forEach(dummy=>{
+            if(dummy.lecture.length>maxLen){
+              maxLen= dummy.lecture.length-1;
+              this.maxLecture= maxLen;  
+            }
+        })
+        return maxLen;
+    }
+    return 1;
+  }
   getLecturesCourse() {
     return this.lectures;
   }
@@ -423,7 +437,7 @@ export class FullCourseService {
     return title;
   }
   setPositionLoading(flat:boolean,m:number, n:number){
-    this.arrLoading[m*n]=flat;
+    this.arrLoading[m*this.maxLecture +n]=flat;
     console.log(this.arrLoading);
   }
   setIdCourseSelection(idCourse: string) {
@@ -544,7 +558,8 @@ export class FullCourseService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
-            console.log(castedData.data);
+            console.log(castedData.data.course);
+            
             console.log('***', 'Upload successfully');
           }
 

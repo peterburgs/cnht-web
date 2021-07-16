@@ -74,6 +74,7 @@ import { Duration } from './util/duration.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
+import { CountdownPipe } from './components/course/full-course/course-info/count-down.pipe';
 
 
 
@@ -131,7 +132,8 @@ import { AdminGuard } from './components/guard/admin/admin-guard.guard';
     CourseLectureComponent,
     Duration,
     LoadingComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    CountdownPipe
   ],
   imports: [
     BrowserModule,
@@ -158,7 +160,7 @@ import { AdminGuard } from './components/guard/admin/admin-guard.guard';
     MatCardModule
       
   ],
-  providers: [ CurrencyPipe,AdminGuard,
+  providers: [ CurrencyPipe,AdminGuard, CountdownPipe,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

@@ -9,7 +9,7 @@
 
   <app-course-section
     *ngFor="let section of sections; let i = index" 
-    [sectionDummy]="section" [sectionIndex]="i"
+    [sectionDummy]="section" [sectionIndex]="i" [maxLecture]="maxLecture"
   ></app-course-section>
   <ul>  
     <button class="btn-create-new" (click)="onCreateSection()">
@@ -42,7 +42,7 @@
     </div>
     <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection ==0)">
       <label for="name" class="col-sm-4 col-form-label">
-        Title {{ typeSelection == 0 ? "section" : "lecture" }}</label
+         {{ typeSelection == 0 ? "section" : "lecture" }} title</label
       >
       <div  class="col-sm-9">
         <input

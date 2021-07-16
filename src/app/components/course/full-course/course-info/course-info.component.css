@@ -58,7 +58,7 @@
 }
 .btn-delete-course{
     
-    background: #f06292;
+    background: #DB4437;
     border-radius: 10px;
     margin-left: 5px;
     margin-top: none;
@@ -75,8 +75,8 @@
     border: solid 1px #ffff;
 }
 .btn-delete-course:hover{
-    color: #f06292;
-    border: solid 1px #f06292 ;
+    color: #DB4437;
+    border: solid 1px #DB4437 ;
     background: #ffff;
 }
 .btn-upload:hover{
@@ -150,14 +150,14 @@ image{
 }
 .btn-calculate{
     border-radius: 10px;
-    background: #FFC947;
+    background: #F4B400;
     color: white;
    font-weight: bold;
 }
 .btn-calculate:hover{
     background: white;
-    border: 2px solid #FFC947;
-    color: #FFC947;
+    border: 2px solid #F4B400;
+    color: #F4B400;
 }
 .icon-loading{
     color: #4EBEE1;
@@ -166,4 +166,35 @@ image{
     justify-content: center;
     align-items: center;
     
+}
+.btn-slide{
+    color: #4EBEE1;
+}
+.descript-slide{
+    margin-left: 1.5rem;
+}
+
+
+::ng-deep .mat-slide-toggle-thumb {
+    /* width: 10px !important;
+    height: 10px !important; */
+    /* transform: translate(50%, 50%); */
+}
+
+::ng-deep .mat-slide-toggle-bar {
+  background-color: #000;
+  /* border-radius: 15px !important;
+  height: 16px !important; */
+}
+
+::ng-deep .mat-slide-toggle-thumb-container {
+  /* top: -2px !important; */
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #000;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #fff;
 }

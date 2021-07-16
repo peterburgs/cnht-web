@@ -17,6 +17,7 @@ export class CourseSectionComponent implements OnInit {
   
   @Input() sectionDummy: SectionDummy = new SectionDummy("1","default",[]);
   @Input() sectionIndex: number=0;
+  @Input() maxLecture:number=1;
   arrayLoading:boolean[]=[];
   videoFile:File=new File([],'lecture-video')
   sectionTitle='';
@@ -25,6 +26,7 @@ export class CourseSectionComponent implements OnInit {
               private fullCourseService: FullCourseService) {}
   ngOnInit(): void {
     this.arrayLoading= this.fullCourseService.getArrayLoading();
+    
   }
   clickEditSection($event:any){
       this.sectionTitle=$event.target.value;

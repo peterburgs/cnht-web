@@ -23,6 +23,7 @@ export class CourseLectureComponent implements OnInit {
   @Input() lectureIndex: number =0;
   @Input() sectionIndex: number =0;
   @Input() globalLoading:boolean=false;
+  @Input() maxLecture: number=0;
   videoURL: SafeUrl='';
   files?: File;
   hasVideo=false;
@@ -43,7 +44,7 @@ export class CourseLectureComponent implements OnInit {
     this.fullCourseService.getVideoInfo(this.lecture.id).toPromise().then(response=>{
         this.timeVideo= response.video.length;
     }).catch(error=>{
-        this.timeVideo=0;
+        this.timeVideo=-1;
     })
     this.sbjLoadingDuration.subscribe(duration=>{
         if(this.fileToUpload.name != 'default')

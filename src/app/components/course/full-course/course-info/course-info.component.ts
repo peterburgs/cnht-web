@@ -35,6 +35,8 @@ export class CourseInfoComponent implements OnInit {
   fileToUpLoad: File = new File([], '_Thumbnail');
 
   sbcEstimate:Subscription = new Subscription();
+
+  isPublished=true;
   constructor(private fullCourseService: FullCourseService) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {
@@ -61,7 +63,8 @@ export class CourseInfoComponent implements OnInit {
       var reader = new FileReader();
       //update Image to UI
       reader.onload = (event: any) => {
-        this.course.thumbnailUrl = event.target.result;
+        this.course.thumbnailUrl = event.target.value;
+        console.log(event.target.result);
       };
       this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
       reader.readAsDataURL(this.fileToUpLoad);
@@ -123,5 +126,8 @@ export class CourseInfoComponent implements OnInit {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.sbcEstimate.unsubscribe();
+  }
+  onToggle($event:any){
+      this.isPublished= !this.isPublished;
   }
 }

@@ -17,6 +17,7 @@
 .info-course {
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 10px;
 }
 
 .img-course {
@@ -38,7 +39,7 @@
 }
 
 .name {
-    height: 80px;
+    height: 62px;
     overflow: hidden;
 }
 
@@ -83,4 +84,15 @@
 .icon-edit {
     width: 20px;
     height: 20px;
+}
+.course-status{
+    border-radius: 10px;
+    padding: 5px;
+    color: #FFFFFF !important;
+}
+.course-not-published{
+    background:  #DB4437;
+}
+.course-published{
+    background: #0F9D58;
 }

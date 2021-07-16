@@ -29,9 +29,9 @@ export class CourseCreationScreenComponent implements OnInit {
   arrLoading:boolean[]=[];
   sections: SectionDummy[] = [];
   videoURL: SafeUrl='';
-
+  maxLecture:number=1;
   wayModify: ModifyType = ModifyType.edit;
-
+  
   typeSelection = VideoType.lecture;
   urlVideo?: string = '../';
 
@@ -79,6 +79,7 @@ export class CourseCreationScreenComponent implements OnInit {
 
         this.isLoading = false;
         this.arrLoading= this.fullCourseService.getArrayLoading();
+        this.maxLecture=this.fullCourseService.getMaxLenLecture();
       });
     this.scbFinish=  this.fullCourseService.getSbjIsFinish().subscribe(status=>{
         if(status== 200){
@@ -215,7 +216,9 @@ export class CourseCreationScreenComponent implements OnInit {
   //Handle action user confirm
   onConfirmSave() {
     this.isLoading=true;
-    console.log(this.typeSelection);
+    console.log("*** Type modify and Way Modify")
+
+    console.log(this.typeSelection+" : "+ this.wayModify);
     if (this.typeSelection == VideoType.section) {
       if (this.wayModify == ModifyType.new) {
         if(!this.titleBinding){
@@ -307,14 +310,15 @@ export class CourseCreationScreenComponent implements OnInit {
         this.fullCourseService.onDeleteLecture().subscribe(
           (response) => {
             this.isLoading=false;
-            if (response.message == 'Delete lecture successfully') {
+          //  if (response.message == 'Delete lecture successfully') {
               this.modalService.dismissAll();
-              window.location.reload();
-            } else {
-              this.modalService.dismissAll();
-              alert("Error happen!!! try again")
-              window.location.reload();
-            }
+              this.fullCourseService.getData();
+              //window.location.reload();
+            // } else {
+            //   this.modalService.dismissAll();
+            //   alert("Error happen!!! try again")
+            //  // window.location.reload();
+            // }
           },
           (error) => {
             console.log(console.error());

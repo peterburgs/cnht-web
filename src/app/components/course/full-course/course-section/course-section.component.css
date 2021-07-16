@@ -81,7 +81,7 @@
 }
 .btn-create-new{
     width: 230px;
-    background: #548CA8;
+    background: #005A8D;
     border-radius: 10px;
     
     margin-top: 5px;
@@ -96,8 +96,8 @@
     border: solid 1px #ffff;
 }
 .btn-create-new:hover{
-    color: #548CA8;
-    border: solid 1px #548CA8 ;
+    color: #005A8D;
+    border: solid 1px #005A8D ;
     background: #ffff;
 }
 .edit-screen {
@@ -120,7 +120,7 @@
   }
   
  .title-section{
-  background: #476072;
+  background:  #4285F4;
     align-items: center;
    
  }

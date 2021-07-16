@@ -41,7 +41,8 @@
        [lecture]="item"
        [lectureIndex]="i"
         [sectionIndex]="sectionIndex"
-        [globalLoading]="arrayLoading[i * sectionIndex]"
+        [globalLoading]="arrayLoading[i*maxLecture +  sectionIndex]"
+        [maxLecture]="maxLecture"
         ></app-course-lecture>
    
       <div>
@@ -49,7 +50,7 @@
           <button  class="btn-create-new" 
           (click)="onCreateLession(sectionDummy.section_id)">
           <i class="bi bi-plus-lg icon-create"></i>
-            Create new lession
+            Create new lecture
           </button>
         </ul>  
       </div>
