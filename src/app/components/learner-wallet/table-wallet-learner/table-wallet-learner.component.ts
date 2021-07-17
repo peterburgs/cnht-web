@@ -79,7 +79,8 @@ export class TableWalletLearnerComponent implements OnInit {
       })
     )
     .toPromise().then(responseData=>{
-      this.depositHistory=responseData.depositRequests;
+      this.depositHistory=responseData.depositRequests.sort((a,b)=>{return <any>new Date(b.createdAt) - <any>new Date(a.createdAt) })
+
       this.isLoading= false;
     })
   }

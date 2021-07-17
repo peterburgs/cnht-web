@@ -48,6 +48,10 @@
     background-color: rgb(248, 156, 17);
 }
 
+.btn-comment:disabled {
+    background-color: rgb(177, 177, 177);
+}
+
 .btn-comment::after {
     background-color: rgb(250, 219, 43);
 }

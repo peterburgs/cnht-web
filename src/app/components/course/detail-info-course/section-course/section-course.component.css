@@ -59,8 +59,21 @@
 }
 
 .activeLecture {
-    background-color: rgba(183, 232, 255, 0.719);
+    background-color: #4EBEE1;
+    color: white;
     transition: 0.3s ease-in-out;
+}
+
+.activeLecture a {
+    color: white;
+}
+
+.activeLecture .time {
+    color: white !important;
+}
+
+.activeLecture i {
+    color: white;
 }
 
 .title-lecture {

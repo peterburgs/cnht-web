@@ -144,10 +144,14 @@ export class CommentComponent implements OnInit, OnChanges {
   }
 
   postComment(){
+    const commentText= this.commentInput;
+    this.commentInput='';
+
     if(this.user!=undefined){
+
       const comment: Comment= {
         id:  "",
-        commentText: this.commentInput,
+        commentText: commentText,
         parentId:"" ,
         userId: this.user.id,
         lectureId:  this.lectureId,
@@ -170,7 +174,6 @@ export class CommentComponent implements OnInit, OnChanges {
       )
       .subscribe((responseData)=>{
         console.log(responseData)
-        this.commentInput='';
         this.isCommenting= false;
         this.getCommentByLectureId();
       })

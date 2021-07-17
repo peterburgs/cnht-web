@@ -68,6 +68,8 @@ export class MylearingScreenComponent implements OnInit {
               if(course)      
               this.myCourseList.push(course);
           });
+
+          this.myCourseList= this.myCourseList.sort((a,b)=>{return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt)})
          
           this.courseAmount= this.myCourseList.length;
           this.isLoading=false;

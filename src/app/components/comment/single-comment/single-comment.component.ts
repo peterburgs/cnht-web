@@ -35,9 +35,7 @@ export class SingleCommentComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     //*check if loggedin==true, allow to comment 
-    
 
     if(localStorage.getItem('isLoggedin')=='true')
     {
@@ -50,8 +48,7 @@ export class SingleCommentComponent implements OnInit {
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');
       } 
-    }
-    
+    } 
 
     this.filterChild().subscribe(commentChild=>{
       this.commentChildList= commentChild.subComment.filter(comment=> comment.isHidden===false)
@@ -62,9 +59,12 @@ export class SingleCommentComponent implements OnInit {
   }
 
   postComment(){
+    const commentText= this.commentInput;
+    this.commentInput='';
+
     const comment: Comment= {
       id:   "",
-      commentText: this.commentInput,
+      commentText: commentText,
       parentId: this.commentParent.id,
       userId: this.learner.id ,
       lectureId:  this.lectureId,
@@ -84,16 +84,13 @@ export class SingleCommentComponent implements OnInit {
               this.successfulComment= false;
             this.isCommenting= false;
            return throwError(error)
-           this.commentInput=""
             
         })
       )
       .subscribe((responseData)=>{
         console.log(responseData)
-        this.commentInput='';
         this.isCommenting= false;
         this.commentChildList.push(comment);
-        this.commentInput=""
 
       })
 

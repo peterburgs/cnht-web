@@ -166,6 +166,8 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
   providers: [ CurrencyPipe,AdminGuard,
     CountdownPipe,Truncate, CanDeactiveGuard,
     {
+
+  
       provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
@@ -173,7 +175,9 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              key
+              key,{
+                scope: 'profile email'
+              }
             )
           }
         ]

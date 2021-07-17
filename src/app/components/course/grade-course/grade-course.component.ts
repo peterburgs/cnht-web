@@ -18,6 +18,8 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   @Input() courseType:  COURSE_TYPE = COURSE_TYPE.THEORY;
   smallCourses:Course[]=[];
   isLoading= true;
+  notFound=false;
+
   constructor(private CourseService:CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
         (error)=>{
           console.log(error)
           this.isLoading=false;
+          this.notFound=true;
          return throwError(error)
           
       })
@@ -53,6 +56,8 @@ export class GradeCourseComponent implements OnInit, OnChanges {
 
       else{
         this.smallCourses=[]
+        this.notFound=true;
+        
       }
       this.isLoading=false;
     } );

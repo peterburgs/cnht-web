@@ -76,9 +76,6 @@ export class CourseService{
               
                 params:new HttpParams().set('id',id )
             }
-        ).pipe(
-            
-            catchError(this.handleError)
         );
     }
 
@@ -109,9 +106,7 @@ export class CourseService{
             {
                 headers: headers
             }
-        ).pipe(
-            catchError(this.handleError)
-          );
+        );
      }
 
 
@@ -127,9 +122,7 @@ export class CourseService{
                 headers: headers,
                 params:new HttpParams().set('title',title).set('isHidden',false)
             }
-        ).pipe(
-            catchError(this.handleError)
-          );
+        );
     }
 
     //TODO: Get student join  in a course
@@ -143,22 +136,13 @@ export class CourseService{
             {
                 params: new HttpParams().set('courseId', courseId), headers: header
             }
-        )
-        .pipe(
-            
-            catchError(this.handleError)
         );
               
     }
 
-    
     getLectureByCourseId(courseId: string){
         return this.http
         .get<{message:string,count:number,lectures: Lecture[]}>(this.baseUrl+'/courses/'+courseId+"/lectures" 
-        )
-        .pipe(
-            
-            catchError(this.handleError)
         );
     }
 
@@ -200,7 +184,7 @@ export class CourseService{
         const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
        
         const key="RGhqHqXSZfjAiyXgzznYnHSKRvxiHBWvzLZFZTUxXhRjvqsagFwHzfXuQPWcTQALWHqGKUPBFmuLWmKavtRvBWriLgXWtCAuDrsukwgTBQfuPVOiSeWtLbNTgSjtgYtICvCzYSmxwIXGeurxyOcGlrjvcDaAIsDIBDziWipcZbBPVUlzwhnpvjPrVHghlOppHdRUxctaGRUcBQXUJutPBhNSzebikzpytuIADtOEswqcJxZsBvkwvDayDXrofHfpxOrYzTXLSvZTkXodWNimYNiTAlFywOcRFMFSaNYOQAsxsHiDFxnvwFHkwMivNjJqAalJaUqmUDHkrWnGWnPLEZogCTwQSbnTEZIIZEHoCdxWftJaddNbreSHUVlPhLTWSAcmdwkgCDASTRLGjClarTYPmTZppYyKJcCmQyKmmFFFvhFsSZevKWKCGcQVUmnbPKiIXGQWyUieQZEgBhqlJhbKkzmMoWZPzsioovcdmKBQNRRHKfBtnaROdYhrXaeA="+token;
-       const URL= this.baseUrl+`/lectures/${lectureId}/video/streaming?${key}`
+          const URL= this.baseUrl+`/lectures/${lectureId}/video/streaming?${key}`
         return this.http
         .get<{message:string,signedUrl:string}>(URL)
        
