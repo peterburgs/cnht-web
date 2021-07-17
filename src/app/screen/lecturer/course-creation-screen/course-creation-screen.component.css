@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+          
+
 :root {
   --btn-blue: #548CA8;
   --section-title:#292b2c;
@@ -23,8 +26,8 @@
     padding: 10px;
 }
 .btn-create-new:hover{
-    color: var(--btn-blue);
-    border: solid 1px #4EBEE1 ;
+    color: #548CA8;
+    border: solid 1px #548CA8 ;
     background: #ffff;
 }
 .div-save{

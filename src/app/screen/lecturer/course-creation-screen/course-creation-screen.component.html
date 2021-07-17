@@ -13,7 +13,7 @@
   ></app-course-section>
   <ul>  
     <button class="btn-create-new" (click)="onCreateSection()">
-      <i class="bi bi-plus-lg icon-create icon-create"></i>  Create new Section
+      <i class="bi bi-plus-lg icon-create icon-create"></i>  Create new section
     </button>
   </ul>
   <br/>
@@ -59,7 +59,7 @@
   <div class="modal-footer remove-border">
     <button
       type="button"
-      class="btn btn-light"
+      class="btn btn-danger"
       (click)="modal.close('Close click')"
     >
       Cancel
@@ -73,6 +73,18 @@
     </button>
   </div>
 </ng-template>
-
 <app-loading [isLoading]="isLoading"></app-loading>
-
+<ng-template #error_happen let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title section-title">Error happen</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body ">
+    <p class="custome-dialog-title">{{errorMessage}}&hellip;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

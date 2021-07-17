@@ -14,12 +14,10 @@ import { VideoType } from 'src/app/models/VideoType.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Course } from 'src/app/models/course.model';
 import { Lecture } from 'src/app/models/lecture.model';
-
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
-
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -38,26 +36,28 @@ export class FullCourseService {
   private lectures: Lecture[] = [];
   private courses: Course[] = [];
   private listDeepSection: SectionDummy[] = [];
- 
-  private authHeader = new HttpHeaders();
+
+  // private authHeader = new HttpHeaders();
   private idToken = localStorage.getItem('token');
   private arrLoading: boolean[]=[];
 
   private baseURL =
-  'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
+    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
   private apiUrlCourse = this.baseURL + 'courses';
   private apiUrlSection = this.baseURL + 'sections';
   private apiUrlLecture = this.baseURL + 'lectures';
   //================================= Initial =========================
   //save edit Modal in screen
-  itemIndex=0;
+  errorMessage = 'Server error. Try again!!!';
+  itemIndex = 0;
   idItem: string = 'default';
   isValid = true;
   idCourse: string = 'default';
   status = 100;
-  maxLecture=1;
+  maxLecture = 1;
   wayModify = ModifyType.new;
   typeSelection = VideoType.lecture;
+  stateUploadMedia = true;
   invokeNotifyModal = new EventEmitter();
   invokeValidModal = new EventEmitter();
   subsEdit?: Subscription;
@@ -71,21 +71,25 @@ export class FullCourseService {
   sbjSectionDummy = new Subject<SectionDummy[]>();
   sbjCreateCourse = new Subject<Course>();
   sbjStatus = new Subject<number>();
+  sbjUploadMediaSuccessful = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) {
     this.idToken = localStorage.getItem('token');
     // this.initCourses();
-    this.authHeader.append('Content-Type', 'application/json');
-    this.authHeader.append('Authorization', 'Bearer ' + this.idToken);
+    // this.authHeader.append('Content-Type', 'application/json');
+    // this.authHeader.append('Authorization', 'Bearer ' + this.idToken);
 
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer' + this.idToken,
-    });
+    // this.headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: 'Bearer' + this.idToken,
+    // });
   }
 
   //================================= GET =========================
+  /**
+   * Get info course current selection
+   */
   setCourseSelection() {
     console.log(this.idCourse);
     console.log(this.courses);
@@ -93,23 +97,24 @@ export class FullCourseService {
       console.log(mCourse.id);
       if (mCourse.id == this.idCourse) {
         console.log(mCourse);
-        console.log('thaoooo');
         this.course = mCourse;
       }
-    });
-
+    });   
   }
-  getMaxLenLecture(){
-    
-    if(this.listDeepSection){
-      let maxLen=0;
-        this.listDeepSection.forEach(dummy=>{
-            if(dummy.lecture.length>maxLen){
-              maxLen= dummy.lecture.length-1;
-              this.maxLecture= maxLen;  
-            }
-        })
-        return maxLen;
+  /**
+   *
+   * @returns Max lenght of lecture in all section
+   */
+  getMaxLenLecture() {
+    if (this.listDeepSection) {
+      let maxLen = 0;
+      this.listDeepSection.forEach((dummy) => {
+        if (dummy.lecture.length > maxLen) {
+          maxLen = dummy.lecture.length;
+          this.maxLecture = maxLen;
+        }
+      });
+      return maxLen;
     }
     return 1;
   }
@@ -129,6 +134,11 @@ export class FullCourseService {
       (lecture: Lecture) => lecture.id == this.idItem
     )[0];
   }
+  /**
+   *
+   * @param lectureId
+   * @returns Info of video (main function to get length of this video)
+   */
   getVideoInfo(lectureId: string) {
     let urlGetVideo = this.baseURL + 'lectures/' + lectureId + '/video';
     console.log(urlGetVideo);
@@ -136,21 +146,6 @@ export class FullCourseService {
       urlGetVideo,
       httpOptions
     );
-  }
-  setItemIndex(index:number){
-    this.itemIndex=index;
-  }
-  setVideoDuration(duration: number) {
-    let urlUpdateVideo =
-      this.baseURL + 'lectures/' + this.idItem + '/video/length';
-    return this.http.put<{ message: string; count: number; video: Video }>(
-      urlUpdateVideo,
-      { length: duration },
-      httpOptions
-    );
-  }
-  setCourses(listCourse: Course[]) {
-    this.courses = listCourse;
   }
   getSectionSelection() {
     console.log('section ID' + this.idItem);
@@ -171,11 +166,46 @@ export class FullCourseService {
   getSbjIsFinish() {
     return this.sbjStatus.asObservable();
   }
-  getEstimatedCoursePricing(){
-    let urlEstimated=this.baseURL+"courses/"+this.course.id+"/pricing"
-    return this.http.get<{message: String, price: number}>(urlEstimated,httpOptions);
+  getSbjUploadMediaState() {
+    return this.sbjUploadMediaSuccessful.asObservable();
   }
+  getEstimatedCoursePricing() {
+    let urlEstimated = this.baseURL + 'courses/' + this.course.id + '/pricing';
+    return this.http.get<{ message: String; price: number }>(
+      urlEstimated,
+      httpOptions
+    );
+  }
+  getErrorMessage() {
+    return this.errorMessage;
+  }
+
   //================================= SET =========================
+  /**
+   *  Set index of current lecture selection
+   * @param index index of lecture in matrix [sections, []section.lectures]
+   */
+  setItemIndex(index: number) {
+    this.itemIndex = index;
+  }
+  /**
+   *
+   * @param duration Duration of video of lecture
+   * @returns
+   */
+  setVideoDuration(duration: number) {
+    let urlUpdateVideo =
+      this.baseURL + 'lectures/' + this.idItem + '/video/length';
+    return this.http.put<{ message: string; count: number; video: Video }>(
+      urlUpdateVideo,
+      { length: duration },
+      httpOptions
+    );
+  }
+  setCourses(listCourse: Course[]) {
+    this.courses = listCourse;
+  }
+
   setIsValid(flat: boolean) {
     this.isValid = flat;
   }
@@ -203,101 +233,149 @@ export class FullCourseService {
   onNotifyContent() {
     this.invokeNotifyModal.emit();
   }
-
   onValidateInput() {
     this.invokeValidModal.emit();
   }
   onUpSection() {
-    
-    let urlUpSection=this.baseURL+"sections/"+ this.idItem+ "/up"
-    return this.http.put<{message:string}>(urlUpSection, {} ,httpOptions);
+    if (this.sections[0].id == this.idItem) {
+      this.status = 201;
+      this.sbjStatus.next(this.status);
+      return;
+    }
+    let urlUpSection = this.baseURL + 'sections/' + this.idItem + '/up';
+    console.log('*** Up lection ' + urlUpSection);
+    this.http.put<{ message: string }>(urlUpSection, {}, httpOptions).subscribe(
+      (response) => {
+        this.status = 200;
+        this.sbjStatus.next(this.status);
+        return;
+      },
+      (error) => {
+        this.status = 500;
+        this.sbjStatus.next(this.status);
+        this.errorMessage = error.errorMessage;
+        return;
+      }
+    );
   }
   onDownSection() {
-    let urlDownSection=this.baseURL+"sections/"+ this.idItem+ "/down"
-    return this.http.put<{message:StringConstructor}>(urlDownSection,{} ,httpOptions);
-
-  }
-  onUpLecture() {
-    
-    let urlUpLecture=this.baseURL+"lectures/"+this.idItem+"/up";
-    let lectureUp: Lecture = this.getLectureSelection();
-    let sectionId = "0";
-    if( this.listDeepSection[0].lecture.length>0 && 
-        this.listDeepSection[0].lecture[0].id == lectureUp.id){
+    if (this.sections[this.sections.length - 1].id == this.idItem) {
+      this.status = 201;
+      this.sbjStatus.next(this.status);
+      return;
+    }
+    let urlDownSection = this.baseURL + 'sections/' + this.idItem + '/down';
+    this.http
+      .put<{ message: StringConstructor }>(urlDownSection, {}, httpOptions)
+      .subscribe(
+        (response) => {
           this.status = 200;
           this.sbjStatus.next(this.status);
-          return;
+        },
+        (error) => {
+          this.status = 500;
+          this.sbjStatus.next(this.status);
+          this.errorMessage = error.errorMessage;
         }
-    for(let i=0; i< this.listDeepSection.length;i++){
-      if(this.listDeepSection[i].section_id== lectureUp.sectionId){
-     
-          if(this.listDeepSection[i].lecture[0].id == lectureUp.id ){
-            sectionId= this.listDeepSection[i-1].section_id;
-          }
-          else
-          {
-            sectionId= lectureUp.sectionId;
-          }
+      );
+  }
+  onUpLecture() {
+    let urlUpLecture = this.baseURL + 'lectures/' + this.idItem + '/up';
+    let lectureUp: Lecture = this.getLectureSelection();
+    let sectionId = '0';
+    if (
+      this.listDeepSection[0].lecture.length > 0 &&
+      this.listDeepSection[0].lecture[0].id == lectureUp.id
+    ) {
+      this.status = 201;
+      this.sbjStatus.next(this.status);
+      return;
+    }
+    for (let i = 0; i < this.listDeepSection.length; i++) {
+      if (this.listDeepSection[i].section_id == lectureUp.sectionId) {
+        if (this.listDeepSection[i].lecture[0].id == lectureUp.id) {
+          sectionId = this.listDeepSection[i - 1].section_id;
+        } else {
+          sectionId = lectureUp.sectionId;
+        }
       }
     }
 
-    this.http.put<{ message: StringConstructor}>(
-      urlUpLecture,
-      {
-        sectionId: sectionId,
-      },
-      httpOptions
-    ).toPromise().then(response=>{
-      this.status = 200;
-      this.sbjStatus.next(this.status);
-      return;
-    }).catch(error=>{
-      this.status = 500;
-      this.sbjStatus.next(this.status);
-      return;
-    })
-    
+    this.http
+      .put<{ message: StringConstructor }>(
+        urlUpLecture,
+        {
+          sectionId: sectionId,
+        },
+        httpOptions
+      )
+      .toPromise()
+      .then((response) => {
+        this.status = 200;
+        this.sbjStatus.next(this.status);
+        return;
+      })
+      .catch((error) => {
+        this.status = 500;
+        this.sbjStatus.next(this.status);
+        return;
+      });
   }
 
   onDownLecture() {
-
-    let urlDownLecture=this.baseURL+"lectures/"+this.idItem+"/down";
+    let urlDownLecture = this.baseURL + 'lectures/' + this.idItem + '/downs';
     let lectureDown: Lecture = this.getLectureSelection();
-    let sectionId = "0";
-    for(let i=0; i< this.listDeepSection.length; i++){
-        if(this.listDeepSection[i].section_id== lectureDown.sectionId ){
-          if(i == (this.listDeepSection.length-1) && 
-          this.itemIndex == (this.listDeepSection[i].lecture.length-1))
-          { 
-            this.status = 200;
-            this.sbjStatus.next(this.status);
-            return;
-          } 
-          else if (this.itemIndex == (this.listDeepSection[i].lecture.length-1))
-          {
-            sectionId= this.listDeepSection[i+1].section_id;
-          }
-          else {
-            sectionId= this.listDeepSection[i].section_id;
-          }
+    let sectionId = '0';
+    for (let i = 0; i < this.listDeepSection.length; i++) {
+      if (this.listDeepSection[i].section_id == lectureDown.sectionId) {
+        if (
+          i == this.listDeepSection.length - 1 &&
+          this.itemIndex == this.listDeepSection[i].lecture.length - 1
+        ) {
+          this.status = 201;
+          this.sbjStatus.next(this.status);
+          return;
+        } else if (
+          this.itemIndex ==
+          this.listDeepSection[i].lecture.length - 1
+        ) {
+          sectionId = this.listDeepSection[i + 1].section_id;
+        } else {
+          sectionId = this.listDeepSection[i].section_id;
         }
+      }
     }
-    this.http.put<{ message: string}>(
-      urlDownLecture,
-      {
-        sectionId: sectionId,
-      },
-      httpOptions
-    ).toPromise().then(response=>{
-      this.status = 200;
-      this.sbjStatus.next(this.status);
-      return;
-    }).catch(error=>{
-      this.status = 500;
-      this.sbjStatus.next(this.status);
-      return;
-    })
-    
+    this.http
+      .put<{ message: string }>(
+        urlDownLecture,
+        {
+          sectionId: sectionId,
+        },
+        httpOptions
+      )
+      .toPromise()
+      .then((response) => {
+        this.status = 200;
+        this.sbjStatus.next(this.status);
+        return;
+      })
+      .catch((error) => {
+        this.handleErrorMessage(error);
+        this.status = 500;
+        this.sbjStatus.next(this.status);
+        return;
+      });
+  }
+  handleErrorMessage(error: any) {
+    if (error.status == 404) {
+      this.errorMessage = '404: Server not found!!! Try again';
+    } else if (error.status == 500) {
+      this.errorMessage = '500: Something wrong happen!!! Try again';
+    } else if (error.status == 401) {
+      this.errorMessage = 'Session expired. Please log in again';
+    } else {
+      this.errorMessage = 'Something wrong happen!!! Try again';
+    }
   }
 
   //================ HTTP ===============
@@ -307,7 +385,6 @@ export class FullCourseService {
     return this.http.get<{ message: string; count: number; courses: Course[] }>(
       this.apiUrlCourse
     );
- 
   }
   getCourses() {
     return this.courses;
@@ -347,7 +424,7 @@ export class FullCourseService {
           .toPromise()
           .then((response) => {
             this.lectures = response.lectures;
-    
+
             this.sections.forEach((section) => {
               //Get lecture in each section, and sort by order
               let tmpLectures: Lecture[] = [];
@@ -365,12 +442,20 @@ export class FullCourseService {
                 new SectionDummy(section.id, section.title, tmpLectures)
               );
             });
+            this.getMaxLenLecture();
             //Set up array loading for button upload video
-            for(let i=0; i< this.sections.length; i++){
-              for(let j=0; j< this.lectures.length; j++){
-                  this.arrLoading.push(false);
+            let lenSection = this.sections.length;
+            let maxLecture = this.maxLecture;
+           
+            for (let i = 0; i < lenSection; i++) {
+             
+              for (let j = 0; j <  maxLecture ; j++) {
+                this.arrLoading.push(false);
               }
             }
+            //For check is successfull process
+              console.log(this.listDeepSection);
+            //Notify get all data finish
             this.sbjSectionDummy.next(this.listDeepSection);
           })
           .catch((error) => {
@@ -388,13 +473,12 @@ export class FullCourseService {
             this.sbjSectionDummy.next(this.listDeepSection);
           });
       })
-      .catch((error) => { 
-           //Some case, doesn't have any section in section, it was be regconized to error
+      .catch((error) => {
+        //Some case, doesn't have any section in section, it was be regconized to error
         this.sbjSectionDummy.next(this.listDeepSection);
       });
-
   }
-  getArrayLoading(){
+  getArrayLoading() {
     return this.arrLoading;
   }
   getLectures(): Observable<Lecture[]> {
@@ -435,9 +519,9 @@ export class FullCourseService {
       });
     }
     return title;
-  }
-  setPositionLoading(flat:boolean,m:number, n:number){
-    this.arrLoading[m*this.maxLecture +n]=flat;
+  } 
+  setPositionLoading(flat: boolean, m: number, n: number) {
+    this.arrLoading[m*this.maxLecture +n] = flat;
     console.log(this.arrLoading);
   }
   setIdCourseSelection(idCourse: string) {
@@ -456,14 +540,15 @@ export class FullCourseService {
     this.course.thumbnailUrl = course.thumbnailUrl;
   }
 
-
   handleCreateLecture(title: string) {
     let tmpLecture = new Lecture();
     tmpLecture.title = title;
     tmpLecture.sectionId = this.getSectionSelection()[0].id;
+    console.log("*** Get section ID")
+    console.log(tmpLecture.sectionId);
     tmpLecture.isHidden = false;
-   
-    return this.onCreateLecture(tmpLecture);
+
+    this.onCreateLecture(tmpLecture);
   }
   handleEditTitleLecture(title: string) {
     var tmpLecturer = this.getLectureSelection();
@@ -491,15 +576,15 @@ export class FullCourseService {
     }
     console.log('Section new');
     console.log(tmpSection);
-    return this.onCreateSection(tmpSection);
+    this.onCreateSection(tmpSection);
   }
 
   handleUpdateWithThumbnail(file: File) {
-
-    let url = this.baseURL + '/thumbnail/' + this.course.id;
-    this.http.post(url, file).subscribe((response) => {
-      console.log('response');
-    });
+    // let url = this.baseURL + '/thumbnail/' + this.course.id;
+    // let url = this.baseURL+"courses/" + this.course.id + '/thumbnail/' ;
+    // this.http.post(url, file).subscribe((response) => {
+    //   console.log('response');
+    // });
 
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
@@ -559,7 +644,7 @@ export class FullCourseService {
           };
           if (castedData.status === 201) {
             console.log(castedData.data.course);
-            
+
             console.log('***', 'Upload successfully');
           }
 
@@ -572,8 +657,12 @@ export class FullCourseService {
 
     sendNext();
   }
-  handleUpdateWithVideo(file: File, duration: number, 
-    sectionIndex:number, lectureIndex:number) {
+  handleUpdateWithVideo(
+    file: File,
+    duration: number,
+    sectionIndex: number,
+    lectureIndex: number
+  ) {
     console.log('hi');
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
@@ -613,6 +702,8 @@ export class FullCourseService {
         xhr.onerror = reject;
 
         xhr.send(chunk);
+      }).catch((error) => {
+        console.log('*** Error happen');
       });
     };
 
@@ -625,7 +716,12 @@ export class FullCourseService {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
           },
           (error) => {
-            console.log(error.message);
+            this.setPositionLoading(false, sectionIndex, lectureIndex);
+
+            // this.stateUploadMedia =false;
+            // this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
+            // console.log("Error 1");
+            // console.log(error.message);
           }
         );
         return;
@@ -647,7 +743,12 @@ export class FullCourseService {
                 this.setPositionLoading(false, sectionIndex, lectureIndex);
               },
               (error) => {
-                console.log(error.message);
+                // console.log(error.message);
+                // this.setPositionLoading(false,sectionIndex, lectureIndex);
+                // this.stateUploadMedia =false;
+                // this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
+                // console.log("Error 2");
+                // console.log(error.message);
               }
             );
           }
@@ -656,6 +757,7 @@ export class FullCourseService {
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
+          //this.setPositionLoading(false,sectionIndex, lectureIndex);
         });
     };
     sendNext();
@@ -681,9 +783,7 @@ export class FullCourseService {
     this.lectures = [];
     return this.onCreateCourse(this.course);
   }
-  onSaveSection(
-    section: Section
-  ): Observable<{ message: String; count: Number; section: Section }> {
+  onSaveSection(section: Section) {
     console.log('Save section ');
     console.log(section);
     const url = `${this.apiUrlSection}/${section.id}`;
@@ -698,11 +798,9 @@ export class FullCourseService {
       },
       httpOptions
     );
-   
   }
 
   onSaveLecture(lecture: Lecture) {
-
     console.log('Save lecturer ');
     console.log(lecture);
     const url = `${this.apiUrlLecture}/${lecture.id}`;
@@ -721,10 +819,10 @@ export class FullCourseService {
       },
       httpOptions
     );
-    
   }
   onSaveCourse() {
-   
+    console.log('*** Save course');
+    console.log(this.course);
     const url = `${this.apiUrlCourse}/${this.course.id}`;
 
     return this.http.put<{ message: String; count: Number; course: Course }>(
@@ -744,43 +842,78 @@ export class FullCourseService {
   }
   onDeleteSection() {
     const url = `${this.apiUrlSection}/${this.idItem}`;
-    return this.http.delete<{ message: any }>(url, httpOptions);
-
+    return this.http.delete<{ message: any }>(url, httpOptions).subscribe(
+      (response) => {
+        this.status = 200;
+        this.sbjStatus.next(this.status);
+        return;
+      },
+      (error) => {
+        this.status = 500;
+        this.sbjStatus.next(this.status);
+        this.errorMessage = error.errorMessage;
+        return;
+      }
+    );
   }
   onDeleteCourse() {
     const url = `${this.apiUrlCourse}/${this.idCourse}`;
     return this.http.delete<{ message: string }>(url, httpOptions);
-   
   }
   onDeleteLecture() {
     const url = `${this.apiUrlLecture}/${this.idItem}`;
-    return this.http.delete<{ message: string }>(url, httpOptions);
-  
+    this.http.delete<{ message: string }>(url, httpOptions).subscribe(
+      (response) => {
+        this.status = 200;
+        this.sbjStatus.next(this.status);
+        return;
+      },
+      (error) => {
+        this.status = 500;
+        this.sbjStatus.next(this.status);
+        this.errorMessage = error.errorMessage;
+        return;
+      }
+    );
   }
   onCreateSection(section: Section) {
+    console.log('*** Create section');
+    console.log(section);
     this.sbjCreateCourse.next(this.course);
-    return this.http.post<{ message: String; count: Number; section: Section }>(
-      this.apiUrlSection,
-      {
-        title: section.title,
-        courseId: section.courseId,
-        sectionOrder: section.sectionOrder,
-        isHidden: section.isHidden,
-        createdAt: section.createdAt,
-        updatedAt: section.updatedAt,
-      },
-      httpOptions
-    );
-
+    this.http
+      .post<{ message: String; count: Number; section: Section }>(
+        this.apiUrlSection,
+        {
+          title: section.title,
+          courseId: section.courseId,
+          sectionOrder: section.sectionOrder,
+          isHidden: section.isHidden,
+        },
+        httpOptions
+      )
+      .subscribe(
+        (response) => {
+         
+          this.status = 200;
+          this.sbjStatus.next(this.status);
+          return;
+        },
+        (error) => {
+          this.status = 500;
+          this.sbjStatus.next(this.status);
+          this.errorMessage = error.errorMessage;
+          return;
+        }
+      );
   }
 
   onCreateCourse(course: Course) {
-    console.log('Create course ' + course.title);
+    console.log('*** create course');
     //Course default
     let courseDefault: Course = {
       id: '',
-      title: 'Default title',
-      courseDescription: 'description for this course',
+      title: 'New course',
+      courseDescription: 'All you need to  pass your curriculum',
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
@@ -821,21 +954,61 @@ export class FullCourseService {
       });
   }
   onCreateLecture(lecture: Lecture) {
+    console.log('*** create lecture');
+    console.log(lecture);
+    return this.http
+      .post<{ message: String; count: Number; lecture: Lecture }>(
+        this.apiUrlLecture,
+        {
+          courseId: this.idCourse,
+          title: lecture.title,
+          sectionId: lecture.sectionId,
+          lectureOrder: lecture.lectureOrder,
+        },
+        httpOptions
+      )
+      .subscribe(
+        (response) => {
+          // this.lectures.push(response.lecture);
+          // //Update int List Section Dummy
+          // for (let i = 0; i < this.listDeepSection.length; i++) {
+          //   if (
+          //     this.listDeepSection[i].section_id == response.lecture.sectionId
+          //   ) {
+          //     this.listDeepSection[i].lecture.push(response.lecture);
+          //     if (
+          //       this.listDeepSection[i].lecture.length >
+          //       this.maxLecture
+          //     ) {
+          //       this.maxLecture = this.listDeepSection[i].lecture.length ;
+          //       this.arrLoading = [];
+          //       //Set up array loading for button upload video
+          //       let lenSection = this.sections.length;
+          //       let maxLecture = this.maxLecture;
+          //       for (let i = 0; i < lenSection; i++) {
+          //         for (let j = 0; j <  maxLecture ; j++) {
+          //           this.arrLoading.push(false);
+          //         }
+          //       }
+          //       console.log(this.arrLoading);
+          //     }
+          //   }
+          // }
+          //Update in lectures
 
-    return this.http.post<{ message: String; count: Number; lecture: Lecture }>(
-      this.apiUrlLecture,
-      {
-        courseId: this.idCourse,
-        title: lecture.title,
-        sectionId: lecture.sectionId,
-        lectureOrder: lecture.lectureOrder,
-      },
-      httpOptions
-    );
-  
+          this.status = 200;
+          this.sbjStatus.next(this.status);
+          return;
+        },
+        (error) => {
+          this.status = 500;
+          this.sbjStatus.next(this.status);
+          this.errorMessage = error.errorMessage;
+          return;
+        }
+      );
   }
   //=============== Create HTTP===================
 
   //================ Mockup data ==================
-  
 }

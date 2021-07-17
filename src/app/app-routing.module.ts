@@ -15,11 +15,12 @@ import { LearnerManagermentComponent } from './components/admin/learner-managerm
 import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component';
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
+import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 
 
 
 const routes: Routes = [
-  { path: 'admin/course/:id', component: CourseCreationScreenComponent, canActivate:[AdminGuard] },
+  { path: 'admin/course/:id', component: CourseCreationScreenComponent, canActivate:[AdminGuard], canDeactivate:[CanDeactiveGuard] },
  
   {path:'admin/home', component:AdminCourseScreenComponent, canActivate:[AdminGuard]},
   

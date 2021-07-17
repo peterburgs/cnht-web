@@ -2,11 +2,11 @@
     <div class="p-2 item-edit edit-image">
       <div class="emty-thumbnail">
         <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course empty-thumbnail">
-     
+            <img *ngIf="tmpImage" class="image-course" [src]="tmpImage" alt="alt-image">
         </div>
         <img *ngIf="course.thumbnailUrl" name="thumbnailUrl" class="image-course"
 
-        [src]="'https://us-central1-supple-craft-318515.cloudfunctions.net/app'+course.thumbnailUrl"
+        [src]="baseURL+course.thumbnailUrl"
         id="thumbnailUrl"  
         alt="img-course">
       </div>  
@@ -99,11 +99,11 @@
         
           </div>
          <div class="mb-3 row">
-           <div class="col-sm-2">Published</div>
+           <div class="col-sm-2 col-form-label">Published</div>
            <div class="col-sm-10  ">
-             <mat-slide-toggle (change)="onToggle($event)" [checked]="isPublished"  ></mat-slide-toggle>
-             <span  class="descript-slide" *ngIf="isPublished">Learn can view this course</span>
-             <span class="descript-slide des" *ngIf="!isPublished">Learn can't view this course</span>
+             <mat-slide-toggle [checked]="!course.isHidden" (change) ="onPublishedCourse($event)" color="primary"  ></mat-slide-toggle>
+             <span  class="descript-slide published" *ngIf="!course.isHidden" >Learn can view this course</span>
+             <span class="descript-slide not-published" *ngIf="course.isHidden">Learn can't view this course</span>
            </div>
          </div>
           <div class="mb-3 row ">

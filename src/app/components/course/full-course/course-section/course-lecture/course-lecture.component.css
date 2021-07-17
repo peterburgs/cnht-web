@@ -104,3 +104,7 @@
   .outline-delete{
     border: 2px #dc3545 solid;
   }
+  .contain-video-time{
+      text-align: center;
+      font-size: 16px   ;
+  }

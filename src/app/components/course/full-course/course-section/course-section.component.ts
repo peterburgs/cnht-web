@@ -52,7 +52,7 @@ export class CourseSectionComponent implements OnInit {
     this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.delete);
     this.fullCourseService.onNotifyContent();
   }
-  onCreateLession(idSection:string){
+  onCreateLecture(idSection:string){
 
     console.log(idSection);
     this.fullCourseService.setSelection(idSection, VideoType.lecture, ModifyType.new);

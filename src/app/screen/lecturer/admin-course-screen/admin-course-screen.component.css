@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+          
 .home-screen {
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-bottom: 20vh;
 }
 
@@ -45,6 +49,7 @@
 }
 .div-loading{
     display: flex;
+    padding: 1rem;
 }
 /* Loading animation */
 /* .div-full-screen{
