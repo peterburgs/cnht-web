@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {SocialAuthService, SocialUser, GoogleLoginProvider} from 'angularx-social-login'
 import {  authenticationService } from 'src/app/service/authentication.service';
+import { Timer } from 'src/app/service/timer.service';
 
 @Component({
   selector: 'app-login-screen',
@@ -15,11 +16,15 @@ export class LoginScreenComponent implements OnInit {
   isLoggedin: boolean= false;  
   isLoading: boolean= false;
   isAdmin=false;
+  timeLeft: number = 10;
+  interval :any;
+
   constructor( 
     public socialAuthService: SocialAuthService,
     public route: Router,
     private activeRouter: ActivatedRoute,
-    public authService: authenticationService) { }
+    public authService: authenticationService,
+    private timer: Timer) { }
 
   ngOnInit(): void {
 
@@ -35,17 +40,18 @@ export class LoginScreenComponent implements OnInit {
     //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
+
       //if user !=null, it is log in, else log out
       this.isLoggedin = (user != null);
       console.log(this.socialAuthService.authState);
+      
       if(this.isLoggedin){
         console.log(this.socialUser);
         this.isLoading=true;
         //authenticate on server
         this.authService.signIn(this.socialUser,this.isAdmin)
         .subscribe(responseData=>{
-          
-            console.log(responseData);
+          this.timer.startTimer(3540);
             this.authService.storeUser(responseData.user,responseData.token);
             this.authService.loggedIn=true;
             this.authService.logger.next(this.authService.loggedIn);
@@ -62,8 +68,8 @@ export class LoginScreenComponent implements OnInit {
     });
   }
 
-  loginWithGoogle(): void {
-     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  loginWithGoogle(): void {  
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     
   }
 
@@ -73,6 +79,5 @@ export class LoginScreenComponent implements OnInit {
     this.route.navigate(['/admin/home']);
    
   }
-
 
 }

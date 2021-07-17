@@ -1,20 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-          
 .filter-button {
-/*    
+    /*    
 
     justify-content: space-evenly;
     padding-top: 30px;
     padding-bottom: 10px; */
-
     margin-top: 20px;
     display: inline-block;
     text-align: center;
     margin-bottom: 40px;
-  
-
 }
-
 
 .home-screen {
     margin-top: 50px;
@@ -22,7 +17,7 @@
     /* width: 100vw; */
 }
 
-.card{
+.card {
     display: block;
     cursor: pointer;
     height: 30px;
@@ -39,19 +34,16 @@
     background-color: #DC3545;
 }
 
-.card:hover{
-    box-shadow:1px 1px 1px #DC3545;
+.card:hover {
+    box-shadow: 1px 1px 1px #DC3545;
 }
 
-.card{
+.card {
     background-color: #DC3545;
 }
 
-
-
-.empty-block{
+.empty-block {
     height: 50px;
     /* background-color: #f4f4f9; */
     text-align: center;
 }
-

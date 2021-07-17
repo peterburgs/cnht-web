@@ -1,6 +1,5 @@
 <div class="card">
-    <img class="img-fluid img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" 
-    alt="" routerLink="/detail/{{course.id}}" style="cursor: pointer;">
+    <img class="img-fluid img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="" routerLink="/detail/{{course.id}}" style="cursor: pointer;">
     <div class="info-course">
         <div class="name">
             <a routerLink="/detail/{{course.id}}" class="course-name">{{course.title |shorten}}</a>
@@ -8,13 +7,13 @@
         </div>
 
         <div *ngIf="!isLearner" class="users-count" style="cursor: pointer;" (click)="onEditCourse(course.id)">
-           <span *ngIf="course.isHidden" class="course-status course-not-published "> Not published</span> 
-           <span  *ngIf="!course.isHidden" class="course-status course-published">Published</span>
+            <span *ngIf="course.isHidden" class="course-status course-not-published "> Not published</span>
+            <span *ngIf="!course.isHidden" class="course-status course-published">Published</span>
             <span class="info-course more-info">Update on: {{course.updatedAt |date:'yyyy-MM-dd'}}</span>
             <i class="bi bi-pencil-square" style="color: #858585;"></i>
         </div>
         <div *ngIf="isLearner" class="users-count" style="cursor: pointer;">
-            <span class="info-course more-info">Purchase on: {{course.updatedAt |date:'yyyy-MM-dd'}}</span>
+            <span class="info-course more-info">Purchase on: {{course.purchasedAt |date:'yyyy-MM-dd'}}</span>
         </div>
     </div>
 </div>

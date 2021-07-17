@@ -65,9 +65,17 @@ export class MylearingScreenComponent implements OnInit {
           
           enrollmentData.enrollments.forEach(enrollment => {
               let course=courseData.courses.find(course => course.id === enrollment.courseId);
-              if(course)      
-              this.myCourseList.push(course);
+              
+              if(course) 
+              {
+                course.purchasedAt= enrollment.createdAt;
+                if(!this.myCourseList.includes(course))
+                this.myCourseList.push(course);
+              }     
+              
           });
+
+          this.myCourseList= this.myCourseList.sort((a,b)=>{return <any>new Date(b.purchasedAt?b.purchasedAt:b.createdAt) - <any>new Date(a.purchasedAt?a.purchasedAt:a.updatedAt)})
          
           this.courseAmount= this.myCourseList.length;
           this.isLoading=false;

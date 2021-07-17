@@ -7,6 +7,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/models/user.model';
 import { catchError } from 'rxjs/operators';
+import { authenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-course-learning-screen',
@@ -32,7 +33,8 @@ export class CourseLearningScreenComponent implements OnInit {
     private courseService:CourseService,
     private _sanitizer: DomSanitizer,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authenService: authenticationService
     ) {}
 
   ngOnInit(): void {
@@ -64,9 +66,6 @@ export class CourseLearningScreenComponent implements OnInit {
       this.courseId.subscribe(id=>{
         this.courseService.getCourseById(id).subscribe(course=>{this.current_course= course.courses[0]})
       })
-
-      //TODO: GET VIDEO OF LECTURE
-      
       
     }
     else{

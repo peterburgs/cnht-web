@@ -38,7 +38,7 @@
                 <div class="media-body">
                     <form (submit)="postComment()">
                         <input class="form-control comment-text" type="text" name="comment-in" placeholder="Write your comment ..." [(ngModel)]="commentInput">
-                        <button type="submit" class=" btn-comment">Post</button>
+                        <button type="submit" [disabled]="commentInput==''" class=" btn-comment">Post</button>
                     </form>
                 </div>
             </div>

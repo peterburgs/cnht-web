@@ -12,6 +12,7 @@
             <div></div>
             <div></div>
         </div>
+        <h3 class="not-found" *ngIf="notFound">This feature is being developed!</h3>
         <app-small-course class="pull-right" *ngFor="let item of smallCourses" [course]="item"></app-small-course>
     </div>
 

@@ -55,12 +55,30 @@
     padding: 0px 20px;
     color: rgb(46, 46, 46);
     border-bottom: 1px rgb(235, 235, 235) solid;
-    padding-top: 7px;
+    padding-top: 9px;
+}
+
+.lecturre-list ul li:hover {
+    color: rgb(46, 46, 46);
+    background-color: rgb(241, 241, 241);
 }
 
 .activeLecture {
-    background-color: rgba(183, 232, 255, 0.719);
+    background-color: #4EBEE1;
+    color: white;
     transition: 0.3s ease-in-out;
+}
+
+.activeLecture a {
+    color: white;
+}
+
+.activeLecture .time {
+    color: white !important;
+}
+
+.activeLecture i {
+    color: white;
 }
 
 .title-lecture {

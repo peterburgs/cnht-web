@@ -61,6 +61,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     //when reloading page, it will not update checkIsLoggedin despite of having subcribe
     if(localStorage.getItem('isLoggedin')=='true')
     {
+     
       this.isLoggedin= of(true);
       this.authService.checkIsLoggedin().subscribe(
         isLoggedin =>{
@@ -78,6 +79,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     
     this.isLoggedin.subscribe(islogin=>{
       if(islogin){
+
         let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
         if(email!=null)
         {

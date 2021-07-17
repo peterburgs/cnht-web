@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { authenticationService } from './service/authentication.service';
+import { Timer } from './service/timer.service';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +12,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'Cùng nhau học toán';
-  constructor(private router: Router){}
   currentUrl=""
   isShowNavbar= true;
   isShowNavbarAdmin = false;
+  expiredTime= 3540;
+  
+  constructor(private router: Router,
+    private timer: Timer,
+    public socialAuthService: SocialAuthService,
+    private authService: authenticationService){}
+    
+
   ngOnInit(): void {
+    
+    console.log("App init")
     this.router.events.subscribe(router=>{
       this.currentUrl= this.router.url; 
       if(this.currentUrl.includes("/login")){
@@ -27,7 +39,65 @@ export class AppComponent implements OnInit {
       }
       else this.isShowNavbarAdmin= false;
     })
+
+    this.socialAuthService.authState.subscribe((user) => {
+      console.log('AuthState: ', this.socialAuthService.authState);
+      let isAdmin= false;
+        if(localStorage.getItem('role')=='admin')
+          isAdmin=true;
+        this.authService.signIn(user,isAdmin)
+        .subscribe(responseData=>{
+            this.authService.storeUser(responseData.user,responseData.token);
+            this.timer.startTimer(this.expiredTime);  
+        })              
+    });
+    
+    this.checkValidToken();
+    
+        
+  }
+
+
+checkValidToken(){
+  //Check valid token 
+
+  let loggedIn = localStorage.getItem('isLoggedin')
+  if(loggedIn=='true'){
+    let token_created_at =Number(localStorage.getItem('token_created_at'));
+    let current_time = Date.now();
+
+    //get valid remaining time of token and count
+    if(token_created_at){
+
+      console.log(new Date(token_created_at))
+      console.log(new Date(current_time))
+      console.log(current_time-token_created_at)
+      let remaining_time= Math.floor((current_time- token_created_at)/1000);
+      console.log('Remaining time:' ,this.expiredTime-remaining_time)
+      if(remaining_time>=this.expiredTime)
+      {
+        console.log("refresh token")
+        this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID).then(()=>{
+          let token = localStorage.getItem('token')
+         console.log('new token:',token)
+         this.timer.startTimer(this.expiredTime);
+        })
+      
+      }
+      else{
+        console.log("Continue count")
+        this.timer.startTimer(this.expiredTime-remaining_time);
+
+      }
+    }
+  
+  }
+}
+
+  ngOnDestroy(): void {
+    this.timer.pauseTimer();
     
   }
+
  
 }

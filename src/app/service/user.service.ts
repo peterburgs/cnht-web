@@ -14,66 +14,13 @@ import { authenticationService } from "./authentication.service";
 
 export class UserService{
 
-    private users: User[] = [{
-        id : "user01",
-        fullName  : "Le Thi Ngoc Yen",
-        avatarUrl: "",
-        email : "ngocyen174308@gmail.com",
-        userRole :  ROLES.LEARNER,
-        balance : 200000,
-        createdAt :new Date(),
-        updatedAt : new Date()
-    },
-
-    {
-        id : "user02",
-        fullName  : "Nguyen Thi Minh Hoang",
-        avatarUrl: "",
-        email : "hoangnguyen@gmail.com",
-        userRole :  ROLES.LEARNER,
-        balance : 20000,
-        createdAt : new Date(),
-        updatedAt : new Date(),
-    },
-
-    {
-        id : "user03",
-        fullName  : "Le Thi Phuong Thao",
-        avatarUrl: "",
-        email : "thaole@gmail.com",
-        userRole :  ROLES.LEARNER,
-        balance : 20000,
-        createdAt : new Date(),
-        updatedAt : new Date(),
-    },
-    {
-        id : "user04",
-        fullName  : "Nguyen Thi Minh Hoang",
-        avatarUrl: "",
-        email : "nguyenhoang13166@gmail.com",
-        userRole :  ROLES.LEARNER,
-        balance : 200000,
-        createdAt : new Date(),
-        updatedAt : new Date(),
-
-    }
-];
+    
     private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 
     constructor(private http:HttpClient,
         private authService: authenticationService){}    
 
-    private handleError(error: HttpErrorResponse) {
-        if (error.status === 0) {
-            
-        } else {
-            
-        }
-        // Return an observable with a user-facing error message.
-        return throwError(
-            'Something bad happened; please try again later.');
-    }
-
+   
     private httpOptions = {
         headers: new HttpHeaders({
           'Content-Type':  'application/json',

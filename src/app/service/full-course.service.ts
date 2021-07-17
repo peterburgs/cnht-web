@@ -1008,7 +1008,5 @@ export class FullCourseService {
         }
       );
   }
-  //=============== Create HTTP===================
-
-  //================ Mockup data ==================
+  
 }

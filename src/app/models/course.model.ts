@@ -12,4 +12,5 @@ export class Course{
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
     isHidden: boolean = false;
+    purchasedAt?:Date;
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SocialAuthService, SocialUser } from 'angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from 'angularx-social-login';
 import { Observable, of, Subject } from 'rxjs';
 import { ROLES } from '../models/user-roles';
 import { User } from '../models/user.model';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http'
-import { map } from 'rxjs/operators';
+import { Timer } from './timer.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +16,7 @@ export  class authenticationService {
 
   constructor( 
     public socialAuthService: SocialAuthService,
-    private http: HttpClient
-    ) {
+    private http: HttpClient    ) {
     if(localStorage.getItem('isLoggedin'))
     {
       let isLoggedin= localStorage.getItem('isLoggedin');
@@ -26,9 +25,11 @@ export  class authenticationService {
       else
          this.loggedIn= false;
     }
+
+    
   }
 
-  storeUser(user : User,token:string){
+  storeUser(user : User,token_:string){
     if(typeof(localStorage))
       {
         
@@ -37,9 +38,9 @@ export  class authenticationService {
         localStorage.setItem('uemail',user.email);
         localStorage.setItem('uphotoUrl',user.avatarUrl);
         localStorage.setItem('role',user.userRole);
-        localStorage.setItem('token',token);
-
-        //for admin        
+        localStorage.setItem('token',token_);
+        localStorage.setItem('token_created_at', Date.now().toString())
+              
       }
   }
 
@@ -69,9 +70,10 @@ export  class authenticationService {
   //TODO: authenticate 
   signIn(socialUser: SocialUser,isAdmin: boolean){
     
+    
     let role= ROLES.LEARNER;
     if(isAdmin) role= ROLES.ADMIN;
-    
+      
     const data = {'authorization': socialUser.idToken};
     const config = { 
       headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
@@ -85,6 +87,12 @@ export  class authenticationService {
       //return of(isDone);
   }
 
+  getNewToken(isAdmin: boolean){  
+  
+    return this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID)
+
+  }
+
   isExistedAccount(email:string):boolean{
     return false;
   }
@@ -95,9 +103,13 @@ export  class authenticationService {
 
   logOut(){
     this.clearLocalStorage();
+    
+      //this.timer.pauseTimer();
     this.socialAuthService.signOut();
     this.loggedIn= false;
   }
+
+  
 
   clearLocalStorage(){
     localStorage.clear();

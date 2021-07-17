@@ -17,7 +17,7 @@ import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 export class TransferInformationComponent implements OnInit {
 
   fileToUpLoad: File = new File([], 'hinh-a');
-  thumnailUrl:string= "../../../../assets/images/wellet.png";
+  thumnailUrl:string= "";
   
   money_Transfer!: string;
   //* Show announcement
@@ -66,7 +66,7 @@ export class TransferInformationComponent implements OnInit {
   }
 
   cancelUploadImage(){
-    this.thumnailUrl="../../../../assets/images/wellet.png";
+    this.thumnailUrl="";
   }
 
   /**
@@ -94,7 +94,7 @@ export class TransferInformationComponent implements OnInit {
      
     }
     else
-    if(this.thumnailUrl=="../../../../assets/images/wellet.png")
+    if(this.thumnailUrl=="")
     {
       this.showAnnouncement=true;
       this.actionToAlert="Yes"
@@ -145,7 +145,7 @@ export class TransferInformationComponent implements OnInit {
               this.actionToAlert="Ok"
               this.message="Error system. Please try again!"
               this.action="not_success"
-              this.thumnailUrl="../../../../assets/images/wellet.png"
+              this.thumnailUrl=""
               return throwError(error)
           })
         )
@@ -154,7 +154,7 @@ export class TransferInformationComponent implements OnInit {
           this.isLoading=false;
           this.successResquest=true;
           this.money_Transfer=''
-          this.thumnailUrl="../../../../assets/images/wellet.png"
+          this.thumnailUrl=""
           
         })
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
+import { authenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-home-screen',
@@ -13,9 +15,12 @@ export class HomeScreenComponent implements OnInit {
   grade11:GRADES= GRADES.ELEVENTH;
   grade12:GRADES= GRADES.TWELFTH;
   course_type:COURSE_TYPE= COURSE_TYPE.THEORY;
-  constructor() { }
+  constructor(private authenService: authenticationService,
+    private router: Router) { }
 
   ngOnInit(): void {   
+
+
   }
 
   changeCourseType(number:number){
@@ -28,6 +33,10 @@ export class HomeScreenComponent implements OnInit {
       console.log("2")
 
     }
+  }
+
+  testType(){
+    alert("This feature is being developed.")
   }
 
 }

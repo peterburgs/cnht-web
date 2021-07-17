@@ -149,9 +149,7 @@ private depositRequestList: DepositRequest[] = [];
             {
                 headers: this.httpOptions.headers
             }
-        ).pipe(
-            // catchError(this.handleError)
-          );
+        );
     }
 
     getByIdLearner(learnerId : string){
@@ -194,9 +192,12 @@ private depositRequestList: DepositRequest[] = [];
         };
         return this.http.put<(any)>( this.baseUrl+ '/deposit-requests/' + deposit.id, body, {
             headers: this.httpOptions.headers,
-         }).pipe(
-            catchError(this.handleError)
-          );
+           // params: new HttpParams().set('id', deposit.id)
+         });
+          
+         console.log("updade !");
+        // add wallet to wallet learner
+        // return true;
     }
 
     createDepositRequest(deposit:DepositRequest){
