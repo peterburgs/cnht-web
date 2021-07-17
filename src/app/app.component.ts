@@ -48,9 +48,10 @@ export class AppComponent implements OnInit {
         this.authService.signIn(user,isAdmin)
         .subscribe(responseData=>{
             this.authService.storeUser(responseData.user,responseData.token);
-            this.timer.startTimer(3540);  
+            this.timer.startTimer(this.expiredTime);  
         })              
     });
+    
     this.checkValidToken();
     
         
@@ -59,31 +60,36 @@ export class AppComponent implements OnInit {
 
 checkValidToken(){
   //Check valid token 
+
   let loggedIn = localStorage.getItem('isLoggedin')
   if(loggedIn=='true'){
     let token_created_at =Number(localStorage.getItem('token_created_at'));
-  let current_time = Date.now();
-  if(token_created_at){
-    console.log(new Date(token_created_at))
-    console.log(new Date(current_time))
-    console.log(current_time-token_created_at)
-    let remaining_time= Math.floor((current_time- token_created_at)/1000);
-    console.log('Remaining time:' ,3540-remaining_time)
-    if(remaining_time>=this.expiredTime)
-    {
-      console.log("refresh token")
-      
-        this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID).then(()=>{
-          
-        });
-     
-    }
-    else{
-      console.log("Continue count")
-      this.timer.startTimer(3540-remaining_time);
+    let current_time = Date.now();
 
+    //get valid remaining time of token and count
+    if(token_created_at){
+
+      console.log(new Date(token_created_at))
+      console.log(new Date(current_time))
+      console.log(current_time-token_created_at)
+      let remaining_time= Math.floor((current_time- token_created_at)/1000);
+      console.log('Remaining time:' ,this.expiredTime-remaining_time)
+      if(remaining_time>=this.expiredTime)
+      {
+        console.log("refresh token")
+        this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID).then(()=>{
+          let token = localStorage.getItem('token')
+         console.log('new token:',token)
+         this.timer.startTimer(this.expiredTime);
+        })
+      
+      }
+      else{
+        console.log("Continue count")
+        this.timer.startTimer(this.expiredTime-remaining_time);
+
+      }
     }
-  }
   
   }
 }

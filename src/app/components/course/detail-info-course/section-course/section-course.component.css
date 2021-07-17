@@ -55,7 +55,12 @@
     padding: 0px 20px;
     color: rgb(46, 46, 46);
     border-bottom: 1px rgb(235, 235, 235) solid;
-    padding-top: 7px;
+    padding-top: 9px;
+}
+
+.lecturre-list ul li:hover {
+    color: rgb(46, 46, 46);
+    background-color: rgb(241, 241, 241);
 }
 
 .activeLecture {

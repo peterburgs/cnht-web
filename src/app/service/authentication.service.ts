@@ -25,6 +25,8 @@ export  class authenticationService {
       else
          this.loggedIn= false;
     }
+
+    
   }
 
   storeUser(user : User,token_:string){
@@ -85,17 +87,7 @@ export  class authenticationService {
       //return of(isDone);
   }
 
-  getNewToken(isAdmin: boolean){
-
-    // this.socialAuthService.authState.subscribe((user) => {
-    //   console.log('AuthState: ', this.socialAuthService.authState);
-    //     this.signIn(user,isAdmin)
-    //     .subscribe(responseData=>{
-    //         this.storeUser(responseData.user,responseData.token);
-    //         this.loggedIn=true;       
-          
-    //     })              
-    // });
+  getNewToken(isAdmin: boolean){  
   
     return this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID)
 

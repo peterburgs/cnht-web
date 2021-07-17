@@ -68,7 +68,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import { key } from './util/google_Key';
-import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
 import { CourseLectureComponent } from './components/course/full-course/course-section/course-lecture/course-lecture.component';
 import { Duration } from './util/duration.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -130,7 +129,6 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
     AlertWarningComponent,
     EmptyBlockComponent,
     SearchTitleComponent,
-    LoadingSpinnerComponent,
     CourseLectureComponent,
     Duration,
     LoadingComponent,
@@ -166,7 +164,6 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
   providers: [ CurrencyPipe,AdminGuard,
     CountdownPipe,Truncate, CanDeactiveGuard,
     {
-
   
       provide: 'SocialAuthServiceConfig',
       useValue: {
