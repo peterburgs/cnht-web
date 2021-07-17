@@ -41,14 +41,14 @@
        [lecture]="item"
        [lectureIndex]="i"
         [sectionIndex]="sectionIndex"
-        [globalLoading]="arrayLoading[i*maxLecture +  sectionIndex]"
+        [globalLoading]="arrayLoading[sectionIndex* maxLecture +i]"
         [maxLecture]="maxLecture"
         ></app-course-lecture>
    
       <div>
         <ul class="ul-deco">
           <button  class="btn-create-new" 
-          (click)="onCreateLession(sectionDummy.section_id)">
+          (click)="onCreateLecture(sectionDummy.section_id)">
           <i class="bi bi-plus-lg icon-create"></i>
             Create new lecture
           </button>

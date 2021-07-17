@@ -4,12 +4,12 @@
     <div class="info-course">
         <div class="name">
             <a routerLink="/detail/{{course.id}}" class="course-name">{{course.title |shorten}}</a>
-            <p class="course-description">{{course.courseDescription | shortenDescription}}</p>
+            <p class="course-description">{{course.courseDescription | truncate :80}}</p>
         </div>
 
         <div *ngIf="!isLearner" class="users-count" style="cursor: pointer;" (click)="onEditCourse(course.id)">
-           <span *ngIf="isPublished" class="course-status course-not-published "> Not published</span> 
-           <span  *ngIf="!isPublished" class="course-status course-published">Published</span>
+           <span *ngIf="course.isHidden" class="course-status course-not-published "> Not published</span> 
+           <span  *ngIf="!course.isHidden" class="course-status course-published">Published</span>
             <span class="info-course more-info">Update on: {{course.updatedAt |date:'yyyy-MM-dd'}}</span>
             <i class="bi bi-pencil-square" style="color: #858585;"></i>
         </div>

@@ -58,10 +58,7 @@ export class LoginScreenComponent implements OnInit {
           this.route.navigate(['/home']);
             this.isLoading=false;
         })      
-    
       }  
-         
-      
     });
   }
 

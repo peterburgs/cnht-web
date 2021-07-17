@@ -75,6 +75,8 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 import { CountdownPipe } from './components/course/full-course/course-info/count-down.pipe';
+import { Truncate } from './components/course/small-course/lecturer-card-course/Truncate.pipe';
+import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 
 
 
@@ -133,7 +135,8 @@ import { CountdownPipe } from './components/course/full-course/course-info/count
     Duration,
     LoadingComponent,
     ErrorPageComponent,
-    CountdownPipe
+    CountdownPipe,
+    Truncate
   ],
   imports: [
     BrowserModule,
@@ -160,7 +163,8 @@ import { CountdownPipe } from './components/course/full-course/course-info/count
     MatCardModule
       
   ],
-  providers: [ CurrencyPipe,AdminGuard, CountdownPipe,
+  providers: [ CurrencyPipe,AdminGuard,
+    CountdownPipe,Truncate, CanDeactiveGuard,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

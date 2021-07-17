@@ -3,9 +3,9 @@
     <div class="card-body">
         <div class="card-content">
             <a routerLink="/detail/{{course.id}}" fragment="detail">
-                <h5 class="card-title">{{course.title | shorten}}</h5>
+                <h5 class="card-title">{{course.title | truncate:40}}</h5>
             </a>
-            <p class="card-text">{{course.courseDescription |shorten}}</p>
+            <p class="card-text">{{course.courseDescription |truncate:40}}</p>
         </div>
 
         <p class="course-price"> {{handlePriceFormat(course.price)}} </p>

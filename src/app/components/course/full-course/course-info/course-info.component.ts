@@ -33,7 +33,7 @@ export class CourseInfoComponent implements OnInit {
   grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
   loadingCalculate=false;
   fileToUpLoad: File = new File([], '_Thumbnail');
-
+    tmpImage="";
   sbcEstimate:Subscription = new Subscription();
 
   isPublished=true;
@@ -44,6 +44,7 @@ export class CourseInfoComponent implements OnInit {
     //Add '${implements OnChanges}' to the class.
     this.priceFormat = String(courseChange.course.currentValue.price);
     this.formatCurrency();
+    
   }
   ngOnInit(): void {
     this.fullCourseService.getSbjCreateCourse().subscribe((course) => {
@@ -63,8 +64,9 @@ export class CourseInfoComponent implements OnInit {
       var reader = new FileReader();
       //update Image to UI
       reader.onload = (event: any) => {
-        this.course.thumbnailUrl = event.target.value;
-        console.log(event.target.result);
+        // this.course.thumbnailUrl = event.target.value;
+        // console.log(event.target.result);
+        this.tmpImage=event.target.result;
       };
       this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
       reader.readAsDataURL(this.fileToUpLoad);
@@ -127,7 +129,8 @@ export class CourseInfoComponent implements OnInit {
     //Add 'implements OnDestroy' to the class.
     this.sbcEstimate.unsubscribe();
   }
-  onToggle($event:any){
-      this.isPublished= !this.isPublished;
+  onPublishedCourse($event:any){
+      // Handle update Publish
+      this.course.isHidden= !this.course.isHidden;
   }
 }
