@@ -1,13 +1,17 @@
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="{{course.title}}" >
-    <div class="card-body">
+<div class="card">
+    <div class="card-img">
+        <img class="card-img-top" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="{{course.title}}">
+
+    </div>
+    <div class="card_body">
         <div class="card-content">
             <a routerLink="/detail/{{course.id}}" fragment="detail">
-                <h5 class="card-title">{{course.title | truncate:40}}</h5>
+                <h5 class="card-title">{{course.title |truncate : 100 }}</h5>
             </a>
-            <p class="card-text">{{course.courseDescription |truncate:40}}</p>
+            <p class="card-text">{{course.courseDescription |truncate : 130}}</p>
+            <p class="course-price"> {{handlePriceFormat(course.price)}} </p>
+
         </div>
 
-        <p class="course-price"> {{handlePriceFormat(course.price)}} </p>
     </div>
 </div>

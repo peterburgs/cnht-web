@@ -21,8 +21,10 @@ export class WalletScreenComponent implements OnInit {
       console.log(email)
         if(email!=null)
         {
-          this.userService.getUserByEmail(email).subscribe(dataUser=>{
-            this.balance= dataUser.users[0].balance;
+          this.userService.getAllUser().subscribe(dataUser=>{
+            let learner_= dataUser.users.find((user)=> user.email===email);
+                if(learner_)
+                  this.balance= learner_.balance;
           })
           console.log(this.balance)
         }

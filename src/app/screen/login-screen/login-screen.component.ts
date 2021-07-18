@@ -40,29 +40,32 @@ export class LoginScreenComponent implements OnInit {
     //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
+      localStorage.setItem('expires_in', user.response.expires_in)
+      localStorage.setItem('token_created_at', Date.now().toString())
 
       //if user !=null, it is log in, else log out
-      this.isLoggedin = (user != null);
-      console.log(this.socialAuthService.authState);
-      
+      this.isLoggedin = (user != null);     
       if(this.isLoggedin){
         console.log(this.socialUser);
         this.isLoading=true;
         //authenticate on server
-        this.authService.signIn(this.socialUser,this.isAdmin)
+        this.authService.signIn(this.socialUser.idToken,this.isAdmin)
         .subscribe(responseData=>{
-          this.timer.startTimer(3540);
-            this.authService.storeUser(responseData.user,responseData.token);
-            this.authService.loggedIn=true;
-            this.authService.logger.next(this.authService.loggedIn);
-            //navigate to home screen and stop loading
-           // this.route.navigate(['/home']);
-           if(this.authService.isAdmin() ){
-                    console.log("isadmin");
-                    this.isAdminSignIn();}
+
+          this.timer.startTimer(Number(user.response.expires_in)-60);
+          this.authService.storeUser(responseData.user,responseData.token);
+          this.authService.loggedIn=true;
+          this.authService.logger.next(this.authService.loggedIn);
+
+          //navigate to home screen and stop loading
+
+          if(this.authService.isAdmin() )
+          {
+            this.isAdminSignIn();
+          }
           else
-          this.route.navigate(['/home']);
-            this.isLoading=false;
+            this.route.navigate(['/home']);
+          this.isLoading=false;
         })      
       }  
     });

@@ -1,4 +1,5 @@
 import { Injectable, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
 import { authenticationService } from "./authentication.service";
 
@@ -9,20 +10,28 @@ export class Timer implements OnInit{
     interval: any;
     timeLeft: number=3540;
     constructor(private authService: authenticationService,
-      private socialAuthService: SocialAuthService  ){}
+      private socialAuthService: SocialAuthService ,
+      private router: Router ){}
 
 
     ngOnInit(){
+      
       this.socialAuthService.authState.subscribe((user) => {
         console.log('AuthState: ', this.socialAuthService.authState);
         let isAdmin= false;
-          if(localStorage.getItem('role')=='admin')
-            isAdmin=true;
-          this.authService.signIn(user,isAdmin)
-          .subscribe(responseData=>{
-              this.authService.storeUser(responseData.user,responseData.token);
-              this.startTimer(3540);  
-          })              
+        localStorage.setItem('token_created_at', Date.now().toString())
+        localStorage.setItem('expires_in', user.response.expires_in)
+        
+        if(localStorage.getItem('role')=='admin')
+          isAdmin=true;
+          
+        this.authService.signIn(user.idToken,isAdmin)
+        .subscribe(responseData=>{
+
+          this.timeLeft=Number(user.response.expires_in)-60;
+          this.authService.storeUser(responseData.user,responseData.token);
+          this.startTimer(this.timeLeft);  
+        })              
       });
     }
 
@@ -31,7 +40,6 @@ export class Timer implements OnInit{
         this.interval = setInterval(() => {
           if(this.timeLeft > 0) {
             this.timeLeft--;
-            console.log(this.timeLeft)
           } else
            if(this.timeLeft<=0){
             
@@ -40,9 +48,11 @@ export class Timer implements OnInit{
               isAdmin=true;
             this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID).then(()=>{
               let token = localStorage.getItem('token')
-             console.log('new token:',token)
-             this.timeLeft=3540;
             })
+            .catch(()=>{
+              this.router.navigate(['/login']);
+            })
+
             
           }
         },1000)

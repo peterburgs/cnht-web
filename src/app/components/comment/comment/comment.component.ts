@@ -73,7 +73,12 @@ export class CommentComponent implements OnInit, OnChanges {
       
 
       if(email!=null)
-        this.userService.getUserByEmail(email).subscribe(responseData=> this.user= responseData.users[0])
+        this.userService.getAllUser().subscribe(responseData=>
+          {
+            let learner_= responseData.users.find((user)=> user.email===email);
+            if(learner_)
+                this.user= learner_;
+          })
       if(localStorage.getItem('uphotoUrl'))
       {
         this.avatarUrl=localStorage.getItem('uphotoUrl');

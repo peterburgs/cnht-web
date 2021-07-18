@@ -32,9 +32,13 @@ export class WalletComponent implements OnInit {
           console.log(email)
             if(email!=null)
             {
-              this.userService.getUserByEmail(email).subscribe(dataUser=>{
-                this.balance_admin= dataUser.users[0].balance;
-                this.admin = dataUser.users[0];
+              this.userService.getAllUser().subscribe(dataUser=>{
+                let learner_= dataUser.users.find((user)=> user.email===email);
+                if(learner_){
+                  this.balance_admin= learner_.balance;
+                  this.admin = learner_;
+                }
+                
               })
             }
         }

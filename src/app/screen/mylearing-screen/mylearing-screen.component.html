@@ -24,7 +24,7 @@
         </div>
         <div *ngIf="!isLoading">
             <div *ngIf="courseAmount==0" class="not-found">
-                <h4>You don't have any course!</h4>
+                <h3>You don't have any course!</h3>
             </div>
             <div *ngIf="courseAmount>0">
                 <div class="row" *ngIf="(inputSearch.value!='' ) && (searchedCourses.length!=0)">

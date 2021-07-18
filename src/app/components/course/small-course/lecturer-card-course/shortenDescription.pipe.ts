@@ -7,8 +7,8 @@ export class ShortenDescription implements PipeTransform{
 
     transform(value: any){
 
-        if(value.length >80)
-        return value.substr(0,80)+"...";
+        if(value.length >300)
+        return value.substr(0,300)+"...";
         else
         return value;
     }

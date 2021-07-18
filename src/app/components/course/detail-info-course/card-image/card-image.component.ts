@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -44,7 +45,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
     private userService: UserService,
     private courseService: CourseService,
     private authService: authenticationService,
-    private activeRouter: ActivatedRoute) { }
+    private activeRouter: ActivatedRoute,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -55,6 +57,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
         const id= params['id']
         this.courseService.getCourseById(id).subscribe(responseData=>{
           this.course= responseData.courses[0];
+          
         })
       })
     }
@@ -84,7 +87,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
         if(email!=null)
         {
           //get user balance to check
-          this.userService.getUserByEmail(email)
+          this.userService.getAllUser()
           .pipe(
             catchError((error)=>{
                 console.log(error)
@@ -94,9 +97,17 @@ export class CardImageComponent implements OnInit ,OnChanges{
             })
           )
           .subscribe(responseData=>{
-          this.learner= responseData.users[0];
-          console.log(this.learner)
-          this.isBought_();
+            let learner = responseData.users.find((user)=> user.email===email)
+            console.log('Learner: ', learner)
+            if(learner)
+            this.learner= learner;
+            else{
+
+              this.authService.logOut();
+              this.router.navigate(['/login'])
+            }
+            console.log(this.learner)
+            this.isBought_();
           })
         }
       }
@@ -323,6 +334,12 @@ export class CardImageComponent implements OnInit ,OnChanges{
           }   
         }   
       }
+    }
+
+    openSnackBar(message: string, action: string) { // notice success
+      this._snackBar.open(message, action, {
+        duration: 2000
+      });
     }
   }
 
