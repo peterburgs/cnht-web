@@ -90,17 +90,14 @@
     width: 20px;
     height: 20px;
 }
-
-.course-status {
-    border-radius: 10px;
+.course-status{
+    border-radius: 5px;
     padding: 3px;
-    color: #FFFFFF !important;
+    color: #000 !important;
 }
-
-.course-not-published {
-    background: #DB4437;
+.course-not-published{
+    background:  rgb(242, 192, 204);
 }
-
-.course-published {
-    background: #0F9D58;
+.course-published{
+    background: #66DE93;
 }

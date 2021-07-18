@@ -36,7 +36,7 @@ export class LoginScreenComponent implements OnInit {
       else
         this.isAdmin= false;
     })
-
+    console.log("*** login ");
     //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -72,6 +72,7 @@ export class LoginScreenComponent implements OnInit {
   }
 
   loginWithGoogle(): void {  
+    
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     
   }

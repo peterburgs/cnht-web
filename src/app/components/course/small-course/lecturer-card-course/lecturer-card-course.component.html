@@ -9,8 +9,8 @@
         </div>
 
         <div *ngIf="!isLearner" class="users-count" style="cursor: pointer;" (click)="onEditCourse(course.id)">
-            <span *ngIf="course.isHidden" class="course-status course-not-published "> Not published</span>
-            <span *ngIf="!course.isHidden" class="course-status course-published">Published</span>
+            <span *ngIf="course.isPublished" class="course-status course-not-published "> Not published</span>
+            <span *ngIf="!course.isPublished" class="course-status course-published">Published</span>
             <span class="info-course more-info">Update on: {{course.updatedAt |date:'yyyy-MM-dd'}}</span>
             <i class="bi bi-pencil-square" style="color: #858585;"></i>
         </div>

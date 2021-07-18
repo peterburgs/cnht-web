@@ -35,4 +35,13 @@
     padding-right: 15px;
     margin-top: 30px;
 }
-
+.input:hover{
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
+input[type="text"]:hover{
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
