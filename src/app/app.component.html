@@ -1,4 +1,7 @@
-<app-navbar *ngIf="isShowNavbar"></app-navbar>
-<app-navbar-admin *ngIf="isShowNavbarAdmin"></app-navbar-admin>
-<router-outlet></router-outlet>
+<div *ngIf="validSignIn">
+    <app-navbar *ngIf="isShowNavbar"></app-navbar>
+    <app-navbar-admin *ngIf="isShowNavbarAdmin"></app-navbar-admin>
+    <router-outlet></router-outlet>
+</div>
+
 <!-- <app-footer class="footer" *ngIf="isShowNavbar"></app-footer> -->

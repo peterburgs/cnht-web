@@ -7,8 +7,8 @@ export class ShortenPipe implements PipeTransform{
 
     transform(value: any){
 
-        if(value.length >40)
-        return value.substr(0,40)+"...";
+        if(value.length >100)
+        return value.substr(0,100)+"...";
         else
         return value;
     }

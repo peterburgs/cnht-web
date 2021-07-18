@@ -3,6 +3,7 @@
 
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
            */
+
 .mylearning {
     margin-top: 100px;
 }
@@ -59,11 +60,11 @@
 
 .not-found h3 {
     text-align: center;
-    font-size: 25px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 600;
     font-family: 'Courier New', Courier, monospace;
-    color: rgb(92, 92, 92);
-    margin-top: 100px;
+    color: rgb(163, 163, 163);
+    margin-top: 10%;
 }
 
 .container {
@@ -78,8 +79,8 @@
     position: relative;
     width: 50px;
     height: 50px;
-    margin-left: 40%;
-    margin-top: 50px;
+    margin-left: 45%;
+    margin-top: 12%;
 }
 
 .lds-ring div {

@@ -36,8 +36,10 @@ export class UserService{
         if(email!=null)
         {
             console.log(email)
-            this.getUserByEmail(email).subscribe(dataResponse=>{
-             learner= dataResponse.users[0];
+            this.getAllUser().subscribe(dataResponse=>{
+                let learner_= dataResponse.users.find((user)=> user.email===email);
+                if(learner_)
+                    learner= learner_;
           })
         }
         console.log(learner)
@@ -117,7 +119,7 @@ export class UserService{
     }
    
     //Get user by email
-    getUserByEmail(email:string){
+    getUserByEmai(email:string){
 
         const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
         const tokenType= "Bearer "

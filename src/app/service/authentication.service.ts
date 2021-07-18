@@ -39,7 +39,6 @@ export  class authenticationService {
         localStorage.setItem('uphotoUrl',user.avatarUrl);
         localStorage.setItem('role',user.userRole);
         localStorage.setItem('token',token_);
-        localStorage.setItem('token_created_at', Date.now().toString())
               
       }
   }
@@ -68,15 +67,15 @@ export  class authenticationService {
 
 
   //TODO: authenticate 
-  signIn(socialUser: SocialUser,isAdmin: boolean){
+  signIn(idToken: string,isAdmin: boolean){
     
     
     let role= ROLES.LEARNER;
     if(isAdmin) role= ROLES.ADMIN;
       
-    const data = {'authorization': socialUser.idToken};
+    const data = {'authorization': idToken};
     const config = { 
-      headers: new HttpHeaders().set('Authorization','Bearer '+ socialUser.idToken) ,
+      headers: new HttpHeaders().set('Authorization','Bearer '+ idToken) ,
       params:new HttpParams().set('userRole', role)
     };
     console.log(config);
@@ -88,9 +87,7 @@ export  class authenticationService {
   }
 
   getNewToken(isAdmin: boolean){  
-  
     return this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID)
-
   }
 
   isExistedAccount(email:string):boolean{
@@ -103,13 +100,9 @@ export  class authenticationService {
 
   logOut(){
     this.clearLocalStorage();
-    
-      //this.timer.pauseTimer();
     this.socialAuthService.signOut();
     this.loggedIn= false;
   }
-
-  
 
   clearLocalStorage(){
     localStorage.clear();

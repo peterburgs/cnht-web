@@ -40,8 +40,12 @@ export class TransferInformationComponent implements OnInit {
     {
       let email=localStorage.getItem('uemail');
       if(email!=null)
-        this.userService.getUserByEmail(email)
-        .subscribe(responseData=> this.learner= responseData.users[0])
+        this.userService.getAllUser()
+        .subscribe(responseData=>{
+          let learner_= responseData.users.find((user)=> user.email===email);
+          if(learner_)
+              this.learner= learner_;
+        } )
     }
   }
 

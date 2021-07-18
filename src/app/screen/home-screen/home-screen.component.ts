@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
@@ -15,8 +16,10 @@ export class HomeScreenComponent implements OnInit {
   grade11:GRADES= GRADES.ELEVENTH;
   grade12:GRADES= GRADES.TWELFTH;
   course_type:COURSE_TYPE= COURSE_TYPE.THEORY;
+ 
   constructor(private authenService: authenticationService,
-    private router: Router) { }
+    private router: Router,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {   
 
@@ -39,4 +42,12 @@ export class HomeScreenComponent implements OnInit {
     alert("This feature is being developed.")
   }
 
+
+  openSnackBar(message: string, action: string) { // notice success
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
+  }
+
 }
+
