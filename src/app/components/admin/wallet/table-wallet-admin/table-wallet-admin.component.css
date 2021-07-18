@@ -1,15 +1,20 @@
 .table-detail{
-    /* width: 95vw; */
-    margin-left: -6vw;
+    /* width: 90vw; */
+    /* margin-left: -6vw; */
+    margin: 0;
     box-shadow:0 1px 2px rgba(0, 0, 0, .30) !important ;
 }
 
 .title-table {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     margin-left: 10px;
     font-weight: 600;
     font-style: inherit;
     display: block;
+}
+
+.card-body{
+    padding-top:  0;
 }
 
 .btn-admin {
@@ -73,82 +78,15 @@ app-search-title{
 }
 
 .title-table-block{
-    display: inline-block;
-}
-
-mat-slide-toggle{
-    /* background-color: rgba(170, 170, 170, 0.123); */
-    vertical-align: middle;
-    margin-top: 10px;
-    color: #aaa;
-    font-weight: 400;
-}
-
-::ng-deep .mat-slide-toggle-bar{
-    background-color: #aaa ;
-}
-
-::ng-deep .mat-slide-toggle-label.mat-slide-toggle-content:focus{
-    color: #000 !important ;
-}
-
-/* CSS to change Default/'Accent' color */
-
-::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-    background-color: blue; /*replace with your color*/
-}
-
-::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-    background-color: skyblue;  /*replace with your color*/
-}
-
-/* CSS to change 'Primary' color */
-
-::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-    background-color: #046582;
-}
-
-::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-    background-color: #6E7582;
-}
-
-::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-content {
-    color: #070f1f;
-    font-weight: 600;
-}
-/* CSS to change 'Warn' color */
-
-::ng-deep .mat-slide-toggle.mat-warn.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-    background-color: red;
-}
-
-::ng-deep .mat-slide-toggle.mat-warn.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-    background-color: #ffe066;
-}
-
-.btn-confirm-all{
+    /* width: 100%;
+    height: 100%; */
     margin-left: 10px;
-    border-radius: 3px;
-    border: solid 0.5px #070f1f;
-    font-size: 14px;
-    background-color: #fff;
-    color: #070f1f;
-    height: 25px;
-    margin-top: 10px;
-    font-weight: 600;
-    text-align: center;
-    padding: 5px 5px 5px 5px!important;
-    padding-top: 2px !important;
-    vertical-align: middle;
-    transition: all 1s;
+    display: inline-block;
+    /* margin-bottom: -4vh !important; */
+ 
 }
 
-.btn-confirm-all:hover{
-    color: #fff;
-    background-color: #070f1f;
-    border: solid 0.5px #fff;
-    font-weight: 400;
-}
+
 
 th{
     cursor: pointer;
@@ -220,5 +158,32 @@ ngb-pagination ::ng-deep a {
   ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
     box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
   }
+
+  .not-empty-select.mat-selected {
+    color: #046582 !important;
+  }
+
+  ::ng-deep .mat-select-value{
+      color: #000 !important;
+  }
+
+  ::ng-deep .mat-select-arrow{
+    color: #000 !important;
+  }
+
+  ::ng-deep .mat-select-panel {
+    background: #fff;
+    color: #000;
+  }
+
+  .mat-option:hover {
+    background: #aaa !important;
+    color: #000 !important;
+  }
+
+  ::ng-deep .mat-form-field-wrapper{
+      padding-bottom: 0 !important;
+  }
+  
 
 

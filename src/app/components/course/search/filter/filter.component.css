@@ -1,8 +1,8 @@
 .list-filter{
     background-color: #f4f4f4;
     border-radius: 5px;
-    position: absolute;
-    width: 18vw;
+    /* position: relative; */
+    /* width: 18vw; */
     height: fit-content;
     
 }

@@ -1,5 +1,4 @@
-import { Component, Output, OnInit, ViewChild, EventEmitter } from '@angular/core';
-import { CategoryFilter } from 'src/app/models/categoryFilter';
+import { Component, Output, OnInit, ViewChild, EventEmitter, Input } from '@angular/core';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
 import { ItemFilterComponent } from './item-filter/item-filter.component';
@@ -19,10 +18,26 @@ export class FilterComponent implements OnInit {
   category: string = COURSE_TYPE.THEORY;
   listFilter = ["theory", 
   "examination solving", "test"];
+  @Input() resetFormSubject: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
+    if(this.resetFormSubject){
+      this.resetChildForm();
+      this.resetFormSubject = false;
+    }
   }
+
+show:boolean = true
+
+resetChildForm(){
+   this.show = false;
+
+   setTimeout(() => {
+      this.show = true
+    }, 100);
+    console.log("con");
+}
 
   ngAfterViewInit(){
     // this.grade = this.filter.grade;

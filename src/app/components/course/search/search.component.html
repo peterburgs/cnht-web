@@ -10,24 +10,17 @@
             <app-filter (sendGradeChoose) = "receiveGrade($event)" (sendCategoryChoose) = "receiveCategory($event)"></app-filter>
         </div>
         <div class = "col-md-9 ">
-            <div *ngIf  = "isLoading" class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
             <div  *ngIf = "isFindList()" class="list-search-main">
                 <app-list-search [listCourseResult] = "listCourse"></app-list-search>
              </div>
 
                  <div *ngIf = "!isFindList()" class="not-found">
-                     <img src="../../../../assets/images/binocular.svg" 
-                     style=" height: 30vh; width: 30vw;
-                     margin-top: 10vh;
-                     margin-left: 10vw;
-                     display: flex;">
-                     <span style="margin-top: 10vh;
-                     margin-left: -5vw;">No course found !</span>
+                     
+                          <span style=" font-weight: 600; background-color: #fff;
+                          ">No course found !</span>
+
+                    
+                   
                  </div>
            
         </div>
@@ -40,3 +33,7 @@
 <div  *ngIf = "isFindList()" style="background-color: #F0F2F5; height: 50vh; width: 100vw;"></div>
 
 </div>
+
+<app-circle-loading  [isLoading]="isLoading"></app-circle-loading>
+
+

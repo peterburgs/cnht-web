@@ -1,7 +1,9 @@
 <div class="course-card-search">
     <div class="img-course">
+      <a routerLink="/detail/{{courseItem.id}}" (click)=" changeRouter()" fragment="detail">
         <img class="img-course img-fluid" [src]="baseUrl + courseItem.thumbnailUrl"
         onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'">
+      </a>  
     </div>
     <div class="content-course">
         <div class="pull-left">

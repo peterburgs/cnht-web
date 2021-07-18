@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Enrollment } from 'src/app/models/enrollment.model';
+import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/service/user.service';
 import { BalanceFormat } from 'src/app/util/balance-format';
@@ -60,7 +61,7 @@ export class TableLearnerManagermentComponent implements OnInit {
      this.userService.getAllLearner().subscribe(users =>
       {
         if(users.count >0) {
-          this.listUsers  = users.users;
+          this.listUsers  = users.users.filter(user => user.userRole == ROLES.LEARNER);
           this.listUserSort = this.listUsers.filter(user => this)}
       })
    }

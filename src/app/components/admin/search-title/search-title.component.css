@@ -1,10 +1,8 @@
-.search-input {
-    margin-left: 5px;
-}
+
 
 .form-group{
     align-items: center;
-    height: 30px;
+    /* height: 30px; */
 }
 
 .form-control:focus{
@@ -17,28 +15,28 @@
 
 .form-group {
     display: flex;
+    margin-bottom: 0 !important;
 }
 
 .form-group i {
     position: absolute;
-    font-size: 20px;
-    margin-left: 35px;
+    font-size: 1rem;
    font-weight: 100;
-   margin-top: -10px;
+   margin-top: -1.2vh;
+   margin-left: 22px;
     color: rgb(194, 193, 193);
 }
 
 .search-input {
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 15px;
+   
+    font-size: 0.8rem;
     color: rgb(43, 41, 41);
 }
 
 .form-group .form-control {
     border-radius: 50px;
-    margin-left: 10px;
-    padding-left: 50px;
+    padding-left: 30px;
+    
 }
 
 

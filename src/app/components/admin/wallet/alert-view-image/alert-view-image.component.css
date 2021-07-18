@@ -39,14 +39,17 @@
     max-height: 50vh;
 }
 
-.btn {
+.btn-cancel {
+    text-align: center;
     margin-top: 10px;
-    height: 30px;
-    width: 70px;
-    border-radius: 10px;
+    height: 20px;
+    width: 60px;
+    border-radius: 5px;
     font-weight: 400;
-    font-size: 15px !important;
-    padding: 5px !important;
+    font-size: 12px !important;
+    /* padding: 5px !important; */
+   
+    border: none;
 }
 
 .pull-left {

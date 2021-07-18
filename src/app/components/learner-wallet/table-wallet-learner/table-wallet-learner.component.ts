@@ -23,14 +23,14 @@ const enum SORT{
 })
 export class TableWalletLearnerComponent implements OnInit {
 
-  message_view_img: string = "Show image deposit !";
+  message_view_img: string ="Deposit Request Information";
   path_img_view:string = "../../../../../assets/images/ck.jpg";
   isViewImg:boolean = false;
   depositHistory: DepositRequest[]=[];
   learner!: User;
   pendding= STATUSES.PENDING;
   confirm= STATUSES.CONFIRM;
-  deny = STATUSES.DENIED
+  deny = STATUSES.DENIED;
   isLoading=true;
   selected_deposit!: DepositRequest;
   constructor(
