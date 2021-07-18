@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       else this.isShowNavbar= true;
 
-      if(this.currentUrl.includes("#admin")){
+      if(this.currentUrl.includes("/admin")){
         this.isShowNavbarAdmin= true;
         this.isShowNavbar = false;
 

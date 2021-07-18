@@ -1,10 +1,12 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { CourseService } from 'src/app/service/course.service';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { Subscription } from 'rxjs';
+import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
+
 
 @Component({
   selector: 'app-admin-course-screen',
@@ -73,6 +75,7 @@ export class AdminCourseScreenComponent implements OnInit {
     localStorage.removeItem('google_auth');
     this.router.navigateByUrl('/admin/login').then();
   }
+
   onCreateCourse() {
     this.isLoading = true;
     this.fullCourseService.createCourse();
@@ -90,6 +93,7 @@ export class AdminCourseScreenComponent implements OnInit {
 
   searchCourse($event: string) {
     this.titleSearch = $event;
+    if(this.titleSearch == "") this.resetChildForm();
     this.getListCourseByTitle();
   }
 
@@ -104,4 +108,44 @@ export class AdminCourseScreenComponent implements OnInit {
     this.sbcCreate.unsubscribe();
     this.sbcCourses.unsubscribe();
   }
+
+    //TODO: receive grade from filter
+    receiveGrade($event: any){
+     this.grade = $event;
+    }
+
+     //TODO: receive type course from filter, and get list for filter 
+    receiveCategory($event: any){
+      this.typeCourse = $event;
+      this.getListByFilterAndTitleSearch();
+    }
+
+    getListByFilterAndTitleSearch(){
+      this.listCourse = this.courses.filter((course) =>
+      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+      && course.courseType.toString() == this.typeCourse
+      && course.grade.toString() == this.grade
+    );
+    }
+
+    grade = "";
+    typeCourse = "";
+
+    @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
+    resetChildForm(){
+      this.childC?.resetChildForm();
+      window.scrollTo(0, 0);
+    }
+
+   onResetFitler(){
+     this.resetChildForm();
+    this.grade = ""; //TODO: reset value grade and type course
+    this.typeCourse = "";
+    // this.titleSearch = "";
+   this.getListCourseByTitle();
+    
+   }
+
+
+    
 }

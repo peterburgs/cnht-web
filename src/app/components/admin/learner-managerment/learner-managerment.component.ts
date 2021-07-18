@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ROLES } from 'src/app/models/user-roles';
 import { User } from 'src/app/models/user.model';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { UserService } from 'src/app/service/user.service';
@@ -17,7 +18,7 @@ export class LearnerManagermentComponent implements OnInit {
   APPROVE: string = "error";
   isChange = false;
   isAdmin: boolean = false;
-
+  isLoading: boolean = true;
 
   constructor(private userService: UserService, private router: Router,
     private route: ActivatedRoute,
@@ -36,8 +37,9 @@ export class LearnerManagermentComponent implements OnInit {
   getListUser(){//
   this.userService.getAllLearner().subscribe(users =>
     {
+      this.isLoading = false;
       if(users.count!=0){
-        this.listUsers = users.users,
+        this.listUsers = users.users.filter(user => user.userRole  == ROLES.LEARNER)
         this.listSearch = this.listUsers
       } else this.listUsers = []
 
@@ -56,8 +58,8 @@ export class LearnerManagermentComponent implements OnInit {
     else{
     
       this.getListUserByTitle(this.titleSearch);
-      console.log(this.titleSearch + this.listSearch.length);
-      this.onLoadRouter();
+      // console.log(this.titleSearch + this.listSearch.length);
+      // this.onLoadRouter();
     
     }
 

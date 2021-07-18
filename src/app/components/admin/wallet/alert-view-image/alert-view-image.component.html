@@ -3,15 +3,16 @@
 <div class="alert-box">
     <p>{{message}}</p>
     <div class="pull-left">
-        <p>Full name: {{learner.fullName}}</p>
+        <p>Learner full name: {{learner.fullName}}</p>
         <p>Created at: {{deposit.createdAt}}</p>
         <p>Amount: {{balanceFormat(deposit.amount)}}</p>
+        <p>Status: {{deposit.depositRequestStatus}}</p>
     </div>
     <div class="alert-box-actions">
         <div class="img-deposit-request">
             <img [src]="baseUrl + deposit.imageUrl" class="img img-fluid img-view">
         </div>
-        <button class="btn btn-danger" (click)="onClose()">
+        <button class="btn-cancel btn-danger" (click)="onClose()">
             Close
         </button>
     </div>

@@ -14,6 +14,7 @@ export class CourseDetailScreenComponent implements OnInit {
   
   selectedCourse!:Course;
   courseId!:string;
+  isLoading = true;
   constructor(
     private service: CourseService,
     private route: ActivatedRoute
@@ -28,6 +29,7 @@ export class CourseDetailScreenComponent implements OnInit {
     })
  
     this.service.getCourseById(this.courseId).subscribe(data =>{
+      this.isLoading = false;
       this.selectedCourse= data.courses[0];
       console.log(data)
     } )

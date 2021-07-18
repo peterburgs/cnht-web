@@ -77,6 +77,8 @@ import { CountdownPipe } from './components/course/full-course/course-info/count
 import { Truncate } from './components/course/small-course/lecturer-card-course/Truncate.pipe';
 import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 
+import {MatSelectModule} from '@angular/material/select';
+import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
 
 
 @NgModule({
@@ -134,7 +136,8 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
     LoadingComponent,
     ErrorPageComponent,
     CountdownPipe,
-    Truncate
+    Truncate,
+    CircleLoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -158,7 +161,8 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
     MatListModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
       
   ],
   providers: [ CurrencyPipe,AdminGuard,

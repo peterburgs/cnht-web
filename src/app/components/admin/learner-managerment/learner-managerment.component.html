@@ -1,6 +1,8 @@
 
 <div class="container" *ngIf = "!isAdmin" style="text-align: center;"> <h2>You can not contact this page !</h2></div>
 <div *ngIf = "isAdmin" class="container">
+    <div class = "total-and-search">
+        <div class = "total-learner"> <span>Total learner: {{listSearch.length}}</span></div>
     <div class="d-flex form-group ">
         <span class = "btn icon-search" ><i class="fa fa-search " (click) = "searchUser()"></i></span>
         <input class="form-control search-input "  [(ngModel)] = "titleSearch"
@@ -10,9 +12,15 @@
         
         placeholder="Find learner by email or full name ">
     </div>
+    </div>
+    
 
     <div class="table-learner-managerment">
         <!-- <label>{{userService.getAllUser()}}</label> -->
         <app-table-learner-managerment [listUsers] = "listSearch"></app-table-learner-managerment>
     </div>
+
+  
 </div>
+<app-circle-loading *ngIf = "isAdmin" [isLoading]="isLoading"></app-circle-loading>
+

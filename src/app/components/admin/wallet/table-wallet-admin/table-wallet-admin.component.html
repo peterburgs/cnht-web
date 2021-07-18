@@ -1,12 +1,16 @@
-<div class="card shadow mb-4 table-detail">
+<div class="card shadow  table-detail">
     <div class = "title-table-block">
-        <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
+        <!-- <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
 
-        </div>
-        <!-- ------ search -->
-    <app-search-title class = "pull-right"
-     [message] = "content_for_search"
-     (sendTitleSearch) = "searchDeposit($event)"></app-search-title> 
+        </div> -->
+        <mat-form-field appearance="fill" style="color: black;">
+            <mat-label  style="color:  #194350;  font-weight: 500;">Filter deposit request</mat-label>
+            <mat-select  style="color: black;" [(ngModel)]="selectedFitler">
+              <mat-option (click) = "getListDepositRequestByFitler()" style="color: black;" class="not-empty-select" *ngFor="let status of listStatus" [value]="status.value">
+                {{status.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
     </div>
     
@@ -32,13 +36,6 @@
                     
                 </thead>
                 <tbody>
-                    <div class="lds-ring" *ngIf="isLoading">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                
                    
                     <tr *ngFor = "let item of listSearch | slice: (page-1) * pageSize : page * pageSize">
                         <td>
@@ -96,4 +93,7 @@
         </div>
     </div>
 </div>
+<app-loading  [isLoading]="isLoadingAccept"></app-loading>
+<app-circle-loading  [isLoading]="isLoading"></app-circle-loading>
+
   

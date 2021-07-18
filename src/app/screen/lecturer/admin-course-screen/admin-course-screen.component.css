@@ -2,9 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
           
+.container{
+    /* margin-top: 7vh; */
+}
 .home-screen {
     margin-top: 7vh;
     margin-bottom: 20vh;
+    padding-bottom: 50vh;
 }
 
 
@@ -28,7 +32,7 @@
 .wrapper{
     display: grid;
   /* grid-template-columns: 300px 300px 300px 300px; */
-  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
   grid-gap: 10px;
   
 }
@@ -95,4 +99,40 @@ app-search-title{
 }
 .message-no-found{
    padding-top: 20%;
+}
+
+.fitler{
+
+}
+
+.list-filter-main{
+    display: block;
+}
+
+.clear-filter{
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+    transition: all 1s;
+}
+
+.btn-clear-filter{
+    box-shadow: 1px 1px 1px #c4c4c4;
+    border-radius: 5px;
+    margin-left: 5px;
+    height: 35px;
+    font-size: 13px;
+    padding: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    outline: none;
+    /* border: none; */
+    color: rgb(31, 30, 30);
+    text-align: center;
+    cursor: pointer;
+   
+}
+
+.clear-filter :hover{
+    background-color: #cac4c46b;
 }

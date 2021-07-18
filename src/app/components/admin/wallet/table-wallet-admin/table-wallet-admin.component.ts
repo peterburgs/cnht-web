@@ -21,6 +21,11 @@ const enum SORT{
  
 }
 
+interface Status {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-table-wallet-admin',
   templateUrl: './table-wallet-admin.component.html',
@@ -28,7 +33,9 @@ const enum SORT{
 })
 export class TableWalletAdminComponent implements OnInit {
 
-  message_view_img: string = "Show image deposit !";
+  
+  @Input() listSearch: DepositRequest[] = [];
+  message_view_img: string = "Deposit Request Information";
   path_img_view:string = "../../../../../assets/images/ck.jpg";
   isViewImg:boolean = false;
   @Input() isAdmin:boolean= true;
@@ -48,6 +55,8 @@ export class TableWalletAdminComponent implements OnInit {
   @Output() changeBalanceAdmin = new EventEmitter<number>();
   page = 1;
   pageSize = 10;
+  selectedFitler = 'all';
+  isLoadingAccept = false;
   constructor(public userService: UserService, 
     private _snackBar: MatSnackBar, 
     public depositRequestService: DepositRequestService,
@@ -55,6 +64,13 @@ export class TableWalletAdminComponent implements OnInit {
     ) { 
 
    }
+
+   listStatus: Status[] = [
+    {value: 'all', viewValue: 'All'},
+    {value: STATUSES.CONFIRM, viewValue: 'Confirmed'},
+    {value: STATUSES.DENIED, viewValue: 'Denied'},
+    {value: STATUSES.PENDING, viewValue: 'Pending'}
+  ];
 
    openSnackBar(message: string, action: string) { // notice success
     this._snackBar.open(message, action, {
@@ -70,6 +86,14 @@ export class TableWalletAdminComponent implements OnInit {
     console.log(this.depositRequests.length);
  
     
+  }
+
+  getListDepositRequestByFitler(){
+    if(this.selectedFitler.toString() == 'all'){this.listSearch = this.depositRequests;}
+    else
+    this.listSearch = this.depositRequests.filter(
+      deposit => deposit.depositRequestStatus.toString() == this.selectedFitler
+    )
   }
 
   eSortDate: SORT= SORT.CURRENT;
@@ -187,7 +211,6 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
 
-  listSearch: DepositRequest[] = [];
   //TODO: search deposit request by title search
   searchDeposit($event: any){
     if($event == "")
@@ -225,8 +248,10 @@ export class TableWalletAdminComponent implements OnInit {
 
 
   updateStatusDeposit(){
+    this.isLoadingAccept  = true;
     this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit).subscribe(any =>{
       this.getAllList();
+      this.isLoadingAccept  = false;
       this.openSnackBar("Reposit was updated !", "OK"); 
       
         if(this.newStatusDeposit == STATUSES.CONFIRM){ //TODO: update balane for learner and admin 

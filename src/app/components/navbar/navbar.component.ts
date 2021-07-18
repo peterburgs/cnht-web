@@ -75,10 +75,10 @@ export class NavbarComponent implements OnInit {
  }
   onLoadSearch(){
     if(this.titleSearch != ""){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['search'], {queryParams: {title: this.titleSearch }, fragment: 'loading'});
-   
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    // this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['search'], { queryParams: {title: this.titleSearch}});
+      this.titleSearch = "";
    }
   }
 }

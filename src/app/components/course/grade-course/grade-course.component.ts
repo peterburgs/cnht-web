@@ -74,9 +74,9 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   }
 
   onLoadSearchAllCourse(){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate(['search'], {queryParams: {type: this.courseType, grade: this.grade }, fragment: 'filter'});
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    // this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['search'], {queryParams: {type: this.courseType, grade: this.grade }});
 
    
   }

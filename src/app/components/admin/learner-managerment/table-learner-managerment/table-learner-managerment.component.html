@@ -21,12 +21,7 @@
                     </tr>
                 </thead>    
                 <tbody>
-                    <div class="lds-ring" *ngIf="isLoading">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                  
 
                     <tr *ngFor="let user of listUsers | slice: (page-1) * pageSize : page * pageSize">
                         <td>{{user.email}}</td>
