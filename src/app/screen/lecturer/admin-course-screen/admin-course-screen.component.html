@@ -17,9 +17,12 @@
                 <div class = "list-filter-main">
                     <app-filter (sendGradeChoose) = "receiveGrade($event)" (sendCategoryChoose) = "receiveCategory($event)"></app-filter>
                 </div>
-               <div class = "clear-filter pull-right">
+               <div class = "clear-filter">
                 <div class="btn-clear-filter"  (click)="onResetFitler()"> 
-                    <img src="../../../../assets/images/filter.png" style="height: 24px; width: 24px;">
+                    <span>
+                        <i class="fa fa-filter"></i>
+                    </span>
+                    <!-- <img src="../../../../assets/images/filter.png" style="height: 24px; width: 24px;"> -->
                     Clear filter</div> 
                </div>
 
