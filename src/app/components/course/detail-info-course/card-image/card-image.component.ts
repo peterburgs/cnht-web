@@ -50,7 +50,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
   ngOnInit(): void {
 
-    console.log(this.course);
     //when click back on brower, we have to get course again by url 
     if(this.course==null || this.course==undefined){
       this.activeRouter.params.subscribe(params=>{
@@ -90,7 +89,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
           this.userService.getAllUser()
           .pipe(
             catchError((error)=>{
-                console.log(error)
                 
                 return throwError(error)
                 
@@ -98,7 +96,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
           )
           .subscribe(responseData=>{
             let learner = responseData.users.find((user)=> user.email===email)
-            console.log('Learner: ', learner)
             if(learner)
             this.learner= learner;
             else{
@@ -106,7 +103,6 @@ export class CardImageComponent implements OnInit ,OnChanges{
               this.authService.logOut();
               this.router.navigate(['/login'])
             }
-            console.log(this.learner)
             this.isBought_();
           })
         }
@@ -142,11 +138,9 @@ export class CardImageComponent implements OnInit ,OnChanges{
      //check is bought
     {
       if(this.course!=undefined){
-        console.log("isBought function")
       this.userService.checkEnrollment(this.course.id, this.learner.id)
       .pipe(
         catchError((error)=>{
-            console.log("ERROR")
             if(error.error.count==0)
               this.isBought=false
            this.isLoading=false;
@@ -154,8 +148,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
         })
       )
       .subscribe(responseData=>{
-        console.log('Check bought')
-        console.log(responseData)
+
        this.isBought= true;
        this.isLoading=false;
     })  

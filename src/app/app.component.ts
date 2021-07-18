@@ -46,15 +46,16 @@ export class AppComponent implements OnInit, OnDestroy {
       else this.isShowNavbarAdmin= false;
     })
 
-    this.socialAuthService.authState.subscribe((user) => {
-      console.log('AuthState: ', this.socialAuthService.authState);
-      let isAdmin= false;
-      localStorage.setItem('expires_in', user.response.expires_in)
-      localStorage.setItem('token_created_at', Date.now().toString())
+    // this.socialAuthService.authState.subscribe((user) => {
+    //   console.log('AuthState: ', this.socialAuthService.authState);
+    //   let isAdmin= false;
+    //   localStorage.setItem('expires_in', user.response.expires_in)
+    //   localStorage.setItem('token_created_at', Date.now().toString())
       
-      if(localStorage.getItem('role')=='admin')
-        isAdmin=true;
+    //   if(localStorage.getItem('role')=='admin')
+    //     isAdmin=true;
       
+<<<<<<< HEAD
       // this.authService.signIn(user.idToken,isAdmin)
       // .subscribe(responseData=>{
       //     console.log("*** GO SUbcribe60")
@@ -66,6 +67,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // })              
     });
+=======
+    //   this.authService.signIn(user.idToken,isAdmin)
+    //   .subscribe(responseData=>{
+    //       console.log("SUBSCRIBE")
+    //     console.log('new token:',responseData.token)
+    //     this.authService.storeUser(responseData.user,responseData.token);
+    //     this.expiredTime= user.response.expires_in-60;
+    //     this.timer.startTimer(this.expiredTime);   
+    //     this.validSignIn= true;
+
+    //   })              
+    // });
+>>>>>>> da9f107... update api link
 
     
     this.socialAuthService.initState.subscribe((state)=>{
@@ -92,13 +106,8 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('Remaining time:' ,this.expiredTime-remaining_time)
         if(remaining_time>=this.expiredTime)
         {
-        
-          this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID)
-          .then(()=>{
-            let token = localStorage.getItem('token')
-            console.log('old token:',token)
-            this.timer.startTimer(this.expiredTime);
-          })
+          this.timer.refreshToken(this.expiredTime)
+          this.validSignIn=true
         
         }
         else{

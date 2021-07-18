@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { Course } from 'src/app/models/course.model';
@@ -67,8 +67,7 @@ export class SectionCourseComponent implements OnInit{
        for(let i=0;i<this.listLecture.length;i++){
         this.courseService.getVideoLength(this.listLecture[i].id).toPromise()
         .then(data=>{
-          console.log("data VIDEO")
-          console.log(data)
+          
           this.listLecture[i].length= data.video.length;
         })
         .catch(error=>{

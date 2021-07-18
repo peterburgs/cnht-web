@@ -12,7 +12,6 @@
 .child-media {
     width: 100%;
     display: flex;
-    margin-top: 8px;
 }
 
 .media-left {
@@ -48,6 +47,7 @@
     color: rgb(100, 100, 100);
     font-weight: 400;
     font-size: 10px;
+    margin-top: -5px;
 }
 
 .comment-content {
