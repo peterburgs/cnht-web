@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
       
       this.authService.signIn(user.idToken,isAdmin)
       .subscribe(responseData=>{
-          
+          console.log("*** GO SUbcribe60")
         console.log('new token:',responseData.token)
         this.authService.storeUser(responseData.user,responseData.token);
         this.expiredTime= user.response.expires_in-60;
