@@ -62,7 +62,7 @@ export class CourseCreationScreenComponent implements OnInit, CanComponentDeacti
     console.log("*** Call Modify: Way modify: "+ this.wayModify+" Type Selection: "+ this.typeSelection);
     this.titleBinding = this.fullCourseService.getTitleContent();
     this.titleBinding='';
-    this.modalService.open(this.content, { centered: true, size: 'lg' });
+    this.modalService.open(this.content, { centered: true });
   }
   openNotifyError() { 
     this.modalService.open(this.error_happen, { centered: true,     backdrop:'static', keyboard:false });

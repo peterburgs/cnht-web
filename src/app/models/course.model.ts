@@ -13,4 +13,5 @@ export class Course{
     updatedAt: Date = new Date();
     isHidden: boolean = false;
     purchasedAt?:Date;
+    isPublished:boolean= true;
 }

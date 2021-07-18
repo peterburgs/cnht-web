@@ -1,7 +1,7 @@
 <div class="edit-screen container">
   <div class="div-contain">
     <div class="div-back" (click)="goBack()">
-      <span> <i class="fa fa-long-arrow-left icon-decorate" 
+      <span> <i class="bi bi-arrow-left-square icon-decorate" 
         title="Lesson go up" ></i>Back to courses</span></div>
     </div>
    
@@ -27,7 +27,7 @@
 </div>
 <ng-template #content let-modal>
   <div  class="modal-header custome-dialog-title">
-    <h4 class="modal-title section-title">
+    <h4 class="modal-title section-title custome-title  ">
       {{
         customeTitle()
       }}
@@ -44,7 +44,7 @@
       <label for="name" class="col-sm-4 col-form-label">
          {{ typeSelection == 0 ? "section" : "lecture" }} title</label
       >
-      <div  class="col-sm-9">
+      <div  class="col-sm-11">
         <input
           type="text"
           class="form-control"
