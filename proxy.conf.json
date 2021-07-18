@@ -1,0 +1,6 @@
+{
+    "/api": {
+      "target": "https://us-central1-supple-craft-318515.cloudfunctions.net",
+      "secure": false
+    }
+  }
