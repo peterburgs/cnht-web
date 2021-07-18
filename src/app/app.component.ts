@@ -55,16 +55,16 @@ export class AppComponent implements OnInit, OnDestroy {
       if(localStorage.getItem('role')=='admin')
         isAdmin=true;
       
-      this.authService.signIn(user.idToken,isAdmin)
-      .subscribe(responseData=>{
-          console.log("*** GO SUbcribe60")
-        console.log('new token:',responseData.token)
-        this.authService.storeUser(responseData.user,responseData.token);
-        this.expiredTime= user.response.expires_in-60;
-        this.timer.startTimer(this.expiredTime);   
-        this.validSignIn= true;
+      // this.authService.signIn(user.idToken,isAdmin)
+      // .subscribe(responseData=>{
+      //     console.log("*** GO SUbcribe60")
+      //   console.log('new token:',responseData.token)
+      //   this.authService.storeUser(responseData.user,responseData.token);
+      //   this.expiredTime= user.response.expires_in-60;
+      //   this.timer.startTimer(this.expiredTime);   
+      //   this.validSignIn= true;
 
-      })              
+      // })              
     });
 
     
@@ -102,6 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
         
         }
         else{
+          console.log("*** Page refresh")
           //sign in to server 
           let token = localStorage.getItem('token');
           let isAdmin= localStorage.getItem('role')=='admin';
