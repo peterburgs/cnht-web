@@ -122,7 +122,7 @@ readVideoUrl(event: any, idLecture:string) {
 getDuration(e:any) {
   this.duration= e.target.duration;
   this.timeVideo=Math.round(this.duration); 
-  this.sbjLoadingDuration.next(this.duration);
+  this.sbjLoadingDuration.next(this.timeVideo);
 }
 ngOnDestroy(): void {
   //Called once, before the instance is destroyed.

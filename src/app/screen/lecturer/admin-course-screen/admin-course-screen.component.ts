@@ -37,7 +37,12 @@ export class AdminCourseScreenComponent implements OnInit {
       this.courses = response.courses;
       this.listCourse = this.courses;
       this.isLoading = false;
+    },error=>{
+      this.courses = [];
+      this.listCourse = [];
+      this.isLoading = false;
     });
+    
 
     const storage = localStorage.getItem('google_auth');
 
@@ -61,12 +66,16 @@ export class AdminCourseScreenComponent implements OnInit {
     // this.fullCourseService.initCourses().subscribe((response)=>{
     //      this.courses=response.courses;
     //    })
-    if (this.authSevice.isAdmin())
-      this.fullCourseService.initCourses().subscribe((response) => {
-        this.courses = response.courses;
-        this.listCourse = this.courses;
-      });
-    else this.router.navigateByUrl('/home').then();
+
+    // if (this.authSevice.isAdmin())
+    //   this.fullCourseService.initCourses().toPromise().then((response) => {
+    //     this.courses = response.courses;
+    //     this.listCourse = this.courses;
+    //   }, error=>{
+    //     this.courses=[];
+    //     this.listCourse=[];
+    //   });
+    // else this.router.navigateByUrl('/home').then();
   }
 
   signOut(): void {
@@ -77,7 +86,7 @@ export class AdminCourseScreenComponent implements OnInit {
     this.isLoading = true;
     this.fullCourseService.createCourse();
 
-    this.sbcCourses = this.sbcCreate = this.fullCourseService
+  this.sbcCreate = this.fullCourseService
       .getSbjCreateCourse()
       .subscribe((course) => {
         this.isLoading = false;
@@ -85,6 +94,9 @@ export class AdminCourseScreenComponent implements OnInit {
           ['../', 'course', this.fullCourseService.getCourseInfo().id],
           { relativeTo: this.route }
         );
+      }, error=>{
+        this.isLoading = false;
+        alert("Can not create new course now!!! Try again");
       });
   }
 

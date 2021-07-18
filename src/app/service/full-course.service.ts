@@ -134,6 +134,16 @@ export class FullCourseService {
       (lecture: Lecture) => lecture.id == this.idItem
     )[0];
   }
+  getCourseUpdate(){
+    // let urlGetCourse=this.apiUrlCourse+"/"+this.course.id;
+    // console.log("*** Get Course info")
+    // console.log(urlGetCourse);
+    return this.http.get<{message:string, count:number, course:Course[]}>(this.apiUrlCourse,
+        {
+          headers: this.headers,
+          params: new HttpParams().set('id', this.course.id),
+        });
+  }
   /**
    *
    * @param lectureId
@@ -396,9 +406,12 @@ export class FullCourseService {
     this.listDeepSection = [];
     let apiGetLectureOfCourse =
       this.apiUrlCourse + '/' + this.idCourse + '/lectures';
+      console.log("*** getSection")
+    let apiGetSectionsOfCourse= this.apiUrlCourse+'/'+ this.idCourse+"/sections"
     this.http
       .get<{ message: string; count: number; sections: Section[] }>(
-        this.apiUrlSection,
+        apiGetSectionsOfCourse
+        ,
         {
           headers: this.headers,
           params: new HttpParams().set('courseId', this.idCourse),
@@ -412,7 +425,7 @@ export class FullCourseService {
           if (s1.sectionOrder < s2.sectionOrder) return -1;
           return 0;
         });
-
+        console.log(this.sections);
         //get section
         this.http
           .get<{ message: string; count: number; lectures: Lecture[] }>(
@@ -646,6 +659,19 @@ export class FullCourseService {
             console.log(castedData.data.course);
 
             console.log('***', 'Upload successfully');
+            this.getCourseUpdate().subscribe(response=>{
+              console.log("*** response");
+              console.log(response);
+
+              this.course= response.course[0];
+              console.log(this.courses);
+              //Update in courses 
+              this.courses.forEach(course=>{
+                if(course.id == response.course[0].id){
+                  course.thumbnailUrl = response.course[0].thumbnailUrl;
+                }
+              })
+            })
           }
 
           sendNext();
@@ -834,7 +860,7 @@ export class FullCourseService {
         price: this.course.price,
         courseType: this.course.courseType,
         thumbnailUrl: this.course.thumbnailUrl,
-        isHidden: this.course.isHidden,
+        isPublished: this.course.isPublished,
         grade: this.course.grade,
       },
       httpOptions
@@ -909,19 +935,22 @@ export class FullCourseService {
 
   onCreateCourse(course: Course) {
     console.log('*** create course');
+    console.log(course);
     //Course default
     let courseDefault: Course = {
       id: '',
-      title: 'New course',
-      courseDescription: 'All you need to  pass your curriculum',
+      title: 'Introduction To Math',
+      courseDescription: 'Some fundamentals of Introduction To Information Technology',
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
       thumbnailUrl: '',
-      createdAt: new Date(),
+      createdAt: new Date(),  
       updatedAt: new Date(),
       isHidden: false,
+      isPublished:true
     };
+    console.log(courseDefault);
     //Create new Course
     return this.http
       .post<{ message: string; count: number; course: Course }>(
@@ -932,9 +961,8 @@ export class FullCourseService {
           price: courseDefault.price,
           courseType: courseDefault.courseType,
           thumbnailUrl: courseDefault.thumbnailUrl,
-          isHidden: courseDefault.isHidden,
-          createdAt: courseDefault.createdAt,
-          updatedAt: courseDefault.updatedAt,
+          grade: courseDefault.grade,
+          isPublished: courseDefault.isPublished
         },
         httpOptions
       )

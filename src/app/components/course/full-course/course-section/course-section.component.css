@@ -121,9 +121,13 @@
   }
   
  .title-section{
-  background:  #4285F4;
+  background:  #A35709;
     align-items: center;
-   
+    font-weight: bold;
+    font-size: 20px;
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
  }
 
 .icon-delete{

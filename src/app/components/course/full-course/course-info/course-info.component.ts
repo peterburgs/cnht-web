@@ -131,6 +131,6 @@ export class CourseInfoComponent implements OnInit {
   }
   onPublishedCourse($event:any){
       // Handle update Publish
-      this.course.isHidden= !this.course.isHidden;
+      this.course.isPublished= !this.course.isPublished;
   }
 }

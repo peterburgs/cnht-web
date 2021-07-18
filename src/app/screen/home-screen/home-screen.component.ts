@@ -22,8 +22,7 @@ export class HomeScreenComponent implements OnInit {
     private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {   
-
-
+    
   }
 
   changeCourseType(number:number){

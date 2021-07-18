@@ -72,6 +72,7 @@ export class LoginScreenComponent implements OnInit {
   }
 
   loginWithGoogle(): void {  
+    
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     
   }
