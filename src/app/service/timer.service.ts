@@ -59,10 +59,10 @@ export class Timer implements OnInit{
     }
 
     pauseTimer() {
-        if(this.interval)
-         {
-          clearInterval(this.interval);
-         } 
+      if(this.interval)
+        {
+        clearInterval(this.interval);
+        } 
     }
 
     ngOnDestroy(): void {

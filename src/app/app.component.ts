@@ -55,19 +55,6 @@ export class AppComponent implements OnInit, OnDestroy {
     //   if(localStorage.getItem('role')=='admin')
     //     isAdmin=true;
       
-<<<<<<< HEAD
-      // this.authService.signIn(user.idToken,isAdmin)
-      // .subscribe(responseData=>{
-      //     console.log("*** GO SUbcribe60")
-      //   console.log('new token:',responseData.token)
-      //   this.authService.storeUser(responseData.user,responseData.token);
-      //   this.expiredTime= user.response.expires_in-60;
-      //   this.timer.startTimer(this.expiredTime);   
-      //   this.validSignIn= true;
-
-      // })              
-    });
-=======
     //   this.authService.signIn(user.idToken,isAdmin)
     //   .subscribe(responseData=>{
     //       console.log("SUBSCRIBE")
@@ -79,7 +66,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     //   })              
     // });
->>>>>>> da9f107... update api link
 
     
     this.socialAuthService.initState.subscribe((state)=>{
@@ -114,7 +100,10 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log("*** Page refresh")
           //sign in to server 
           let token = localStorage.getItem('token');
-          let isAdmin= localStorage.getItem('role')=='admin';
+          let isAdmin = false;
+          if(localStorage.getItem('role')=='admin')
+            isAdmin=true;
+          
           if(token)
             this.authService.signIn(token, isAdmin)
             .pipe(
@@ -138,6 +127,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
             })
         }
+      }
+      else{
+        this.validSignIn=true
       }
     
     }
