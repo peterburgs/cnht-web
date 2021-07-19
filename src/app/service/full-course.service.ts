@@ -770,7 +770,7 @@ export class FullCourseService {
               },
               (error) => {
                 // console.log(error.message);
-                // this.setPositionLoading(false,sectionIndex, lectureIndex);
+                this.setPositionLoading(false,sectionIndex, lectureIndex);
                 // this.stateUploadMedia =false;
                 // this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
                 // console.log("Error 2");

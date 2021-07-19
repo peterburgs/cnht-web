@@ -105,7 +105,7 @@
          <div class="mb-3 row">
            <div class="col-sm-2 col-form-label">Published</div>
            <div class="col-sm-10  ">
-             <mat-slide-toggle [checked]="!course.isPublished" (change) ="onPublishedCourse($event)" color="primary"  ></mat-slide-toggle>
+             <mat-slide-toggle [checked]="!course.isPublished" (change) ="onPublishedCourse($event)"   ></mat-slide-toggle>
              <span  class="descript-slide published" *ngIf="!course.isPublished" >Learner can view this course</span>
              <span class="descript-slide not-published" *ngIf="course.isPublished">Learner can't view this course</span>
            </div>

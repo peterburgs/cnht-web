@@ -184,7 +184,7 @@ image{
 }
 
 ::ng-deep .mat-slide-toggle-bar {
-  background-color: #000;
+  background-color: #E45826 ;
   /* border-radius: 15px !important;
   height: 16px !important; */
 }
@@ -194,18 +194,20 @@ image{
 }
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: #000;
+  background-color: #E45826 ;
 }
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
   background-color: #fff;
 }
-
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+    background-color: #66DE93;
+}
 .published{
-    color: #548CA8 ;
+    color: #66DE93 ;
 }
 .not-published{
-    color: #c62828;
+    color: #E45826;
 }
 .icon-right{
     margin-right:8px;
