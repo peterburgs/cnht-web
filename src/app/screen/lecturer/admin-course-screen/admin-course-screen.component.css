@@ -119,7 +119,7 @@ app-search-title{
     text-align: center;
    
     /* width: 50%; */
-    transition: all 1s;
+    transition: all 0.5s;
 }
 
 .btn-clear-filter{
@@ -139,11 +139,11 @@ app-search-title{
     color: #fff;
     text-align: center;
     cursor: pointer;
-   
+    transition: all 0.5s;
 }
 
 .clear-filter :hover{
-    background-color: #cac4c46b;
+    background-color: #b46a6a6b;
 }
 
 

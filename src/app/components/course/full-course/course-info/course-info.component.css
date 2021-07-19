@@ -149,11 +149,12 @@ image{
     margin-left: 10px;
 }
 .btn-calculate{
-   
+   width: fit-content;
     border-radius: 10px;
     background: #F4B400;
     color: white;
    font-weight: bold;
+   transition: all 0.5s;
 }
 .btn-calculate:hover{
     background: white;

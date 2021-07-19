@@ -7,7 +7,7 @@
         <div class = " col-sm-9 search-course">
             <mat-form-field appearance="fill" style="color: black;">
                 <mat-label  style="color:  #194350;  font-weight: 500;">View by</mat-label>
-                <mat-select  style="color: black;" [(ngModel)]="selectedViewBy">
+                <mat-select disableOptionCentering style="color: black;" [(ngModel)]="selectedViewBy">
                   <mat-option (click) = "getAllByFilter()" style="color: black;" class="not-empty-select" *ngFor="let status of listStatus" [value]="status.value">
                     {{status.viewValue}}
                   </mat-option>
