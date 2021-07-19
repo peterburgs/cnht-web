@@ -109,12 +109,14 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(
               catchError((error)=>{
                   console.log("ERROR") 
-                  if(error.status==500 ) 
+                  if(error.status==500 || error.status==401 ) 
                   {
                     this.validSignIn=true;
                     this.authService.logOut()
                     this.router.navigate(['/login'])
-                  }                  
+                  } 
+                
+                         
                   return throwError(error) 
               })
             )

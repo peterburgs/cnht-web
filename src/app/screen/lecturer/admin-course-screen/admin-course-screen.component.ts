@@ -7,6 +7,10 @@ import { authenticationService } from 'src/app/service/authentication.service';
 import { Subscription } from 'rxjs';
 import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 
+interface Status {
+  value: Number;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-admin-course-screen',
@@ -106,14 +110,34 @@ export class AdminCourseScreenComponent implements OnInit {
   searchCourse($event: string) {
     this.titleSearch = $event;
     if(this.titleSearch == "") this.resetChildForm();
-    this.getListCourseByTitle();
+    this.getAllByFilter();
   }
 
   getListCourseByTitle() {
+    switch ( this.selectedViewBy ) {
+      case  0:
+          this.getAllListByTitle();
+          break;
+      case 1:
+        this.getAllListByTitleAndStatus(true);
+          break;
+      case -1:
+        this.getAllListByTitleAndStatus(false);
+        break;    
+      default:
+        break;
+  }
+    
+  }
+
+  getAllListByTitle(){
     this.listCourse = this.courses.filter((course) =>
       course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+
     );
   }
+
+  
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
@@ -129,16 +153,10 @@ export class AdminCourseScreenComponent implements OnInit {
      //TODO: receive type course from filter, and get list for filter 
     receiveCategory($event: any){
       this.typeCourse = $event;
-      this.getListByFilterAndTitleSearch();
+      this.getAllByFilter();
     }
 
-    getListByFilterAndTitleSearch(){
-      this.listCourse = this.courses.filter((course) =>
-      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
-      && course.courseType.toString() == this.typeCourse
-      && course.grade.toString() == this.grade
-    );
-    }
+   
 
     grade = "";
     typeCourse = "";
@@ -154,10 +172,69 @@ export class AdminCourseScreenComponent implements OnInit {
     this.grade = ""; //TODO: reset value grade and type course
     this.typeCourse = "";
     // this.titleSearch = "";
-   this.getListCourseByTitle();
+   this.getAllByFilter();
     
    }
 
+   selectedViewBy: Number = 0;
+
+   listStatus: Status[] = [
+    {value: 0, viewValue: 'All'},
+    {value:1, viewValue: 'Published'},
+    {value:-1, viewValue: 'Not Published'},
+   
+  ];
+
+ 
+//TODO: get all list course
+  getAllByFilter(){
+    switch ( this.selectedViewBy ) {
+      case  0:
+          this.getListAllByFilterAndTitleSearch();
+          break;
+      case 1:
+        this.getListByAllFilterCourse(true);
+          break;
+      case -1:
+        this.getListByAllFilterCourse(false);
+        break;    
+      default:
+        break;
+  }
+  }
+
+  getListByAllFilterCourse(status: boolean){
+    if(this.grade == "" || this.typeCourse == "")
+    this.getAllListByTitleAndStatus(status);
+  else
+    this.listCourse = this.courses.filter((course) =>
+      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+      && course.courseType.toString() == this.typeCourse
+      && course.grade.toString() == this.grade
+      && course.isPublished == status
+    );
+  }
+
+  getAllListByTitleAndStatus(status: boolean){
+    this.listCourse = this.courses.filter((course) =>
+      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+      && course.isPublished == status
+    );
+  }
+
+  getListAllByFilterAndTitleSearch(){
+    if(this.grade == "" || this.typeCourse == "")
+      this.getAllListByTitle();
+    else this.getListByFilterAndTitleSearch();
+  }
+
+  getListByFilterAndTitleSearch(){
+    this.listCourse = this.courses.filter((course) =>
+    course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+    && course.courseType.toString() == this.typeCourse
+    && course.grade.toString() == this.grade
+  );
+  }
 
     
 }
