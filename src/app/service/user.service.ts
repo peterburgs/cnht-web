@@ -157,7 +157,7 @@ export class UserService{
     
 
     //TODO:SEND GET METHOD TO GET USER BY USER ID
-    getUserById(learnerId:string){
+    getUserByI(learnerId:string){
 
         const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
         const tokenType= "Bearer "

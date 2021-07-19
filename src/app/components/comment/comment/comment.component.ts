@@ -77,7 +77,7 @@ export class CommentComponent implements OnInit, OnChanges {
           {
             let learner_= responseData.users.find((user)=> user.email===email);
             if(learner_)
-                this.user= learner_;
+              this.user= learner_;
           })
       if(localStorage.getItem('uphotoUrl'))
       {

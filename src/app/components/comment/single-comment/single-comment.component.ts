@@ -116,14 +116,15 @@ export class SingleCommentComponent implements OnInit {
    * @param learnerId 
    */
   getCommentCreator(){
-    this.commentChildList.forEach(comment => {
-     this.userService.getUserById(comment.userId).subscribe(data=> comment.learner=data.users[0]);  
+    this.userService.getAllUser().subscribe(responseData=>{
+      let learner= responseData.users;
+      this.commentChildList.forEach(comment => {
+        comment.learner=learner.find((user)=>user.id===comment.userId)
+      });
 
-   });
-
-   this.userService.getUserById(this.commentParent.userId)
-   .subscribe(data=>this.commentParent.learner=data.users[0]);
-
+      this.commentParent.learner= learner.find(user=>user.id=== this.commentParent.userId)
+    })
+   
   }
 
   getMomentTime(date: Date):string{
