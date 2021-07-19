@@ -64,13 +64,20 @@
     >
       Cancel
     </button>
-    <button 
+    <button *ngIf="wayModify==0 || wayModify ==1"
       type="button" 
       class="btn btn-primary"
       (click)="onConfirmSave()" 
     >
       Save
     </button>
+    <button 
+    type="button" *ngIf="wayModify == 2 || wayModify == 3 || wayModify == 4 ||wayModify == 5 || wayModify == 6 || wayModify == 7"
+    class="btn btn-primary"
+    (click)="onConfirmSave()" 
+  >
+    Confirm
+  </button>
   </div>
 </ng-template>
 <app-loading [isLoading]="isLoading"></app-loading>
@@ -85,6 +92,6 @@
     <p class="custome-dialog-title">{{errorMessage}}&hellip;</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button  type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>

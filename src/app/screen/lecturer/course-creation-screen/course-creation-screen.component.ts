@@ -221,13 +221,13 @@ export class CourseCreationScreenComponent implements OnInit, CanComponentDeacti
         return noticeMessage;
       case ModifyType.goUp:
         if (this.typeSelection == VideoType.lecture)
-          return confirmMessage + ' up level this lecture?';
-        return confirmMessage + ' up level this section?';
+          return confirmMessage + 'move this lecture up?';
+        return confirmMessage + ' move this section up?';
       case ModifyType.goDown:
         if (this.typeSelection == VideoType.section) {
-          return confirmMessage + ' down level this section?';
+          return confirmMessage + ' move this section down?';
         }
-        return confirmMessage + ' down level this lecture?';
+        return confirmMessage + ' move this lecture down?';
     }
     return '';
   }

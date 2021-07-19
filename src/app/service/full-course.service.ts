@@ -138,7 +138,7 @@ export class FullCourseService {
     // let urlGetCourse=this.apiUrlCourse+"/"+this.course.id;
     // console.log("*** Get Course info")
     // console.log(urlGetCourse);
-    return this.http.get<{message:string, count:number, course:Course[]}>(this.apiUrlCourse,
+    return this.http.get<{message:string, count:number, courses:Course[]}>(this.apiUrlCourse,
         {
           headers: this.headers,
           params: new HttpParams().set('id', this.course.id),
@@ -333,7 +333,7 @@ export class FullCourseService {
   }
 
   onDownLecture() {
-    let urlDownLecture = this.baseURL + 'lectures/' + this.idItem + '/downs';
+    let urlDownLecture = this.baseURL + 'lectures/' + this.idItem + '/down';
     let lectureDown: Lecture = this.getLectureSelection();
     let sectionId = '0';
     for (let i = 0; i < this.listDeepSection.length; i++) {
@@ -663,12 +663,12 @@ export class FullCourseService {
               console.log("*** response");
               console.log(response);
 
-              this.course= response.course[0];
+              this.course= response.courses[0];
               console.log(this.courses);
               //Update in courses 
               this.courses.forEach(course=>{
-                if(course.id == response.course[0].id){
-                  course.thumbnailUrl = response.course[0].thumbnailUrl;
+                if(course.id == response.courses[0].id){
+                  course.thumbnailUrl = response.courses[0].thumbnailUrl;
                 }
               })
             })
@@ -976,7 +976,7 @@ export class FullCourseService {
           firstSection.title = 'Section 1';
           firstSection.courseId = course.id;
           firstSection.sectionOrder = 0;
-          this.onCreateSection(firstSection);
+          // this.onCreateSection(firstSection);
           this.initCourses();
         }
       });
