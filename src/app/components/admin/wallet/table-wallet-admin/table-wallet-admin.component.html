@@ -5,7 +5,7 @@
         </div> -->
         <mat-form-field appearance="fill" style="color: black;">
             <mat-label  style="color:  #194350;  font-weight: 500;">Filter deposit request</mat-label>
-            <mat-select  style="color: black;" [(ngModel)]="selectedFitler">
+            <mat-select disableOptionCentering  style="color: black;" [(ngModel)]="selectedFitler">
               <mat-option (click) = "getListDepositRequestByFitler()" style="color: black;" class="not-empty-select" *ngFor="let status of listStatus" [value]="status.value">
                 {{status.viewValue}}
               </mat-option>

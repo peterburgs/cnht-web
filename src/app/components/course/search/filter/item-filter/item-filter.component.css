@@ -53,4 +53,5 @@ input[type='radio']:checked:after {
   border-radius: 5px;
   font-weight: 400;
   letter-spacing: 1px;
+  padding-right: 20px;
 }
