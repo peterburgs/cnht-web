@@ -27,7 +27,7 @@ export class CourseLearningScreenComponent implements OnInit {
   learner = new User()
   hidden_comment=true;
   isLoadingVideo= false;
-
+  isLeaving=false;
   constructor(
     private route: ActivatedRoute,
     private courseService:CourseService,
