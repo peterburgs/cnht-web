@@ -79,6 +79,7 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
 
 import {MatSelectModule} from '@angular/material/select';
 import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
+import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 
 
 @NgModule({
@@ -137,7 +138,8 @@ import { CircleLoadingComponent } from './components/circle-loading/circle-loadi
     ErrorPageComponent,
     CountdownPipe,
     Truncate,
-    CircleLoadingComponent
+    CircleLoadingComponent,
+    ComfirmLeaveComponent
   ],
   imports: [
     BrowserModule,

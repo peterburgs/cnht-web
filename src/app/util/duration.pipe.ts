@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 @Pipe({name:'duration'})
 export class Duration implements PipeTransform{
     transform(value:number): string{
-        if(value<0){
+        if(value<0 || !value){
             return "No video uploaded"
         }
         const minutes: number = Math.floor(value / 60);

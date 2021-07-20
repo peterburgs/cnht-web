@@ -13,12 +13,12 @@
   ></app-course-section>
   <ul>  
     <button class="btn-create-new" (click)="onCreateSection()">
-      <i class="bi bi-plus-lg icon-create icon-create"></i>  Create new section
+      <i class="bi bi-plus-lg icon-create icon-create"></i>  New section
     </button>
   </ul>
   <br/>
   <div class="div-save">
-    
+ 
   </div>
 
   <br />
@@ -95,3 +95,4 @@
     <button  type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
+<app-comfirm-leave *ngIf="isLeaving"></app-comfirm-leave>

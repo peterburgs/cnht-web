@@ -11,6 +11,7 @@ import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { VideoType } from 'src/app/models/VideoType.model';
+import {ThemePalette} from '@angular/material/core';
 
 import { FullCourseService } from '../../../../service/full-course.service';
 import { Observable, Subscription } from 'rxjs';
@@ -35,8 +36,9 @@ export class CourseInfoComponent implements OnInit {
   fileToUpLoad: File = new File([], '_Thumbnail');
     tmpImage="";
   sbcEstimate:Subscription = new Subscription();
-
+    uploadImage=false;
   isPublished=true;
+  color: ThemePalette = 'accent';
   constructor(private fullCourseService: FullCourseService) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {
@@ -50,7 +52,11 @@ export class CourseInfoComponent implements OnInit {
     this.fullCourseService.getSbjCreateCourse().subscribe((course) => {
       this.mCourse = course;
     });
-
+    this.fullCourseService.getLoadingThumbanil().subscribe(isLoading=>{
+        if(!isLoading){
+          this.uploadImage=false;
+        }
+    })
     this.priceFormat = String(this.course.price);
   }
   handleFileInput(event: Event) {
@@ -58,7 +64,8 @@ export class CourseInfoComponent implements OnInit {
     let fileList: FileList | null = element.files;
     if (fileList) {
       console.log('FileUpload -> files', fileList);
-
+      this.uploadImage=true;
+      this.course.thumbnailUrl="";
       this.fileToUpLoad = <File>fileList.item(0);
 
       var reader = new FileReader();

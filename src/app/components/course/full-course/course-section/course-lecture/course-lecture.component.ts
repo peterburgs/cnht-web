@@ -1,16 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Lecture } from 'src/app/models/lecture.model';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { throwIfEmpty } from 'rxjs/operators';
-
 import { ModifyType } from 'src/app/models/ModifyType';
 
-import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { VideoType } from 'src/app/models/VideoType.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FullCourseService } from 'src/app/service/full-course.service';
-import { fakeAsync } from '@angular/core/testing';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-course-lecture',

@@ -180,3 +180,14 @@ padding:0px;
 .icon-create{
     margin-right: 5px;
 }
+.lecture-empty{
+    position: relative;
+    display: block;
+    padding: 1rem 1rem;
+    color: #c4c4c4;
+     font-weight: bold;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    text-align: center;
+}

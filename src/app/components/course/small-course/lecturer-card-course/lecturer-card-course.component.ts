@@ -20,13 +20,8 @@ export class LecturerCardCourseComponent implements OnInit {
     
   }
   onEditCourse(idItem:string){
-   // this.router.navigate(['edit'],{relativeTo:this.route})
-    // this.fullCourseService.getDataServe();
-   const promise= new Promise((resolve, reject)=>{
-    setTimeout(()=>{
-      this.router.navigate(['../','course',idItem], {relativeTo:this.route}) },1500)
-    });
-   // this.router.navigate(['../','course',idItem],{relativeTo:this.route})
+    this.router.navigate(['../','course',idItem], {relativeTo:this.route}) 
+
   }
 
 }

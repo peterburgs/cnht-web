@@ -23,6 +23,8 @@ export class AdminCourseScreenComponent implements OnInit {
   message: string = 'Find my course by title ....';
   titleSearch: string = '';
   listCourse: Course[] = [];
+  grade = '';
+  typeCourse = '';
   sbcCreate: Subscription = new Subscription();
   sbcCourses: Subscription = new Subscription();
   //Login check
@@ -30,58 +32,25 @@ export class AdminCourseScreenComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-   
-    private fullCourseService: FullCourseService,
-    private authSevice: authenticationService
+    private fullCourseService: FullCourseService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-
-    this.fullCourseService.initCourses().subscribe((response) => {
-      this.fullCourseService.setCourses(response.courses);
-      this.courses = response.courses;
-      this.listCourse = this.courses;
-      this.isLoading = false;
-    },error=>{
-      this.courses = [];
-      this.listCourse = [];
-      this.isLoading = false;
-    });
-    
-
-    const storage = localStorage.getItem('google_auth');
-
-    console.log(storage);
-    // if (storage) {
-    //   this.userDetails = JSON.parse(storage);
-    // } else {
-    //   this.signOut();
-    // }
-
-    // if (storage) {
-    //   this.userDetails = JSON.parse(storage);
-    // } else {
-    //  // this.signOut();
-    // }
-    // if(this.authSevice.isAdmin())
-    // this.fullCourseService.initCourses().subscribe((response)=>{
-    //   this.courses=response.courses;
-    // })
-    // else this.router.navigateByUrl('/home').then();
-    // this.fullCourseService.initCourses().subscribe((response)=>{
-    //      this.courses=response.courses;
-    //    })
-
-    // if (this.authSevice.isAdmin())
-    //   this.fullCourseService.initCourses().toPromise().then((response) => {
-    //     this.courses = response.courses;
-    //     this.listCourse = this.courses;
-    //   }, error=>{
-    //     this.courses=[];
-    //     this.listCourse=[];
-    //   });
-    // else this.router.navigateByUrl('/home').then();
+    //Get all course
+    this.fullCourseService.initCourses().subscribe(
+      (response) => {
+        this.fullCourseService.setCourses(response.courses);
+        this.courses = response.courses;
+        this.listCourse = this.courses;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.courses = [];
+        this.listCourse = [];
+        this.isLoading = false;
+      }
+    );
   }
 
   signOut(): void {
@@ -93,51 +62,49 @@ export class AdminCourseScreenComponent implements OnInit {
     this.isLoading = true;
     this.fullCourseService.createCourse();
 
-  this.sbcCreate = this.fullCourseService
-      .getSbjCreateCourse()
-      .subscribe((course) => {
+    this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
+      (course) => {
         this.isLoading = false;
         this.router.navigate(
           ['../', 'course', this.fullCourseService.getCourseInfo().id],
           { relativeTo: this.route }
         );
-      }, error=>{
+      },
+      (error) => {
         this.isLoading = false;
-        alert("Can not create new course now!!! Try again");
-      });
+        alert('Can not create new course now!!! Try again');
+      }
+    );
   }
 
   searchCourse($event: string) {
     this.titleSearch = $event;
-    if(this.titleSearch == "") this.resetChildForm();
+    if (this.titleSearch == '') this.resetChildForm();
     this.getAllByFilter();
   }
 
   getListCourseByTitle() {
-    switch ( this.selectedViewBy ) {
-      case  0:
-          this.getAllListByTitle();
-          break;
+    switch (this.selectedViewBy) {
+      case 0:
+        this.getAllListByTitle();
+        break;
       case 1:
         this.getAllListByTitleAndStatus(true);
-          break;
+        break;
       case -1:
         this.getAllListByTitleAndStatus(false);
-        break;    
+        break;
       default:
         break;
-  }
-    
+    }
   }
 
-  getAllListByTitle(){
+  getAllListByTitle() {
     this.listCourse = this.courses.filter((course) =>
       course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
-
     );
   }
 
-  
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
@@ -145,99 +112,90 @@ export class AdminCourseScreenComponent implements OnInit {
     this.sbcCourses.unsubscribe();
   }
 
-    //TODO: receive grade from filter
-    receiveGrade($event: any){
-     this.grade = $event;
-    }
+  //TODO: receive grade from filter
+  receiveGrade($event: any) {
+    this.grade = $event;
+  }
 
-     //TODO: receive type course from filter, and get list for filter 
-    receiveCategory($event: any){
-      this.typeCourse = $event;
-      this.getAllByFilter();
-    }
+  //TODO: receive type course from filter, and get list for filter
+  receiveCategory($event: any) {
+    this.typeCourse = $event;
+    this.getAllByFilter();
+  }
 
-   
+  @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
+  resetChildForm() {
+    this.childC?.resetChildForm();
+    window.scrollTo(0, 0);
+  }
 
-    grade = "";
-    typeCourse = "";
-
-    @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
-    resetChildForm(){
-      this.childC?.resetChildForm();
-      window.scrollTo(0, 0);
-    }
-
-   onResetFitler(){
-     this.resetChildForm();
-    this.grade = ""; //TODO: reset value grade and type course
-    this.typeCourse = "";
+  onResetFitler() {
+    this.resetChildForm();
+    this.grade = ''; //TODO: reset value grade and type course
+    this.typeCourse = '';
     // this.titleSearch = "";
-   this.getAllByFilter();
-    
-   }
+    this.getAllByFilter();
+  }
 
-   selectedViewBy: Number = 0;
+  selectedViewBy: Number = 0;
 
-   listStatus: Status[] = [
-    {value: 0, viewValue: 'All'},
-    {value:1, viewValue: 'Published'},
-    {value:-1, viewValue: 'Not Published'},
-   
+  listStatus: Status[] = [
+    { value: 0, viewValue: 'All' },
+    { value: 1, viewValue: 'Published' },
+    { value: -1, viewValue: 'Not Published' },
   ];
 
- 
-//TODO: get all list course
-  getAllByFilter(){
-    console.log("case: " + this.selectedViewBy);
-    switch ( this.selectedViewBy ) {
-      case  0:
-        
-          this.getListAllByFilterAndTitleSearch();
-          break;
+  //TODO: get all list course
+  getAllByFilter() {
+    console.log('case: ' + this.selectedViewBy);
+    switch (this.selectedViewBy) {
+      case 0:
+        this.getListAllByFilterAndTitleSearch();
+        break;
       case 1:
         this.getListByAllFilterCourse(true);
-          break;
+        break;
       case -1:
         this.getListByAllFilterCourse(false);
-        break;    
+        break;
       default:
         break;
-  }
+    }
   }
 
-  getListByAllFilterCourse(status: boolean){
-    console.log("grade: " + this.grade);
-    if(this.grade == "" || this.typeCourse == "")
-    this.getAllListByTitleAndStatus(status);
-  else
-    this.listCourse = this.courses.filter((course) =>
-      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
-      && course.courseType.toString() == this.typeCourse
-      && course.grade.toString() == this.grade
-      && course.isPublished == status
+  getListByAllFilterCourse(status: boolean) {
+    console.log('grade: ' + this.grade);
+    if (this.grade == '' || this.typeCourse == '')
+      this.getAllListByTitleAndStatus(status);
+    else
+      this.listCourse = this.courses.filter(
+        (course) =>
+          course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+          course.courseType.toString() == this.typeCourse &&
+          course.grade.toString() == this.grade &&
+          course.isPublished == status
+      );
+  }
+
+  getAllListByTitleAndStatus(status: boolean) {
+    this.listCourse = this.courses.filter(
+      (course) =>
+        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+        course.isPublished == status
     );
   }
 
-  getAllListByTitleAndStatus(status: boolean){
-    this.listCourse = this.courses.filter((course) =>
-      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
-      && course.isPublished == status
-    );
-  }
-
-  getListAllByFilterAndTitleSearch(){
-    if(this.grade == "" || this.typeCourse == "")
-      this.getAllListByTitle();
+  getListAllByFilterAndTitleSearch() {
+    if (this.grade == '' || this.typeCourse == '') this.getAllListByTitle();
     else this.getListByFilterAndTitleSearch();
   }
 
-  getListByFilterAndTitleSearch(){
-    this.listCourse = this.courses.filter((course) =>
-    course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
-    && course.courseType.toString() == this.typeCourse
-    && course.grade.toString() == this.grade
-  );
+  getListByFilterAndTitleSearch() {
+    this.listCourse = this.courses.filter(
+      (course) =>
+        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+        course.courseType.toString() == this.typeCourse &&
+        course.grade.toString() == this.grade
+    );
   }
-
-    
 }

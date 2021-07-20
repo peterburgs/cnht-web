@@ -44,7 +44,7 @@
         [globalLoading]="arrayLoading[sectionIndex* maxLecture +i]"
         [maxLecture]="maxLecture"
         ></app-course-lecture>
-        <div *ngIf="!sectionDummy.lecture" class="div-empty-lecture">No lecture created</div>
+        <div class ="lecture-empty"*ngIf="sectionDummy.lecture.length == 0 || sectionDummy.lecture ==undefined" >No lecture created</div>
       <div>
         <ul class="ul-deco">
           <button  class="btn-create-new" 

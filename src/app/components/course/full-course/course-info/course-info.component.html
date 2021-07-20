@@ -2,7 +2,8 @@
     <div class="p-2 item-edit edit-image">
       <div class="emty-thumbnail">
         <div *ngIf="!course.thumbnailUrl" class="empty-thumbnail" class="image-course empty-thumbnail">
-            <img *ngIf="tmpImage" class="image-course" [src]="tmpImage" alt="alt-image">
+          <div *ngIf="uploadImage" class="spinner-border spinner-border-sm text-danger loading-calculate icon-loading loading-image" role="status">
+          </div>
         </div>
         <img *ngIf="course.thumbnailUrl" name="thumbnailUrl" class="image-course"
 
@@ -11,8 +12,8 @@
         alt="img-course">
       </div>  
       
-      
-          <input #file type="file" accept="image/*" class="image-input"
+        
+            <input #file type="file" accept="image/*" class="image-input"
           (change)="handleFileInput($event)">
          <button class="btn-upload" (click)="file.click()"> <i class="bi bi-upload icon-margin"></i>Upload thumbnail</button>
       
@@ -105,9 +106,9 @@
          <div class="mb-3 row">
            <div class="col-sm-2 col-form-label">Published</div>
            <div class="col-sm-10  ">
-             <mat-slide-toggle [checked]="!course.isPublished" (change) ="onPublishedCourse($event)"   ></mat-slide-toggle>
-             <span  class="descript-slide published" *ngIf="!course.isPublished" >Learner can view this course</span>
-             <span class="descript-slide not-published" *ngIf="course.isPublished">Learner can't view this course</span>
+             <mat-slide-toggle [checked]="course.isPublished" (change) ="onPublishedCourse($event)" color="primary" ></mat-slide-toggle>
+             <span  class="descript-slide published" *ngIf="course.isPublished" >Learner can view this course</span>
+             <span class="descript-slide not-published" *ngIf="!course.isPublished">Learner can't view this course</span>
            </div>
          </div>
           <div class="mb-3 row ">
