@@ -43,9 +43,7 @@ export class CourseLearningScreenComponent implements OnInit {
       this.courseId= of(params['courseId']);
       this.lectureId=of(params['lectureId']);
       this.sectionId= of(params['sectionId']);
-      console.log("URL change")
       this.lectureId.subscribe(id=>{
-        console.log('Params lectureId CHANGE')
         this.lectureIdObser=id;
         this.getVideo(id)
       })

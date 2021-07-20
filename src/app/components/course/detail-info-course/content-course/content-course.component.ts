@@ -30,9 +30,8 @@ export class ContentCourseComponent implements OnInit , OnChanges{
     this.router.params.subscribe(param=>{
       this.courseId=param['courseId']
     })
-    if(this.current_course!=undefined){
-      this.getListSection();
-    }
+  
+    this.getListSection();
     
   }
 
@@ -44,9 +43,8 @@ export class ContentCourseComponent implements OnInit , OnChanges{
 
   //TODO: get list  section of a course
   getListSection(){
-    console.log("Current course")
-    console.log(this.current_course);
-    if(this.current_course!=undefined){
+  
+    if(this.current_course.id!=''){
       this.courseService.getSectionByCourseId(this.current_course.id)
       .toPromise().then(data=>{
         this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
@@ -56,6 +54,7 @@ export class ContentCourseComponent implements OnInit , OnChanges{
       })
       .catch(error=>{
         this.isLoading=false;
+        
         console.log(error)
       })    
     }

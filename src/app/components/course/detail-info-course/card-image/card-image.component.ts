@@ -116,9 +116,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
     this.isAdmin = this.authService.isAdmin();
 
     //check status of isLoggedin, if it's true, update learner
-    
+    if(this.course.id!='')
     this.getFirstSection(this.course.id);
-    console.log(this.sectionId)
    
   }
 
@@ -190,8 +189,10 @@ export class CardImageComponent implements OnInit ,OnChanges{
       this.sections= data.sections
       if(this.sections.length>0)
       {
-        this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+        this.sectionId= this.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder )})[0].id;
+        console.log("Card first section : ", this.sectionId)
         this.getFirstLecture(this.sectionId);
+
         console.log(this.lectureId)
       }
     })
@@ -213,8 +214,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
      else
         this.lectureId="";
     })
-
-   
+    
   }
 
   /**

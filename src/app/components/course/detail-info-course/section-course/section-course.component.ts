@@ -43,10 +43,9 @@ export class SectionCourseComponent implements OnInit{
         .catch(error=>console.log(error))
        }
 
-      if(this.section.sectionOrder==this.firstSectionOrder){
-      this.loadLecture(this.listLecture[0].id)
-
-      }
+      // if(this.section.sectionOrder==this.firstSectionOrder){
+      //  this.loadLecture(this.listLecture[0].id)
+      //}
     })
 
     this.activeRoute.params.subscribe(params=>{
@@ -121,19 +120,20 @@ export class SectionCourseComponent implements OnInit{
 
   loadLecture(lectureId:string)
   {
+    let courseId;
     //*in detail course screen, learner can not click lecture link
     this.activeRoute.fragment.subscribe(fragment=>{
       if(fragment=='learning')
       {
-     let courseId;
-        
-        this.activeRoute.params.subscribe(params=>{
+          this.activeRoute.params.subscribe(params=>{
           courseId=params['courseId'];
         })
-      this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
 
       }
     })
+
+    this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+
 
   }
 
