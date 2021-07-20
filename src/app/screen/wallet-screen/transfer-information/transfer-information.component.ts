@@ -25,6 +25,7 @@ export class TransferInformationComponent implements OnInit {
   actionToAlert!:string;
   message!:string;
   action!:string;
+  title!:string;
   inputError="";
   learner!:User;
   successResquest=false;
@@ -55,7 +56,6 @@ export class TransferInformationComponent implements OnInit {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
-      console.log('FileUpload -> files', fileList);
 
       this.fileToUpLoad = <File>fileList.item(0);
       var reader = new FileReader();
@@ -63,7 +63,6 @@ export class TransferInformationComponent implements OnInit {
       reader.onload = (event: any) => {
        this.thumnailUrl = event.target.result;
       };
-      console.log(this.thumnailUrl)
       reader.readAsDataURL(this.fileToUpLoad);
     }
 
@@ -92,6 +91,7 @@ export class TransferInformationComponent implements OnInit {
     {
       this.showAnnouncement=true;
       this.actionToAlert="Yes"
+      this.title="Announcement"
       this.message="Your money have to greater than 1,000VND . Let's try again!"
       this.action="money_invalid"
 
@@ -101,12 +101,14 @@ export class TransferInformationComponent implements OnInit {
     if(this.thumnailUrl=="")
     {
       this.showAnnouncement=true;
+      this.title= "Announcement"
       this.actionToAlert="Yes"
       this.message="You have to choose image. Let's try again!"
       this.action="image_invalid"
     }
     else{
       this.showAnnouncement=true;
+      this.title= "Confirmation"
       this.actionToAlert="Confirm"
       this.message="You'v transfered "+money+"VND . Let's confirm!"
       this.action="transfer_money"
@@ -138,17 +140,16 @@ export class TransferInformationComponent implements OnInit {
           updatedAt:new Date()
         }
 
-        console.log(deposit);
         this.isLoading=true;
         this.depositService.createDepositRequest(deposit)
         .pipe(
           catchError((error)=>{
-              console.log(error)  
               this.isLoading=false;
               this.showAnnouncement=true;
               this.actionToAlert="Ok"
               this.message="Error system. Please try again!"
               this.action="not_success"
+              
               this.thumnailUrl=""
               return throwError(error)
           })
@@ -172,8 +173,6 @@ export class TransferInformationComponent implements OnInit {
   //Format money
   priceInputFormator(input:string):string{
     var temp;
-    console.log(Number(input).toString())
-
     while(input.includes('.')){
       input= input.replace('.','')
 

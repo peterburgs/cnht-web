@@ -36,7 +36,6 @@ export class LoginScreenComponent implements OnInit {
       else
         this.isAdmin= false;
     })
-    console.log("*** login ");
     //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -46,7 +45,6 @@ export class LoginScreenComponent implements OnInit {
       //if user !=null, it is log in, else log out
       this.isLoggedin = (user != null);     
       if(this.isLoggedin){
-        console.log(this.socialUser);
         this.isLoading=true;
         //authenticate on server
         this.authService.signIn(this.socialUser.idToken,this.isAdmin)

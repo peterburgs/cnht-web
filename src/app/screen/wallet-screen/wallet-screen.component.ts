@@ -18,7 +18,7 @@ export class WalletScreenComponent implements OnInit {
   ngOnInit(): void {
     if(localStorage.getItem('isLoggedin')=='true'){
       let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
-      console.log(email)
+      
         if(email!=null)
         {
           this.userService.getAllUser().subscribe(dataUser=>{
@@ -26,7 +26,6 @@ export class WalletScreenComponent implements OnInit {
                 if(learner_)
                   this.balance= learner_.balance;
           })
-          console.log(this.balance)
         }
     }
     else{

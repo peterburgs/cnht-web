@@ -45,28 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       else this.isShowNavbarAdmin= false;
     })
-
-    // this.socialAuthService.authState.subscribe((user) => {
-    //   console.log('AuthState: ', this.socialAuthService.authState);
-    //   let isAdmin= false;
-    //   localStorage.setItem('expires_in', user.response.expires_in)
-    //   localStorage.setItem('token_created_at', Date.now().toString())
-      
-    //   if(localStorage.getItem('role')=='admin')
-    //     isAdmin=true;
-      
-    //   this.authService.signIn(user.idToken,isAdmin)
-    //   .subscribe(responseData=>{
-    //       console.log("SUBSCRIBE")
-    //     console.log('new token:',responseData.token)
-    //     this.authService.storeUser(responseData.user,responseData.token);
-    //     this.expiredTime= user.response.expires_in-60;
-    //     this.timer.startTimer(this.expiredTime);   
-    //     this.validSignIn= true;
-
-    //   })              
-    // });
-
     
     this.socialAuthService.initState.subscribe((state)=>{
       if(state)
@@ -86,10 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
       //get valid remaining time of token and count
       if(token_created_at){
 
-        console.log(new Date(token_created_at))
-        console.log(current_time-token_created_at)
         let remaining_time= Math.floor((current_time- token_created_at)/1000);
-        console.log('Remaining time:' ,this.expiredTime-remaining_time)
         if(remaining_time>=this.expiredTime)
         {
           this.timer.refreshToken(this.expiredTime)
@@ -97,7 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
         
         }
         else{
-          console.log("*** Page refresh")
           //sign in to server 
           let token = localStorage.getItem('token');
           let isAdmin = false;
@@ -108,7 +82,6 @@ export class AppComponent implements OnInit, OnDestroy {
             this.authService.signIn(token, isAdmin)
             .pipe(
               catchError((error)=>{
-                  console.log("ERROR") 
                   if(error.status==500 || error.status==401 ) 
                   {
                     this.validSignIn=true;
@@ -117,7 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
                   } 
                 
                          
-                  return throwError(error) 
+                  return throwError("") 
               })
             )
             .subscribe((responseData)=>{

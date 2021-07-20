@@ -71,7 +71,6 @@ export class TableWalletLearnerComponent implements OnInit {
     this.isSortDateUp = false;
     this.isSortDateDown = false;
     this.eSortDate = SORT.CURRENT; //TODO: change status sort 
-    console.log("Click")
      this.depositRequestService.getByIdLearner(this.learner.id)
      .pipe(
       catchError((error)=>{

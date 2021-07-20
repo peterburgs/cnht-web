@@ -35,7 +35,24 @@
 }
 
 .alert-box-actions button {
-    width: 100px;
+    width: 120px;
+    border-radius: 10px;
+    text-align: center;
     margin-top: 5px;
     margin-left: 5px;
+}
+
+.message-title {
+    display: block;
+    border-bottom: 1px solid rgb(192, 192, 192);
+    margin-bottom: 5px;
+    height: fit-content;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 16px;
+    color: rgb(36, 36, 36);
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 0;
 }

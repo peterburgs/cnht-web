@@ -43,9 +43,7 @@ export class CourseLearningScreenComponent implements OnInit {
       this.courseId= of(params['courseId']);
       this.lectureId=of(params['lectureId']);
       this.sectionId= of(params['sectionId']);
-      console.log("URL change")
       this.lectureId.subscribe(id=>{
-        console.log('Params lectureId CHANGE')
         this.lectureIdObser=id;
         this.getVideo(id)
       })
@@ -83,15 +81,13 @@ export class CourseLearningScreenComponent implements OnInit {
     this.courseService.getVideoByLectureId(lectureId)
     .pipe(
       catchError((error)=>{
-          console.log(error)
           this.isLoadingVideo= false;
          return throwError(error)
           
       })
     )
     .toPromise().then(data=>{
-      console.log("Video is loaded successfully")
-      console.log(data)
+     
       this.isLoadingVideo=false;
       this.videoURL=this._sanitizer
       .bypassSecurityTrustResourceUrl(data.signedUrl);

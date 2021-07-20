@@ -29,24 +29,16 @@ export class SectionCourseComponent implements OnInit{
 
   ngOnInit(): void {
     //load first lecture of first section on default
-    console.log("On init")
     this.courseService.getLecturesBySectionId(this.section.id).subscribe(responseData=>{
 
       this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
       for(let i=0;i<this.listLecture.length;i++){
         this.courseService.getVideoLength(this.listLecture[i].id).toPromise()
         .then(data=>{
-          console.log("data VIDEO")
-          console.log(data)
           this.listLecture[i].length= data.video.length;
         })
-        .catch(error=>console.log(error))
+        .catch()
        }
-
-      if(this.section.sectionOrder==this.firstSectionOrder){
-      this.loadLecture(this.listLecture[0].id)
-
-      }
     })
 
     this.activeRoute.params.subscribe(params=>{
@@ -121,19 +113,20 @@ export class SectionCourseComponent implements OnInit{
 
   loadLecture(lectureId:string)
   {
+    let courseId;
     //*in detail course screen, learner can not click lecture link
     this.activeRoute.fragment.subscribe(fragment=>{
       if(fragment=='learning')
       {
-     let courseId;
-        
-        this.activeRoute.params.subscribe(params=>{
+          this.activeRoute.params.subscribe(params=>{
           courseId=params['courseId'];
         })
-      this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
 
       }
     })
+
+    this.route.navigate(['/learning',courseId,this.section.id,lectureId],{fragment:'learning'});  
+
 
   }
 

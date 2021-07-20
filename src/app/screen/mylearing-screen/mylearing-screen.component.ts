@@ -61,8 +61,7 @@ export class MylearingScreenComponent implements OnInit {
       })
     )
     .subscribe(enrollmentData=>{
-      console.log("Enrollment")
-      console.log(enrollmentData.enrollments)
+
       this.courseService.getAllCourse().subscribe(courseData=>{
           
           enrollmentData.enrollments.forEach(enrollment => {
@@ -87,7 +86,6 @@ export class MylearingScreenComponent implements OnInit {
   }
 
   searchCourse(input:string){
-    console.log(input);
     this.searchedCourses =this.myCourseList.filter(course=> course.title.toLowerCase().includes(input.toLowerCase()) ); 
   }
 

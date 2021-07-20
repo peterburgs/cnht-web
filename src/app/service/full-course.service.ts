@@ -85,12 +85,9 @@ export class FullCourseService {
    * Get info course current selection
    */
   setCourseSelection() {
-    console.log(this.idCourse);
-    console.log(this.courses);
+
     this.courses.forEach((mCourse) => {
-      console.log(mCourse.id);
       if (mCourse.id == this.idCourse) {
-        console.log(mCourse);
         this.course = mCourse;
       }
     });   
@@ -129,9 +126,7 @@ export class FullCourseService {
     )[0];
   }
   getCourseUpdate(){
-    // let urlGetCourse=this.apiUrlCourse+"/"+this.course.id;
-    // console.log("*** Get Course info")
-    // console.log(urlGetCourse);
+    
     return this.http.get<{message:string, count:number, courses:Course[]}>(this.apiUrlCourse,
         {
           headers: this.headers,
@@ -994,32 +989,7 @@ export class FullCourseService {
       )
       .subscribe(
         (response) => {
-          // this.lectures.push(response.lecture);
-          // //Update int List Section Dummy
-          // for (let i = 0; i < this.listDeepSection.length; i++) {
-          //   if (
-          //     this.listDeepSection[i].section_id == response.lecture.sectionId
-          //   ) {
-          //     this.listDeepSection[i].lecture.push(response.lecture);
-          //     if (
-          //       this.listDeepSection[i].lecture.length >
-          //       this.maxLecture
-          //     ) {
-          //       this.maxLecture = this.listDeepSection[i].lecture.length ;
-          //       this.arrLoading = [];
-          //       //Set up array loading for button upload video
-          //       let lenSection = this.sections.length;
-          //       let maxLecture = this.maxLecture;
-          //       for (let i = 0; i < lenSection; i++) {
-          //         for (let j = 0; j <  maxLecture ; j++) {
-          //           this.arrLoading.push(false);
-          //         }
-          //       }
-          //       console.log(this.arrLoading);
-          //     }
-          //   }
-          // }
-          //Update in lectures
+         
 
           this.status = 200;
           this.sbjStatus.next(this.status);

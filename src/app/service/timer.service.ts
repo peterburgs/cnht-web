@@ -17,7 +17,6 @@ export class Timer implements OnInit{
     ngOnInit(){
       
       this.socialAuthService.authState.subscribe((user) => {
-        console.log('AuthState: ', this.socialAuthService.authState);
         let isAdmin= false;
         localStorage.setItem('token_created_at', Date.now().toString())
         localStorage.setItem('expires_in', user.response.expires_in)
@@ -74,7 +73,6 @@ export class Timer implements OnInit{
     refreshToken(expiredTime: number){
 
       this.socialAuthService.authState.subscribe((user) => {
-        console.log('AuthState: ', this.socialAuthService.authState);
         let isAdmin= false;
         localStorage.setItem('token_created_at', Date.now().toString())
         localStorage.setItem('expires_in', user.response.expires_in)
@@ -93,7 +91,6 @@ export class Timer implements OnInit{
       this.socialAuthService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID)
           .then(()=>{
             let token = localStorage.getItem('token')
-            console.log('old token:',token)
             this.startTimer(expiredTime);
           })
     }

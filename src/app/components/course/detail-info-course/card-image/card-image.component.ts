@@ -31,6 +31,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   actionToAlert:string="";
   showInform:boolean= false;
   action:string="";
+  title: string=""
   successfullBought= false;
 
   sections: Section[]=[];
@@ -63,7 +64,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     //when reloading page, it will not update checkIsLoggedin despite of having subcribe
     if(localStorage.getItem('isLoggedin')=='true')
     {
-     
+    
       this.isLoggedin= of(true);
       this.authService.checkIsLoggedin().subscribe(
         isLoggedin =>{
@@ -88,9 +89,9 @@ export class CardImageComponent implements OnInit ,OnChanges{
           //get user balance to check
           this.userService.getAllUser()
           .pipe(
-            catchError((error)=>{
+            catchError(()=>{
                 
-                return throwError(error)
+                return throwError("")
                 
             })
           )
@@ -116,9 +117,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
     this.isAdmin = this.authService.isAdmin();
 
     //check status of isLoggedin, if it's true, update learner
-    
+    if(this.course.id!='')
     this.getFirstSection(this.course.id);
-    console.log(this.sectionId)
    
   }
 
@@ -140,11 +140,11 @@ export class CardImageComponent implements OnInit ,OnChanges{
       if(this.course!=undefined){
       this.userService.checkEnrollment(this.course.id, this.learner.id)
       .pipe(
-        catchError((error)=>{
-            if(error.error.count==0)
+        catchError(()=>{
               this.isBought=false
-           this.isLoading=false;
-           return throwError(error) 
+              this.isLoading=false;
+              return throwError("")
+
         })
       )
       .subscribe(responseData=>{
@@ -190,9 +190,9 @@ export class CardImageComponent implements OnInit ,OnChanges{
       this.sections= data.sections
       if(this.sections.length>0)
       {
-        this.sectionId= this.sections.sort((a)=>a.sectionOrder)[0].id;
+        this.sectionId= this.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder )})[0].id;
         this.getFirstLecture(this.sectionId);
-        console.log(this.lectureId)
+
       }
     })
 
@@ -209,12 +209,11 @@ export class CardImageComponent implements OnInit ,OnChanges{
     .subscribe(responseData=>{
       this.lecture=responseData.lectures;
       if(this.lecture.length>0)
-      this.lectureId= this.lecture.sort((a)=>a.lectureOrder)[0].id;
+      this.lectureId= this.lecture.sort((a,b)=>a.lectureOrder-b.lectureOrder)[0].id;
      else
         this.lectureId="";
     })
-
-   
+    
   }
 
   /**
@@ -227,15 +226,14 @@ export class CardImageComponent implements OnInit ,OnChanges{
         let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
         if(email!=null)
         {
-          console.log(email)
           //get user balance to check
           
             if(this.learner.balance <this.course.price)
             {
-              // console.log(this.userService.getUserByEmail(email).email)
               //TODO: show alert to announce
 
-              this.actionToAlert="Your balance";
+              this.actionToAlert="Confirm";
+              this.title= "Confirmation"
               this.message="The amount in your balance is not enough to buy this course? Go to the wallet page to top up your account."
               this.showInform=true;
               this.action="wallet"
@@ -243,7 +241,8 @@ export class CardImageComponent implements OnInit ,OnChanges{
             else{
               //TODO: show alert to announce
               this.showInform= true;
-              this.actionToAlert= "Buy now!"
+              this.title= "Confirmation"
+              this.actionToAlert= "Confirm"
               this.message="Are you sure to buy this course?"
               this.action="buy"
             }
@@ -258,6 +257,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
   //Close alert
   closeHandler(){
     this.showInform= false;
+  
     this.successfullBought= false;
     this.failBought=false;
 
@@ -276,8 +276,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
     }
     //Buy course
     else{
-        if(action_return=='buy')
-        console.log(action_return)
+      
         let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
         if(email!=null)
         {
@@ -288,12 +287,10 @@ export class CardImageComponent implements OnInit ,OnChanges{
             this.isBuying=true;
             this.userService.buyCourse( this.learner.id ,this.course.id)
             .pipe(
-              catchError((error)=>{
-                  console.log(error)
+              catchError(()=>{
                   this.failBought=true;
                   this.isBuying= false;
-                 return throwError(error)
-                  
+                return throwError("")
               })
             )
             .subscribe(responseData=>{
@@ -303,27 +300,21 @@ export class CardImageComponent implements OnInit ,OnChanges{
               user.balance=user.balance-this.course.price;
               this.userService.updateUser(user)
               .pipe(
-                catchError((error)=>{
-                    console.log(error)
+                catchError(()=>{
                     this.failBought=true;
-
                     this.isBuying= false;
-                   return throwError(error)
+                return throwError("")
                     
                 })
               )
               .subscribe(data=>{
                 this.learner= data.user;
-                console.log("Bought successfully!")
-                console.log(responseData);
                 this.isBuying=false;
                 this.isBought=true;
                 this.successfullBought=true;
               })
               
             })
-            //TODO: Inform that payment success
-            console.log(this.showInform)
           }   
         }   
       }
@@ -331,7 +322,7 @@ export class CardImageComponent implements OnInit ,OnChanges{
 
     openSnackBar(message: string, action: string) { // notice success
       this._snackBar.open(message, action, {
-        duration: 2000
+        duration: 3000
       });
     }
   }

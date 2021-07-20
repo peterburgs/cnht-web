@@ -30,22 +30,19 @@ export class GradeCourseComponent implements OnInit, OnChanges {
   ngOnChanges(changes:SimpleChanges):void{
       if(changes.courseType)
       {
-        console.log('Change type')
        this.getCourse();
       }
   }
 
   getCourse(){
-
     this.smallCourses=[]
     this.CourseService.getListCourseGrade(this.grade, this.courseType)
     .pipe(
       catchError(
         (error)=>{
-          console.log(error)
           this.isLoading=false;
           this.notFound=true;
-         return throwError(error)
+         return throwError("")
           
       })
     )
