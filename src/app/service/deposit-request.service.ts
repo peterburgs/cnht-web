@@ -195,7 +195,6 @@ private depositRequestList: DepositRequest[] = [];
            // params: new HttpParams().set('id', deposit.id)
          });
           
-         console.log("updade !");
         // add wallet to wallet learner
         // return true;
     }
@@ -214,10 +213,7 @@ private depositRequestList: DepositRequest[] = [];
 
 
     uploadDepositImage(file: File, depositRequestId: string) {
-            
-        console.log('Upload Thumbnail');
-        console.log(file);
-       
+                  
         const fileId = new Date().getTime().toString();
         const chunkSize = 5 * 1024 * 1024;
         const chunksQuantity = Math.ceil(file.size / chunkSize);
@@ -256,7 +252,6 @@ private depositRequestList: DepositRequest[] = [];
               }
 
               if (xhr.readyState === 4 && xhr.status === 500) {
-                console.log(JSON.parse(this.responseText))
               }
             };
     
@@ -268,7 +263,6 @@ private depositRequestList: DepositRequest[] = [];
     
         const sendNext = () => {
           if (!chunksQueue.length) {
-            console.log('All parts uploaded');
     
             return;
           }
@@ -283,8 +277,7 @@ private depositRequestList: DepositRequest[] = [];
                 data: { [index: string]: string };
               };
               if (castedData.status === 201) {
-                console.log(castedData.data);
-                console.log('***', 'Upload successfully');
+            
               }
               
     

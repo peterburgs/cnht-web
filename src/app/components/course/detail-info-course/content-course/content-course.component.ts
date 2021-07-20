@@ -26,7 +26,6 @@ export class ContentCourseComponent implements OnInit , OnChanges{
     ) { }
 
   ngOnInit(): void {
-    console.log("INIT CONTENT")
     this.router.params.subscribe(param=>{
       this.courseId=param['courseId']
     })
@@ -49,13 +48,11 @@ export class ContentCourseComponent implements OnInit , OnChanges{
       .toPromise().then(data=>{
         this.listSection= data.sections.sort((a,b)=>{return (a.sectionOrder-b.sectionOrder)});
         this.firstSectionOrder= this.listSection[0].sectionOrder;
-        console.log(data)
         this.isLoading= false;
       })
       .catch(error=>{
         this.isLoading=false;
         
-        console.log(error)
       })    
     }
     

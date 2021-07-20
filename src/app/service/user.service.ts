@@ -35,14 +35,12 @@ export class UserService{
         let email=localStorage.getItem('uemail');
         if(email!=null)
         {
-            console.log(email)
             this.getAllUser().subscribe(dataResponse=>{
                 let learner_= dataResponse.users.find((user)=> user.email===email);
                 if(learner_)
                     learner= learner_;
           })
         }
-        console.log(learner)
         return of(learner);
     }
 

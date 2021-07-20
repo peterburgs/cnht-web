@@ -31,9 +31,7 @@ export class CourseDetailScreenComponent implements OnInit {
     this.service.getCourseById(this.courseId).subscribe(data =>{
       this.isLoading = false;
       this.selectedCourse= data.courses[0];
-      console.log(data)
     } )
-    console.log(this.selectedCourse)
   }
 
 }

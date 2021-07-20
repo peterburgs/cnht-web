@@ -59,7 +59,6 @@ export class SingleCommentComponent implements OnInit {
       this.commentChildList= commentChild.subComment.filter(comment=> comment.isHidden===false)
     })
     this.getCommentCreator();
-    console.log(this.commentChildList)
 
   }
 
@@ -80,11 +79,9 @@ export class SingleCommentComponent implements OnInit {
     }
 
     this.isCommenting= true;
-      console.log(comment)
       this.commentService.saveComment(comment)
       .pipe(
         catchError((error)=>{
-            console.log(error)
             if(error.error.count==0)
               this.successfulComment= false;
             this.isCommenting= false;
@@ -93,7 +90,6 @@ export class SingleCommentComponent implements OnInit {
         })
       )
       .subscribe((responseData)=>{
-        console.log(responseData)
         this.isCommenting= false;
         this.commentChildList.push(comment);
 

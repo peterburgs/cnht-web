@@ -81,15 +81,13 @@ export class CourseLearningScreenComponent implements OnInit {
     this.courseService.getVideoByLectureId(lectureId)
     .pipe(
       catchError((error)=>{
-          console.log(error)
           this.isLoadingVideo= false;
          return throwError(error)
           
       })
     )
     .toPromise().then(data=>{
-      console.log("Video is loaded successfully")
-      console.log(data)
+     
       this.isLoadingVideo=false;
       this.videoURL=this._sanitizer
       .bypassSecurityTrustResourceUrl(data.signedUrl);

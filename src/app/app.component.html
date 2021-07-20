@@ -3,7 +3,7 @@
     <app-navbar *ngIf="isShowNavbar"></app-navbar>
     <app-navbar-admin *ngIf="isShowNavbarAdmin"></app-navbar-admin>
     <router-outlet></router-outlet>
-</div>
-<div class="lds-dual-ring" *ngIf="!validSignIn"></div>
+    <app-footer class="footer" *ngIf="isShowNavbar"></app-footer>
 
-<!-- <app-footer class="footer" *ngIf="isShowNavbar"></app-footer> -->
+</div>
+<app-loading [isLoading]="!validSignIn"></app-loading>

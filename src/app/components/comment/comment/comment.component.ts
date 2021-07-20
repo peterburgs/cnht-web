@@ -49,7 +49,6 @@ export class CommentComponent implements OnInit, OnChanges {
       this.lectureId= params['lectureId'];
       this.sectionId=params['sectionId'];
       //*get comments of a lecture by id
-      console.log("reload comment")
       this.getCommentByLectureId();
     })
 
@@ -60,7 +59,6 @@ export class CommentComponent implements OnInit, OnChanges {
   ngOnChanges(changes:SimpleChanges){
     if(changes.lectureId){
       this.ngOnInit()
-      console.log('On changes' )
     }
 
   
@@ -95,7 +93,6 @@ export class CommentComponent implements OnInit, OnChanges {
     this.commentService.getCommentByLectureId(this.lectureId)
     .pipe(
       catchError((error)=>{
-          console.log(error)
           this.isLoadingComment= false;
           
          return throwError(error)
@@ -106,8 +103,6 @@ export class CommentComponent implements OnInit, OnChanges {
       this.commentList= responseData.comments;
       this.getParentComment();
      this.getChildComment();
-     console.log("**** COMMENT LIST **********")
-     console.log(this.commentList)
      this.isLoadingComment=false;
     })
     
@@ -118,17 +113,14 @@ export class CommentComponent implements OnInit, OnChanges {
    */
   getParentComment(){
     this.commentParents=[];
-    console.log(this.commentParents)
     this.commentList.forEach(comment => {
       if(comment.parentId=='' && comment.isHidden== false){
          this.commentParents.push(comment)
-         console.log("Parent ...")
       }
     });
 
-    this.commentParents.sort((a,b)=>{return new Date(a.createdAt).getTime()-new Date(b.createdAt).getTime()})
+    this.commentParents.sort((a,b)=>{return new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime()})
 
-    console.log(this.commentParents)
    
   }
 
@@ -145,7 +137,6 @@ export class CommentComponent implements OnInit, OnChanges {
         this.commentChilds.push(commentChild);
     })
 
-    console.log(this.commentChilds)
   }
 
   postComment(){
@@ -165,11 +156,9 @@ export class CommentComponent implements OnInit, OnChanges {
         isHidden: false
       }
       this.isCommenting= true;
-      console.log(comment)
       this.commentService.saveComment(comment)
       .pipe(
         catchError((error)=>{
-            console.log(error)
             if(error.error.count==0)
               this.successfulComment= false;
             this.isCommenting= false;
@@ -178,13 +167,9 @@ export class CommentComponent implements OnInit, OnChanges {
         })
       )
       .subscribe((responseData)=>{
-        console.log(responseData)
         this.isCommenting= false;
         this.getCommentByLectureId();
       })
-      
-      console.log(this.commentParents)
-      console.log(this.commentChilds)
   
      
     }

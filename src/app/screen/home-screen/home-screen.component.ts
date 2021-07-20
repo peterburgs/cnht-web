@@ -28,11 +28,9 @@ export class HomeScreenComponent implements OnInit {
   changeCourseType(number:number){
     if(number==1){
       this.course_type= COURSE_TYPE.THEORY
-      console.log("1")
     }
     if(number==2){
       this.course_type= COURSE_TYPE.EXAMINATION_SOLVING;
-      console.log("2")
 
     }
   }

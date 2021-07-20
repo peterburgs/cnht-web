@@ -29,23 +29,16 @@ export class SectionCourseComponent implements OnInit{
 
   ngOnInit(): void {
     //load first lecture of first section on default
-    console.log("On init")
     this.courseService.getLecturesBySectionId(this.section.id).subscribe(responseData=>{
 
       this.listLecture= responseData.lectures.sort((a,b)=> {return (a.lectureOrder-b.lectureOrder)})
       for(let i=0;i<this.listLecture.length;i++){
         this.courseService.getVideoLength(this.listLecture[i].id).toPromise()
         .then(data=>{
-          console.log("data VIDEO")
-          console.log(data)
           this.listLecture[i].length= data.video.length;
         })
-        .catch(error=>console.log(error))
+        .catch()
        }
-
-      // if(this.section.sectionOrder==this.firstSectionOrder){
-      //  this.loadLecture(this.listLecture[0].id)
-      //}
     })
 
     this.activeRoute.params.subscribe(params=>{

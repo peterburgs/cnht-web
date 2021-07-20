@@ -90,7 +90,6 @@ export class CourseService{
              }
          ).subscribe(response=>
          {
-             console.log(response.courses)
          })
           
      }
@@ -154,7 +153,6 @@ export class CourseService{
      */
     getSectionByCourseId(courseId: string){
        
-        console.log("CourseId", courseId)
        return this.http
         .get<{message:string,count:number, sections: Section[]}>(
             this.baseUrl+ '/sections',

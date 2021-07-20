@@ -79,7 +79,6 @@ export  class authenticationService {
       params:new HttpParams().set('userRole', role)
     };
    
-    console.log("*** Sign in");
     return  this.http
      .post<{token:string, user: User}>( this.baseUrl+'/auth',data,config)
      

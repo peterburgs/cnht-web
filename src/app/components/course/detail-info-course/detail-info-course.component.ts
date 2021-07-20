@@ -22,7 +22,6 @@ export class DetailInfoCourseComponent implements OnInit , OnChanges{
 
   ngOnInit(): void {
 
-    console.log("detail info course")
     this.getStudentJoinedNumber();
     this.getLectureByCourseId();
 
@@ -38,8 +37,7 @@ export class DetailInfoCourseComponent implements OnInit , OnChanges{
     this.courseService.getstudentJoinedNumber(this.target_course.id).subscribe(
       responseData=>{
         this.studentJoined= responseData.count;
-        console.log("Student joined")
-        console.log(this.studentJoined)
+      
       }
     )
   }
