@@ -42,7 +42,9 @@ export class CourseCreationScreenComponent
   duration = 0;
   errorMessage = 'Server error. Try again!!!';
   isLeaving = false;
-
+  titleNotify: string = '';
+  contentNotify: string = '';
+  
   scbSectionDummy: Subscription = new Subscription();
   scbFinish: Subscription = new Subscription();
   sbcInit: Subscription = new Subscription();
@@ -50,6 +52,8 @@ export class CourseCreationScreenComponent
   sbcWay: Subscription = new Subscription();
   sbcUploadMedia: Subscription = new Subscription();
   sbcLeaving: Subscription = new Subscription();
+  sbcOpenModal: Subscription = new Subscription();
+  sbcIsUpLoading: Subscription = new Subscription();
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -63,9 +67,18 @@ export class CourseCreationScreenComponent
    * Open dialog confirm handle (delete, create,...)
    */
   openVerticallyCentered() {
-    this.titleBinding = this.fullCourseService.getTitleContent();
     this.titleBinding = '';
-    this.modalService.open(this.content, { centered: true });
+    if (
+      this.wayModify != ModifyType.edit &&
+      !(
+        this.wayModify == ModifyType.save &&
+        this.typeSelection == VideoType.course
+      )
+    ) {
+      this.customeTitle();
+      this.customeContent();
+      this.modalService.open(this.content, { centered: true });
+    }
   }
   /**
    * Open error dialog
@@ -89,7 +102,7 @@ export class CourseCreationScreenComponent
         }
         this.fullCourseService.setIdCourse(this.idCourse);
       });
-      
+
       //Section dummy get all value need (sections, lectures...)
       this.scbSectionDummy = this.fullCourseService
         .getSbjSectionDummy()
@@ -99,7 +112,7 @@ export class CourseCreationScreenComponent
           this.maxLecture = this.fullCourseService.getMaxLenLecture();
           this.sections = this.fullCourseService.getSectionDummy();
         });
-        
+
       this.sbcLeaving = this.customiseModalService
         .getObserveLeave()
         .subscribe((isLeaving) => {
@@ -117,25 +130,12 @@ export class CourseCreationScreenComponent
             this.isLoading = false;
             this.errorMessage = this.fullCourseService.getErrorMessage();
             this.openNotifyError();
-            // alert(this.fullCourseService.getErrorMessage());
-
-            window.location.reload();
           } else if (status == 201) {
             this.isLoading = false;
             this.modalService.dismissAll();
           }
         });
-      this.sbcUploadMedia = this.fullCourseService
-        .getSbjUploadMediaState()
-        .subscribe((state) => {
-          if (!state) {
-            this.errorMessage = "Can't finish your uploading!!!";
-            this.openNotifyError();
-            window.location.reload();
-          }
-        });
-      //Update course in fullService
-
+      
       this.sbcInit = this.fullCourseService.initCourses().subscribe(
         (response) => {
           this.fullCourseService.setCourses(response.courses);
@@ -156,13 +156,14 @@ export class CourseCreationScreenComponent
         this.wayModify = way;
         console.log("wayyyy" + this.wayModify)
       });
-      //Set observable to show dialog
-      if (this.fullCourseService.subsEdit == null) {
-        this.fullCourseService.subsEdit =
-          this.fullCourseService.invokeNotifyModal.subscribe((content: any) => {
+
+      this.sbcOpenModal = this.fullCourseService
+        .getOpenDialog()
+        .subscribe((isOpen) => {
+          if (isOpen) {
             this.openVerticallyCentered();
-          });
-      }
+          }
+        });
       this.fullCourseService.getData();
     }
   }
@@ -177,6 +178,7 @@ export class CourseCreationScreenComponent
     this.sbcWay.unsubscribe();
     this.sbcLeaving.unsubscribe();
     this.sbcInit.unsubscribe();
+    this.sbcOpenModal.unsubscribe();
   }
   onCreateSection() {
     this.fullCourseService.setSelection(
@@ -184,7 +186,6 @@ export class CourseCreationScreenComponent
       VideoType.section,
       ModifyType.new
     );
-    this.openVerticallyCentered();
   }
   //Customise title in model confirmation
   customeTitle() {
@@ -207,11 +208,11 @@ export class CourseCreationScreenComponent
         title = 'Info ';
         break;
       case ModifyType.goUp:
-        title = 'Up ';
-        break;
+        this.titleNotify = 'Move up';
+        return;
       case ModifyType.goDown:
-        title = 'Down ';
-        break;
+        this.titleNotify = 'Move down';
+        return;
       default:
         title = 'Save ';
     }
@@ -222,45 +223,55 @@ export class CourseCreationScreenComponent
     } else {
       title += 'lecture';
     }
-    return title;
+    this.titleNotify = title;
   }
   //Customise content notify to user
   customeContent() {
-    const confirmMessage = 'Are you sure ';
+    const confirmMessage = 'Are you sure to ';
     const createMessage = 'Save successful!!!';
     const validMessage = 'Input invalid!!!';
     const noticeMessage = 'Your working not save!!!';
 
     switch (this.wayModify) {
       case ModifyType.delete:
-        if (this.typeSelection == VideoType.course)
-          return confirmMessage + 'delete this course?';
-        else if (this.typeSelection == VideoType.section)
-          return confirmMessage + 'delete this section?';
-        return confirmMessage + 'delete this lecture?';
+        if (this.typeSelection == VideoType.course) {
+          this.contentNotify = confirmMessage + 'delete this course?';
+          return;
+        } else if (this.typeSelection == VideoType.section) {
+          this.contentNotify = confirmMessage + 'delete this section?';
+          return;
+        }
+        this.contentNotify = confirmMessage + 'delete this lecture?';
+        return;
       case ModifyType.save:
-        return createMessage;
+        this.contentNotify = createMessage;
+        return;
       case ModifyType.errorValid:
-        return validMessage;
+        this.contentNotify = validMessage;
+        return;
       case ModifyType.leave:
-        return noticeMessage;
+        this.contentNotify = noticeMessage;
+        return;
       case ModifyType.goUp:
-        if (this.typeSelection == VideoType.lecture)
-          return confirmMessage + 'move this lecture up?';
-        return confirmMessage + ' move this section up?';
+        if (this.typeSelection == VideoType.lecture) {
+          this.contentNotify = confirmMessage + 'move this lecture up?';
+          return;
+        }
+        this.contentNotify = confirmMessage + ' move this section up?';
+        return;
       case ModifyType.goDown:
         if (this.typeSelection == VideoType.section) {
-          return confirmMessage + ' move this section down?';
+          this.contentNotify = confirmMessage + ' move this section down?';
+          return;
         }
-        return confirmMessage + ' move this lecture down?';
+        this.contentNotify = confirmMessage + ' move this lecture down?';
+        return;
     }
-    return '';
+    // this.contentNotify = '';
   }
   //Handle action user confirm
   onConfirmSave() {
     this.isLoading = true;
-    console.log('*** Type modify and Way Modify');
-    console.log(this.typeSelection + ' : ' + this.wayModify);
 
     if (this.typeSelection == VideoType.section) {
       if (this.wayModify == ModifyType.new) {
@@ -300,7 +311,6 @@ export class CourseCreationScreenComponent
         },
         (error) => {
           this.modalService.dismissAll();
-          console.log(console.error());
           alert('Error happen!!! try again');
           window.location.reload();
         }
@@ -315,9 +325,14 @@ export class CourseCreationScreenComponent
     this.isLeaving = true;
     this.customiseModalService.getObserveLeave().subscribe((leaving) => {
       this.isLeaving = false;
-      console.log(leaving);
     });
-    if (this.idCourse) {
+    if (
+      this.idCourse &&
+      !(
+        this.typeSelection == VideoType.course &&
+        this.wayModify == ModifyType.delete
+      )
+    ) {
       return this.customiseModalService.naviagateAwaySelection$;
     } else {
       return true;

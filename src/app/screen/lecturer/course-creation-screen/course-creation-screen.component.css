@@ -118,7 +118,20 @@
 }
 .remove-border{
   border-top: none;
+  text-align: center;
+    justify-content: space-between;
 }
 .custome-title{
     margin: 0 0 10px !important;
+  
+}
+.confirm-footer{
+    display: block !important;
+}
+.div-title{
+    margin-left: 0px !important;
+}
+.border-radius{
+    border-radius: 10px;
+    width: 100px;
 }

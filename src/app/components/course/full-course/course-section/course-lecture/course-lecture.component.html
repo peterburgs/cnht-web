@@ -43,7 +43,7 @@
     <!-- <button class="btn-upload" (click)="file.click()">Upload new video</button> -->
     <button 
       class="contain-video btn btn-primary"
-      (click)="file.click()" [disabled]="globalLoading"
+      (click)="file.click()" [disabled]="globalLoading || isUpLoading"
     >
       <span *ngIf="globalLoading"
         class="spinner-border spinner-border-sm"

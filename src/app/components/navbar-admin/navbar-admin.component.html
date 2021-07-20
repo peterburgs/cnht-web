@@ -25,7 +25,7 @@
                 <ng-template #thenBlock>
                     <div class="dropdown">
                         <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
-                        <img [src]="photo" alt="{photo}" class="photo">
+                        <img [src]="photo" alt="" class="photo" onerror="this.src='../../../../../assets/images/default_avatar.png'" >
                     </button>
                         <div class="dropdown-menu">
                             <button class="dropdown-item" (click)="logOut()"> <i class="fa fa-sign-out-alt"></i> Log out</button>

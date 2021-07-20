@@ -8,9 +8,7 @@
       <i class="fa fa-chevron-down icon-decorate"></i>
     </div>
   </div>
-<!--  -->
 
-  <!--  -->
   <div class="div-main">
     <ul class="list-group flex-fill">
       <li class="list-group-item title-section d-flex label-section border-radius" >
@@ -19,22 +17,10 @@
             [value]="sectionDummy.section_title" (click)="clickEditSection($event)"/>
           </div>
           <div class="div-box ">
-            <!-- <button  *ngIf="changeSection " class="btn btn-primary " title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)">
-              Save
-            </button> -->
             <button type="button" *ngIf="changeSection " class="btn btn btn-success btn-circle btn-lg btn-circle" title="Edit section" (click)="inputSection.click(); saveSection(sectionDummy.section_id)"><i class="fa fa-check"></i></button>
             <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-danger btn-circle btn-lg"><i class="fa fa-times"></i></button>
 
           </div>
-          <!-- <div class="div-box  col-sm-1">
-           <button class="btn btn-danger" title="Delete section" 
-            (click)="onDeleteSection()">
-              Delete
-            </button> -->
-            <!-- <button type="button" (click)="onDeleteSection()" title="Delete section"  class="btn btn-danger btn-circle btn-lg"><i class="glyphicon glyphicon-heart"></i></button>
-
-          </div>  -->
-
       </li>
       <app-course-lecture *ngFor="let item of sectionDummy.lecture;
        let i = index" 
@@ -43,6 +29,7 @@
         [sectionIndex]="sectionIndex"
         [globalLoading]="arrayLoading[sectionIndex* maxLecture +i]"
         [maxLecture]="maxLecture"
+       
         ></app-course-lecture>
         <div class ="lecture-empty"*ngIf="sectionDummy.lecture.length == 0 || sectionDummy.lecture ==undefined" >No lecture created</div>
       <div>
