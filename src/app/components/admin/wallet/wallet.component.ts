@@ -97,7 +97,6 @@ export class WalletComponent implements OnInit {
   updateBalanceAdmin($event :any){
     this.balance_admin = $event;
     window.scrollTo(0, 0);
-   //window.location.reload();
   }
 
   refreshComponent(){

@@ -57,6 +57,7 @@ export class CourseSectionComponent implements OnInit {
     console.log(idSection);
     this.fullCourseService.setSelection(idSection, VideoType.lecture, ModifyType.new);
     this.fullCourseService.onNotifyContent();
+    console.log(this.fullCourseService.getWayModify);
   }
   onUpSection(){
     this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.goUp);

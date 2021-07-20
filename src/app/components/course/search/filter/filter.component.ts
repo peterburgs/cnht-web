@@ -36,7 +36,6 @@ resetChildForm(){
    setTimeout(() => {
       this.show = true
     }, 100);
-    console.log("con");
 }
 
   ngAfterViewInit(){

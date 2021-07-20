@@ -58,8 +58,6 @@ export class LearnerManagermentComponent implements OnInit {
     else{
     
       this.getListUserByTitle(this.titleSearch);
-      // console.log(this.titleSearch + this.listSearch.length);
-      // this.onLoadRouter();
     
     }
 
@@ -68,7 +66,6 @@ export class LearnerManagermentComponent implements OnInit {
  listSearch: User[] = [];
   getListUserByTitle(title: string){
   this.listSearch = this.listUsers.filter(user => user.email.toLowerCase().includes(title.toLowerCase())  ||user.fullName.toLowerCase().includes(title.toLowerCase()) );
- // this.listUsers = this.listSearch;
   }
 
   getAllUser(){

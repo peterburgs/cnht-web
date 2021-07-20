@@ -154,6 +154,7 @@ export class CourseCreationScreenComponent
         });
       this.sbcWay = this.fullCourseService.getWayModify().subscribe((way) => {
         this.wayModify = way;
+        console.log("wayyyy" + this.wayModify)
       });
       //Set observable to show dialog
       if (this.fullCourseService.subsEdit == null) {

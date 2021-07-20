@@ -51,7 +51,6 @@ export class TableLearnerManagermentComponent implements OnInit {
    listUserSort: User[] = [];
    getListUser(){
     this.listUserSort = this.listUsers;
-    console.log("table: "  + this.listUsers); 
    }
 
    getAllLearner(){
@@ -177,7 +176,6 @@ export class TableLearnerManagermentComponent implements OnInit {
 
 
    updateSort(sort: SORT){
-    console.log("sort: " + sort);
     if(sort == SORT.CURRENT || sort == SORT.INCREASE)
         return 1;
     else 

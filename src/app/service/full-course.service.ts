@@ -227,6 +227,7 @@ export class FullCourseService {
 
     this.wayModify = way;
     this.sbjWayModify.next(this.wayModify);
+    console.log(this.sbjWayModify);
   }
   setIdCourse(id: string) {
     this.idCourse = id;
