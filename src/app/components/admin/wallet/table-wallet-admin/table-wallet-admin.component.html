@@ -80,7 +80,8 @@
             [actionToAlert]="nameActionToAlert" 
             *ngIf = "isCallAlert"
             (close)="onHandleError()"
-            (isAction) = "getAcceptFromAlert($event)">
+            (isAction) = "getAcceptFromAlert($event)"
+            [title] = "titleAlert">
             </app-alert-warning>
 
             <!-- <app-search></app-search> -->
