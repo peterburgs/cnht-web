@@ -233,16 +233,20 @@ export class TableWalletAdminComponent implements OnInit {
     
   }
 
+  titleAlert: string = "";
+
     //TODO: set message and action name when click btn confirm
   setActionConfirm(){ 
-    this.setMessageToAlert("Do you want CONFIRM this deposit request !", "Confirm");
+    this.titleAlert = "Confirm deposit request";
+    this.setMessageToAlert("Are you sure to comfirm this deposit request !", "Confirm");
     this.newStatusDeposit = STATUSES.CONFIRM;
 
   }
 
    //TODO: set message and action name when click btn deny
   setActionDeny(){ 
-    this.setMessageToAlert("Do you want DENY this deposit request !", "Deny");
+    this.titleAlert = "Deny deposit request";
+    this.setMessageToAlert("Are you sure to deny this deposit request !", "Deny");
     this.newStatusDeposit = STATUSES.DENIED;
   }
 
@@ -252,7 +256,7 @@ export class TableWalletAdminComponent implements OnInit {
     this.depositRequestService.updateStatus(this.depositCurrentRow, this.newStatusDeposit).subscribe(any =>{
       this.getAllList();
       this.isLoadingAccept  = false;
-      this.openSnackBar("Reposit was updated !", "OK"); 
+      this.openSnackBar("Deposit was updated !", "OK"); 
       
         if(this.newStatusDeposit == STATUSES.CONFIRM){ //TODO: update balane for learner and admin 
           var user = this.getLearnerByIdLearner(this.depositCurrentRow.learnerId);

@@ -1,12 +1,15 @@
-<div class="backdrop" (click) = "onClose()">
+<div class="backdrop" (click)="onClose()">
 </div>
 <div class="alert-box">
-    <p>{{message}}</p>
+    <div class="message-title">
+        <h6 class="title">{{title}}</h6>
+    </div>
+    <p class="message">{{message}}</p>
     <div class="alert-box-actions">
-        <button class="btn btn-primary" (click) = "chooseAction()">
+        <button class="btn btn-primary" (click)="chooseAction()">
             {{actionToAlert}}
         </button>
-        <button class = "btn btn-danger" (click) = "onClose()">
+        <button class="btn btn-danger btnclose" (click)="onClose()">
             Cancel
         </button>
     </div>
