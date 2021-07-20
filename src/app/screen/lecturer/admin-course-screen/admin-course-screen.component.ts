@@ -79,7 +79,6 @@ export class AdminCourseScreenComponent implements OnInit {
 
   searchCourse($event: string) {
     this.titleSearch = $event;
-    if (this.titleSearch == '') this.resetChildForm();
     this.getAllByFilter();
   }
 
@@ -147,7 +146,6 @@ export class AdminCourseScreenComponent implements OnInit {
 
   //TODO: get all list course
   getAllByFilter() {
-    console.log('case: ' + this.selectedViewBy);
     switch (this.selectedViewBy) {
       case 0:
         this.getListAllByFilterAndTitleSearch();
@@ -164,7 +162,6 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListByAllFilterCourse(status: boolean) {
-    console.log('grade: ' + this.grade);
     if (this.grade == '' || this.typeCourse == '')
       this.getAllListByTitleAndStatus(status);
     else

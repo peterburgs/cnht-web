@@ -192,7 +192,7 @@ app-search-title{
   }
 
   ::ng-deep .mat-form-field{
-      border: 2px solid rgba(194, 193, 193, 0.555);
+      /* border: 2px solid rgba(194, 193, 193, 0.555); */
       border-radius: 5px;
       
   }

@@ -30,7 +30,6 @@ export class ItemSearchComponent implements OnInit {
       }
     )
 
-   // return this.numberStudent;
 
 }
 
