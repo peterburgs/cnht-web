@@ -80,6 +80,7 @@ import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-d
 import {MatSelectModule} from '@angular/material/select';
 import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
+import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
 
 
 @NgModule({
@@ -139,7 +140,9 @@ import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-
     CountdownPipe,
     Truncate,
     CircleLoadingComponent,
-    ComfirmLeaveComponent
+    ComfirmLeaveComponent,
+    AlertConfimationComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -185,7 +188,6 @@ import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-
           }
         ]
       } as SocialAuthServiceConfig,
-     
     }
   ],
   bootstrap: [AppComponent]

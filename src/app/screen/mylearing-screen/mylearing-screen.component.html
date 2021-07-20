@@ -16,12 +16,13 @@
             <app-lecturer-card-course [isLearner]="true" *ngFor="let course of myCourseList" class="col-md-3" [course]="course">
             </app-lecturer-card-course>
         </div>
-        <div class="lds-ring" *ngIf="isLoading">
+        <!-- <div class="lds-ring" *ngIf="isLoading">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
-        </div>
+        </div> -->
+        <app-loading [isLoading]="isLoading"></app-loading>
         <div *ngIf="!isLoading">
             <div *ngIf="courseAmount==0" class="not-found">
                 <h3>You don't have any course!</h3>

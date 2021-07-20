@@ -26,23 +26,19 @@
   <br />
 </div>
 <ng-template #content let-modal>
-  <div  class="modal-header custome-dialog-title">
+  <div  class="modal-header custome-dialog-title div-title">
     <h4 class="modal-title section-title custome-title  ">
-      {{
-        customeTitle()
-      }}
+      {{  titleNotify  }}
     </h4>
     
   </div>
   <div  class="modal-body custome-dialog-title">
     <div *ngIf="wayModify != 0 && wayModify != 1">
-      {{
-        customeContent()
-      }}
+      {{ contentNotify }}
     </div>
     <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection ==0)">
       <label for="name" class="col-sm-4 col-form-label">
-         {{ typeSelection == 0 ? "section" : "lecture" }} title</label
+         {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label
       >
       <div  class="col-sm-11">
         <input
@@ -56,24 +52,24 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer remove-border">
-    <button
+  <div class="modal-footer remove-border confirm-footer">
+    <button 
       type="button"
-      class="btn btn-danger"
+      class="btn btn-danger border-radius"
       (click)="modal.close('Close click')"
     >
       Cancel
     </button>
-    <button *ngIf="wayModify==0 || wayModify ==1"
+    <button *ngIf="wayModify==0 || wayModify ==1 "
       type="button" 
-      class="btn btn-primary"
+      class="btn btn-primary border-radius"
       (click)="onConfirmSave()" 
     >
       Save
     </button>
     <button 
     type="button" *ngIf="wayModify == 2 || wayModify == 3 || wayModify == 4 ||wayModify == 5 || wayModify == 6 || wayModify == 7"
-    class="btn btn-primary"
+    class="btn btn-primary border-radius"
     (click)="onConfirmSave()" 
   >
     Confirm
@@ -84,15 +80,13 @@
 <ng-template #error_happen let-modal>
   <div class="modal-header">
     <h4 class="modal-title section-title">Error happen</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+   
   </div>
   <div class="modal-body ">
     <p class="custome-dialog-title">{{errorMessage}}&hellip;</p>
   </div>
   <div class="modal-footer">
-    <button  type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button  type="button" class="btn btn-danger border-radius" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
 <app-comfirm-leave *ngIf="isLeaving"></app-comfirm-leave>

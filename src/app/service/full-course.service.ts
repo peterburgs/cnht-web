@@ -39,8 +39,8 @@ export class FullCourseService {
 
   // private authHeader = new HttpHeaders();
   private idToken = localStorage.getItem('token');
-  private arrLoading: boolean[]=[];
-  private loadingThumbnail=false;
+  private arrLoading: boolean[] = [];
+  private loadingThumbnail = false;
   private baseURL =
     'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
   private apiUrlCourse = this.baseURL + 'courses';
@@ -58,6 +58,9 @@ export class FullCourseService {
   wayModify = ModifyType.new;
   typeSelection = VideoType.lecture;
   stateUploadMedia = true;
+  openDialog = false;
+  isUpLoading: boolean =false;
+  
   invokeNotifyModal = new EventEmitter();
   invokeValidModal = new EventEmitter();
   subsEdit?: Subscription;
@@ -72,12 +75,13 @@ export class FullCourseService {
   sbjCreateCourse = new Subject<Course>();
   sbjStatus = new Subject<number>();
   sbjUploadMediaSuccessful = new Subject<boolean>();
-  sbjLoadingThumbnail= new Subject<boolean>();
+  sbjLoadingThumbnail = new Subject<boolean>();
+  sbjOpenDialog = new Subject<boolean>();
+  sbjIsUpLoading = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
-
+  
   constructor(private http: HttpClient) {
     this.idToken = localStorage.getItem('token');
-
   }
 
   //================================= GET =========================
@@ -85,12 +89,11 @@ export class FullCourseService {
    * Get info course current selection
    */
   setCourseSelection() {
-
     this.courses.forEach((mCourse) => {
       if (mCourse.id == this.idCourse) {
         this.course = mCourse;
       }
-    });   
+    });
   }
   /**
    *
@@ -109,6 +112,12 @@ export class FullCourseService {
     }
     return 1;
   }
+  getIsUpLoading(){
+    return this.sbjIsUpLoading.asObservable();
+  }
+  getOpenDialog() {
+    return this.sbjOpenDialog.asObservable();
+  }
   getLecturesCourse() {
     return this.lectures;
   }
@@ -119,19 +128,18 @@ export class FullCourseService {
     return this.isValid;
   }
   getLectureSelection() {
-    //TODO: update way get when have API
-
     return this.lectures.filter(
       (lecture: Lecture) => lecture.id == this.idItem
     )[0];
   }
-  getCourseUpdate(){
-    
-    return this.http.get<{message:string, count:number, courses:Course[]}>(this.apiUrlCourse,
-        {
-          headers: this.headers,
-          params: new HttpParams().set('id', this.course.id),
-        });
+  getCourseUpdate() {
+    return this.http.get<{ message: string; count: number; courses: Course[] }>(
+      this.apiUrlCourse,
+      {
+        headers: this.headers,
+        params: new HttpParams().set('id', this.course.id),
+      }
+    );
   }
   /**
    *
@@ -140,14 +148,12 @@ export class FullCourseService {
    */
   getVideoInfo(lectureId: string) {
     let urlGetVideo = this.baseURL + 'lectures/' + lectureId + '/video';
-    console.log(urlGetVideo);
     return this.http.get<{ message: string; count: number; video: Video }>(
       urlGetVideo,
       httpOptions
     );
   }
   getSectionSelection() {
-    console.log('section ID' + this.idItem);
     return this.sections.filter((section) => section.id == this.idItem);
   }
   getCurrentSelection(): Observable<VideoType> {
@@ -178,7 +184,7 @@ export class FullCourseService {
   getErrorMessage() {
     return this.errorMessage;
   }
-  getLoadingThumbanil(){
+  getLoadingThumbanil() {
     return this.sbjLoadingThumbnail.asObservable();
   }
   //================================= SET =========================
@@ -222,7 +228,10 @@ export class FullCourseService {
 
     this.wayModify = way;
     this.sbjWayModify.next(this.wayModify);
-    console.log(this.sbjWayModify);
+
+    this.openDialog = true;
+    this.sbjOpenDialog.next(this.openDialog);
+    //this.onNotifyContent();
   }
   setIdCourse(id: string) {
     this.idCourse = id;
@@ -245,7 +254,6 @@ export class FullCourseService {
       return;
     }
     let urlUpSection = this.baseURL + 'sections/' + this.idItem + '/up';
-    console.log('*** Up lection ' + urlUpSection);
     this.http.put<{ message: string }>(urlUpSection, {}, httpOptions).subscribe(
       (response) => {
         this.status = 200;
@@ -302,7 +310,6 @@ export class FullCourseService {
         }
       }
     }
-
     this.http
       .put<{ message: StringConstructor }>(
         urlUpLecture,
@@ -379,9 +386,7 @@ export class FullCourseService {
       this.errorMessage = 'Something wrong happen!!! Try again';
     }
   }
-
   //================ HTTP ===============
-
   initCourses() {
     return this.http.get<{ message: string; count: number; courses: Course[] }>(
       this.apiUrlCourse
@@ -397,12 +402,11 @@ export class FullCourseService {
     this.listDeepSection = [];
     let apiGetLectureOfCourse =
       this.apiUrlCourse + '/' + this.idCourse + '/lectures';
-      console.log("*** getSection")
-    let apiGetSectionsOfCourse= this.apiUrlCourse+'/'+ this.idCourse+"/sections"
+    let apiGetSectionsOfCourse =
+      this.apiUrlCourse + '/' + this.idCourse + '/sections';
     this.http
       .get<{ message: string; count: number; sections: Section[] }>(
-        apiGetSectionsOfCourse
-        ,
+        apiGetSectionsOfCourse,
         {
           headers: this.headers,
           params: new HttpParams().set('courseId', this.idCourse),
@@ -416,7 +420,6 @@ export class FullCourseService {
           if (s1.sectionOrder < s2.sectionOrder) return -1;
           return 0;
         });
-        console.log(this.sections);
         //get section
         this.http
           .get<{ message: string; count: number; lectures: Lecture[] }>(
@@ -450,15 +453,13 @@ export class FullCourseService {
             //Set up array loading for button upload video
             let lenSection = this.sections.length;
             let maxLecture = this.maxLecture;
-           
+
             for (let i = 0; i < lenSection; i++) {
-             
-              for (let j = 0; j <  maxLecture ; j++) {
+              for (let j = 0; j < maxLecture; j++) {
                 this.arrLoading.push(false);
               }
             }
             //For check is successfull process
-              console.log(this.listDeepSection);
             //Notify get all data finish
             this.sbjSectionDummy.next(this.listDeepSection);
           })
@@ -506,27 +507,9 @@ export class FullCourseService {
       lectures: Lecture[];
     }>(this.apiUrlLecture);
   }
-  getTitleContent() {
-    console.log(this.idItem);
-    let title = '';
-    if (this.typeSelection == VideoType.section) {
-      this.sections.forEach((section) => {
-        if (section.id == this.idItem) {
-          title = section.title;
-        }
-      });
-    } else {
-      this.lectures.forEach((lecturer) => {
-        if (lecturer.id == this.idItem) {
-          title = lecturer.title;
-        }
-      });
-    }
-    return title;
-  } 
+
   setPositionLoading(flat: boolean, m: number, n: number) {
-    this.arrLoading[m*this.maxLecture +n] = flat;
-    console.log(this.arrLoading);
+    this.arrLoading[m * this.maxLecture + n] = flat;
   }
   setIdCourseSelection(idCourse: string) {
     this.idCourse = idCourse;
@@ -548,8 +531,6 @@ export class FullCourseService {
     let tmpLecture = new Lecture();
     tmpLecture.title = title;
     tmpLecture.sectionId = this.getSectionSelection()[0].id;
-    console.log("*** Get section ID")
-    console.log(tmpLecture.sectionId);
     tmpLecture.isHidden = false;
 
     this.onCreateLecture(tmpLecture);
@@ -578,18 +559,10 @@ export class FullCourseService {
     } else {
       tmpSection.sectionOrder = 0;
     }
-    console.log('Section new');
-    console.log(tmpSection);
     this.onCreateSection(tmpSection);
   }
 
   handleUpdateWithThumbnail(file: File) {
-    // let url = this.baseURL + '/thumbnail/' + this.course.id;
-    // let url = this.baseURL+"courses/" + this.course.id + '/thumbnail/' ;
-    // this.http.post(url, file).subscribe((response) => {
-    //   console.log('response');
-    // });
-
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
@@ -647,26 +620,19 @@ export class FullCourseService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
-            console.log(castedData.data.course);
-
             console.log('***', 'Upload successfully');
-            this.getCourseUpdate().subscribe(response=>{
-              console.log("*** response");
-              console.log(response);
-
-              this.course= response.courses[0];
-              console.log(this.courses);
+            this.getCourseUpdate().subscribe((response) => {
+              this.course = response.courses[0];
               this.loadingThumbnail = false;
               this.sbjLoadingThumbnail.next(this.loadingThumbnail);
-              //Update in courses 
-              this.courses.forEach(course=>{
-                if(course.id == response.courses[0].id){
+              //Update in courses
+              this.courses.forEach((course) => {
+                if (course.id == response.courses[0].id) {
                   course.thumbnailUrl = response.courses[0].thumbnailUrl;
                 }
-              })
-            })
+              });
+            });
           }
-
           sendNext();
         })
         .catch(() => {
@@ -684,7 +650,9 @@ export class FullCourseService {
     sectionIndex: number,
     lectureIndex: number
   ) {
-    console.log('hi');
+   
+    this.isUpLoading = true;
+    this.sbjIsUpLoading.next(this.isUpLoading);
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
@@ -714,9 +682,11 @@ export class FullCourseService {
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
             resolve({ status: 200, data: JSON.parse(this.responseText) });
-          }
-          if (xhr.readyState === 4 && xhr.status === 201) {
+          } else if (xhr.readyState === 4 && xhr.status === 201) {
             resolve({ status: 201, data: JSON.parse(this.responseText) });
+          } else  if (xhr.readyState === 4 && xhr.status === 404)  {
+            reject();
+            
           }
         };
 
@@ -724,25 +694,28 @@ export class FullCourseService {
 
         xhr.send(chunk);
       }).catch((error) => {
-        console.log('*** Error happen');
+        console.log(error.message);
       });
     };
-
-    let response;
     const sendNext = () => {
       if (!chunksQueue.length) {
         console.log('All parts uploaded');
         this.setVideoDuration(duration).subscribe(
           (response) => {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
+            this.isUpLoading = false;
+            this.sbjIsUpLoading.next(this.isUpLoading);
+            
+            this.stateUploadMedia=true;
+            this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           },
           (error) => {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
+            this.isUpLoading = false;
+            this.sbjIsUpLoading.next(this.isUpLoading);
 
-            // this.stateUploadMedia =false;
-            // this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
-            // console.log("Error 1");
-            // console.log(error.message);
+            this.stateUploadMedia=true;
+            this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           }
         );
         return;
@@ -759,26 +732,18 @@ export class FullCourseService {
           };
           if (castedData.status === 201) {
             console.log(castedData.data);
-            // this.setVideoDuration(duration).subscribe(
-            //   (response) => {
-            //   //  this.setPositionLoading(false, sectionIndex, lectureIndex);
-            //   },
-            //   (error) => {
-            //     // console.log(error.message);
-            //    // this.setPositionLoading(false,sectionIndex, lectureIndex);
-            //     // this.stateUploadMedia =false;
-            //     // this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
-            //     // console.log("Error 2");
-            //     // console.log(error.message);
-            //   }
-            // );
           }
-
           sendNext();
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
-          //this.setPositionLoading(false,sectionIndex, lectureIndex);
+          this.setPositionLoading(false, sectionIndex, lectureIndex);
+          this.isUpLoading = false;
+          this.sbjIsUpLoading.next(this.isUpLoading);
+          alert("Upload video failed. Please try again later!")
+        
+          this.stateUploadMedia=false;
+          this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
         });
     };
     sendNext();
@@ -805,10 +770,7 @@ export class FullCourseService {
     return this.onCreateCourse(this.course);
   }
   onSaveSection(section: Section) {
-    console.log('Save section ');
-    console.log(section);
     const url = `${this.apiUrlSection}/${section.id}`;
-
     return this.http.put<{ message: string; count: number; section: Section }>(
       url,
       {
@@ -822,19 +784,13 @@ export class FullCourseService {
   }
 
   onSaveLecture(lecture: Lecture) {
-    console.log('Save lecturer ');
-    console.log(lecture);
     const url = `${this.apiUrlLecture}/${lecture.id}`;
-    console.log(url);
-    console.log(lecture);
-    // return this.http.put<Lecture>(url, lecturer, httpOptions);
     return this.http.put<{ message: string; count: number; lecture: Lecture }>(
       url,
       {
         id: lecture.id,
         title: lecture.title,
         lectureOrder: lecture.lectureOrder,
-
         isHidden: lecture.isHidden,
         sectionId: lecture.sectionId,
       },
@@ -842,10 +798,7 @@ export class FullCourseService {
     );
   }
   onSaveCourse() {
-    console.log('*** Save course');
-    console.log(this.course);
     const url = `${this.apiUrlCourse}/${this.course.id}`;
-
     return this.http.put<{ message: String; count: Number; course: Course }>(
       url,
       {
@@ -872,7 +825,7 @@ export class FullCourseService {
       (error) => {
         this.status = 500;
         this.sbjStatus.next(this.status);
-        this.errorMessage = error.errorMessage;
+        this.errorMessage = error.message;
         return;
       }
     );
@@ -892,15 +845,12 @@ export class FullCourseService {
       (error) => {
         this.status = 500;
         this.sbjStatus.next(this.status);
-        this.errorMessage = error.errorMessage;
+        this.errorMessage = error.message;
         return;
       }
     );
   }
   onCreateSection(section: Section) {
-    console.log('*** Create section');
-    console.log(section);
-  
     this.http
       .post<{ message: String; count: Number; section: Section }>(
         this.apiUrlSection,
@@ -914,7 +864,6 @@ export class FullCourseService {
       )
       .subscribe(
         (response) => {
-         
           this.status = 200;
           this.sbjStatus.next(this.status);
           return;
@@ -922,29 +871,27 @@ export class FullCourseService {
         (error) => {
           this.status = 500;
           this.sbjStatus.next(this.status);
-          this.errorMessage = error.errorMessage;
+          this.errorMessage = error.message;
           return;
         }
       );
   }
 
   onCreateCourse(course: Course) {
-    console.log('*** create course');
-    //Course default
     let courseDefault: Course = {
       id: '',
       title: 'Introduction To Math',
-      courseDescription: 'Some fundamentals of Introduction To Information Technology',
+      courseDescription:
+        'Some fundamentals of Introduction To Information Technology',
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
       thumbnailUrl: '',
-      createdAt: new Date(),  
+      createdAt: new Date(),
       updatedAt: new Date(),
       isHidden: false,
-      isPublished:true
+      isPublished: true,
     };
- 
     //Create new Course
     return this.http
       .post<{ message: string; count: number; course: Course }>(
@@ -956,26 +903,27 @@ export class FullCourseService {
           courseType: courseDefault.courseType,
           thumbnailUrl: courseDefault.thumbnailUrl,
           grade: courseDefault.grade,
-          isPublished: courseDefault.isPublished
+          isPublished: courseDefault.isPublished,
         },
         httpOptions
       )
-      .subscribe((response) => {
-          if(response.course){
+      .subscribe(
+        (response) => {
+          if (response.course) {
             this.course = response.course;
             this.idCourse = this.course.id;
-          
+
             this.courses.push(response.course);
             this.sbjCreateCourse.next(this.course);
           }
-      }, error=>{
-        this.sbjCreateCourse.error("Error");
-        return;
-      });
+        },
+        (error) => {
+          this.sbjCreateCourse.error('Error');
+          return;
+        }
+      );
   }
   onCreateLecture(lecture: Lecture) {
-    console.log('*** create lecture');
-    console.log(lecture);
     return this.http
       .post<{ message: String; count: Number; lecture: Lecture }>(
         this.apiUrlLecture,
@@ -989,8 +937,6 @@ export class FullCourseService {
       )
       .subscribe(
         (response) => {
-         
-
           this.status = 200;
           this.sbjStatus.next(this.status);
           return;
@@ -998,10 +944,9 @@ export class FullCourseService {
         (error) => {
           this.status = 500;
           this.sbjStatus.next(this.status);
-          this.errorMessage = error.errorMessage;
+          this.errorMessage = error.message;
           return;
         }
       );
   }
-  
 }

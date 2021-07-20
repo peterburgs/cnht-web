@@ -184,10 +184,13 @@ padding:0px;
     position: relative;
     display: block;
     padding: 1rem 1rem;
-    color: #c4c4c4;
+    color: #dc6363;
      font-weight: bold;
     text-decoration: none;
     background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
     text-align: center;
+}
+.modal-body{
+    color: rgb(12, 88, 187) !important;
 }

@@ -41,11 +41,9 @@ export class AppComponent implements OnInit, OnDestroy {
       if(this.currentUrl.includes("/admin")){
         this.isShowNavbarAdmin= true;
         this.isShowNavbar = false;
-
       }
       else this.isShowNavbarAdmin= false;
     })
-    
     this.socialAuthService.initState.subscribe((state)=>{
       if(state)
         this.checkValidToken();

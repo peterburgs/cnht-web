@@ -14,58 +14,74 @@ import { FullCourseService } from '../../../../service/full-course.service';
   styleUrls: ['./course-section.component.css'],
 })
 export class CourseSectionComponent implements OnInit {
-  
-  @Input() sectionDummy: SectionDummy = new SectionDummy("1","default",[]);
-  @Input() sectionIndex: number=0;
-  @Input() maxLecture:number=1;
-  arrayLoading:boolean[]=[];
-  videoFile:File=new File([],'lecture-video')
-  sectionTitle='';
-  changeSection=false;
-  constructor(private modalService: NgbModal,
-              private fullCourseService: FullCourseService) {}
+  @Input() sectionDummy: SectionDummy = new SectionDummy('1', 'default', []);
+  @Input() sectionIndex: number = 0;
+  @Input() maxLecture: number = 1;
+
+  arrayLoading: boolean[] = [];
+  videoFile: File = new File([], 'lecture-video');
+  sectionTitle = '';
+  changeSection = false;
+  constructor(
+    private modalService: NgbModal,
+    private fullCourseService: FullCourseService
+  ) {}
   ngOnInit(): void {
-    this.arrayLoading= this.fullCourseService.getArrayLoading();
-    
+    this.arrayLoading = this.fullCourseService.getArrayLoading();
   }
-  clickEditSection($event:any){
-      this.sectionTitle=$event.target.value;
-      this.changeSection=true;
-
+  clickEditSection($event: any) {
+    this.sectionTitle = $event.target.value;
+    this.changeSection = true;
   }
-  saveSection(idSection:string){
-      this.fullCourseService.setSelection(idSection, VideoType.section, ModifyType.edit);
-      this.fullCourseService.handleEditSection(this.sectionTitle).subscribe(response=>{
-      }, error=>{
-        alert('Server disconnect at this time, try again');
-        
-      });
-      this.changeSection=false;
-  }
-  
-  onEditSection(){
-    this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.edit);
-    this.fullCourseService.onNotifyContent();
+  saveSection(idSection: string) {
+    this.fullCourseService.setSelection(
+      idSection,
+      VideoType.section,
+      ModifyType.edit
+    );
+    this.fullCourseService.handleEditSection(this.sectionTitle).subscribe(
+      (response) => {},
+      (error) => {
+        alert('Cannot connect to server, please try again! ');
+      }
+    );
+    this.changeSection = false;
   }
 
-  onDeleteSection(){
-    this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.delete);
-    this.fullCourseService.onNotifyContent();
-  }
-  onCreateLecture(idSection:string){
-
-    console.log(idSection);
-    this.fullCourseService.setSelection(idSection, VideoType.lecture, ModifyType.new);
-    this.fullCourseService.onNotifyContent();
-    console.log(this.fullCourseService.getWayModify);
-  }
-  onUpSection(){
-    this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.goUp);
-    this.fullCourseService.onNotifyContent();
-  }
-  onDownSection(){
-    this.fullCourseService.setSelection(this.sectionDummy.section_id, VideoType.section, ModifyType.goDown);
-    this.fullCourseService.onNotifyContent();
+  onEditSection() {
+    this.fullCourseService.setSelection(
+      this.sectionDummy.section_id,
+      VideoType.section,
+      ModifyType.edit
+    );
   }
 
+  onDeleteSection() {
+    this.fullCourseService.setSelection(
+      this.sectionDummy.section_id,
+      VideoType.section,
+      ModifyType.delete
+    );
+  }
+  onCreateLecture(idSection: string) {
+    this.fullCourseService.setSelection(
+      idSection,
+      VideoType.lecture,
+      ModifyType.new
+    );
+  }
+  onUpSection() {
+    this.fullCourseService.setSelection(
+      this.sectionDummy.section_id,
+      VideoType.section,
+      ModifyType.goUp
+    );
+  }
+  onDownSection() {
+    this.fullCourseService.setSelection(
+      this.sectionDummy.section_id,
+      VideoType.section,
+      ModifyType.goDown
+    );
+  }
 }
