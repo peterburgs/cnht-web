@@ -2,9 +2,9 @@
 .hotest-course {
     background: #f1f0f0;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-    /* padding-bottom: 10px; */
+    padding-bottom: 2rem;
     /* border: solid 2px #0417bd; */
-    height: 60vh;
+    
     display: block;
 }
 
@@ -58,6 +58,7 @@
     padding-left: 10px;
     float: right;
     transition: all 0.5s;
+    text-decoration: underline;
 }
 
 .view-all:hover {
@@ -69,7 +70,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 20px;
-    margin-top: 30%;
+    margin-top: 1rem;
 }
 
 

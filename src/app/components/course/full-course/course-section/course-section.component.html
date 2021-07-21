@@ -29,7 +29,7 @@
         [sectionIndex]="sectionIndex"
         [globalLoading]="arrayLoading[sectionIndex* maxLecture +i]"
         [maxLecture]="maxLecture"
-       
+        [isUpLoading]="isUpLoading"
         ></app-course-lecture>
         <div class ="lecture-empty"*ngIf="sectionDummy.lecture.length == 0 || sectionDummy.lecture ==undefined" >No lecture created</div>
       <div>

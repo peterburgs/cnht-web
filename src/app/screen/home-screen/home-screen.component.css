@@ -30,9 +30,9 @@
     padding-right: 30px;
     padding-left: 30px;
     font-size: 15px;
-    color: #fff;
+    color: brown;
     transition: all 1s;
-    background-color: #DC3545;
+    background-color: #fff;
 }
 
 .card:hover {
@@ -40,11 +40,15 @@
 }
 
 .card {
-    background-color: #DC3545;
+    background-color: #fff;
 }
 
 .empty-block {
     height: 50px;
     /* background-color: #f4f4f9; */
     text-align: center;
+}
+.card-active{
+    background-color: rgb(174, 5, 28);
+    color: white;
 }

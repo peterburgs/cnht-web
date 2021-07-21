@@ -7,6 +7,7 @@ import { VideoType } from 'src/app/models/VideoType.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Subject, Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-course-lecture',
   templateUrl: './course-lecture.component.html',
@@ -33,9 +34,11 @@ export class CourseLectureComponent implements OnInit {
   timeVideo=0;
   sbjLoadingDuration= new Subject<number>();
   sbcMediaUpload = new Subscription();
-  isUpLoading:boolean=false;
+  @Input() isUpLoading:boolean=false;
   constructor(private fullCourseService: FullCourseService
-    , private sanitizer: DomSanitizer){
+    , private sanitizer: DomSanitizer,
+    private _snackBar: MatSnackBar
+    ){
 
   }
   ngOnInit(): void {
@@ -43,9 +46,6 @@ export class CourseLectureComponent implements OnInit {
         this.timeVideo= response.video.length;
     }).catch(error=>{
         this.timeVideo=-1;
-    })
-    this.fullCourseService.getIsUpLoading().subscribe(isUpLoading=>{
-      this.isUpLoading= isUpLoading;
     })
     this.sbjLoadingDuration.subscribe(duration=>{
         if(this.fileToUpload.name != 'default')
@@ -63,12 +63,15 @@ export class CourseLectureComponent implements OnInit {
            
             this.sbjLoadingDuration.unsubscribe();
           })
-          
         }
     })
     
   }
-  
+  openSnackBar(message: string, action: string) { // notice success
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
+  }
   getSbjLoadingDuration() {
     return this.sbjLoadingDuration.asObservable();
   }
@@ -80,10 +83,11 @@ export class CourseLectureComponent implements OnInit {
     this.fullCourseService.setSelection(idLecture, VideoType.lecture, ModifyType.edit)
     this.fullCourseService.handleEditTitleLecture(this.lectureTitle).subscribe
     (response=>{
-     
+      this.openSnackBar("Changes saved", "OK")
     }, error=>{
       alert('Server disconnect at this time, try again');
     });
+    this.eventSave=false;
   }
   enableChangeLecture(event:any){
     this.changeLecture=true;
@@ -129,6 +133,6 @@ getDuration(e:any) {
 }
 ngOnDestroy(): void {
   this.sbjLoadingDuration.unsubscribe();
-
+  this.sbcMediaUpload.unsubscribe();
 }
 }

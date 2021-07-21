@@ -115,6 +115,7 @@
 .edit-screen{
     background: #EEEEEE;
     margin-top: 85px;
+    margin-bottom: 10vh;
 }
 .remove-border{
   border-top: none;

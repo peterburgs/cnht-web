@@ -48,7 +48,7 @@ export class FullCourseService {
   private apiUrlLecture = this.baseURL + 'lectures';
   //================================= Initial =========================
   //save edit Modal in screen
-  errorMessage = 'Server error. Try again!!!';
+  errorMessage = 'Something went wrong. Please try again';
   itemIndex = 0;
   idItem: string = 'default';
   isValid = true;
@@ -263,7 +263,7 @@ export class FullCourseService {
       (error) => {
         this.status = 500;
         this.sbjStatus.next(this.status);
-        this.errorMessage = error.errorMessage;
+      
         return;
       }
     );
@@ -285,7 +285,6 @@ export class FullCourseService {
         (error) => {
           this.status = 500;
           this.sbjStatus.next(this.status);
-          this.errorMessage = error.errorMessage;
         }
       );
   }
@@ -377,13 +376,13 @@ export class FullCourseService {
   }
   handleErrorMessage(error: any) {
     if (error.status == 404) {
-      this.errorMessage = '404: Server not found!!! Try again';
+      this.errorMessage = '404: Data not found. Try again';
     } else if (error.status == 500) {
-      this.errorMessage = '500: Something wrong happen!!! Try again';
+      this.errorMessage = '500: Something went wrong. Try again';
     } else if (error.status == 401) {
       this.errorMessage = 'Session expired. Please log in again';
     } else {
-      this.errorMessage = 'Something wrong happen!!! Try again';
+      this.errorMessage = 'Something went wrong. Try again';
     }
   }
   //================ HTTP ===============
@@ -880,9 +879,9 @@ export class FullCourseService {
   onCreateCourse(course: Course) {
     let courseDefault: Course = {
       id: '',
-      title: 'Introduction To Math',
+      title: '',
       courseDescription:
-        'Some fundamentals of Introduction To Information Technology',
+        '',
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
@@ -918,6 +917,7 @@ export class FullCourseService {
           }
         },
         (error) => {
+          
           this.sbjCreateCourse.error('Error');
           return;
         }
@@ -944,7 +944,8 @@ export class FullCourseService {
         (error) => {
           this.status = 500;
           this.sbjStatus.next(this.status);
-          this.errorMessage = error.message;
+          this.handleErrorMessage(error);
+          //this.errorMessage = error.message;
           return;
         }
       );

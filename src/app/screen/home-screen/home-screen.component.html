@@ -1,17 +1,42 @@
 <div class="home-screen">
-    <div class="filter-button">
-        <div class="card card-test" (click)="openSnackBar('This feature is being developed.','I have got it')">Test</div>
-        <div class="card card-exam" (click)="changeCourseType(2)">Examination Solving</div>
-        <div class=" card card-theory" (click)="changeCourseType(1)">Theory</div>
+  <div class="filter-button">
+    <div
+      class="card card-test"
+      (click)="
+        openSnackBar('This feature is being developed.', 'I have got it')
+      "
+    >
+      <i class="bi bi-trophy"></i>
+      Test
     </div>
-    <app-grade-course [grade]="grade12" [courseType]="course_type"></app-grade-course>
-    <div class="empty-block">
+    <div
+      class="card card-exam"
+      (click)="changeCourseType(2)"
+      [ngClass]="{ 'card-active': activeButton === 2 }"
+    >
+      <i class="bi bi-patch-check"></i>
+      Examination Solving
     </div>
-    <app-grade-course [courseType]="course_type" [grade]="grade11">
-    </app-grade-course>
-    <div class="empty-block">
+    <div
+      class="card card-theory"
+      [ngClass]="{ 'card-active': activeButton === 1 }"
+      (click)="changeCourseType(1)"
+    >
+      <i class="fa fa-book"></i>
+      Theory
     </div>
-    <app-grade-course [grade]="grade10" [courseType]="course_type"></app-grade-course>
-    <div class="empty-block">
-    </div>
+  </div>
+  <app-grade-course
+    [grade]="grade12"
+    [courseType]="course_type"
+  ></app-grade-course>
+  <div class="empty-block"></div>
+  <app-grade-course [courseType]="course_type" [grade]="grade11">
+  </app-grade-course>
+  <div class="empty-block"></div>
+  <app-grade-course
+    [grade]="grade10"
+    [courseType]="course_type"
+  ></app-grade-course>
+  <div class="empty-block"></div>
 </div>

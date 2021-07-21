@@ -83,9 +83,6 @@ export class TableWalletAdminComponent implements OnInit {
     this.isLoading = true;
     this.getAllList();
     this.getAllListLearner();
-    console.log(this.depositRequests.length);
- 
-    
   }
 
   getListDepositRequestByFitler(){

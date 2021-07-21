@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { throwIfEmpty } from 'rxjs/operators';
 
@@ -17,14 +18,15 @@ export class CourseSectionComponent implements OnInit {
   @Input() sectionDummy: SectionDummy = new SectionDummy('1', 'default', []);
   @Input() sectionIndex: number = 0;
   @Input() maxLecture: number = 1;
-
+  @Input() isUpLoading:boolean=false;
   arrayLoading: boolean[] = [];
   videoFile: File = new File([], 'lecture-video');
   sectionTitle = '';
   changeSection = false;
   constructor(
     private modalService: NgbModal,
-    private fullCourseService: FullCourseService
+    private fullCourseService: FullCourseService,
+    private _snackBar: MatSnackBar
   ) {}
   ngOnInit(): void {
     this.arrayLoading = this.fullCourseService.getArrayLoading();
@@ -40,14 +42,21 @@ export class CourseSectionComponent implements OnInit {
       ModifyType.edit
     );
     this.fullCourseService.handleEditSection(this.sectionTitle).subscribe(
-      (response) => {},
+      (response) => {
+        this.openSnackBar("Changes saved", "OK")
+      },
       (error) => {
+
         alert('Cannot connect to server, please try again! ');
       }
     );
     this.changeSection = false;
   }
-
+  openSnackBar(message: string, action: string) { // notice success
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
+  }
   onEditSection() {
     this.fullCourseService.setSelection(
       this.sectionDummy.section_id,

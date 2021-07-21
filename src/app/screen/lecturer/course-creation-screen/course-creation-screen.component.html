@@ -8,7 +8,7 @@
   <app-course-info [course]="course"></app-course-info>
 
   <app-course-section
-    *ngFor="let section of sections; let i = index" 
+    *ngFor="let section of sections; let i = index" [isUpLoading]="isUpLoading"
     [sectionDummy]="section" [sectionIndex]="i" [maxLecture]="maxLecture"
   ></app-course-section>
   <ul>  

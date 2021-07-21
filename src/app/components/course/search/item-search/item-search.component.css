@@ -13,13 +13,13 @@
 }
 .img-course{
     display: block;
-    width: 30%px;
+    width: 13rem;
     height: 146px;
     /* max-width: 129.2rem; */
 }
 
 .course-heading{
-    display: block;
+    /* display: block; */
     color: black;
     font-size: 20px;
     font-weight: 400;
@@ -43,16 +43,20 @@
     width: 70%;
     display: block;
     margin-left: 20px;
-
+    position: relative;
 }
 
 .price{
     align-items: center;
-    height: 100%;
+    /* height: 100%; */
     text-align: center !important;
     vertical-align:middle;
-    margin-top: 3.5em;
-    
+    /* margin-top: 3.5em; */
+    display: flex;
+    flex-direction: row;
+    bottom: 3px;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .price-course{
@@ -61,7 +65,8 @@
     font-weight: bold;
     font-size: 1.5em;
     text-align: center;
-    display: flex;
+    /* display: flex; */
+    justify-content: flex-end;
 }
 
 a{
@@ -71,4 +76,17 @@ a{
 
 .course-heading :hover{
     color: #005B9A;
+}
+.pull-left{
+    width: 100%;
+   
+}
+.number-learner{
+    color: #ff9800;
+    justify-content: flex-start;
+}
+.div-bottom{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }
