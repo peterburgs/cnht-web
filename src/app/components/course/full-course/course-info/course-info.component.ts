@@ -11,6 +11,7 @@ import { ThemePalette } from '@angular/material/core';
 import { FullCourseService } from '../../../../service/full-course.service';
 import { Observable, Subscription } from 'rxjs';
 import { FormatPrice } from 'src/app/util/priceformat';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -37,7 +38,8 @@ export class CourseInfoComponent implements OnInit {
   uploadImage = false;
   isPublished = true;
   color: ThemePalette = 'accent';
-  constructor(private fullCourseService: FullCourseService) {}
+  constructor(private fullCourseService: FullCourseService,
+    private _snackBar: MatSnackBar) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {
     this.priceFormat = String(courseChange.course.currentValue.price);
@@ -98,20 +100,27 @@ export class CourseInfoComponent implements OnInit {
     this.course.grade = e.target.value;
   }
   onSave() {
-    this.fullCourseService.setSelection(
-      this.course.id,
-      VideoType.course,
-      ModifyType.save
-    );
-    this.fullCourseService
-      .onSaveCourse()
-      .toPromise()
-      .then(
-        (response) => {},
-        (error) => {
-          alert('Server error!!! try again');
-        }
+      this.fullCourseService.setSelection(
+        this.course.id,
+        VideoType.course,
+        ModifyType.save
       );
+      this.fullCourseService
+        .onSaveCourse()
+        .toPromise()
+        .then(
+          (response) => {
+            this.openSnackBar("All changes saved", "OK")
+          },
+          (error) => {
+            alert('Server error!!! try again');
+          }
+        );
+  }
+  openSnackBar(message: string, action: string) { // notice success
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
   }
   getEstimatePricing() {
     this.loadingCalculate = true;
@@ -121,6 +130,9 @@ export class CourseInfoComponent implements OnInit {
         this.loadingCalculate = false;
         this.course.price = response.price;
         this.priceFormat = FormatPrice(this.course.price, 0, 3, '.', ',');
+      },error=>{
+        this.loadingCalculate = false;
+        
       });
   }
   ngOnDestroy(): void {

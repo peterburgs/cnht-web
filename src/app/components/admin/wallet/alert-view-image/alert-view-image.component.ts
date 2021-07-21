@@ -23,7 +23,6 @@ export class AlertViewImageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.deposit)
   }
     
   balanceFormat(balance : number){

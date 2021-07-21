@@ -26,8 +26,6 @@ export class AlertComponent implements OnInit {
   }
 
   actionClick(){
-    console.log(this.action);
-
     if(this.action=="wallet"){
       this.action_return.emit('wallet');
       this.onClose();

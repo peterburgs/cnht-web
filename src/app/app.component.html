@@ -4,6 +4,6 @@
     <app-navbar-admin *ngIf="isShowNavbarAdmin"></app-navbar-admin>
     <router-outlet></router-outlet>
     <app-footer class="footer" *ngIf="isShowNavbar"></app-footer>
-
+    <app-footer class="footer" *ngIf="isShowNavbarAdmin"></app-footer> 
 </div>
 <app-loading [isLoading]="!validSignIn"></app-loading>

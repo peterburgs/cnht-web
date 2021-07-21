@@ -9,7 +9,7 @@
 
 .card-img-top {
     height: 100%;
-    width: auto;
+    width: 100%;
 }
 
 .card-img {
@@ -50,4 +50,11 @@ a {
     font-weight: 600;
     font-size: 18px;
     margin-top: 10px;
+
+}
+.div-course-text{
+    position:absolute ;
+    bottom: 0px;
+    text-align: center;
+    width:100%
 }

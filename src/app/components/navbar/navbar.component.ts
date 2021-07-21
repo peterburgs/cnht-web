@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit {
       
       this.authService.checkIsLoggedin().subscribe((loggedIn)=>
       {
-        console.log(localStorage.getItem('isLoggedin'));
         this.isLoggedin= loggedIn;
 
         if(loggedIn)

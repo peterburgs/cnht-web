@@ -44,7 +44,7 @@ export class CourseCreationScreenComponent
   isLeaving = false;
   titleNotify: string = '';
   contentNotify: string = '';
-  
+  isUpLoading = false;
   scbSectionDummy: Subscription = new Subscription();
   scbFinish: Subscription = new Subscription();
   sbcInit: Subscription = new Subscription();
@@ -135,7 +135,11 @@ export class CourseCreationScreenComponent
             this.modalService.dismissAll();
           }
         });
-      
+      this.sbcIsUpLoading = this.fullCourseService
+        .getIsUpLoading()
+        .subscribe((isUploading) => {
+          this.isUpLoading = isUploading;
+        });
       this.sbcInit = this.fullCourseService.initCourses().subscribe(
         (response) => {
           this.fullCourseService.setCourses(response.courses);
@@ -154,7 +158,6 @@ export class CourseCreationScreenComponent
         });
       this.sbcWay = this.fullCourseService.getWayModify().subscribe((way) => {
         this.wayModify = way;
-        console.log("wayyyy" + this.wayModify)
       });
 
       this.sbcOpenModal = this.fullCourseService
@@ -179,6 +182,7 @@ export class CourseCreationScreenComponent
     this.sbcLeaving.unsubscribe();
     this.sbcInit.unsubscribe();
     this.sbcOpenModal.unsubscribe();
+    this.sbcIsUpLoading.unsubscribe();
   }
   onCreateSection() {
     this.fullCourseService.setSelection(

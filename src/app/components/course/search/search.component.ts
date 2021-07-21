@@ -39,7 +39,6 @@ export class SearchComponent implements OnInit {
         this.getListSearch();     
         this.getFormFilterRouter();
         this.getListCourseFilter();
-        console.log(this.router.url);
         window.scrollTo(0,0);
       }
 
@@ -89,7 +88,7 @@ export class SearchComponent implements OnInit {
         if(this.titleSearch){
           this.listCourse = this.listAllCourse.filter(course => course.title.toLowerCase().includes(this.titleSearch.toLowerCase()));
           this.isUseFilter = false;
-          this.setTextSearch(this.titleSearch);
+          this.setTextSearch(`\"${this.titleSearch}\"`);
         }
         else
           if(this.listCourse.length === 0) {
@@ -166,7 +165,7 @@ export class SearchComponent implements OnInit {
             );
           
         }
-        this.setTextSearch( this.category + " of " + this.grade );
+        this.setTextSearch( `\"${this.category}\"` );
         if(this.listCourse.length == 0) this.isLoading = false;
       }
       

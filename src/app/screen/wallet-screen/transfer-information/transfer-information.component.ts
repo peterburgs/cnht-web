@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
@@ -7,6 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { DepositRequestService } from 'src/app/service/deposit-request.service';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { UserService } from 'src/app/service/user.service';
+import { BalanceFormat } from 'src/app/util/balance-format';
 import { FormatPrice, PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
@@ -33,7 +35,8 @@ export class TransferInformationComponent implements OnInit {
 
   constructor(private depositService:DepositRequestService,
     private userService: UserService,
-    private fullCourseService:FullCourseService) { 
+    private fullCourseService:FullCourseService,
+    private _snackBar: MatSnackBar) { 
     
   }
   ngOnInit(): void {
@@ -110,7 +113,7 @@ export class TransferInformationComponent implements OnInit {
       this.showAnnouncement=true;
       this.title= "Confirmation"
       this.actionToAlert="Confirm"
-      this.message="You'v transfered "+money+"VND . Let's confirm!"
+      this.message="You have transfered "+BalanceFormat(money)
       this.action="transfer_money"
     }
   }
@@ -149,7 +152,7 @@ export class TransferInformationComponent implements OnInit {
               this.actionToAlert="Ok"
               this.message="Error system. Please try again!"
               this.action="not_success"
-              
+            
               this.thumnailUrl=""
               return throwError(error)
           })
@@ -157,7 +160,7 @@ export class TransferInformationComponent implements OnInit {
         .subscribe(response=>{
           this.depositService.uploadDepositImage(this.fileToUpLoad, response.depositRequest.id)
           this.isLoading=false;
-          this.successResquest=true;
+          this.openSnackBar("Request created successfully. Waiting for admin to confirm","OK")
           this.money_Transfer=''
           this.thumnailUrl=""
           
@@ -187,5 +190,9 @@ export class TransferInformationComponent implements OnInit {
     }
   }
   
-
+  openSnackBar(message: string, action: string) { // notice success
+    this._snackBar.open(message, action, {
+      duration: 2000
+    });
+  }
 }

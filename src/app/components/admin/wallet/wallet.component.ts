@@ -35,7 +35,6 @@ export class WalletComponent implements OnInit {
         this.getAllListLearner();
         if(localStorage.getItem('isLoggedin')=='true'){
           let email=localStorage.getItem('uemail')?localStorage.getItem('uemail'):"null";
-          console.log(email)
             if(email!=null)
             {
               this.userService.getAllUser().subscribe(dataUser=>{

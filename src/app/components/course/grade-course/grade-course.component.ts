@@ -49,6 +49,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
     .subscribe(data=>{
       if(data.count!=0){
         this.smallCourses= data.courses.slice(0,4)
+        this.notFound=false;
       }
 
       else{

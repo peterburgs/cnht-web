@@ -29,7 +29,6 @@ export class LearnerManagermentComponent implements OnInit {
     if(this.authService.isAdmin()){
       this.isAdmin = true;
       this.getAllUser();
-      console.log('list');
     }
    
   }
