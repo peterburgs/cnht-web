@@ -23,6 +23,7 @@ export class AdminCourseScreenComponent implements OnInit {
   message: string = 'Find my course by title';
   titleSearch: string = '';
   listCourse: Course[] = [];
+  listSortedCourse: Course[] = [];
   grade = '';
   typeCourse = '';
   sbcCreate: Subscription = new Subscription();
@@ -42,12 +43,17 @@ export class AdminCourseScreenComponent implements OnInit {
       (response) => {
         this.fullCourseService.setCourses(response.courses);
         this.courses = response.courses;
-        this.listCourse = this.courses;
+
+        this.listSortedCourse = this.courses;
+        this.sortByDate(this.selectedExpBy);
+        this.listCourse = this.listSortedCourse;
+
         this.isLoading = false;
       },
       (error) => {
         this.courses = [];
         this.listCourse = [];
+        this.listSortedCourse = this.courses;
         this.isLoading = false;
       }
     );
@@ -76,12 +82,25 @@ export class AdminCourseScreenComponent implements OnInit {
       }
     );
   }
-
+  getAllByDate() {
+    this.sortByDate(this.selectedExpBy);
+    this.getAllByFilter();
+  }
   searchCourse($event: string) {
     this.titleSearch = $event;
     this.getAllByFilter();
   }
-
+  sortByDate(order: number) {
+    if (order == 0) {
+      this.listSortedCourse = this.courses.sort((a, b) => {
+        return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt);
+      });
+    } else {
+      this.listSortedCourse = this.courses.sort((a, b) => {
+        return <any>new Date(a.updatedAt) - <any>new Date(b.updatedAt);
+      });
+    }
+  }
   getListCourseByTitle() {
     switch (this.selectedViewBy) {
       case 0:
@@ -99,7 +118,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getAllListByTitle() {
-    this.listCourse = this.courses.filter((course) =>
+    this.listCourse = this.listSortedCourse.filter((course) =>
       course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
     );
   }
@@ -130,21 +149,25 @@ export class AdminCourseScreenComponent implements OnInit {
 
   onResetFitler() {
     this.resetChildForm();
-    this.grade = ''; //TODO: reset value grade and type course
+    this.grade = '';
     this.typeCourse = '';
     // this.titleSearch = "";
     this.getAllByFilter();
   }
 
   selectedViewBy: Number = 0;
-
+  selectedExpBy: number = 0;
   listStatus: Status[] = [
     { value: 0, viewValue: 'All' },
     { value: 1, viewValue: 'Published' },
     { value: -1, viewValue: 'Not Published' },
   ];
 
-  //TODO: get all list course
+  listExpStatus: Status[] = [ 
+    { value: 0, viewValue: 'Newest' },
+    { value: 1, viewValue: 'Oldest' },
+  ];
+
   getAllByFilter() {
     switch (this.selectedViewBy) {
       case 0:
@@ -165,7 +188,7 @@ export class AdminCourseScreenComponent implements OnInit {
     if (this.grade == '' || this.typeCourse == '')
       this.getAllListByTitleAndStatus(status);
     else
-      this.listCourse = this.courses.filter(
+      this.listCourse = this.listSortedCourse.filter(
         (course) =>
           course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
           course.courseType.toString() == this.typeCourse &&
@@ -175,7 +198,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getAllListByTitleAndStatus(status: boolean) {
-    this.listCourse = this.courses.filter(
+    this.listCourse = this.listSortedCourse.filter(
       (course) =>
         course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
         course.isPublished == status
@@ -188,7 +211,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListByFilterAndTitleSearch() {
-    this.listCourse = this.courses.filter(
+    this.listCourse = this.listSortedCourse.filter(
       (course) =>
         course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
         course.courseType.toString() == this.typeCourse &&

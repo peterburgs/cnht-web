@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from 'src/app/service/course.service';
@@ -16,7 +16,12 @@ import { authenticationService } from 'src/app/service/authentication.service';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class CourseLearningScreenComponent implements OnInit {
-
+  @HostListener   ('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    if(event.key == 'f' ){
+      console.log("*** lofkey f")
+    }
+  }
   current_course = new Course();
   courseId!: Observable<string>;
   sectionId!:Observable<string>;

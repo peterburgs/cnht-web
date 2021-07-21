@@ -11,24 +11,6 @@
     <div class="row">
       <div class="col-md-3">
         <div class="div-filter">
-          <mat-form-field appearance="fill" style="color: black">
-            <mat-label style="color: #194350; font-weight: 500">View</mat-label>
-            <mat-select
-              disableOptionCentering
-              style="color: black"
-              [(ngModel)]="selectedViewBy"
-            >
-              <mat-option
-                (click)="getAllByFilter()"
-                style="color: black"
-                class="not-empty-select"
-                *ngFor="let status of listStatus"
-                [value]="status.value"
-              >
-                {{ status.viewValue }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
           <div class="btn-clear-filter" (click)="onResetFitler()">
             <span>
               <i class="fa fa-filter"></i>
@@ -45,13 +27,64 @@
       </div>
       <div class="col-md-9">
         <div class="list-course">
-          <div class="search-container">
-            <app-search-title
-              class="div-search"
-              [message]="message"
-              (sendTitleSearch)="searchCourse($event)"
-            ></app-search-title>
+          <div class="container div-sort-by">
+            <mat-form-field
+              class="sort-by"
+              appearance="fill"
+              style="color: black"
+            >
+              <mat-label style="color: #194350; font-weight: 500"
+                >View</mat-label
+              >
+              <mat-select
+                disableOptionCentering
+                style="color: black"
+                [(ngModel)]="selectedViewBy"
+              >
+                <mat-option
+                  (click)="getAllByFilter()"
+                  style="color: black"
+                  class="not-empty-select"
+                  *ngFor="let status of listStatus"
+                  [value]="status.value"
+                >
+                  {{ status.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field
+              class="sort-by"
+              appearance="fill"
+              style="color: black"
+            >
+              <mat-label style="color: #194350; font-weight: 500"
+                >Sort by</mat-label
+              >
+              <mat-select
+                disableOptionCentering
+                style="color: black"
+                [(ngModel)]="selectedExpBy"
+              >
+                <mat-option
+                  (click)="getAllByDate()"
+                  style="color: black"
+                  class="not-empty-select"
+                  *ngFor="let status of listExpStatus"
+                  [value]="status.value"
+                >
+                  {{ status.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="search-container">
+              <app-search-title
+                class="div-search"
+                [message]="message"
+                (sendTitleSearch)="searchCourse($event)"
+              ></app-search-title>
+            </div>
           </div>
+
           <div
             *ngIf="!listCourse.length && !isLoading"
             class="container div-no-found"
