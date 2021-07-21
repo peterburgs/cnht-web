@@ -6,49 +6,53 @@ import { authenticationService } from 'src/app/service/authentication.service';
 @Component({
   selector: 'app-navbar-admin',
   templateUrl: './navbar-admin.component.html',
-  styleUrls: ['./navbar-admin.component.css']
+  styleUrls: ['./navbar-admin.component.css'],
 })
 export class NavbarAdminComponent implements OnInit {
-
-  titleSearch: string = "";
-  isLoggedin:boolean= false;
+  titleSearch: string = '';
+  isLoggedin: boolean = false;
   photo: any;
-
-  constructor(public socialAuth: SocialAuthService,
-     public authService: authenticationService,
-     private router: Router,
-     private route: ActivatedRoute) { }
-
+  activeButton: number = 1;
+  constructor(
+    public socialAuth: SocialAuthService,
+    public authService: authenticationService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    if(typeof(localStorage))
-    {
-      if(localStorage.getItem('isLoggedin')=='true')
-      {
-        this.photo= localStorage.getItem('uphotoUrl');
-        this.isLoggedin=true;
-      } 
-      
-      this.authService.checkIsLoggedin().subscribe((loggedIn)=>
-      {
-        console.log(localStorage.getItem('isLoggedin'));
-        this.isLoggedin= loggedIn;
-
-        if(loggedIn)
-          this.photo= localStorage.getItem('uphotoUrl');
+    this.setActiveButtonByRouter();
+    if (typeof localStorage) {
+      if (localStorage.getItem('isLoggedin') == 'true') {
+        this.photo = localStorage.getItem('uphotoUrl');
+        this.isLoggedin = true;
       }
-      );
+
+      this.authService.checkIsLoggedin().subscribe((loggedIn) => {
+        console.log(localStorage.getItem('isLoggedin'));
+        this.isLoggedin = loggedIn;
+
+        if (loggedIn) this.photo = localStorage.getItem('uphotoUrl');
+      });
     }
   }
-
-  logOut(){
-    //this.socialAuth.signOut();
-    //this.authService.clearLocalStorage();
+  logOut() {
     this.authService.logOut();
-    this.isLoggedin= false;
-    this.router.navigate(['/login'])
-  
-    
+    this.isLoggedin = false;
+    this.router.navigate(['/login']);
   }
-
+  setActiveButton(number: number) {
+    this.activeButton = number;
+  }
+  goToHomeAdmin() {
+    this.router.navigate(['/admin/home']);
+    this.activeButton = 1;
+  }
+  setActiveButtonByRouter() {
+    this.router.url.includes('/wallet')
+      ? (this.activeButton = 3)
+      : this.router.url.includes('/learner')
+      ? (this.activeButton = 2)
+      : (this.activeButton = 1);
+  }
 }

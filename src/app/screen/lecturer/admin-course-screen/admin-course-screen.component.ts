@@ -20,7 +20,7 @@ interface Status {
 export class AdminCourseScreenComponent implements OnInit {
   courses: Course[] = [];
   isLoading = true;
-  message: string = 'Find my course by title ....';
+  message: string = 'Find my course by title';
   titleSearch: string = '';
   listCourse: Course[] = [];
   grade = '';

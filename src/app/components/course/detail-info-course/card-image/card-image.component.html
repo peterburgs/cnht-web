@@ -1,41 +1,76 @@
 <div class="card image-card">
-    <div *ngIf="!isLoading">
-        <img class="image-thumbnail img-course" [src]="baseUrl+course.thumbnailUrl" onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt="{{course.title}}">
-        <p class="price"> {{handlePriceFormat(course.price)}} </p>
+  <div *ngIf="!isLoading">
+    <img
+      class="image-thumbnail img-course"
+      [src]="baseUrl + course.thumbnailUrl"
+      onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'"
+      alt="{{ course.title }}"
+    />
+    <p class="price">{{ handlePriceFormat(course.price) }}</p>
 
-        <div *ngIf="isAdmin; then adminBlock else learnerBlock"></div>
-        <ng-template #adminBlock>
-            <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
-        </ng-template>
-        <ng-template #learnerBlock>
-            <div *ngIf=" isBought ; then thenBlock else elseBlock"></div>
-            <ng-template #thenBlock>
-                <button (click)="goToCourse(course.id,sectionId,lectureId )" class="btn-go-course "> <i class="bi bi-book"></i> Go to course</button>
-            </ng-template>
-            <ng-template #elseBlock>
-                <button (click)="goToWallet()" class="btn-go-course "> <i class="bi bi-cart "></i> Buy now</button>
-            </ng-template>
-
-        </ng-template>
-    </div>
-    <div class="lds-ring" *ngIf="isLoading">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-
-
-
+    <div *ngIf="isAdmin; then adminBlock; else learnerBlock"></div>
+    <ng-template #adminBlock>
+      <button
+        (click)="goToCourse(course.id, sectionId, lectureId)"
+        class="btn-go-course"
+      >
+        <i class="bi bi-book"></i> Go to course
+      </button>
+    </ng-template>
+    <ng-template #learnerBlock>
+      <div *ngIf="isBought; then thenBlock; else elseBlock"></div>
+      <ng-template #thenBlock>
+        <button
+          (click)="goToCourse(course.id, sectionId, lectureId)"
+          class="btn-go-course"
+        >
+          <i class="bi bi-book"></i> Go to course
+        </button>
+      </ng-template>
+      <ng-template #elseBlock>
+        <button (click)="goToWallet()" class="btn-go-course">
+          <i class="bi bi-cart"></i> Buy now
+        </button>
+      </ng-template>
+    </ng-template>
+  </div>
+  <div class="lds-ring" *ngIf="isLoading">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
 <div class="loading" *ngIf="isBuying">
-    <div class="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+  <div class="lds-ellipsis">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
-<app-alert [actionToAlert]="'Ok'" [title]="'Error'" [message]="'We have some error.Please try again!'" [action]="'error'" *ngIf="failBought" (close)="closeHandler()"></app-alert>
-<app-alert [actionToAlert]="'Ok'" [title]="'Announcement'" [message]="'You have bought this course successfully. Right now, you can learn it!'" [action]="action" *ngIf="successfullBought" (close)="closeHandler()"></app-alert>
-<app-alert [actionToAlert]="actionToAlert" [title]="title" [message]="message" [action]="action" *ngIf="showInform" (action_return)="implementAction($event)" (close)="closeHandler()"></app-alert>
+<app-alert
+  [actionToAlert]="'Ok'"
+  [title]="'Error'"
+  [message]="'Cannot purchase due to server error.Please try again!'"
+  [action]="'error'"
+  *ngIf="failBought"
+  (close)="closeHandler()"
+></app-alert>
+<app-alert
+  [actionToAlert]="'Ok'"
+  [title]="'Announcement'"
+  [message]="'You have purchased this course successfully. Happy learning!'"
+  [action]="action"
+  *ngIf="successfullBought"
+  (close)="closeHandler()"
+></app-alert>
+<app-alert
+  [actionToAlert]="actionToAlert"
+  [title]="title"
+  [message]="message"
+  [action]="action"
+  *ngIf="showInform"
+  (action_return)="implementAction($event)"
+  (close)="closeHandler()"
+></app-alert>

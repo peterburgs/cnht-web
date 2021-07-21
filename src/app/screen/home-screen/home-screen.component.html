@@ -1,29 +1,30 @@
 <div class="home-screen">
-  <div class="filter-button">
-    <div
-      class="card card-test"
-      (click)="
-        openSnackBar('This feature is being developed.', 'I have got it')
-      "
-    >
-      <i class="bi bi-trophy"></i>
-      Test
-    </div>
-    <div
-      class="card card-exam"
-      (click)="changeCourseType(2)"
-      [ngClass]="{ 'card-active': activeButton === 2 }"
-    >
-      <i class="bi bi-patch-check"></i>
-      Examination Solving
-    </div>
-    <div
-      class="card card-theory"
-      [ngClass]="{ 'card-active': activeButton === 1 }"
-      (click)="changeCourseType(1)"
-    >
-      <i class="fa fa-book"></i>
-      Theory
+  <div class="filter-button-container">
+    <div class="filter-button">
+      <div
+        class="card card-theory"
+        [ngClass]="{ 'card-active': activeButton === 1 }"
+        (click)="changeCourseType(1)"
+      >
+        <i class="fa fa-book"></i>
+        Theory
+      </div>
+      <div
+        class="card card-exam"
+        (click)="changeCourseType(2)"
+        [ngClass]="{ 'card-active': activeButton === 2 }"
+      >
+        <i class="bi bi-patch-check"></i>
+        Examination Solving
+      </div>
+
+      <div
+        class="card card-test"
+        (click)="openSnackBar('This feature is being developed.', 'OK')"
+      >
+        <i class="bi bi-trophy"></i>
+        Test
+      </div>
     </div>
   </div>
   <app-grade-course

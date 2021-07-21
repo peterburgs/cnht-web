@@ -1,28 +1,30 @@
-
-<div class="container" *ngIf = "!isAdmin" style="margin-top: 200px; text-align: center; height: 100vh;"> <h2>You can not contact this page !</h2></div>
-<div class="wallet-screen" *ngIf = "isAdmin">
-    <div class = "balance-and-search">
-
-            <div class = "balance">
-                <span>My Balance: {{balanceFormat(balance_admin)}} </span>
-            </div>
-    
-       
-        <div  class = "search">
-            <app-search-title
-            [message] = "content_for_search"
-            (sendTitleSearch) = "searchDeposit($event)"></app-search-title>
-        </div>
-       
-    </div>
-    
-
-    <div class="table-wallet">
-        <app-table-wallet-admin [listSearch] = "listSearch" [admin] = "admin" (changeBalanceAdmin) = "updateBalanceAdmin($event)"></app-table-wallet-admin>
-    </div>
-    
+<div
+  class="container"
+  *ngIf="!isAdmin"
+  style="margin-top: 200px; text-align: center; height: 100vh"
+>
+  <h2>You can not contact this page !</h2>
 </div>
+<div class="wallet-screen" *ngIf="isAdmin">
+  <div class="balance-and-search">
+    <div class="balance">
+      <span>My Balance: {{ balanceFormat(balance_admin) }} </span>
+    </div>
 
-<!-- <app-empty-block></app-empty-block> -->
+    <div class="search">
+      <app-search-title
+        class="search-title"
+        [message]="content_for_search"
+        (sendTitleSearch)="searchDeposit($event)"
+      ></app-search-title>
+    </div>
+  </div>
 
-
+  <div class="table-wallet">
+    <app-table-wallet-admin
+      [listSearch]="listSearch"
+      [admin]="admin"
+      (changeBalanceAdmin)="updateBalanceAdmin($event)"
+    ></app-table-wallet-admin>
+  </div>
+</div>

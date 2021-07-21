@@ -1,88 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
 @import url("~font-awesome/css/font-awesome.css");
 
-.container{
-  
-   
-    width: 100vw;
-    align-items: center;
-    text-align: center;
-    margin: 0;
-    margin-left: 5vw;
-    margin-right: 5vw;
-    margin-top: 70px;
+.container {
+  width: 100vw;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-top: 70px;
 }
 
-.table-learner-managerment{
-    padding-bottom: 50vh;
-   
-   
+.table-learner-managerment {
+  padding-bottom: 50vh;
 }
 
-
-.form-control:focus{
-    outline: none !important;
-    box-shadow: none !important;
+.form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.form-group{
-    align-items: center;
-    /* height: 30px; */
-    width: 30vw;
-    margin-left: 60vw !important;
-    display: block;
-    margin-top: 0 !important;
-   margin-bottom: 0 !important;
+.form-group {
+  align-items: center;
+  width: 30vw;
+  margin-left: 60vw !important;
+  display: block;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
-.form-control:focus{
-    outline: none !important;
-    box-shadow: none !important;
+.form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
-
 
 .form-group i {
-    position: absolute;
-    font-size: 1rem;
-    /* margin-left: 2vw; */
-    /* padding-left: 2vw; */
-   font-weight: 100;
-   margin-top: -1vh;
-   margin-left: 22px;
-    /* padding-top: -30px; */
-    color: rgb(194, 193, 193);
-   
+  position: absolute;
+  font-size: 1rem;
+  /* margin-left: 2vw; */
+  /* padding-left: 2vw; */
+  font-weight: 100;
+  margin-top: -1vh;
+  margin-left: 22px;
+  /* padding-top: -30px; */
+  color: rgb(194, 193, 193);
 }
 
 .search-input {
-   
-    font-size: 0.8rem;
-    color: rgb(43, 41, 41);
+  font-size: 0.8rem;
+  color: rgb(43, 41, 41);
 }
 
 .form-group .form-control {
-    border-radius: 50px;
-    padding-left: 30px;
-    
+  border-radius: 50px;
+  padding-left: 30px;
 }
 
+.pull-right {
+  margin: 0;
 
-
-.pull-right{
-    margin: 0;
-   
-    margin-bottom: 1vh;
+  margin-bottom: 1vh;
 }
 
-.total-and-search{
-    display: inline-block;
-
+.total-and-search {
+  display: inline-block;
 }
 
-.total-learner{
-    display: block;
-    float: left;
-    font-weight: 500;
-    /* margin-top: 10vh; */
+.total-learner {
+  display: block;
+  float: left;
+  font-weight: 500;
+  /* margin-top: 10vh; */
 }
-

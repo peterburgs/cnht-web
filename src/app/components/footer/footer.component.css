@@ -1,33 +1,32 @@
-.col-md-4{
-    margin-left: 20px;
+.col-md-4 {
+  margin-left: 20px;
 }
- 
- .flex-column {
-     height: 40vh;
- }
- 
- #page-content {
-     flex: 1 0 auto;
- }
- 
- #sticky-footer {
-     flex-shrink: none;
- }
- /* Other Classes for Page Styling */
- 
- .flex-column {
-     background: #4EBEE1;
-     /* background: linear-gradient(to right, #81b0ee, #65bffa); */
- }
- 
- .content {
-     /* margin-top: -20px !important; */
- }
- 
- .container{
-     margin: 0;
- }
 
- .end-footer{
-    margin-top: 30px;
- }
+.flex-column {
+  height: 40vh;
+  width: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+/* Other Classes for Page Styling */
+
+.flex-column {
+  background: #4ebee1;
+}
+
+.content {
+}
+
+.container {
+  margin: 0;
+}
+
+.end-footer {
+  margin-top: 30px;
+}

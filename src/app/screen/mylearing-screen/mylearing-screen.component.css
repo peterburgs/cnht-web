@@ -1,119 +1,119 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap");
 
 /* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
            */
 
 .mylearning {
-    margin-top: 100px;
-    padding-bottom: 30vh;
+  margin-top: 100px;
+  padding-bottom: 30vh;
 }
 
 .mycourse-title {
-    font-size: 26px;
-    font-weight: 700;
-    font-family: 'Roboto', sans-serif;
-    color: white;
-    padding-top: 60px;
+  font-size: 26px;
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  color: white;
+  padding-top: 60px;
 }
 
 .form-group {
-    display: flex;
-    margin: 10px 10px;
+  display: flex;
+  margin: 10px 10px;
+  width: 25rem;
 }
 
 .form-group i {
-    position: absolute;
-    font-size: 16px;
-    margin-left: 22px;
-    padding-top: 13px;
-    color: rgb(136, 136, 136);
+  position: absolute;
+  font-size: 16px;
+  margin-left: 22px;
+  padding-top: 13px;
+  color: rgb(136, 136, 136);
 }
 
 .search-input {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 5px;
-    font-size: 13px;
-    height: 35px;
-    color: rgb(114, 114, 114);
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+  font-size: 13px;
+  height: 35px;
+  color: rgb(114, 114, 114);
 }
 
 .form-control:focus {
-    outline: none !important;
-    box-shadow: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .navbar-toggler:focus {
-    box-shadow: none !important;
-    font-size: 15px;
-    color: rgb(194, 193, 193);
+  box-shadow: none !important;
+  font-size: 15px;
+  color: rgb(194, 193, 193);
 }
 
 .form-group .form-control {
-    border-radius: 20px;
-    padding-left: 40px;
+  border-radius: 20px;
+  padding-left: 40px;
 }
 
 .not-found {
-    height: 30vh;
+  height: 30vh;
 }
 
 .not-found h3 {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 600;
-    font-family: 'Courier New', Courier, monospace;
-    color: rgb(163, 163, 163);
-    margin-top: 10%;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  font-family: "Courier New", Courier, monospace;
+  color: rgb(163, 163, 163);
+  margin-top: 10%;
 }
 
 .container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-
 
 /********************loading *************/
 
 .lds-ring {
-    display: inline-block;
-    position: relative;
-    width: 50px;
-    height: 50px;
-    margin-left: 45%;
-    margin-top: 12%;
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin-left: 45%;
+  margin-top: 12%;
 }
 
 .lds-ring div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    margin: 8px;
-    border: 4px solid rgb(118, 176, 243);
-    border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: rgb(118, 176, 243) transparent transparent transparent;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border: 4px solid rgb(118, 176, 243);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgb(118, 176, 243) transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
-    animation-delay: -0.45s;
+  animation-delay: -0.45s;
 }
 
 .lds-ring div:nth-child(2) {
-    animation-delay: -0.3s;
+  animation-delay: -0.3s;
 }
 
 .lds-ring div:nth-child(3) {
-    animation-delay: -0.15s;
+  animation-delay: -0.15s;
 }
 
 @keyframes lds-ring {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

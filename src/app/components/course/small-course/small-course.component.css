@@ -1,60 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap");
 .card {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, .20);
-    height: 315px;
-    width: 260px !important;
-    margin-left: 20px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  height: 21rem;
+  width: 260px !important;
+  margin-left: 20px;
 }
 
 .card-img-top {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .card-img {
-    width: 260px;
-    height: 140px;
+  width: 260px;
+  height: 140px;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .card_body {
-    padding: 5px 5px;
+  padding: 5px 5px;
 }
 
 .card-title {
-    font-size: 15.5px;
-    font-weight: 600;
-    color: #001233;
-    transition: all 1s;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #0582ca;
+  transition: all 1s;
 }
 
 .card-content {
-    height: 80px;
+  height: 80px;
 }
 
 .card-text {
-    font-size: 13px;
+  font-size: 13px;
 }
 
 .card-title:hover {
-    color: #0582ca;
+  color: #ea2c62;
 }
 
 .course-price {
-    text-align: center;
-    color: #FF8F0C;
-    font-weight: 600;
-    font-size: 18px;
-    margin-top: 10px;
-
+  text-align: center;
+  color: #ff8f0c;
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 10px;
 }
-.div-course-text{
-    position:absolute ;
-    bottom: 0px;
-    text-align: center;
-    width:100%
+.div-course-text {
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  width: 100%;
 }

@@ -1,41 +1,81 @@
-<nav class="navbar  navbar-expand-md">
-    <div class="container-fluid">
-        <a class="navbar-brand logo-text" [routerLink]="['/admin/home']">Cùng Nhau Học Toán</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">
-                <i class="fa fa-bars"></i>
-            </span>
-          </button>
-        <div class="collapse navbar-collapse row" id="navbarSupportedContent">
-            <div class="col-md-1" style="height: 10px;"></div>
-            <div class="col-md-8 category-course ">
-                <a class="btn-category" [routerLink]="['admin/home']">My Courses</a>
-                <!-- <a class="btn-category" [routerLink]="['admin/search']">My Courses</a> -->
-                <a class="btn-category" [routerLink]="['admin/managerment/learner']" >Learner Management</a>
-                <a class="btn-category" [routerLink]="['admin/managerment/wallet']">Wallet</a>
+<nav class="navbar navbar-expand-md">
+  <div class="container-fluid">
+    <a class="navbar-brand logo-text" [routerLink]="['/home']"
+      >Cùng Nhau Học Toán</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon">
+        <i class="fa fa-bars"></i>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse row" id="navbarSupportedContent">
+      <div class="col-md-1" style="height: 10px"></div>
+      <div class="col-md-8 category-course">
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/home']"
+          (click)="setActiveButton(1)"
+          [ngClass]="{ 'card-active': activeButton === 1 }"
+        >
+          <i class="bi bi-journal-check"></i>
+          <span>My Courses</span>
+        </a>
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/managerment/learner']"
+          (click)="setActiveButton(2)"
+          [ngClass]="{ 'card-active': activeButton === 2 }"
+        >
+          <i class="bi bi-people-fill"></i>
+          <span>Learner Management</span></a
+        >
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/managerment/wallet']"
+          (click)="setActiveButton(3)"
+          [ngClass]="{ 'card-active': activeButton === 3 }"
+        >
+          <i class="bi bi-wallet"></i>
+          <span>Wallet</span>
+        </a>
+      </div>
+
+      <div class="col-md-3 action-button">
+        <div *ngIf="isLoggedin; then thenBlock; else elseBlock"></div>
+
+        <ng-template #elseBlock>
+          <a routerLink="login" class="btn-signin">Sign In</a>
+        </ng-template>
+        <ng-template #thenBlock>
+          <div class="dropdown">
+            <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
+              <img
+                [src]="photo"
+                alt=""
+                class="photo"
+                onerror="this.src='../../../../../assets/images/default_avatar.png'"
+              />
+            </button>
+
+            <div class="dropdown-menu">
+              <button class="dropdown-item" (click)="goToHomeAdmin()">
+                <i class="fa fa-home"></i> <span>Admin Home</span>
+              </button>
+              <button class="dropdown-item" (click)="logOut()">
+                <i class="bi bi-box-arrow-right"></i> <span>Log out</span>
+              </button>
             </div>
-
-            <div class="col-md-3 action-button ">
-                <div *ngIf="isLoggedin ; then thenBlock else elseBlock"></div>
-
-                <ng-template #elseBlock>
-
-                    <a routerLink="login" class="btn-signin">Sign In</a>
-                </ng-template>
-                <ng-template #thenBlock>
-                    <div class="dropdown">
-                        <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
-                        <img [src]="photo" alt="" class="photo" onerror="this.src='../../../../../assets/images/default_avatar.png'" >
-                    </button>
-                        <div class="dropdown-menu">
-                            <button class="dropdown-item" (click)="logOut()"> <i class="fa fa-sign-out-alt"></i> Log out</button>
-                        </div>
-                    </div>
-                </ng-template>
-            </div>
-        </div>
-
+          </div>
+        </ng-template>
+      </div>
     </div>
-
-
+  </div>
 </nav>

@@ -1,8 +1,11 @@
-<div class="d-flex form-group ">
-   <i class="fa fa-search icon-search" (click) = "sendTitle()"></i>
-    <input class="form-control search-input "  [(ngModel)] = "titleSearch" (keyup) = "sendTitle()"
-    (keyup.enter) = "sendTitle()"
+<div class="d-flex form-group">
+  <i class="fa fa-search icon-search" (click)="sendTitle()"></i>
+  <input
+    class="form-control search-input"
+    [(ngModel)]="titleSearch"
+    (keyup)="sendTitle()"
+    (keyup.enter)="sendTitle()"
     type="text "
-    
-    placeholder="{{message}} ">
+    placeholder="{{ message }} "
+  />
 </div>

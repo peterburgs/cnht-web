@@ -1,111 +1,108 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap");
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 .card {
-    margin: 10px;
-    font-family: 'Roboto', sans-serif;
-    filter: drop-shadow(2px 1px 2px rgba(0, 0, 0, 0.25));
-    background: #FFFFFF;
-    border-radius: 10px;
-    border: 0.5px solid #ddd;
-    height: 315px;
-    width: 250px !important;
-    margin-left: 20px;
-    text-align: center;
-    
+  margin: 10px;
+  font-family: "Roboto", sans-serif;
+  filter: drop-shadow(2px 1px 2px rgba(0, 0, 0, 0.25));
+  background: #ffffff;
+  border-radius: 10px;
+  border: 0.5px solid #ddd;
+  height: 315px;
+  width: 16rem !important;
+  margin-left: 20px;
+  text-align: center;
 }
 
 .card-img {
-    width: 250px;
-    height: 130px;
-    text-align: center;
+  width: 250px;
+  height: 130px;
+  text-align: center;
 }
 
 .info-course {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 5px;
 }
 
 .img-course {
-    height: 100%;
-    width: auto;
-    border-radius: 10px;
-    padding: 3px;
+  height: 100%;
+  width: auto;
+  border-radius: 10px;
+  padding: 3px;
 }
 
 .info-course .course-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: black;
-    text-decoration: none;
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 5px !important;
-    margin-top: 5px;
-    box-shadow: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 5px !important;
+  margin-top: 5px;
+  box-shadow: none;
 }
 
 .name {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .info-course .teacher {
-    font-size: 12px;
-    font-weight: 300;
-    color: #6A6A6A;
-    height: 20px;
-    display: block;
-    margin-top: none;
+  font-size: 12px;
+  font-weight: 300;
+  color: #6a6a6a;
+  height: 20px;
+  display: block;
+  margin-top: none;
 }
 
 .info-course .course-description {
-    font-size: 12px;
-    margin-bottom: 3px;
-    font-weight: 400;
-    font-style: italic;
-    font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  margin-bottom: 3px;
+  font-weight: 400;
+  font-style: italic;
+  font-family: "Roboto", sans-serif;
 }
 
 .info-course .more-info {
-    font-size: 12px;
-    font-family: 'Roboto', sans-serif;
-    margin-left: 0px;
-    font-weight: bold;
-    color: #858585;
+  font-size: 12px;
+  font-family: "Roboto", sans-serif;
+  margin-left: 0px;
+  font-weight: bold;
+  color: #858585;
 }
 
-.users-count{
-   position: fixed;
-   bottom: 10px;
+.users-count {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .users-count span {
-    width: 26px;
-    height: 15px;
-    font-style: normal;
-    /* font-weight: 500; */
-    font-size: 14px;
-    /* identical to box height */
-    align-items: center;
-    color: #858585;
-    /* padding-left: 5px; */
-    /* padding-top: 2px; */
-    
+  width: 26px;
+  height: 15px;
+  font-style: normal;
+  font-size: 14px;
+  align-items: center;
+  color: #858585;
 }
 
 .icon-edit {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
-.course-status{
-    border-radius: 5px;
-    padding: 3px;
-    color: #fff !important;
-    font-size: 13px !important;
+.course-status {
+  border-radius: 5px;
+  padding: 3px;
+  color: #fff !important;
+  font-size: 13px !important;
 }
-.course-not-published{
-    background:  #E45826;
+.course-not-published {
+  background: #e45826;
 }
-.course-published{
-    background: #66DE93;
+.course-published {
+  background: #61b15a;
 }

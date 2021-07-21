@@ -2,6 +2,7 @@
   <div class="container div-loading">
     <div class="col-sm-3">
       <button class="btn-new-course" (click)="onCreateCourse()">
+        <i class="bi bi-plus-lg"></i>
         Create new course
       </button>
     </div>
@@ -9,11 +10,6 @@
   <div class="container fitler">
     <div class="row">
       <div class="col-md-3">
-        <app-search-title
-          class="div-search"
-          [message]="message"
-          (sendTitleSearch)="searchCourse($event)"
-        ></app-search-title>
         <div class="div-filter">
           <mat-form-field appearance="fill" style="color: black">
             <mat-label style="color: #194350; font-weight: 500">View</mat-label>
@@ -33,17 +29,14 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div class="clear-filter">
-            <div class="btn-clear-filter" (click)="onResetFitler()">
-              <span>
-                <i class="fa fa-filter"></i>
-              </span>
-
-              Clear filter
-            </div>
+          <div class="btn-clear-filter" (click)="onResetFitler()">
+            <span>
+              <i class="fa fa-filter"></i>
+            </span>
+            Clear filter
           </div>
         </div>
-        <div class=" list-filter-main">
+        <div class="list-filter-main">
           <app-filter
             (sendGradeChoose)="receiveGrade($event)"
             (sendCategoryChoose)="receiveCategory($event)"
@@ -52,6 +45,13 @@
       </div>
       <div class="col-md-9">
         <div class="list-course">
+          <div class="search-container">
+            <app-search-title
+              class="div-search"
+              [message]="message"
+              (sendTitleSearch)="searchCourse($event)"
+            ></app-search-title>
+          </div>
           <div
             *ngIf="!listCourse.length && !isLoading"
             class="container div-no-found"

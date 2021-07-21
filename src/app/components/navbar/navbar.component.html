@@ -1,43 +1,74 @@
-<nav class="navbar  navbar-expand-md">
-    <div class="container-fluid">
-        <a class="navbar-brand logo-text" routerLink="/home" (click)="changeRouter()">Cùng Nhau Học Toán</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">
-                <i class="fa fa-bars"></i>
-            </span>
-          </button>
-        <div class="collapse navbar-collapse row" id="navbarSupportedContent">
-
-            <div class="col-md-8">
-                <div class="d-flex form-group">
-                    <div type="submit" (click)="onLoadSearch()"> <i class="fa fa-search icon"></i></div>
-                    <input class="form-control search-input" [(ngModel)]="titleSearch" (keyup.enter)="onLoadSearch()" type="text" placeholder="Find a course... ">
-
-                </div>
-            </div>
-            <div class="col-md-4 action-button ">
-                <div *ngIf="isLoggedin ; then thenBlock else elseBlock"></div>
-
-                <ng-template #elseBlock>
-
-                    <a routerLink="login" class="btn-signin">Sign In</a>
-                </ng-template>
-                <ng-template #thenBlock>
-                    <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse">My course</a>
-                    <a *ngIf="!isAdmin" routerLink="/wallet" class="btn-mywallet ">My wallet</a>
-                    <div *ngIf="isAdmin" style="width: 15vw;"></div>
-
-                    <div class="dropdown">
-                        <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
-                            <img [src]="photo" alt="{photo}" class="photo">
-                        </button>
-                        <div class="dropdown-menu">
-                            <button *ngIf="isAdmin" class="dropdown-item" (click)="goToHomeAdmin()"> <i class="fa fa-home"></i> My home</button>
-                            <button class="dropdown-item" (click)="logOut()"> Log out</button>
-                        </div>
-                    </div>
-                </ng-template>
-            </div>
+<nav class="navbar navbar-expand-md">
+  <div class="container-fluid">
+    <a
+      class="navbar-brand logo-text"
+      routerLink="/home"
+      (click)="changeRouter()"
+      >Cùng Nhau Học Toán</a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon">
+        <i class="fa fa-bars"></i>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse row" id="navbarSupportedContent">
+      <div class="col-md-8">
+        <div class="d-flex form-group">
+          <div type="submit" (click)="onLoadSearch()">
+            <i class="fa fa-search icon"></i>
+          </div>
+          <input
+            class="form-control search-input"
+            [(ngModel)]="titleSearch"
+            (keyup.enter)="onLoadSearch()"
+            type="text"
+            placeholder="Find a course... "
+          />
         </div>
+      </div>
+      <div class="col-md-4 action-button">
+        <div *ngIf="isLoggedin; then thenBlock; else elseBlock"></div>
+
+        <ng-template #elseBlock>
+          <a routerLink="login" class="btn-signin">Sign In</a>
+        </ng-template>
+        <ng-template #thenBlock>
+          <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse"
+            >My course</a
+          >
+          <a *ngIf="!isAdmin" routerLink="/wallet" class="btn-mywallet"
+            >My wallet</a
+          >
+          <div *ngIf="isAdmin" style="width: 15vw"></div>
+
+          <div class="dropdown">
+            <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
+              <img [src]="photo" alt="{photo}" class="photo" />
+            </button>
+            <div class="dropdown-menu">
+              <button
+                *ngIf="isAdmin"
+                class="dropdown-item"
+                (click)="goToHomeAdmin()"
+              >
+                <i class="fa fa-home"></i> <span>Admin Home</span>
+              </button>
+              <button class="dropdown-item" (click)="logOut()">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Log out</span>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
     </div>
+  </div>
 </nav>

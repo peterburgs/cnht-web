@@ -1,46 +1,56 @@
 <div class="mylearning">
-    <div class="row search-bar">
-        <div class="col-md-6"></div>
-        <div class="col-md-5">
-            <div class="d-flex form-group">
-                <div>
-                    <i class="fa fa-search icon"></i>
-                </div>
-                <input (keyup)="searchCourse(inputSearch.value)" class="form-control search-input" type="text" placeholder="Find my course... " #inputSearch>
-            </div>
+  <div class="container row search-bar">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+      <div class="d-flex form-group">
+        <div>
+          <i class="fa fa-search icon"></i>
         </div>
-        <div class="col-md-1"></div>
+        <input
+          (keyup)="searchCourse(inputSearch.value)"
+          class="form-control search-input"
+          type="text"
+          placeholder="Find my course "
+          #inputSearch
+        />
+      </div>
     </div>
-    <div class="container">
-        <div class="row" *ngIf="!inputSearch.value">
-            <app-lecturer-card-course [isLearner]="true" *ngFor="let course of myCourseList" class="col-md-3" [course]="course">
-            </app-lecturer-card-course>
-        </div>
-        <!-- <div class="lds-ring" *ngIf="isLoading">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div> -->
-        <app-loading [isLoading]="isLoading"></app-loading>
-        <div *ngIf="!isLoading">
-            <div *ngIf="courseAmount==0" class="not-found">
-                <h3>You don't have any course!</h3>
-            </div>
-            <div *ngIf="courseAmount>0">
-                <div class="row" *ngIf="(inputSearch.value!='' ) && (searchedCourses.length!=0)">
-                    <app-lecturer-card-course [isLearner]="true" *ngFor="let course of searchedCourses" class="col-md-3" [course]="course">
-                    </app-lecturer-card-course>
-                </div>
-                <div class="not-found" *ngIf="(inputSearch.value!='')  && (searchedCourses.length==0)">
-                    <h3>Course not found!</h3>
-
-                </div>
-            </div>
-
-        </div>
-
-
+  </div>
+  <div class="container">
+    <div class="row" *ngIf="!inputSearch.value">
+      <app-lecturer-card-course
+        [isLearner]="true"
+        *ngFor="let course of myCourseList"
+        class="col-md-3"
+        [course]="course"
+      >
+      </app-lecturer-card-course>
     </div>
-
+    <app-loading [isLoading]="isLoading"></app-loading>
+    <div *ngIf="!isLoading">
+      <div *ngIf="courseAmount == 0" class="not-found">
+        <h3>You don't have any course!</h3>
+      </div>
+      <div *ngIf="courseAmount > 0">
+        <div
+          class="row"
+          *ngIf="inputSearch.value != '' && searchedCourses.length != 0"
+        >
+          <app-lecturer-card-course
+            [isLearner]="true"
+            *ngFor="let course of searchedCourses"
+            class="col-md-3"
+            [course]="course"
+          >
+          </app-lecturer-card-course>
+        </div>
+        <div
+          class="not-found"
+          *ngIf="inputSearch.value != '' && searchedCourses.length == 0"
+        >
+          <h3>Course not found!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
