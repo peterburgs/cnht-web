@@ -38,8 +38,10 @@ export class CourseInfoComponent implements OnInit {
   uploadImage = false;
   isPublished = true;
   color: ThemePalette = 'accent';
-  constructor(private fullCourseService: FullCourseService,
-    private _snackBar: MatSnackBar) {}
+  constructor(
+    private fullCourseService: FullCourseService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {
     this.priceFormat = String(courseChange.course.currentValue.price);
@@ -100,6 +102,7 @@ export class CourseInfoComponent implements OnInit {
     this.course.grade = e.target.value;
   }
   onSave() {
+    if (this.course.title && this.course.courseDescription) {
       this.fullCourseService.setSelection(
         this.course.id,
         VideoType.course,
@@ -110,30 +113,34 @@ export class CourseInfoComponent implements OnInit {
         .toPromise()
         .then(
           (response) => {
-            this.openSnackBar("All changes saved", "OK")
+            this.openSnackBar('All changes saved', 'OK');
           },
           (error) => {
-            alert('Server error!!! try again');
+            alert('Cannot save. Please try again');
           }
         );
+    }
   }
-  openSnackBar(message: string, action: string) { // notice success
+  openSnackBar(message: string, action: string) {
+    // notice success
     this._snackBar.open(message, action, {
-      duration: 2000
+      duration: 2000,
     });
   }
   getEstimatePricing() {
     this.loadingCalculate = true;
     this.sbcEstimate = this.fullCourseService
       .getEstimatedCoursePricing()
-      .subscribe((response) => {
-        this.loadingCalculate = false;
-        this.course.price = response.price;
-        this.priceFormat = FormatPrice(this.course.price, 0, 3, '.', ',');
-      },error=>{
-        this.loadingCalculate = false;
-        
-      });
+      .subscribe(
+        (response) => {
+          this.loadingCalculate = false;
+          this.course.price = response.price;
+          this.priceFormat = FormatPrice(this.course.price, 0, 3, '.', ',');
+        },
+        (error) => {
+          this.loadingCalculate = false;
+        }
+      );
   }
   ngOnDestroy(): void {
     this.sbcEstimate.unsubscribe();
