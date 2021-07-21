@@ -171,12 +171,14 @@
   padding: 5px 5px 0px 5px !important;
 }
 .div-search {
-  width: 7rem;
-  margin-left: 5rem !important;
+  width: 30rem;
 }
 .search-container {
-  width: 7rem;
+  
   margin-left: 3rem !important;
+ 
+  justify-content: space-between;
+  flex-direction: row;
 }
 .div-filter {
   display: flex;
@@ -185,4 +187,13 @@
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   padding: 0.5rem;
+}
+.div-sort-by{
+  display: -webkit-box;
+  margin:2rem;
+  flex-direction: row-reverse;
+}
+.sort-by{
+
+  margin-right: 20px;
 }
