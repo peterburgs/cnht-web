@@ -130,7 +130,7 @@
       <div class="mb-3 row">
         <label for="price" class="col-sm-2 col-form-label">Price</label>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3 price-container">
           <input
             type="text"
             class="text-deco input-price form-control text-deco"
@@ -147,26 +147,20 @@
           />
         </div>
 
-        <span class="col-sm-2 currency col-form-label"
-          >VND
-          <div
-            *ngIf="loadingCalculate"
-            class="
-              spinner-border spinner-border-sm
-              text-danger
-              loading-calculate
-              icon-loading
-            "
-            role="status"
-          ></div>
-        </span>
-
-        <button
-          class="btn btn-warning col-sm-2 btn-calculate"
-          (click)="getEstimatePricing()"
-        >
+        <span class="col-sm-2 currency col-form-label">VND </span>
+        <button class="col-sm-2 btn-calculate" (click)="getEstimatePricing()">
           <i class="bi bi-calculator icon-right"></i>Calculate
         </button>
+        <div
+          *ngIf="loadingCalculate"
+          class="
+            spinner-border spinner-border-sm
+            text-danger
+            loading-calculate
+            icon-loading
+          "
+          role="status"
+        ></div>
       </div>
       <div class="mb-3 row">
         <div class="col-sm-2 col-form-label">Published</div>
@@ -185,19 +179,8 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-sm-2 col-form-label">
-          <div
-            *ngIf="loadingSave"
-            class="
-              spinner-border spinner-border-sm
-              text-danger
-              loading-calculate
-              icon-loading
-            "
-            role="status"
-          ></div>
-        </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 col-form-label"></div>
+        <div class="col-sm-2 save-container">
           <button
             type="submit"
             class="btn-create-new btn-save"
@@ -205,6 +188,16 @@
           >
             <i class="bi bi-save icon-margin"></i> Save Change
           </button>
+          <div
+            *ngIf="loadingSave"
+            class="
+              spinner-border spinner-border-sm
+              text-danger
+              loading-calculate
+              icon-loading icon-save
+            "
+            role="status"
+          ></div>
         </div>
       </div>
     </form>

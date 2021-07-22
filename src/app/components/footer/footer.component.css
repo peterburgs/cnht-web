@@ -14,13 +14,9 @@
 #sticky-footer {
   flex-shrink: none;
 }
-/* Other Classes for Page Styling */
 
 .flex-column {
   background: #4ebee1;
-}
-
-.content {
 }
 
 .container {

@@ -1,11 +1,18 @@
-<app-detail-info-course *ngIf="selectedCourse!=undefined" [target_course]="selectedCourse"></app-detail-info-course>
+<app-detail-info-course
+  *ngIf="selectedCourse != undefined"
+  [target_course]="selectedCourse"
+></app-detail-info-course>
 
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-7">
-        <app-content-course *ngIf="selectedCourse!=undefined" [fragment]="'detail'" [current_course]="selectedCourse" class="contentcourse"></app-content-course>
-    </div>
-    <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
+  <div class="col-md-7">
+    <app-content-course
+      *ngIf="selectedCourse != undefined"
+      [fragment]="'detail'"
+      [current_course]="selectedCourse"
+      class="contentcourse"
+    ></app-content-course>
+  </div>
+  <div class="col-md-3"></div>
 </div>
-<!-- <app-circle-loading [isLoading] = "isLoading"></app-circle-loading> -->
 <app-loading [isLoading]="isLoading"></app-loading>

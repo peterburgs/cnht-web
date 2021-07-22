@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';

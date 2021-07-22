@@ -1,7 +1,3 @@
-.form-group {
-  /* align-items: center; */
-}
-
 .form-control:focus {
   outline: none !important;
   box-shadow: none !important;

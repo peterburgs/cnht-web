@@ -1,120 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 .hotest-course {
-    background: #f1f0f0;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
-    padding-bottom: 2rem;
-    /* border: solid 2px #0417bd; */
-    
-    display: block;
+  background: #f1f0f0;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  padding-bottom: 2rem;
+  display: block;
 }
 
 .grade-course {
-    /* display: flex;
-    flex: content; */
-    /* margin-top: 10px; */
-    display: inline-block;
-    justify-content: space-between;
+  display: inline-block;
+  justify-content: space-between;
 }
 
 .clearfix:after {
-    clear: both;
-    content: ".";
-    display: block;
-    width: 0px;
-    height: 0px;
+  clear: both;
+  content: ".";
+  display: block;
+  width: 0px;
+  height: 0px;
 }
 
 .grade-number {
-    padding-top: 10px;
-    display: inline-block;
+  padding-top: 10px;
+  display: inline-block;
 }
 
 .title {
-    display: block;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 19px;
-    line-height: 29px;
-    color: #0f215a;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    /* width: 50vw; */
+  display: block;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 29px;
+  color: #0f215a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .view-all {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: lowercase;
-    cursor: pointer;
-    color: #0000FF;
-    /* margin-top: 10px; */
-    margin-left: 90vw;
-    margin-top: -30px;
-    text-decoration: none;
-    padding-right: 10px;
-    padding-left: 10px;
-    float: right;
-    transition: all 0.5s;
-    text-decoration: underline;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: lowercase;
+  cursor: pointer;
+  color: #0000ff;
+  margin-left: 90vw;
+  margin-top: -30px;
+  text-decoration: none;
+  padding-right: 10px;
+  padding-left: 10px;
+  float: right;
+  transition: all 0.5s;
+  text-decoration: underline;
 }
 
 .view-all:hover {
-    color: #0a1128;
+  color: #0a1128;
 }
 
 .not-found {
-    color: rgb(145, 144, 144);
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    margin-top: 1rem;
+  color: rgb(145, 144, 144);
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  margin-top: 1rem;
 }
 
-
-/********************loading *************/
-
 .lds-ring {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin-left: 40%;
-    margin-top: 50%;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-left: 40%;
+  margin-top: 50%;
 }
 
 .lds-ring div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    margin: 8px;
-    border: 4px solid rgb(50, 146, 255);
-    border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: rgb(77, 163, 255) transparent transparent transparent;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border: 4px solid rgb(50, 146, 255);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgb(77, 163, 255) transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
-    animation-delay: -0.45s;
+  animation-delay: -0.45s;
 }
 
 .lds-ring div:nth-child(2) {
-    animation-delay: -0.3s;
+  animation-delay: -0.3s;
 }
 
 .lds-ring div:nth-child(3) {
-    animation-delay: -0.15s;
+  animation-delay: -0.15s;
 }
 
 @keyframes lds-ring {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

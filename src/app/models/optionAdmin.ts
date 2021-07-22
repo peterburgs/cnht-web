@@ -1,6 +1,6 @@
-export enum OptionAdmin{
-    LearnerManagerment,
-    LecturerManagerment,
-    LearnerPayment,
-    AdminWallet
+export enum OptionAdmin {
+  LearnerManagerment,
+  LecturerManagerment,
+  LearnerPayment,
+  AdminWallet,
 }

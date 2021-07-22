@@ -1,9 +1,7 @@
-import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
-import { CourseService } from 'src/app/service/course.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { authenticationService } from 'src/app/service/authentication.service';
 import { Subscription } from 'rxjs';
 import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 
@@ -28,7 +26,6 @@ export class AdminCourseScreenComponent implements OnInit {
   typeCourse = '';
   sbcCreate: Subscription = new Subscription();
   sbcCourses: Subscription = new Subscription();
-  //Login check
   public userDetails? = Object;
   constructor(
     private router: Router,
@@ -38,7 +35,6 @@ export class AdminCourseScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    //Get all course
     this.fullCourseService.initCourses().subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
@@ -124,18 +120,14 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.sbcCreate.unsubscribe();
     this.sbcCourses.unsubscribe();
   }
 
-  //TODO: receive grade from filter
   receiveGrade($event: any) {
     this.grade = $event;
   }
 
-  //TODO: receive type course from filter, and get list for filter
   receiveCategory($event: any) {
     this.typeCourse = $event;
     this.getAllByFilter();
@@ -151,7 +143,6 @@ export class AdminCourseScreenComponent implements OnInit {
     this.resetChildForm();
     this.grade = '';
     this.typeCourse = '';
-    // this.titleSearch = "";
     this.getAllByFilter();
   }
 
@@ -163,7 +154,7 @@ export class AdminCourseScreenComponent implements OnInit {
     { value: -1, viewValue: 'Not Published' },
   ];
 
-  listExpStatus: Status[] = [ 
+  listExpStatus: Status[] = [
     { value: 0, viewValue: 'Newest' },
     { value: 1, viewValue: 'Oldest' },
   ];

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';  
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GradeCourseComponent } from './components/course/grade-course/grade-course.component';
-import {HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { SmallCourseComponent } from './components/course/small-course/small-course.component';
 import { HomeScreenComponent } from './screen/home-screen/home-screen.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -43,30 +43,33 @@ import { TableWalletLearnerComponent } from './components/learner-wallet/table-w
 import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
 import { TransferInformationComponent } from './screen/wallet-screen/transfer-information/transfer-information.component';
 
-import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from 'angularx-social-login'
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+} from 'angularx-social-login';
 import { ShortenPipe } from './components/course/small-course/shorten.pipe';
 
-import { RouterModule } from '@angular/router';
 import { LearnerManagermentComponent } from './components/admin/learner-managerment/learner-managerment.component';
 import { TableLearnerManagermentComponent } from './components/admin/learner-managerment/table-learner-managerment/table-learner-managerment.component';
-import { AlertComponent } from './components/alert/alert.component'
+import { AlertComponent } from './components/alert/alert.component';
 
-import {AlertWarningComponent } from './components/admin/alert-warning/alert-warning.component';
-import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component'
-import {ShortenDescription} from './components/course/small-course/lecturer-card-course/shortenDescription.pipe'
+import { AlertWarningComponent } from './components/admin/alert-warning/alert-warning.component';
+import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component';
+import { ShortenDescription } from './components/course/small-course/lecturer-card-course/shortenDescription.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCardModule} from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 import { EmptyBlockComponent } from './components/empty-block/empty-block.component';
 import { SearchTitleComponent } from './components/admin/search-title/search-title.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { key } from './util/google_Key';
 import { CourseLectureComponent } from './components/course/full-course/course-section/course-lecture/course-lecture.component';
 import { Duration } from './util/duration.pipe';
@@ -77,11 +80,10 @@ import { CountdownPipe } from './components/course/full-course/course-info/count
 import { Truncate } from './components/course/small-course/lecturer-card-course/Truncate.pipe';
 import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
-
 
 @NgModule({
   declarations: [
@@ -142,20 +144,19 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
     CircleLoadingComponent,
     ComfirmLeaveComponent,
     AlertConfimationComponent,
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule, 
-    NgbModule, 
+    CommonModule,
+    NgbModule,
     FormsModule,
     SocialLoginModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatTreeModule,
     MatTreeModule,
-    MatIconModule, 
+    MatIconModule,
     MatButtonModule,
     MatRadioModule,
     MatCardModule,
@@ -167,29 +168,29 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatSelectModule
-      
+    MatSelectModule,
   ],
-  providers: [ CurrencyPipe,AdminGuard,
-    CountdownPipe,Truncate, CanDeactiveGuard,
+  providers: [
+    CurrencyPipe,
+    AdminGuard,
+    CountdownPipe,
+    Truncate,
+    CanDeactiveGuard,
     {
-  
       provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              key,{
-                scope: 'profile email'
-              }
-            )
-          }
-        ]
+            provider: new GoogleLoginProvider(key, {
+              scope: 'profile email',
+            }),
+          },
+        ],
       } as SocialAuthServiceConfig,
-    }
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

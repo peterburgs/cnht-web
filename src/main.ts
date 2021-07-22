@@ -6,5 +6,4 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch();
+platformBrowserDynamic().bootstrapModule(AppModule).catch();

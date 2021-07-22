@@ -1,12 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  from,
-  Observable,
-  of,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 
 import { ModifyType } from 'src/app/models/ModifyType';
 import { Section } from 'src/app/models/section.model';
@@ -30,14 +23,12 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class FullCourseService {
-  //================================= Data hook=========================
   private course: Course = new Course();
   private sections: Section[] = [];
   private lectures: Lecture[] = [];
   private courses: Course[] = [];
   private listDeepSection: SectionDummy[] = [];
 
-  // private authHeader = new HttpHeaders();
   private idToken = localStorage.getItem('token');
   private arrLoading: boolean[] = [];
   private loadingThumbnail = false;
@@ -46,8 +37,6 @@ export class FullCourseService {
   private apiUrlCourse = this.baseURL + 'courses';
   private apiUrlSection = this.baseURL + 'sections';
   private apiUrlLecture = this.baseURL + 'lectures';
-  //================================= Initial =========================
-  //save edit Modal in screen
   errorMessage = 'Something went wrong. Please try again';
   itemIndex = 0;
   idItem: string = 'default';
@@ -59,15 +48,14 @@ export class FullCourseService {
   typeSelection = VideoType.lecture;
   stateUploadMedia = true;
   openDialog = false;
-  isUpLoading: boolean =false;
-  
+  isUpLoading: boolean = false;
+
   invokeNotifyModal = new EventEmitter();
   invokeValidModal = new EventEmitter();
   subsEdit?: Subscription;
   subsDelete?: Subscription;
   subsValid?: Subscription;
   subsStatus?: Subscription;
-  //====== Subject observable
   sbjTypeSelection = new Subject<VideoType>();
   sbjWayModify = new Subject<ModifyType>();
   sbjIdItem = new Subject<string>();
@@ -79,15 +67,11 @@ export class FullCourseService {
   sbjOpenDialog = new Subject<boolean>();
   sbjIsUpLoading = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
-  
+
   constructor(private http: HttpClient) {
     this.idToken = localStorage.getItem('token');
   }
 
-  //================================= GET =========================
-  /**
-   * Get info course current selection
-   */
   setCourseSelection() {
     this.courses.forEach((mCourse) => {
       if (mCourse.id == this.idCourse) {
@@ -95,10 +79,7 @@ export class FullCourseService {
       }
     });
   }
-  /**
-   *
-   * @returns Max lenght of lecture in all section
-   */
+
   getMaxLenLecture() {
     if (this.listDeepSection) {
       let maxLen = 0;
@@ -112,7 +93,7 @@ export class FullCourseService {
     }
     return 1;
   }
-  getIsUpLoading(){
+  getIsUpLoading() {
     return this.sbjIsUpLoading.asObservable();
   }
   getOpenDialog() {
@@ -141,11 +122,7 @@ export class FullCourseService {
       }
     );
   }
-  /**
-   *
-   * @param lectureId
-   * @returns Info of video (main function to get length of this video)
-   */
+
   getVideoInfo(lectureId: string) {
     let urlGetVideo = this.baseURL + 'lectures/' + lectureId + '/video';
     return this.http.get<{ message: string; count: number; video: Video }>(
@@ -187,19 +164,11 @@ export class FullCourseService {
   getLoadingThumbanil() {
     return this.sbjLoadingThumbnail.asObservable();
   }
-  //================================= SET =========================
-  /**
-   *  Set index of current lecture selection
-   * @param index index of lecture in matrix [sections, []section.lectures]
-   */
+
   setItemIndex(index: number) {
     this.itemIndex = index;
   }
-  /**
-   *
-   * @param duration Duration of video of lecture
-   * @returns
-   */
+
   setVideoDuration(duration: number) {
     let urlUpdateVideo =
       this.baseURL + 'lectures/' + this.idItem + '/video/length';
@@ -239,7 +208,6 @@ export class FullCourseService {
   setIsFinish(status: number) {
     this.status = status;
   }
-  //================================= METHOD =========================
 
   onNotifyContent() {
     this.invokeNotifyModal.emit();
@@ -263,7 +231,7 @@ export class FullCourseService {
       (error) => {
         this.status = 500;
         this.sbjStatus.next(this.status);
-      
+
         return;
       }
     );
@@ -385,7 +353,6 @@ export class FullCourseService {
       this.errorMessage = 'Something went wrong. Try again';
     }
   }
-  //================ HTTP ===============
   initCourses() {
     return this.http.get<{ message: string; count: number; courses: Course[] }>(
       this.apiUrlCourse
@@ -413,13 +380,9 @@ export class FullCourseService {
       )
       .toPromise()
       .then((response) => {
-        //Sort section by order
-        this.sections = response.sections.sort((s1, s2) => {
-          if (s1.sectionOrder > s2.sectionOrder) return 1;
-          if (s1.sectionOrder < s2.sectionOrder) return -1;
-          return 0;
-        });
-        //get section
+        this.sections = response.sections.sort(
+          (s1, s2) => s1.sectionOrder - s2.sectionOrder
+        );
         this.http
           .get<{ message: string; count: number; lectures: Lecture[] }>(
             apiGetLectureOfCourse,
@@ -430,9 +393,7 @@ export class FullCourseService {
           .toPromise()
           .then((response) => {
             this.lectures = response.lectures;
-
             this.sections.forEach((section) => {
-              //Get lecture in each section, and sort by order
               let tmpLectures: Lecture[] = [];
               tmpLectures = this.lectures
                 .filter((lecture) => lecture.sectionId == section.id)
@@ -443,13 +404,11 @@ export class FullCourseService {
                   if (l1.lectureOrder < l2.lectureOrder) return -1;
                   return 0;
                 });
-              //Notify to component that all data was init
               this.listDeepSection.push(
                 new SectionDummy(section.id, section.title, tmpLectures)
               );
             });
             this.getMaxLenLecture();
-            //Set up array loading for button upload video
             let lenSection = this.sections.length;
             let maxLecture = this.maxLecture;
 
@@ -458,12 +417,9 @@ export class FullCourseService {
                 this.arrLoading.push(false);
               }
             }
-            //For check is successfull process
-            //Notify get all data finish
             this.sbjSectionDummy.next(this.listDeepSection);
           })
           .catch((error) => {
-            //Some case, doesn't have any lecture in section, it was be regconized to error
             this.sections = this.sections.sort((s1, s2) => {
               if (s1.sectionOrder > s2.sectionOrder) return 1;
               if (s1.sectionOrder < s2.sectionOrder) return -1;
@@ -478,7 +434,6 @@ export class FullCourseService {
           });
       })
       .catch((error) => {
-        //Some case, doesn't have any section in section, it was be regconized to error
         this.sbjSectionDummy.next(this.listDeepSection);
       });
   }
@@ -499,7 +454,6 @@ export class FullCourseService {
     return this.listDeepSection;
   }
   getLectureVideo(idLecture: string) {
-    //Tmp
     return this.http.get<{
       message: string;
       count: number;
@@ -581,8 +535,6 @@ export class FullCourseService {
         xhr.setRequestHeader('X-Content-Length', String(file.size));
         xhr.setRequestHeader('X-Content-Name', file.name);
         xhr.setRequestHeader('X-Chunks-Quantity', String(chunksQuantity));
-
-        // Set token to request header
         xhr.setRequestHeader(
           'Authorization',
           `Bearer ` + localStorage.getItem('token')
@@ -649,7 +601,6 @@ export class FullCourseService {
     sectionIndex: number,
     lectureIndex: number
   ) {
-   
     this.isUpLoading = true;
     this.sbjIsUpLoading.next(this.isUpLoading);
     const fileId = new Date().getTime().toString();
@@ -675,7 +626,6 @@ export class FullCourseService {
         xhr.setRequestHeader('X-Content-Name', file.name);
         xhr.setRequestHeader('X-Chunks-Quantity', String(chunksQuantity));
 
-        // Set token to request header
         xhr.setRequestHeader('Authorization', `Bearer ${this.idToken}`);
 
         xhr.onreadystatechange = function () {
@@ -683,9 +633,8 @@ export class FullCourseService {
             resolve({ status: 200, data: JSON.parse(this.responseText) });
           } else if (xhr.readyState === 4 && xhr.status === 201) {
             resolve({ status: 201, data: JSON.parse(this.responseText) });
-          } else  if (xhr.readyState === 4 && xhr.status === 404)  {
+          } else if (xhr.readyState === 4 && xhr.status === 404) {
             reject();
-            
           }
         };
 
@@ -704,8 +653,8 @@ export class FullCourseService {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
             this.isUpLoading = false;
             this.sbjIsUpLoading.next(this.isUpLoading);
-            
-            this.stateUploadMedia=true;
+
+            this.stateUploadMedia = true;
             this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           },
           (error) => {
@@ -713,7 +662,7 @@ export class FullCourseService {
             this.isUpLoading = false;
             this.sbjIsUpLoading.next(this.isUpLoading);
 
-            this.stateUploadMedia=true;
+            this.stateUploadMedia = true;
             this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           }
         );
@@ -739,9 +688,9 @@ export class FullCourseService {
           this.setPositionLoading(false, sectionIndex, lectureIndex);
           this.isUpLoading = false;
           this.sbjIsUpLoading.next(this.isUpLoading);
-          alert("Upload video failed. Please try again later!")
-        
-          this.stateUploadMedia=false;
+          alert('Upload video failed. Please try again later!');
+
+          this.stateUploadMedia = false;
           this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
         });
     };
@@ -880,8 +829,7 @@ export class FullCourseService {
     let courseDefault: Course = {
       id: '',
       title: '',
-      courseDescription:
-        '',
+      courseDescription: '',
       price: 0,
       courseType: COURSE_TYPE.THEORY,
       grade: GRADES.TWELFTH,
@@ -891,7 +839,6 @@ export class FullCourseService {
       isHidden: false,
       isPublished: true,
     };
-    //Create new Course
     return this.http
       .post<{ message: string; count: number; course: Course }>(
         this.apiUrlCourse,
@@ -917,7 +864,6 @@ export class FullCourseService {
           }
         },
         (error) => {
-          
           this.sbjCreateCourse.error('Error');
           return;
         }
@@ -945,7 +891,6 @@ export class FullCourseService {
           this.status = 500;
           this.sbjStatus.next(this.status);
           this.handleErrorMessage(error);
-          //this.errorMessage = error.message;
           return;
         }
       );

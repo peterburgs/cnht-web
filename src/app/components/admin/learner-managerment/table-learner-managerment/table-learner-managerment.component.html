@@ -1,46 +1,54 @@
 <div class="card shadow mb-4 table-detail">
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th (click) = "sortEmail()">Email
-                            <i *ngIf = "isSortEmailUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortEmailDown" class="fa fa-arrow-down"></i></th>
-                        <th (click) = "sortName()">Name
-                            <i *ngIf = "isSortNameUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortNameDown" class="fa fa-arrow-down"></i>
-                        </th>
-                        <th (click) = "sortWallet()">Balance
-                            <i *ngIf = "isSortWalletUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortWalletDown" class="fa fa-arrow-down"></i>
-                        </th>
-                        <th>Course purchased</th>
-
-                    </tr>
-                </thead>    
-                <tbody>
-                  
-
-                    <tr *ngFor="let user of listUsers | slice: (page-1) * pageSize : page * pageSize">
-                        <td>{{user.email}}</td>
-                        <td>{{user.fullName}}</td>
-                        <td>{{balanceFormat(user.balance)}}</td>
-                        <td>{{getTotalCourseForLearner(user.id)}}</td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-            <div class = "pagination">
-                <ngb-pagination class="d-flex justify-content-end" 
-                [(page)]="page"
-                [pageSize]="pageSize"
-                [collectionSize]="listUsers.length"></ngb-pagination>
-                <!-- <pre>Current page: {{page}}</pre> -->
-            </div>
-           
-        </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th (click)="sortEmail()">
+              Email
+              <i *ngIf="isSortEmailUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortEmailDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th (click)="sortName()">
+              Name
+              <i *ngIf="isSortNameUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortNameDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th (click)="sortWallet()">
+              Balance
+              <i *ngIf="isSortWalletUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortWalletDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th>Course purchased</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let user of listUsers
+                | slice: (page - 1) * pageSize:page * pageSize
+            "
+          >
+            <td>{{ user.email }}</td>
+            <td>{{ user.fullName }}</td>
+            <td>{{ balanceFormat(user.balance) }}</td>
+            <td>{{ getTotalCourseForLearner(user.id) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <ngb-pagination
+          class="d-flex justify-content-end"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [collectionSize]="listUsers.length"
+        ></ngb-pagination>
+      </div>
     </div>
+  </div>
 </div>

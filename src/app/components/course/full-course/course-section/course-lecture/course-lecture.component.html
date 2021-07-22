@@ -30,7 +30,7 @@
       (click)="inputLecture.click(); saveLecture(lecture.id)"
       class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1"
     >
-    <i class="fa fa-check"></i>
+      <i class="fa fa-check"></i>
     </button>
     <input
       #file
@@ -38,21 +38,23 @@
       accept="video/mp4,video/x-m4v,video/*"
       class="image-input"
       style="display: none"
-      (change)="readVideoUrl($event, lecture.id);"
+      (change)="readVideoUrl($event, lecture.id)"
     />
-    <!-- <button class="btn-upload" (click)="file.click()">Upload new video</button> -->
-    <button 
+    <button
       class="contain-video btn btn-primary"
-      (click)="file.click()" [disabled]="globalLoading || isUpLoading"
+      (click)="file.click()"
+      [disabled]="globalLoading || isUpLoading"
     >
-      <span *ngIf="globalLoading"
+      <span
+        *ngIf="globalLoading"
         class="spinner-border spinner-border-sm"
         role="status"
         aria-hidden="true"
-      ></span><span *ngIf="globalLoading"> Uploading...</span><span *ngIf="!globalLoading">Upload Video</span>
-     
+      ></span
+      ><span *ngIf="globalLoading"> Uploading...</span
+      ><span *ngIf="!globalLoading">Upload Video</span>
     </button>
-    <span class="contain-video-time col-sm-1">{{timeVideo | duration}}</span>
+    <span class="contain-video-time col-sm-1">{{ timeVideo | duration }}</span>
 
     <div class="div-edit">
       <button
@@ -60,7 +62,7 @@
         title="Delete lession"
         (click)="onDeleteLecture(lecture.id)"
       >
-      <i class="fa fa-times"></i>
+        <i class="fa fa-times"></i>
       </button>
     </div>
 

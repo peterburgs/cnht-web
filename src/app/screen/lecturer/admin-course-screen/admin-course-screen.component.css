@@ -174,9 +174,8 @@
   width: 30rem;
 }
 .search-container {
-  
   margin-left: 3rem !important;
- 
+
   justify-content: space-between;
   flex-direction: row;
 }
@@ -188,12 +187,11 @@
   padding-left: 0.5rem;
   padding: 0.5rem;
 }
-.div-sort-by{
+.div-sort-by {
   display: -webkit-box;
-  margin:2rem;
+  margin: 2rem;
   flex-direction: row-reverse;
 }
-.sort-by{
-
+.sort-by {
   margin-right: 20px;
 }

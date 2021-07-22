@@ -1,194 +1,178 @@
-.table-detail{
-    /* width: 90vw; */
-    /* margin-left: -6vw; */
-    margin: 0;
-    box-shadow:0 1px 2px rgba(0, 0, 0, .30) !important ;
+.table-detail {
+  margin: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important ;
 }
 
 .title-table {
-    /* margin-top: 10px; */
-    margin-left: 10px;
-    font-weight: 600;
-    font-style: inherit;
-    display: block;
+  margin-left: 10px;
+  font-weight: 600;
+  font-style: inherit;
+  display: block;
 }
 
-.card-body{
-    padding-top:  0;
+.card-body {
+  padding-top: 0;
 }
 
 .btn-admin {
-    background-color: #4EBEE1;
-    color: #fff;
-    border: none;
-    padding: 3px 10px;
-    border-radius: 10px;
-    transition: all 1s;
+  background-color: #4ebee1;
+  color: #fff;
+  border: none;
+  padding: 3px 10px;
+  border-radius: 10px;
+  transition: all 1s;
 }
 
 .btn-status {
-    background-color: #4EBEE1;
-    color: #fff;
-    border: none;
-    padding: 7px;
-    border-radius: 8px;
-    margin-left: 5px;
+  background-color: #4ebee1;
+  color: #fff;
+  border: none;
+  padding: 7px;
+  border-radius: 8px;
+  margin-left: 5px;
 }
 
 .btn-deny {
-    margin-left: 10px;
-    background-color: #a70000;
+  margin-left: 10px;
+  background-color: #a70000;
 }
 
 .btn-admin:hover {
-    background-color: #194350 !important;
+  background-color: #194350 !important;
 }
 
 .btn-admin:active {
-    background-color: #194350 !important;
+  background-color: #194350 !important;
 }
 
 td {
-    /* background-color: #f4f4f4 !important; */
-    text-align: center;
-    vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }
 
 tr td:nth-child(1) {
-    width: 30%;
-    text-align: left !important;
+  width: 30%;
+  text-align: left !important;
 }
 
 th {
-    text-align: center;
+  text-align: center;
 }
 
 th:nth-child(1) {
-    text-align: left !important;
+  text-align: left !important;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-/* .......... search component */
-app-search-title{
-   width: 50vw;
-   padding-top: 15px;
+app-search-title {
+  width: 50vw;
+  padding-top: 15px;
 }
 
-.title-table-block{
-    /* width: 100%;
-    height: 100%; */
-    margin-left: 10px;
-    display: inline-block;
-    /* margin-bottom: -4vh !important; */
-    padding:1rem
+.title-table-block {
+  margin-left: 10px;
+  display: inline-block;
+  padding: 1rem;
 }
 
-
-
-th{
-    cursor: pointer;
-    background-color: #0398c5;
-    color: #fff;
+th {
+  cursor: pointer;
+  background-color: #0398c5;
+  color: #fff;
 }
-
-/********************loading *************/
 
 .lds-ring {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin-left: 45vw;
-    margin-top: 10%;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-left: 45vw;
+  margin-top: 10%;
 }
 
 .lds-ring div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    margin: 8px;
-    border: 4px solid rgb(183, 211, 243);
-    border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: rgb(180, 210, 243) transparent transparent transparent;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 8px;
+  border: 4px solid rgb(183, 211, 243);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgb(180, 210, 243) transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
-    animation-delay: -0.45s;
+  animation-delay: -0.45s;
 }
 
 .lds-ring div:nth-child(2) {
-    animation-delay: -0.3s;
+  animation-delay: -0.3s;
 }
 
 .lds-ring div:nth-child(3) {
-    animation-delay: -0.15s;
+  animation-delay: -0.15s;
 }
 
 @keyframes lds-ring {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-
 ngb-pagination ::ng-deep a {
-    color: #4EBEE1 !important;
-    border: none !important;
-  }
-  
-  ngb-pagination ::ng-deep .page-item.active .page-link {
-    border-color: solid 1px rgb(171, 236, 228);
-    border-radius: 5px;
-    background-color: #e1f0f5;
-  }
-  
-  ngb-pagination ::ng-deep .page-item.active .page-link:focus, .page-link:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
-  }
-  
-  ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
-    box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
-  }
+  color: #4ebee1 !important;
+  border: none !important;
+}
 
-  .not-empty-select.mat-selected {
-    color: #046582 !important;
-  }
+ngb-pagination ::ng-deep .page-item.active .page-link {
+  border-color: solid 1px rgb(171, 236, 228);
+  border-radius: 5px;
+  background-color: #e1f0f5;
+}
 
-  ::ng-deep .mat-select-value{
-      color: #000 !important;
-  }
+ngb-pagination ::ng-deep .page-item.active .page-link:focus,
+.page-link:not(:disabled):not(.disabled):active:focus {
+  box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+}
 
-  ::ng-deep .mat-select-arrow{
-    color: #000 !important;
-  }
+ngb-pagination ::ng-deep .page-link:not(:disabled):not(.disabled):active:focus {
+  box-shadow: 0 0 0 0.1rem rgb(66, 235, 247);
+}
 
-  ::ng-deep .mat-select-panel {
-    background: #fff;
-    color: #000;
-  }
+.not-empty-select.mat-selected {
+  color: #046582 !important;
+}
 
-  .mat-option:hover {
-    background: #aaa !important;
-    color: #000 !important;
-  }
+::ng-deep .mat-select-value {
+  color: #000 !important;
+}
 
-  ::ng-deep .mat-form-field-wrapper{
-      padding-bottom: 0 !important;
-  }
+::ng-deep .mat-select-arrow {
+  color: #000 !important;
+}
 
-  
-  ::ng-deep .mat-form-field-underline {
-    display: none;
-  }
-  
+::ng-deep .mat-select-panel {
+  background: #fff;
+  color: #000;
+}
 
+.mat-option:hover {
+  background: #aaa !important;
+  color: #000 !important;
+}
 
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}

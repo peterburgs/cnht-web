@@ -37,12 +37,9 @@
 .form-group i {
   position: absolute;
   font-size: 1rem;
-  /* margin-left: 2vw; */
-  /* padding-left: 2vw; */
   font-weight: 100;
   margin-top: -1vh;
   margin-left: 22px;
-  /* padding-top: -30px; */
   color: rgb(194, 193, 193);
 }
 
@@ -70,5 +67,4 @@
   display: block;
   float: left;
   font-weight: 500;
-  /* margin-top: 10vh; */
 }

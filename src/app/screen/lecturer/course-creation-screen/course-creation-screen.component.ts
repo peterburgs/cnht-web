@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { ElementRef, ViewChild } from '@angular/core';
@@ -63,9 +63,7 @@ export class CourseCreationScreenComponent
     private sanitizer: DomSanitizer,
     private customiseModalService: ModalServiceService
   ) {}
-  /**
-   * Open dialog confirm handle (delete, create,...)
-   */
+
   openVerticallyCentered() {
     this.titleBinding = '';
     if (
@@ -80,9 +78,7 @@ export class CourseCreationScreenComponent
       this.modalService.open(this.content, { centered: true });
     }
   }
-  /**
-   * Open error dialog
-   */
+
   openNotifyError() {
     this.modalService.open(this.error_happen, {
       centered: true,
@@ -92,9 +88,7 @@ export class CourseCreationScreenComponent
   }
   ngOnInit(): void {
     this.isLoading = true;
-    //this.fullCourseService.getData();
     if (this.authService.isAdmin()) {
-      //check admin login
       this.route.params.subscribe((params: Params) => {
         this.idCourse = params['id'];
         if (!this.idCourse) {
@@ -102,8 +96,6 @@ export class CourseCreationScreenComponent
         }
         this.fullCourseService.setIdCourse(this.idCourse);
       });
-
-      //Section dummy get all value need (sections, lectures...)
       this.scbSectionDummy = this.fullCourseService
         .getSbjSectionDummy()
         .subscribe((dummy) => {
@@ -171,9 +163,6 @@ export class CourseCreationScreenComponent
     }
   }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-
     this.scbSectionDummy.unsubscribe();
     this.scbFinish.unsubscribe();
     this.sbcInit.unsubscribe();
@@ -191,7 +180,6 @@ export class CourseCreationScreenComponent
       ModifyType.new
     );
   }
-  //Customise title in model confirmation
   customeTitle() {
     let title = '';
 
@@ -229,7 +217,6 @@ export class CourseCreationScreenComponent
     }
     this.titleNotify = title;
   }
-  //Customise content notify to user
   customeContent() {
     const confirmMessage = 'Are you sure to ';
     const createMessage = 'Save successful!!!';
@@ -271,9 +258,7 @@ export class CourseCreationScreenComponent
         this.contentNotify = confirmMessage + ' move this lecture down?';
         return;
     }
-    // this.contentNotify = '';
   }
-  //Handle action user confirm
   onConfirmSave() {
     this.isLoading = true;
 
@@ -325,7 +310,6 @@ export class CourseCreationScreenComponent
     this.router.navigateByUrl('/admin/home').then();
   }
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    //Active back
     this.isLeaving = true;
     this.customiseModalService.getObserveLeave().subscribe((leaving) => {
       this.isLeaving = false;

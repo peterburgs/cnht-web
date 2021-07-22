@@ -14,7 +14,7 @@ export class Truncate implements PipeTransform {
       limit = value.substr(0, limit).lastIndexOf(' ');
     }
 
-    if (value.length > limit) return (value.substr(0, limit) + ellipsis);
+    if (value.length > limit) return value.substr(0, limit) + ellipsis;
     else return value;
   }
 }

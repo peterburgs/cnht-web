@@ -7,9 +7,6 @@ import { GCourse } from '../models/GCourse.model';
 import { FullCourseService } from './full-course.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CourseResolverService  {
-
-
-}
+export class CourseResolverService {}

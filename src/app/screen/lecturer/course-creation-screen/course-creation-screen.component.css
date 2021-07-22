@@ -1,138 +1,132 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-          
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 :root {
-  --btn-blue: #548CA8;
-  --section-title:#292b2c;
-  --btn-save:#4EBEE1;
-  --pink-save:#f06292;
-  --background-loading:rgba(0, 0, 0, 0.75);
+  --btn-blue: #548ca8;
+  --section-title: #292b2c;
+  --btn-save: #4ebee1;
+  --pink-save: #f06292;
+  --background-loading: rgba(0, 0, 0, 0.75);
 }
-.btn-create-new{
-    width: 230px;
-    background: #548CA8;
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-size: large;
-   
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    outline: none;
-    border: none;
-    color: white;
-    border: solid 1px #ffff;
-    padding: 10px;
-}
-.btn-create-new:hover{
-    color: #548CA8;
-    border: solid 1px #548CA8 ;
-    background: #ffff;
-}
-.div-save{
-    align-items: center;
-    justify-items: center;
-    display: grid;
-}
-.btn-save{
-    background: var(--btn-save);
-    padding: 13px;
+.btn-create-new {
+  width: 230px;
+  background: #548ca8;
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: large;
 
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  color: white;
+  border: solid 1px #ffff;
+  padding: 10px;
 }
-.btn-save:hover{
-    color: var(--btn-save);
-    border: solid 1px var(--btn-save) ;
-    background: #ffff;
+.btn-create-new:hover {
+  color: #548ca8;
+  border: solid 1px #548ca8;
+  background: #ffff;
+}
+.div-save {
+  align-items: center;
+  justify-items: center;
+  display: grid;
+}
+.btn-save {
+  background: var(--btn-save);
+  padding: 13px;
+}
+.btn-save:hover {
+  color: var(--btn-save);
+  border: solid 1px var(--btn-save);
+  background: #ffff;
 }
 .dark-modal .modal-content {
-    background-color: var(--section-title);
-    color: white;
-  }
-  .dark-modal .close {
-    color: white;
-  }
-  .light-blue-backdrop {
-    background-color: var(--btn-blue);
-  }
-
-  input[type='file']{
-    display: none;
+  background-color: var(--section-title);
+  color: white;
 }
-.btn-upload{
-    width: 200px;
-    background: var(--btn-save);
-    border-radius: 10px;
-    margin-left: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: large;
-    padding: 10px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    outline: none;
-    border: 10px;
-    color: white;
+.dark-modal .close {
+  color: white;
 }
-.url-video{
-    margin-left: 20px;
-}
-.div-contain{
-    display: inline-block;
-    margin-top: 1rem;
-}
-.div-back{
-    
-    font-size: 20px;
-    color: var(--btn-blue);
+.light-blue-backdrop {
+  background-color: var(--btn-blue);
 }
 
-.div-back:hover{
-    color: #f06292 ;
-    cursor: pointer;
+input[type="file"] {
+  display: none;
 }
-.container{
-    
-    margin-top: 55px;
+.btn-upload {
+  width: 200px;
+  background: var(--btn-save);
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: large;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  outline: none;
+  border: 10px;
+  color: white;
 }
-.custome-dialog-title{
-    font-size: x-large;
+.url-video {
+  margin-left: 20px;
 }
-.icon-decorate{
-    margin-right: 0.6rem;
+.div-contain {
+  display: inline-block;
+  margin-top: 1rem;
 }
-.section-title{
- font-weight: bold;
- font-size: 22px;
+.div-back {
+  font-size: 20px;
+  color: var(--btn-blue);
+}
 
+.div-back:hover {
+  color: #f06292;
+  cursor: pointer;
+}
+.container {
+  margin-top: 55px;
+}
+.custome-dialog-title {
+  font-size: x-large;
+}
+.icon-decorate {
+  margin-right: 0.6rem;
+}
+.section-title {
+  font-weight: bold;
+  font-size: 22px;
 }
 
-.custome-dialog-title{
+.custome-dialog-title {
   margin-left: 2rem;
   padding-bottom: 0px;
 }
 
-.edit-screen{
-    background: #EEEEEE;
-    margin-top: 85px;
-    margin-bottom: 10vh;
+.edit-screen {
+  background: #eeeeee;
+  margin-top: 85px;
+  margin-bottom: 10vh;
 }
-.remove-border{
+.remove-border {
   border-top: none;
   text-align: center;
-    justify-content: space-between;
+  justify-content: space-between;
 }
-.custome-title{
-    margin: 0 0 10px !important;
-  
+.custome-title {
+  margin: 0 0 10px !important;
 }
-.confirm-footer{
-    display: block !important;
+.confirm-footer {
+  display: block !important;
 }
-.div-title{
-    margin-left: 0px !important;
+.div-title {
+  margin-left: 0px !important;
 }
-.border-radius{
-    border-radius: 10px;
-    width: 100px;
+.border-radius {
+  border-radius: 10px;
+  width: 100px;
 }

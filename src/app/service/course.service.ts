@@ -1,237 +1,185 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { COURSE_TYPE } from "../models/course-type";
-import { Course } from "../models/course.model";
-import { Enrollment } from "../models/enrollment.model";
-import { GRADES } from "../models/grades";
-import { Lecture } from "../models/lecture.model";
-import { Section } from "../models/section.model";
-import { Video } from "../models/video.model";
-import { authenticationService } from "./authentication.service";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { COURSE_TYPE } from '../models/course-type';
+import { Course } from '../models/course.model';
+import { Enrollment } from '../models/enrollment.model';
+import { GRADES } from '../models/grades';
+import { Lecture } from '../models/lecture.model';
+import { Section } from '../models/section.model';
+import { Video } from '../models/video.model';
+import { authenticationService } from './authentication.service';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root',
+})
+export class CourseService {
+  private baseUrl: string =
+    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
 
-export class CourseService{
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: this.authService.getToken(),
+    }),
+  };
+  constructor(
+    private http: HttpClient,
+    private authService: authenticationService
+  ) {}
 
-    private baseUrl:string= 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
-
-    private httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type':  'application/json',
-          Authorization: this.authService.getToken()
-        })
-      };
-
-
-    constructor(private http : HttpClient, private authService: authenticationService){
-        
-    }
-
-    private handleError(error: HttpErrorResponse) {
-        if (error.status === 0) {
-            // A client-side or network error occurred. Handle it accordingly.
-            //console.error('An error occurred:', error.error);
-        } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong.
-            // console.error(
-            // `Backend returned code ${error.status}, ` +
-            // `body was: ${error.error}`);
+  getListCourseGrade(level_: GRADES, type_: COURSE_TYPE) {
+    return this.http
+      .get<{ message: string; count: number; courses: Course[] }>(
+        this.baseUrl + '/courses',
+        {
+          params: new HttpParams()
+            .set('grade', level_)
+            .set('courseType', type_)
+            .set('isHidden', false),
         }
-        // Return an observable with a user-facing error message.
-        return throwError(
-            'Something bad happened; please try again later.');
-    }
+      )
+      .pipe();
+  }
+  getCourseById(id: string) {
+    return this.http.get<{ message: string; count: number; courses: Course[] }>(
+      this.baseUrl + '/courses',
+      {
+        params: new HttpParams().set('id', id),
+      }
+    );
+  }
 
-    //!DONE 
-    getListCourseGrade(level_: GRADES, type_:COURSE_TYPE){
-
-       
-       return this.http
-        .get<{message:string,count:number, courses: Course[]}>(
-        this.baseUrl+ '/courses',
+  getListCourseFilter(courseType: COURSE_TYPE, grade: GRADES) {
+    return this.http
+      .get<{ message: string; count: number; courses: Course[] }>(
+        'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/courses',
         {
-            params:new HttpParams().set('grade', level_).set('courseType',type_).set('isHidden',false)
-        }).pipe(
-            
-           // catchError(this.handleError)
-        );
-        
-    }
+          params: new HttpParams()
+            .set('grade', grade)
+            .set('courseType', courseType),
+        }
+      )
+      .subscribe((response) => {});
+  }
 
- 
+  getAllCourse() {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', 'token');
+    return this.http.get<{ message: string; count: number; courses: Course[] }>(
+      this.baseUrl + '/courses',
+      {
+        headers: headers,
+      }
+    );
+  }
+  getListCourseByTitle(title: string) {
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', 'token');
+    return this.http.get<{ message: string; count: number; courses: Course[] }>(
+      this.baseUrl + '/courses',
+      {
+        headers: headers,
+        params: new HttpParams().set('title', title).set('isHidden', false),
+      }
+    );
+  }
+  getstudentJoinedNumber(courseId: string) {
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : 'null';
+    const tokenType = 'Bearer ';
+    const header = new HttpHeaders().set('Authorization', tokenType + token);
+    return this.http.get<{
+      message: string;
+      count: number;
+      enrollments: Enrollment[];
+    }>(this.baseUrl + '/enrollments', {
+      params: new HttpParams().set('courseId', courseId),
+      headers: header,
+    });
+  }
 
-    //!DONE
-    //* Get course by course id
-    getCourseById(id : string){
-        
-       return this.http
-        .get<{message:string,count:number, courses: Course[]}>(
-            this.baseUrl+'/courses',
-            {
-              
-                params:new HttpParams().set('id',id )
-            }
-        );
-    }
+  getLectureByCourseId(courseId: string) {
+    return this.http.get<{
+      message: string;
+      count: number;
+      lectures: Lecture[];
+    }>(this.baseUrl + '/courses/' + courseId + '/lectures');
+  }
 
-    //TODO: CHECK PARAM courseType
-    getListCourseFilter(courseType: COURSE_TYPE ,grade: GRADES){
-       
-         return this.http
-         .get<{message:string,count:number, courses: Course[]}>(
-             'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/courses',
-             {
-                 params:new HttpParams().set('grade', grade).set('courseType',courseType)
-             }
-         ).subscribe(response=>
-         {
-         })
-          
-     }
+  getSectionByCourseId(courseId: string) {
+    return this.http.get<{
+      message: string;
+      count: number;
+      sections: Section[];
+    }>(this.baseUrl + '/sections', {
+      params: new HttpParams().set('courseId', courseId),
+    });
+  }
 
-     getAllCourse(){
-        
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
-       return this.http
-        .get<{message:string,count:number, courses: Course[]}>(
-            this.baseUrl+ '/courses',
-            {
-                headers: headers
-            }
-        );
-     }
+  getLecturesBySectionId(sectionId: string) {
+    return this.http.get<{
+      message: string;
+      count: number;
+      lectures: Lecture[];
+    }>(this.baseUrl + '/lectures', {
+      params: new HttpParams().set('sectionId', sectionId),
+    });
+  }
 
+  getVideoByLectureId(lectureId: string) {
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : 'null';
 
-     //DONE!
-    getListCourseByTitle(title: string){
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'token');
-       return this.http
-        .get<{message:string,count:number, courses: Course[]}>(
-            this.baseUrl+ '/courses',
-            {
-                headers: headers,
-                params:new HttpParams().set('title',title).set('isHidden',false)
-            }
-        );
-    }
+    const key =
+      'RGhqHqXSZfjAiyXgzznYnHSKRvxiHBWvzLZFZTUxXhRjvqsagFwHzfXuQPWcTQALWHqGKUPBFmuLWmKavtRvBWriLgXWtCAuDrsukwgTBQfuPVOiSeWtLbNTgSjtgYtICvCzYSmxwIXGeurxyOcGlrjvcDaAIsDIBDziWipcZbBPVUlzwhnpvjPrVHghlOppHdRUxctaGRUcBQXUJutPBhNSzebikzpytuIADtOEswqcJxZsBvkwvDayDXrofHfpxOrYzTXLSvZTkXodWNimYNiTAlFywOcRFMFSaNYOQAsxsHiDFxnvwFHkwMivNjJqAalJaUqmUDHkrWnGWnPLEZogCTwQSbnTEZIIZEHoCdxWftJaddNbreSHUVlPhLTWSAcmdwkgCDASTRLGjClarTYPmTZppYyKJcCmQyKmmFFFvhFsSZevKWKCGcQVUmnbPKiIXGQWyUieQZEgBhqlJhbKkzmMoWZPzsioovcdmKBQNRRHKfBtnaROdYhrXaeA=' +
+      token;
+    const URL = this.baseUrl + `/lectures/${lectureId}/video/streaming?${key}`;
+    return this.http.get<{ message: string; signedUrl: string }>(URL);
+  }
 
-    //TODO: Get student join  in a course
-    getstudentJoinedNumber(courseId:string){
-        //get enrollment where courseId return list enrollment
-        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-        const tokenType= "Bearer "
-        const header = new HttpHeaders().set('Authorization', tokenType + token);
-        return this.http
-        .get<{message:string,count:number,enrollments: Enrollment[]}>(this.baseUrl+'/enrollments', 
-            {
-                params: new HttpParams().set('courseId', courseId), headers: header
-            }
-        );
-              
-    }
+  getMyCourses(learnerId: string) {
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : 'null';
+    const tokenType = 'Bearer ';
+    const header = new HttpHeaders().set('Authorization', tokenType + token);
+    return this.http.get<{
+      message: string;
+      count: number;
+      enrollments: Enrollment[];
+    }>(this.baseUrl + '/enrollments', {
+      headers: header,
+      params: new HttpParams().set('learnerId', learnerId),
+    });
+  }
 
-    getLectureByCourseId(courseId: string){
-        return this.http
-        .get<{message:string,count:number,lectures: Lecture[]}>(this.baseUrl+'/courses/'+courseId+"/lectures" 
-        );
-    }
+  getTotalLeanerOfCourse(id: string): number {
+    var number = 0;
+    this.getstudentJoinedNumber(id).subscribe((list) => (number = list.count));
+    return number;
+  }
 
-    //!DONE
-    /**
-     * REMOVE RETURN TYPE
-     * @param courseId 
-     * @returns 
-     */
-    getSectionByCourseId(courseId: string){
-       
-       return this.http
-        .get<{message:string,count:number, sections: Section[]}>(
-            this.baseUrl+ '/sections',
-        {
-            params: new HttpParams().set('courseId', courseId)
-        })
-        
-       // return sectionList.filter(section=> section.courseId === courseId);
-    }
-
-    // use http open command when have API
-    //TODO : get lecture list by section id
-    getLecturesBySectionId(sectionId: string){
-        
-        return this.http
-        .get<{message:string,count:number, lectures: Lecture[]}>(
-            this.baseUrl+'/lectures',
-            {
-                params: new HttpParams().set('sectionId', sectionId)
-            }
-       )
-        
-    }
-
-    //TODO: get video of a lecture by its id
-    getVideoByLectureId(lectureId: string){
-        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-       
-        const key="RGhqHqXSZfjAiyXgzznYnHSKRvxiHBWvzLZFZTUxXhRjvqsagFwHzfXuQPWcTQALWHqGKUPBFmuLWmKavtRvBWriLgXWtCAuDrsukwgTBQfuPVOiSeWtLbNTgSjtgYtICvCzYSmxwIXGeurxyOcGlrjvcDaAIsDIBDziWipcZbBPVUlzwhnpvjPrVHghlOppHdRUxctaGRUcBQXUJutPBhNSzebikzpytuIADtOEswqcJxZsBvkwvDayDXrofHfpxOrYzTXLSvZTkXodWNimYNiTAlFywOcRFMFSaNYOQAsxsHiDFxnvwFHkwMivNjJqAalJaUqmUDHkrWnGWnPLEZogCTwQSbnTEZIIZEHoCdxWftJaddNbreSHUVlPhLTWSAcmdwkgCDASTRLGjClarTYPmTZppYyKJcCmQyKmmFFFvhFsSZevKWKCGcQVUmnbPKiIXGQWyUieQZEgBhqlJhbKkzmMoWZPzsioovcdmKBQNRRHKfBtnaROdYhrXaeA="+token;
-          const URL= this.baseUrl+`/lectures/${lectureId}/video/streaming?${key}`
-        return this.http
-        .get<{message:string,signedUrl:string}>(URL)
-       
-    }
-
-
-    //TODO: send request get all course of learner in by id learner
-    /**
-     * Send request to enrollment, get enrollment by learnerId
-     * @param learnerId 
-     * @returns Observable<Course[]>
-     */
-    getMyCourses(learnerId: string){
-        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-        const tokenType= "Bearer "
-        const header = new HttpHeaders().set('Authorization', tokenType + token);
-        return this.http
-        .get<{message:string,count:number, enrollments: Enrollment[]}>(this.baseUrl+ '/enrollments',
-        {
-            headers: header,
-            params: new HttpParams().set('learnerId', learnerId)
-        })
-   
-    }
-
-    //TODO:send request get list learner of a course and count
-    /**
-     * 
-     * @param id
-     * @returns total learner
-     */
-    getTotalLeanerOfCourse(id: string):number{
-        var number = 0;
-       this.getstudentJoinedNumber(id).subscribe(list => number = list.count);
-       return number;
-    }
-
-    getVideoLength(lectureId: string){
-        
-        const token= localStorage.getItem('token')?localStorage.getItem('token'):"null";
-        const tokenType= "Bearer "
-        const header = new HttpHeaders().set('Authorization', tokenType + token);
-        return this.http
-        .get<{message:string,count:number, video:Video}>(
-            this.baseUrl+ `/lectures/${lectureId}/video`,
-            {
-                headers: header
-            }
-        )    
-    }
-
+  getVideoLength(lectureId: string) {
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : 'null';
+    const tokenType = 'Bearer ';
+    const header = new HttpHeaders().set('Authorization', tokenType + token);
+    return this.http.get<{ message: string; count: number; video: Video }>(
+      this.baseUrl + `/lectures/${lectureId}/video`,
+      {
+        headers: header,
+      }
+    );
+  }
 }

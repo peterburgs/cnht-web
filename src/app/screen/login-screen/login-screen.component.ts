@@ -31,23 +31,19 @@ export class LoginScreenComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //admin will get login link with fragment admin
     this.activeRouter.fragment.subscribe((frag) => {
       if (frag == 'admin') {
         this.isAdmin = true;
       } else this.isAdmin = false;
     });
-    //Get user information form google account and authenticate it on server
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       localStorage.setItem('expires_in', user.response.expires_in);
       localStorage.setItem('token_created_at', Date.now().toString());
 
-      //if user !=null, it is log in, else log out
       this.isLoggedin = user != null;
       if (this.isLoggedin) {
         this.isLoading = true;
-        //authenticate on server
         this.authService
           .signIn(this.socialUser.idToken, this.isAdmin)
           .subscribe((responseData) => {
@@ -55,9 +51,6 @@ export class LoginScreenComponent implements OnInit {
             this.authService.storeUser(responseData.user, responseData.token);
             this.authService.loggedIn = true;
             this.authService.logger.next(this.authService.loggedIn);
-
-            //navigate to home screen and stop loading
-
             if (this.authService.isAdmin()) {
               this.isAdminSignIn();
             } else this.route.navigate(['/home']);

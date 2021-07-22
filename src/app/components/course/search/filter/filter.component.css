@@ -1,12 +1,8 @@
-.list-filter{
-    background-color: #f4f4f4;
-    border-radius: 5px;
-    /* position: relative; */
-    /* width: 18vw; */
-    height: fit-content;
-    
+.list-filter {
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  height: fit-content;
 }
-
-*{
-    background-color: #F0F2F5;
+* {
+  background-color: #f0f2f5;
 }

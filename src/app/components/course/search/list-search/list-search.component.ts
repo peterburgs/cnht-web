@@ -5,20 +5,18 @@ import { CourseService } from '../../../../service/course.service';
 @Component({
   selector: 'app-list-search',
   templateUrl: './list-search.component.html',
-  styleUrls: ['./list-search.component.css']
+  styleUrls: ['./list-search.component.css'],
 })
 export class ListSearchComponent implements OnInit {
-
   @Input() listCourseResult: Course[] = [];
 
-  constructor(private CourseService:CourseService) { }
+  constructor(private CourseService: CourseService) {}
 
   ngOnInit(): void {
     this.getListCourseResult();
   }
 
-  getListCourseResult(){
+  getListCourseResult() {
     return this.listCourseResult;
   }
-
 }

@@ -1,17 +1,18 @@
 <div class="row detail-info">
-    <div class="col-md-2"></div>
-    <div class="col-md-6 info-course">
-        <h3 class="name-course"> {{target_course.title}} </h3>
-        <!-- <p class="teacher"> {{target_course.teacher}} </p> -->
-        <p class="description-course">{{target_course.courseDescription}}</p>
-        <div class="row count-info">
-            <div class="col-md-4"> {{studentJoined}} students joined</div>
-            <div class="col-md-3">{{lectureCount}} lectures</div>
-            <div class="col-md-5">Last update: {{target_course.updatedAt |date:'yyyy-MM-dd'}} </div>
-        </div>
+  <div class="col-md-2"></div>
+  <div class="col-md-6 info-course">
+    <h3 class="name-course">{{ target_course.title }}</h3>
+    <p class="description-course">{{ target_course.courseDescription }}</p>
+    <div class="row count-info">
+      <div class="col-md-4">{{ studentJoined }} students joined</div>
+      <div class="col-md-3">{{ lectureCount }} lectures</div>
+      <div class="col-md-5">
+        Last update: {{ target_course.updatedAt | date: "yyyy-MM-dd" }}
+      </div>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-3 card-course">
-        <app-card-image [course]="target_course"></app-card-image>
-    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-3 card-course">
+    <app-card-image [course]="target_course"></app-card-image>
+  </div>
 </div>

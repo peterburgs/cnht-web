@@ -1,19 +1,11 @@
-.balance{
-    margin-top: 50px;
-    margin-bottom: 50px;
-    margin-left: -10px;
-    
+.balance {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: -10px;
 }
-/* 
-.wallet h4 {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 22px;
-    letter-spacing: 1px;
-} */
 
-.balance{
-    font-size: 17px;
-    font-weight: 600;
-    font-family: 'Roboto', sans-serif;
+.balance {
+  font-size: 17px;
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
 }

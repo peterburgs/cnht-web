@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400,500;600;700&display=swap");
-
-/* @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-           */
-
 .mylearning {
   margin-top: 100px;
   padding-bottom: 30vh;
@@ -72,9 +68,6 @@
 .container {
   margin-bottom: 20px;
 }
-
-/********************loading *************/
-
 .lds-ring {
   display: inline-block;
   position: relative;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DepositRequest } from 'src/app/models/deposit-request.model';
 import { User } from 'src/app/models/user.model';
@@ -46,7 +46,6 @@ export class WalletComponent implements OnInit {
   }
 
   depositRequests: DepositRequest[] = [];
-  //TODO: get all list deposit requests
   getAllList() {
     this.depositRequestService.getAll().subscribe((depositRequest) => {
       if (depositRequest.count != 0) {
@@ -57,7 +56,6 @@ export class WalletComponent implements OnInit {
   }
 
   listLearner: User[] = [];
-  //TODO: get all list learner to get full name and email for table
   getAllListLearner() {
     this.userService.getAllLearner().subscribe((users) => {
       if (users.count != 0) {
@@ -66,7 +64,6 @@ export class WalletComponent implements OnInit {
     });
   }
 
-  //TODO: get learner by learner id
   getLearnerByIdLearner(learnerId: string): User {
     for (let learner of this.listLearner)
       if (learner.id == learnerId) return learner;
@@ -87,14 +84,10 @@ export class WalletComponent implements OnInit {
   refreshComponent() {
     this.router.navigate([this.router.url]);
   }
-
-  //TODO: search deposit request by title search
   searchDeposit($event: any) {
     if ($event == '') this.getAllList();
     else this.getDepositsByNameOrEmailLearner($event);
   }
-
-  //TODO: filter deposit request by name or email learner
   getDepositsByNameOrEmailLearner($event: string) {
     this.listSearch = this.depositRequests.filter(
       (learner) =>

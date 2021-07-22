@@ -1,9 +1,9 @@
-export class Video{
-    id: string = "";
-    fileName: string = "";
-    length: number = 0;
-    lectureId: string = "";
-    createdAt: Date = new Date();
-    updatedAt: Date = new Date();
-    isHidden: boolean = false;
+export class Video {
+  id: string = '';
+  fileName: string = '';
+  length: number = 0;
+  lectureId: string = '';
+  createdAt: Date = new Date();
+  updatedAt: Date = new Date();
+  isHidden: boolean = false;
 }

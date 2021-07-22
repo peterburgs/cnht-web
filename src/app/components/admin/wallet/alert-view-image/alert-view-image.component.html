@@ -1,19 +1,16 @@
-<div class="backdrop" (click)="onClose()">
-</div>
+<div class="backdrop" (click)="onClose()"></div>
 <div class="alert-box">
-    <p>{{message}}</p>
-    <div class="pull-left">
-        <p>Learner full name: {{learner.fullName}}</p>
-        <p>Created at: {{deposit.createdAt}}</p>
-        <p>Amount: {{balanceFormat(deposit.amount)}}</p>
-        <p>Status: {{deposit.depositRequestStatus}}</p>
+  <p>{{ message }}</p>
+  <div class="pull-left">
+    <p>Learner full name: {{ learner.fullName }}</p>
+    <p>Created at: {{ deposit.createdAt }}</p>
+    <p>Amount: {{ balanceFormat(deposit.amount) }}</p>
+    <p>Status: {{ deposit.depositRequestStatus }}</p>
+  </div>
+  <div class="alert-box-actions">
+    <div class="img-deposit-request">
+      <img [src]="baseUrl + deposit.imageUrl" class="img img-fluid img-view" />
     </div>
-    <div class="alert-box-actions">
-        <div class="img-deposit-request">
-            <img [src]="baseUrl + deposit.imageUrl" class="img img-fluid img-view">
-        </div>
-        <button class="btn-cancel btn-danger btn" (click)="onClose()">
-            Close
-        </button>
-    </div>
+    <button class="btn-cancel btn-danger btn" (click)="onClose()">Close</button>
+  </div>
 </div>

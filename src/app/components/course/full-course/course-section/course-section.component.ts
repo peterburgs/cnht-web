@@ -18,7 +18,7 @@ export class CourseSectionComponent implements OnInit {
   @Input() sectionDummy: SectionDummy = new SectionDummy('1', 'default', []);
   @Input() sectionIndex: number = 0;
   @Input() maxLecture: number = 1;
-  @Input() isUpLoading:boolean=false;
+  @Input() isUpLoading: boolean = false;
   arrayLoading: boolean[] = [];
   videoFile: File = new File([], 'lecture-video');
   sectionTitle = '';
@@ -43,18 +43,17 @@ export class CourseSectionComponent implements OnInit {
     );
     this.fullCourseService.handleEditSection(this.sectionTitle).subscribe(
       (response) => {
-        this.openSnackBar("Changes saved", "OK")
+        this.openSnackBar('Changes saved', 'OK');
       },
       (error) => {
-
         alert('Cannot connect to server, please try again! ');
       }
     );
     this.changeSection = false;
   }
-  openSnackBar(message: string, action: string) { // notice success
+  openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 2000
+      duration: 2000,
     });
   }
   onEditSection() {

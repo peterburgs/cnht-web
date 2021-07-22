@@ -64,8 +64,6 @@
   text-align: center;
 }
 
-/********************loading *************/
-
 .lds-ring {
   display: inline-block;
   position: relative;
@@ -108,8 +106,6 @@
     transform: rotate(360deg);
   }
 }
-
-/*****************************/
 
 .loading {
   position: fixed;

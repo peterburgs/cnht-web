@@ -69,7 +69,6 @@ export class TableWalletAdminComponent implements OnInit {
   ];
 
   openSnackBar(message: string, action: string) {
-    // notice success
     this._snackBar.open(message, action, {
       duration: 2000,
     });
@@ -90,7 +89,6 @@ export class TableWalletAdminComponent implements OnInit {
           deposit.depositRequestStatus.toString() == this.selectedFitler
       );
   }
-
   eSortDate: SORT = SORT.CURRENT;
   isSortDateUp: boolean = false;
   isSortDateDown: boolean = false;
@@ -120,7 +118,6 @@ export class TableWalletAdminComponent implements OnInit {
   eSortAmount: SORT = SORT.CURRENT;
   isSortAmountUp: boolean = false;
   isSortAmountDown: boolean = false;
-  //TODO: sort by amount
   sortAmount() {
     this.eSortDate = SORT.CURRENT;
     this.eSortAmount = this.eSortAmount + this.updateSort(this.eSortAmount);
@@ -142,21 +139,15 @@ export class TableWalletAdminComponent implements OnInit {
       });
     }
   }
-
-  //TODO: update status sort when we click header table
   updateSort(sort: SORT) {
     if (sort == SORT.CURRENT || sort == SORT.INCREASE) return 1;
     else return -2;
   }
-
-  //TODO: check status is deny for change color status view
   isDeny(status: STATUSES) {
     if (status == STATUSES.DENIED) return true;
     return false;
   }
-
   listTemp: DepositRequest[] = [];
-  //TODO: get all list deposit requests
   getAllList() {
     this.depositRequestService.getAll().subscribe((depositRequest) => {
       if (depositRequest.count != 0) {
@@ -166,9 +157,7 @@ export class TableWalletAdminComponent implements OnInit {
       } else this.depositRequests = [];
     });
   }
-
   listLearner: User[] = [];
-  //TODO: get all list learner to get full name and email for table
   getAllListLearner() {
     this.userService.getAllLearner().subscribe((users) => {
       if (users.count != 0) {
@@ -176,21 +165,15 @@ export class TableWalletAdminComponent implements OnInit {
       }
     });
   }
-
-  //TODO: get learner by learner id
   getLearnerByIdLearner(learnerId: string): User {
     for (let learner of this.listLearner)
       if (learner.id == learnerId) return learner;
     return new User();
   }
-
-  //TODO: search deposit request by title search
   searchDeposit($event: any) {
     if ($event == '') this.getAllList();
     else this.getDepositsByNameOrEmailLearner($event);
   }
-
-  //TODO: filter deposit request by name or email learner
   getDepositsByNameOrEmailLearner($event: string) {
     this.listSearch = this.depositRequests.filter(
       (learner) =>
@@ -202,16 +185,12 @@ export class TableWalletAdminComponent implements OnInit {
           .includes($event.toLowerCase())
     );
   }
-
-  //TODO: get accept action from alert comfirm or deny
   getAcceptFromAlert($event: any) {
     this.isAcceptAction = $event;
     if (this.isAcceptAction) this.updateStatusDeposit();
   }
 
   titleAlert: string = '';
-
-  //TODO: set message and action name when click btn confirm
   setActionConfirm() {
     this.titleAlert = 'Confirm deposit request';
     this.setMessageToAlert(
@@ -220,8 +199,6 @@ export class TableWalletAdminComponent implements OnInit {
     );
     this.newStatusDeposit = STATUSES.CONFIRM;
   }
-
-  //TODO: set message and action name when click btn deny
   setActionDeny() {
     this.titleAlert = 'Deny deposit request';
     this.setMessageToAlert(
@@ -239,9 +216,7 @@ export class TableWalletAdminComponent implements OnInit {
         this.getAllList();
         this.isLoadingAccept = false;
         this.openSnackBar('Deposit was updated !', 'OK');
-
         if (this.newStatusDeposit == STATUSES.CONFIRM) {
-          //TODO: update balane for learner and admin
           var user = this.getLearnerByIdLearner(
             this.depositCurrentRow.learnerId
           );
@@ -261,7 +236,6 @@ export class TableWalletAdminComponent implements OnInit {
   }
 
   setMessageToAlert(message: string, nameAction: string) {
-    //nameAction is mean name button submit
     this.messageToAction = message;
     this.nameActionToAlert = nameAction;
     this.isCallAlert = true;

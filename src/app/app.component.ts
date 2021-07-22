@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { Router } from '@angular/router';
+import { SocialAuthService } from 'angularx-social-login';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { authenticationService } from './service/authentication.service';
@@ -10,110 +10,93 @@ import { Timer } from './service/timer.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Cùng nhau học toán';
-  currentUrl=""
-  isShowNavbar= true;
+  currentUrl = '';
+  isShowNavbar = true;
   isShowNavbarAdmin = false;
-  expiredTime=10;
-  
-  constructor(private router: Router,
+  expiredTime = 10;
+
+  constructor(
+    private router: Router,
     private timer: Timer,
     public socialAuthService: SocialAuthService,
-    private authService: authenticationService){}
-    validSignIn:boolean= false;
+    private authService: authenticationService
+  ) {}
+  validSignIn: boolean = false;
 
   ngOnInit(): void {
-    
-    let expiredTime = localStorage.getItem('expires_in')
-    if(expiredTime)
-      this.expiredTime= Number(expiredTime)-60;
-    
-    this.router.events.subscribe(router=>{
-      this.currentUrl= this.router.url; 
-      if(this.currentUrl.includes("/login")){
-        this.isShowNavbar= false;
-      }
-      else this.isShowNavbar= true;
+    let expiredTime = localStorage.getItem('expires_in');
+    if (expiredTime) this.expiredTime = Number(expiredTime) - 60;
 
-      if(this.currentUrl.includes("/admin")){
-        this.isShowNavbarAdmin= true;
+    this.router.events.subscribe((router) => {
+      this.currentUrl = this.router.url;
+      if (this.currentUrl.includes('/login')) {
         this.isShowNavbar = false;
-      }
-      else this.isShowNavbarAdmin= false;
-    })
-    this.socialAuthService.initState.subscribe((state)=>{
-      if(state)
-        this.checkValidToken();
-    })
-      
+      } else this.isShowNavbar = true;
+
+      if (this.currentUrl.includes('/admin')) {
+        this.isShowNavbarAdmin = true;
+        this.isShowNavbar = false;
+      } else this.isShowNavbarAdmin = false;
+    });
+    this.socialAuthService.initState.subscribe((state) => {
+      if (state) this.checkValidToken();
+    });
   }
 
-  checkValidToken(){
-    //Check valid token 
-    let loggedIn = localStorage.getItem('isLoggedin')
-    if(loggedIn=='true'){
-
-      let token_created_at =Number(localStorage.getItem('token_created_at'));
+  checkValidToken() {
+    let loggedIn = localStorage.getItem('isLoggedin');
+    if (loggedIn == 'true') {
+      let token_created_at = Number(localStorage.getItem('token_created_at'));
       let current_time = Date.now();
-
-      //get valid remaining time of token and count
-      if(token_created_at){
-
-        let remaining_time= Math.floor((current_time- token_created_at)/1000);
-        if(remaining_time>=this.expiredTime)
-        {
-          this.timer.refreshToken(this.expiredTime)
-          this.validSignIn=true
-        
-        }
-        else{
-          //sign in to server 
+      if (token_created_at) {
+        let remaining_time = Math.floor(
+          (current_time - token_created_at) / 1000
+        );
+        if (remaining_time >= this.expiredTime) {
+          this.timer.refreshToken(this.expiredTime);
+          this.validSignIn = true;
+        } else {
           let token = localStorage.getItem('token');
           let isAdmin = false;
-          if(localStorage.getItem('role')=='admin')
-            isAdmin=true;
-          
-          if(token)
-            this.authService.signIn(token, isAdmin)
-            .pipe(
-              catchError((error)=>{
-                  if(error.status==500 || error.status==401 ) 
-                  {
-                    this.validSignIn=true;
-                    this.authService.logOut()
-                    this.router.navigate(['/login'])
-                  } 
-                
-                         
-                  return throwError("") 
-              })
-            )
-            .subscribe((responseData)=>{
-              this.validSignIn=true;
-              this.authService.storeUser(responseData.user,responseData.token);
-              this.authService.loggedIn=true;
-              this.authService.logger.next(this.authService.loggedIn);
-              this.timer.startTimer(this.expiredTime-remaining_time);
+          if (localStorage.getItem('role') == 'admin') isAdmin = true;
 
-            })
+          if (token)
+            this.authService
+              .signIn(token, isAdmin)
+              .pipe(
+                catchError((error) => {
+                  if (error.status == 500 || error.status == 401) {
+                    this.validSignIn = true;
+                    this.authService.logOut();
+                    this.router.navigate(['/login']);
+                  }
+
+                  return throwError('');
+                })
+              )
+              .subscribe((responseData) => {
+                this.validSignIn = true;
+                this.authService.storeUser(
+                  responseData.user,
+                  responseData.token
+                );
+                this.authService.loggedIn = true;
+                this.authService.logger.next(this.authService.loggedIn);
+                this.timer.startTimer(this.expiredTime - remaining_time);
+              });
         }
+      } else {
+        this.validSignIn = true;
       }
-      else{
-        this.validSignIn=true
-      }
-    
-    }
-    else{
-      this.validSignIn= true;
+    } else {
+      this.validSignIn = true;
     }
   }
-
   ngOnDestroy(): void {
     this.timer.pauseTimer();
   }
-
- 
 }

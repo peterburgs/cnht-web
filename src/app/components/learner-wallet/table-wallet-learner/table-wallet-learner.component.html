@@ -1,60 +1,81 @@
 <div class="card shadow mb-4 table-detail">
-    <div class="title-table">
-        <span>Deposit history</span>
-        <button class="btn-reload" type="button" (click)="getDepositHistory()"> <i class="bi bi-arrow-repeat"></i> Reload</button>
+  <div class="title-table">
+    <span>Deposit history</span>
+    <button class="btn-reload" type="button" (click)="getDepositHistory()">
+      <i class="bi bi-arrow-repeat"></i> Reload
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th (click)="sortDate()">
+              Date Time
+              <i *ngIf="isSortDateUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortDateDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th>Amount</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="loading" *ngIf="isLoading">
+            <div class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </tr>
+          <tr *ngFor="let item of depositHistory">
+            <td>
+              <div>
+                <span>{{ dateFormater(item.createdAt) }}</span>
+              </div>
+              <div>
+                <span>Status: </span>
+                <span
+                  class="badge btn-status"
+                  *ngIf="item.depositRequestStatus == pendding"
+                  >{{ item.depositRequestStatus }}</span
+                >
+                <span
+                  class="badge btn-status"
+                  *ngIf="item.depositRequestStatus == confirm"
+                  >Confirm at: {{ item.updatedAt }}</span
+                >
+                <span
+                  class="badge btn-status"
+                  *ngIf="item.depositRequestStatus == deny"
+                  style="background-color: crimson"
+                  >{{ item.depositRequestStatus }} at:
+                  {{ item.updatedAt }}</span
+                >
+              </div>
+            </td>
+            <td>
+              <div class="amount">{{ priceFormat(item.amount) }}</div>
+            </td>
+            <td>
+              <button class="btn-admin" (click)="showImg(item)">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-alert-view-image
+        [message]="message_view_img"
+        [learner]="learner"
+        [deposit]="selected_deposit"
+        *ngIf="isShowImg()"
+        (close)="onHandleError()"
+      ></app-alert-view-image>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th (click) = "sortDate()">Date Time
-                            <i *ngIf = "isSortDateUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortDateDown" class="fa fa-arrow-down"></i>
-                        </th>
-                        <th>Amount</th>
-                        <th>Image</th>
-
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr class="loading" *ngIf="isLoading">
-                        <div class="lds-ring">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </tr>
-                    <tr *ngFor="let item of depositHistory">
-                        <td>
-                            <div><span>{{ dateFormater(item.createdAt)}}</span></div>
-                            <div><span>Status: </span>
-                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==pendding">{{item.depositRequestStatus}}</span>
-                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==confirm">Confirm at: {{item.updatedAt}}</span>
-                                <span class="badge btn-status" *ngIf="item.depositRequestStatus==deny"  style="background-color: crimson;">{{item.depositRequestStatus}} at: {{item.updatedAt}}</span>
-
-                            </div>
-                        </td>
-                        <td>
-                            <div class="amount">{{priceFormat(item.amount)}}</div>
-                        </td>
-                        <td><button class="btn-admin " (click)="showImg(item)"> View </button></td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-
-            <!-- alert-view -->
-            <app-alert-view-image [message]="message_view_img"
-            [learner] = "learner"
-             [deposit]="selected_deposit" *ngIf="isShowImg()"
-              (close)="onHandleError()"></app-alert-view-image>
-
-            <!-- end-alert-view -->
-
-        </div>
-    </div>
+  </div>
 </div>

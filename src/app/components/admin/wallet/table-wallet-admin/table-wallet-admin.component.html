@@ -1,100 +1,146 @@
-<div class="card shadow  table-detail">
-    <div class = "title-table-block">
-        <!-- <div class="title-table pull-left"> <span>Learner payment history</span> <br/>
+<div class="card shadow table-detail">
+  <div class="title-table-block">
+    <mat-form-field appearance="fill" style="color: black">
+      <mat-label style="color: #194350; font-weight: 500"
+        >Filter deposit request</mat-label
+      >
+      <mat-select
+        disableOptionCentering
+        style="color: black"
+        [(ngModel)]="selectedFitler"
+      >
+        <mat-option
+          (click)="getListDepositRequestByFitler()"
+          style="color: black"
+          class="not-empty-select"
+          *ngFor="let status of listStatus"
+          [value]="status.value"
+        >
+          {{ status.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-        </div> -->
-        <mat-form-field appearance="fill" style="color: black;">
-            <mat-label  style="color:  #194350;  font-weight: 500;">Filter deposit request</mat-label>
-            <mat-select disableOptionCentering  style="color: black;" [(ngModel)]="selectedFitler">
-              <mat-option (click) = "getListDepositRequestByFitler()" style="color: black;" class="not-empty-select" *ngFor="let status of listStatus" [value]="status.value">
-                {{status.viewValue}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-    </div>
-    
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th (click) = "sortDate()">Date Time
-                            <i *ngIf = "isSortDateUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortDateDown" class="fa fa-arrow-down"></i>
-                        </th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th (click) = "sortAmount()">Amount
-                            <i *ngIf = "isSortAmountUp" class="fa fa-arrow-up"></i>
-                            <i *ngIf = "isSortAmountDown" class="fa fa-arrow-down"></i>
-                        </th>
-                        <th>Image</th>
-                        <th >Actions</th>
-
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                   
-                    <tr *ngFor = "let item of listSearch | slice: (page-1) * pageSize : page * pageSize">
-                        <td>
-                            <div><span>{{item.createdAt}}</span></div>
-                            <div><span>Status: </span>
-                                <button *ngIf = "!isDeny(item.depositRequestStatus)" class="badge btn-status">{{depositRequestService.setStatusName(item)}}</button>
-                                <button *ngIf = "isDeny(item.depositRequestStatus)" class="badge btn-status" style="background-color: crimson;">{{depositRequestService.setStatusName(item)}}</button>
-                            </div>
-                        </td>
-                        <td>
-                            <div><span>{{getLearnerByIdLearner(item.learnerId).fullName}}</span></div>
-                        </td>
-                        <td >
-                            <div><span>{{getLearnerByIdLearner(item.learnerId).email}}</span></div>
-                        </td>
-                        <td>
-                            <div class="amount">{{balanceFormat(item.amount)}}</div>
-                        </td>
-                        <td (click) = "getDepositCurrentRow(item)"><button class="btn-admin " (click)="showImg()"> View </button></td>
-                        <td (click) = "getDepositCurrentRow(item)">
-                            <div *ngIf="depositRequestService.isPending(item)">
-                            <button type="button" class="btn-admin" (click) = "setActionConfirm()"> Confirm</button>
-                            <button type="button" class="btn-admin  btn-deny"  (click) = "setActionDeny()"> Deny</button>
-                        </div>
-                        </td>                     
-                    </tr>
-
-                </tbody>
-            </table>
-
-            <!-- alert-view -->
-            <app-alert-view-image [message]="message_view_img"
-            [path_img]="path_img_view" 
-            [learner] = "getLearnerByIdLearner(depositCurrentRow.learnerId)" 
-            [deposit] = "depositCurrentRow"  
-            *ngIf="isShowImg()" 
-            (close)="onHandleError()">
-            </app-alert-view-image>
-            <!-- end-alert-view -->
-
-            <app-alert-warning [message]="messageToAction" 
-            [actionToAlert]="nameActionToAlert" 
-            *ngIf = "isCallAlert"
-            (close)="onHandleError()"
-            (isAction) = "getAcceptFromAlert($event)"
-            [title] = "titleAlert">
-            </app-alert-warning>
-
-            <!-- <app-search></app-search> -->
-
-           <!-- paging  -->
-       <ngb-pagination class="d-flex justify-content-end" 
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th (click)="sortDate()">
+              Date Time
+              <i *ngIf="isSortDateUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortDateDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th>Name</th>
+            <th>Email</th>
+            <th (click)="sortAmount()">
+              Amount
+              <i *ngIf="isSortAmountUp" class="fa fa-arrow-up"></i>
+              <i *ngIf="isSortAmountDown" class="fa fa-arrow-down"></i>
+            </th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let item of listSearch
+                | slice: (page - 1) * pageSize:page * pageSize
+            "
+          >
+            <td>
+              <div>
+                <span>{{ item.createdAt }}</span>
+              </div>
+              <div>
+                <span>Status: </span>
+                <button
+                  *ngIf="!isDeny(item.depositRequestStatus)"
+                  class="badge btn-status"
+                >
+                  {{ depositRequestService.setStatusName(item) }}
+                </button>
+                <button
+                  *ngIf="isDeny(item.depositRequestStatus)"
+                  class="badge btn-status"
+                  style="background-color: crimson"
+                >
+                  {{ depositRequestService.setStatusName(item) }}
+                </button>
+              </div>
+            </td>
+            <td>
+              <div>
+                <span>{{
+                  getLearnerByIdLearner(item.learnerId).fullName
+                }}</span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <span>{{ getLearnerByIdLearner(item.learnerId).email }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="amount">{{ balanceFormat(item.amount) }}</div>
+            </td>
+            <td (click)="getDepositCurrentRow(item)">
+              <button class="btn-admin" (click)="showImg()">View</button>
+            </td>
+            <td (click)="getDepositCurrentRow(item)">
+              <div *ngIf="depositRequestService.isPending(item)">
+                <button
+                  type="button"
+                  class="btn-admin"
+                  (click)="setActionConfirm()"
+                >
+                  Confirm
+                </button>
+                <button
+                  type="button"
+                  class="btn-admin btn-deny"
+                  (click)="setActionDeny()"
+                >
+                  Deny
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-alert-view-image
+        [message]="message_view_img"
+        [path_img]="path_img_view"
+        [learner]="getLearnerByIdLearner(depositCurrentRow.learnerId)"
+        [deposit]="depositCurrentRow"
+        *ngIf="isShowImg()"
+        (close)="onHandleError()"
+      >
+      </app-alert-view-image>
+      <app-alert-warning
+        [message]="messageToAction"
+        [actionToAlert]="nameActionToAlert"
+        *ngIf="isCallAlert"
+        (close)="onHandleError()"
+        (isAction)="getAcceptFromAlert($event)"
+        [title]="titleAlert"
+      >
+      </app-alert-warning>
+      <ngb-pagination
+        class="d-flex justify-content-end"
         [(page)]="page"
         [pageSize]="pageSize"
-        [collectionSize]="listSearch.length"></ngb-pagination>
-        </div>
+        [collectionSize]="listSearch.length"
+      ></ngb-pagination>
     </div>
+  </div>
 </div>
-<app-loading  [isLoading]="isLoadingAccept"></app-loading>
-<!-- <app-circle-loading  [isLoading]="isLoading"></app-circle-loading> -->
-
+<app-loading [isLoading]="isLoadingAccept"></app-loading>
 <app-loading [isLoading]="isLoading"></app-loading>

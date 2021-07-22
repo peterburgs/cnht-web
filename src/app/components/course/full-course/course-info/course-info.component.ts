@@ -68,7 +68,6 @@ export class CourseInfoComponent implements OnInit {
       this.fileToUpLoad = <File>fileList.item(0);
 
       var reader = new FileReader();
-      //update Image to UI
       reader.onload = (event: any) => {
         this.tmpImage = event.target.result;
       };
@@ -77,7 +76,6 @@ export class CourseInfoComponent implements OnInit {
     }
   }
   btnDelete() {
-    // this.validateInput();
     this.fullCourseService.setSelection(
       'default',
       VideoType.course,
@@ -126,7 +124,6 @@ export class CourseInfoComponent implements OnInit {
     }
   }
   openSnackBar(message: string, action: string) {
-    // notice success
     this._snackBar.open(message, action, {
       duration: 2000,
     });
