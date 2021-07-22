@@ -1,92 +1,116 @@
 <div class="edit-screen container">
   <div class="div-contain">
     <div class="div-back" (click)="goBack()">
-      <span> <i class="bi bi-arrow-left-square icon-decorate" 
-        title="Lesson go up" ></i>Back to courses</span></div>
+      <span>
+        <i
+          class="bi bi-arrow-left-square icon-decorate"
+          title="Lesson go up"
+        ></i
+        >Back to courses</span
+      >
     </div>
-   
+  </div>
+
   <app-course-info [course]="course"></app-course-info>
 
   <app-course-section
-    *ngFor="let section of sections; let i = index" [isUpLoading]="isUpLoading"
-    [sectionDummy]="section" [sectionIndex]="i" [maxLecture]="maxLecture"
+    *ngFor="let section of sections; let i = index"
+    [isUpLoading]="isUpLoading"
+    [sectionDummy]="section"
+    [sectionIndex]="i"
+    [maxLecture]="maxLecture"
   ></app-course-section>
-  <ul>  
+  <ul>
     <button class="btn-create-new" (click)="onCreateSection()">
-      <i class="bi bi-plus-lg icon-create icon-create"></i>  New section
+      <i class="bi bi-plus-lg icon-create icon-create"></i> New section
     </button>
   </ul>
-  <br/>
-  <div class="div-save">
- 
-  </div>
+  <br />
+  <div class="div-save"></div>
 
   <br />
   <br />
   <br />
 </div>
 <ng-template #content let-modal>
-  <div  class="modal-header custome-dialog-title div-title">
-    <h4 class="modal-title section-title custome-title  ">
-      {{  titleNotify  }}
+  <div class="modal-header custome-dialog-title div-title">
+    <h4 class="modal-title section-title custome-title">
+      {{ titleNotify }}
     </h4>
-    
   </div>
-  <div  class="modal-body custome-dialog-title">
+  <div class="modal-body custome-dialog-title">
     <div *ngIf="wayModify != 0 && wayModify != 1">
       {{ contentNotify }}
     </div>
-    <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection ==0)">
+    <div
+      class="mb-3 row"
+      *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection == 0)"
+    >
       <label for="name" class="col-sm-4 col-form-label">
-         {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label
+        {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label
       >
-      <div  class="col-sm-11">
+      <div class="col-sm-11">
         <input
           type="text"
           class="form-control"
           id="nameTitle"
-          placeholder="Title course"  required
-          name="nameTitle" [(ngModel)]="titleBinding"
+          placeholder="Title course"
+          required
+          name="nameTitle"
+          [(ngModel)]="titleBinding"
         />
-        
       </div>
     </div>
   </div>
   <div class="modal-footer remove-border confirm-footer">
-    <button 
+    <button
       type="button"
       class="btn btn-danger border-radius"
       (click)="modal.close('Close click')"
     >
       Cancel
     </button>
-    <button *ngIf="wayModify==0 || wayModify ==1 "
-      type="button" 
+    <button
+      *ngIf="wayModify == 0 || wayModify == 1"
+      type="button"
       class="btn btn-primary border-radius"
-      (click)="onConfirmSave()" 
+      (click)="onConfirmSave()"
     >
       Save
     </button>
-    <button 
-    type="button" *ngIf="wayModify == 2 || wayModify == 3 || wayModify == 4 ||wayModify == 5 || wayModify == 6 || wayModify == 7"
-    class="btn btn-primary border-radius"
-    (click)="onConfirmSave()" 
-  >
-    Confirm
-  </button>
+    <button
+      type="button"
+      *ngIf="
+        wayModify == 2 ||
+        wayModify == 3 ||
+        wayModify == 4 ||
+        wayModify == 5 ||
+        wayModify == 6 ||
+        wayModify == 7
+      "
+      class="btn btn-primary border-radius"
+      (click)="onConfirmSave()"
+    >
+      Confirm
+    </button>
   </div>
 </ng-template>
 <app-loading [isLoading]="isLoading"></app-loading>
 <ng-template #error_happen let-modal>
   <div class="modal-header">
     <h4 class="modal-title section-title">Error happen</h4>
-   
   </div>
-  <div class="modal-body ">
-    <p class="custome-dialog-title">{{errorMessage}}&hellip;</p>
+  <div class="modal-body">
+    <p class="custome-dialog-title">{{ errorMessage }}&hellip;</p>
   </div>
   <div class="modal-footer">
-    <button  type="button" class="btn btn-danger border-radius" (click)="modal.close('Close click')">Close</button>
+    <button
+      type="button"
+      class="btn btn-danger border-radius"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
   </div>
 </ng-template>
 <app-comfirm-leave *ngIf="isLeaving"></app-comfirm-leave>

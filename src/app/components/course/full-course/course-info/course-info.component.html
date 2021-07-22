@@ -185,7 +185,18 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-sm-2 col-form-label"></div>
+        <div class="col-sm-2 col-form-label">
+          <div
+            *ngIf="loadingSave"
+            class="
+              spinner-border spinner-border-sm
+              text-danger
+              loading-calculate
+              icon-loading
+            "
+            role="status"
+          ></div>
+        </div>
         <div class="col-sm-2">
           <button
             type="submit"

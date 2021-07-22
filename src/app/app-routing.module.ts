@@ -17,21 +17,32 @@ import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 
-
-
 const routes: Routes = [
-  { path: 'admin/course/:id', component: CourseCreationScreenComponent, canActivate:[AdminGuard], canDeactivate:[CanDeactiveGuard] },
- 
-  {path:'admin/home', component:AdminCourseScreenComponent, canActivate:[AdminGuard]},
-  
-    {
-    path: 'admin/managerment/wallet', component: WalletComponent, canActivate:[AdminGuard]
+  {
+    path: 'admin/course/:id',
+    component: CourseCreationScreenComponent,
+    canActivate: [AdminGuard],
+    canDeactivate: [CanDeactiveGuard],
+  },
+
+  {
+    path: 'admin/home',
+    component: AdminCourseScreenComponent,
+    canActivate: [AdminGuard],
+  },
+
+  {
+    path: 'admin/managerment/wallet',
+    component: WalletComponent,
+    canActivate: [AdminGuard],
   },
   {
-    path:'learning/:courseId/:sectionId/:lectureId', component: CourseLearningScreenComponent
+    path: 'learning/:courseId/:sectionId/:lectureId',
+    component: CourseLearningScreenComponent,
   },
   {
-    path: 'home', component: HomeScreenComponent,
+    path: 'home',
+    component: HomeScreenComponent,
   },
   {
     path: '',
@@ -43,34 +54,44 @@ const routes: Routes = [
     component: WalletScreenComponent,
   },
   {
-    path: 'admin/managerment/learner', component: LearnerManagermentComponent, canActivate:[AdminGuard]
+    path: 'admin/managerment/learner',
+    component: LearnerManagermentComponent,
+    canActivate: [AdminGuard],
   },
-  { 
-    path: 'lecturer', component: AdminCourseScreenComponent 
+  {
+    path: 'lecturer',
+    component: AdminCourseScreenComponent,
   },
 
-{
-    path:'wallet', component:WalletScreenComponent
+  {
+    path: 'wallet',
+    component: WalletScreenComponent,
   },
   {
-    path:'detail/:id', component: CourseDetailScreenComponent
+    path: 'detail/:id',
+    component: CourseDetailScreenComponent,
   },
   {
-    path:'login', component: LoginScreenComponent
+    path: 'login',
+    component: LoginScreenComponent,
   },
   {
-    path:'search', component:SearchComponent
+    path: 'search',
+    component: SearchComponent,
   },
-  
+
   {
-    path: 'mylearning', component: MylearingScreenComponent
+    path: 'mylearning',
+    component: MylearingScreenComponent,
   },
   {
-    path:'not-found', component:ErrorPageComponent
+    path: 'not-found',
+    component: ErrorPageComponent,
   },
   {
-    path:'**', redirectTo:'/not-found'
-  }
+    path: '**',
+    redirectTo: '/not-found',
+  },
 ];
 
 @NgModule({

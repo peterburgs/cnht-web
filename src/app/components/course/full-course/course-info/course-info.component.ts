@@ -32,6 +32,7 @@ export class CourseInfoComponent implements OnInit {
   ];
   grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
   loadingCalculate = false;
+  loadingSave = false;
   fileToUpLoad: File = new File([], '_Thumbnail');
   tmpImage = '';
   sbcEstimate: Subscription = new Subscription();
@@ -102,6 +103,7 @@ export class CourseInfoComponent implements OnInit {
     this.course.grade = e.target.value;
   }
   onSave() {
+    this.loadingSave = true;
     if (this.course.title && this.course.courseDescription) {
       this.fullCourseService.setSelection(
         this.course.id,
@@ -114,9 +116,11 @@ export class CourseInfoComponent implements OnInit {
         .then(
           (response) => {
             this.openSnackBar('All changes saved', 'OK');
+            this.loadingSave = false;
           },
           (error) => {
             alert('Cannot save. Please try again');
+            this.loadingSave = false;
           }
         );
     }
