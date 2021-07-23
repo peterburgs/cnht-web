@@ -1,2 +1,2 @@
 export const key =
-  '981890773985-t78kshghlc5gb50dp1ipp4rgl5bim9j1.apps.googleusercontent.com';
+  '981890773985-5rujc8i36n573pf1oafeuh35jk8hl47e.apps.googleusercontent.com';
