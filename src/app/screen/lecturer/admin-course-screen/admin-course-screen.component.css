@@ -30,7 +30,7 @@
 }
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
 }
 .no-found {
   font-size: x-large;
@@ -46,7 +46,7 @@
   text-align: center;
 }
 .div-loading {
-  display: flex;
+
   padding: 1rem;
 }
 
@@ -56,7 +56,7 @@
 
 .list-course {
   background-color: #fff;
-  margin-left: 50px;
+ 
 }
 .container .wrapper {
   text-align: center;
@@ -188,10 +188,18 @@
   padding: 0.5rem;
 }
 .div-sort-by {
-  display: -webkit-box;
+  display: flex;
   margin: 2rem;
   flex-direction: row-reverse;
 }
 .sort-by {
   margin-right: 20px;
+}
+.clean-display{
+  display: table-row !important;
+
+}
+.container{
+  margin-left: 0px !important;
+  padding-left: 0px !important;
 }

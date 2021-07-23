@@ -478,6 +478,7 @@ export class FullCourseService {
     this.course.courseType = course.courseType;
     this.course.courseDescription = course.courseDescription;
     this.course.thumbnailUrl = course.thumbnailUrl;
+    this.course.price = course.price;
   }
 
   handleCreateLecture(title: string) {
@@ -826,30 +827,19 @@ export class FullCourseService {
   }
 
   onCreateCourse(course: Course) {
-    let courseDefault: Course = {
-      id: '',
-      title: '',
-      courseDescription: '',
-      price: 0,
-      courseType: COURSE_TYPE.THEORY,
-      grade: GRADES.TWELFTH,
-      thumbnailUrl: '',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-      isPublished: true,
-    };
+    console.log("*** Thao")
+    console.log(this.course);
     return this.http
       .post<{ message: string; count: number; course: Course }>(
         this.apiUrlCourse,
         {
-          title: courseDefault.title,
-          courseDescription: courseDefault.courseDescription,
-          price: courseDefault.price,
-          courseType: courseDefault.courseType,
-          thumbnailUrl: courseDefault.thumbnailUrl,
-          grade: courseDefault.grade,
-          isPublished: courseDefault.isPublished,
+          title: course.title,
+          courseDescription: course.courseDescription,
+          price: course.price,
+          courseType: course.courseType,
+          thumbnailUrl: course.thumbnailUrl,
+          grade: course.grade,
+          isPublished: course.isPublished,
         },
         httpOptions
       )

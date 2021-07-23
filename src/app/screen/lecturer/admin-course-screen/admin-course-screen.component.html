@@ -1,5 +1,5 @@
 <div class="home-screen">
-  <div class="container div-loading">
+  <div class=" div-loading">
     <div class="col-sm-3">
       <button class="btn-new-course" (click)="onCreateCourse()">
         <i class="bi bi-plus-lg"></i>
@@ -7,9 +7,9 @@
       </button>
     </div>
   </div>
-  <div class="container fitler">
+  <div class=" fitler">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2 clean-display">
         <div class="div-filter">
           <div class="btn-clear-filter" (click)="onResetFitler()">
             <span>
@@ -25,10 +25,11 @@
           ></app-filter>
         </div>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-10 clean-display">
         <div class="list-course">
           <div class="container div-sort-by">
-            <mat-form-field
+            <div class="col-md-4">
+              <mat-form-field
               class="sort-by"
               appearance="fill"
               style="color: black"
@@ -76,13 +77,17 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="search-container">
-              <app-search-title
-                class="div-search"
-                [message]="message"
-                (sendTitleSearch)="searchCourse($event)"
-              ></app-search-title>
             </div>
+            <div class="col-md-8">
+              <div class="search-container">
+                <app-search-title
+                  class="div-search"
+                  [message]="message"
+                  (sendTitleSearch)="searchCourse($event)"
+                ></app-search-title>
+              </div>
+            </div>
+           
           </div>
 
           <div

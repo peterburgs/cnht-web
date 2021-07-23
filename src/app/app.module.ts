@@ -22,7 +22,7 @@ import { CourseInfoComponent } from './components/course/full-course/course-info
 import { CourseSectionComponent } from './components/course/full-course/course-section/course-section.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './components/course/search/search.component';
 import { ItemSearchComponent } from './components/course/search/item-search/item-search.component';
 import { ListSearchComponent } from './components/course/search/list-search/list-search.component';
@@ -171,6 +171,7 @@ import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.
     BrowserAnimationsModule,
     MatCardModule,
     MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [
     CurrencyPipe,

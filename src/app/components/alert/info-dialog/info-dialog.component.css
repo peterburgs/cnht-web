@@ -1,0 +1,13 @@
+.modal-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+   
+  }
+  .modal-body .input {
+    margin-bottom: 10px;
+  }
+  .create-course{
+      margin: 0px !important;
+      
+  }

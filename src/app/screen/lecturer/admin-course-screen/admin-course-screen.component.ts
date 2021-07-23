@@ -4,6 +4,8 @@ import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoDialogComponent } from 'src/app/components/alert/info-dialog/info-dialog.component';
 
 interface Status {
   value: Number;
@@ -30,7 +32,8 @@ export class AdminCourseScreenComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private fullCourseService: FullCourseService
+    private fullCourseService: FullCourseService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -61,22 +64,50 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   onCreateCourse() {
-    this.isLoading = true;
-    this.fullCourseService.createCourse();
+    // this.isLoading = true;
+    // this.fullCourseService.createCourse();
 
-    this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
-      (course) => {
-        this.isLoading = false;
-        this.router.navigate(
-          ['../', 'course', this.fullCourseService.getCourseInfo().id],
-          { relativeTo: this.route }
+    // this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
+    //   (course) => {
+    //     this.isLoading = false;
+    //     this.router.navigate(
+    //       ['../', 'course', this.fullCourseService.getCourseInfo().id],
+    //       { relativeTo: this.route }
+    //     );
+    //   },
+    //   (error) => {
+    //     this.isLoading = false;
+    //     alert('Can not create new course now!!! Try again');
+    //   }
+    // );
+    this.openModalCreateCourse();
+  }
+  openModalCreateCourse() {
+    const modalRef = this.modalService.open(InfoDialogComponent, {
+      centered: true,
+    });
+      
+
+    modalRef.result.then((result: boolean) => {
+      if (result) {
+        this.isLoading = true;
+        this.fullCourseService.createCourse();
+        this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
+          (course) => {
+             this.isLoading = false;
+            // this.router.navigate(
+            //   ['../', 'course', this.fullCourseService.getCourseInfo().id],
+            //   { relativeTo: this.route }
+            // );
+          },
+          (error) => {
+            this.isLoading = false;
+            alert('Can not create new course now!!! Try again');
+          }
         );
-      },
-      (error) => {
-        this.isLoading = false;
-        alert('Can not create new course now!!! Try again');
+      } else {
       }
-    );
+    });
   }
   getAllByDate() {
     this.sortByDate(this.selectedExpBy);
