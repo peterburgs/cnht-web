@@ -22,7 +22,7 @@ import { CourseInfoComponent } from './components/course/full-course/course-info
 import { CourseSectionComponent } from './components/course/full-course/course-section/course-section.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './components/course/search/search.component';
 import { ItemSearchComponent } from './components/course/search/item-search/item-search.component';
 import { ListSearchComponent } from './components/course/search/list-search/list-search.component';
@@ -84,6 +84,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
+import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
     CircleLoadingComponent,
     ComfirmLeaveComponent,
     AlertConfimationComponent,
+    InfoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -169,6 +171,7 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
     BrowserAnimationsModule,
     MatCardModule,
     MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [
     CurrencyPipe,

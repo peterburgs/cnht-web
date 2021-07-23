@@ -1,0 +1,161 @@
+<!-- <div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Form</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div> -->
+<div class="modal-body">
+  <div class="container-fluid">
+    <!-- HTML form mark up -->
+    <form [formGroup]="entryForm" ngNativeValidate (ngSubmit)="onCreate()">
+      <div class="card">
+        <div class="card-header">
+          <div class="float-left">
+            <h2 class="text-info create-course">Create new course</h2>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" [hidden]="!error" translate>
+            Title, Description or Salary is not empty.
+          </div>
+          <div class="form-group">
+            <label for="id"
+              >Title&nbsp;<span>
+                ({{ course.title | countdown: 150 }}/150)
+              </span>
+            </label>
+            <label class="d-block">
+              <textarea
+                rows="2"
+                type="text"
+                class="form-control"
+                formControlName="title"
+                autocomplete="title"
+                [placeholder]="'Title'"
+                [(ngModel)]="course.title"
+                required
+              ></textarea>
+              <span hidden translate>Id</span>
+              <!-- <small
+                  [hidden]="entryForm.controls.id.valid || entryForm.controls.id.untouched"
+                  class="text-danger"
+                  translate
+                >
+                  Id is required
+                </small> -->
+            </label>
+
+            <label for="positionNumber"
+              >Description&nbsp;<span for="limit-description"
+                >({{ course.courseDescription | countdown: 300 }}/300)</span
+              ></label
+            >
+            <label class="d-block">
+              <textarea
+                rows="3"
+                type="text"
+                [(ngModel)]="course.courseDescription"
+                class="form-control"
+                formControlName="description"
+                autocomplete="description"
+                [placeholder]="'Enter position number here'"
+                required
+              ></textarea>
+              <span hidden translate>Description</span>
+              <small
+                [hidden]="
+                  entryForm.controls.description.valid ||
+                  entryForm.controls.description.untouched
+                "
+                class="text-danger"
+                translate
+              >
+                Description is not empty
+              </small>
+            </label>
+            <!-- Phone  -->
+            <label for="positionNumber">Price</label>
+            <label class="d-block">
+              <input
+                type="text"
+                [(ngModel)]="priceFormat"
+                (keyup)="formatCurrency()"
+                class="form-control"
+                formControlName="price"
+                [placeholder]="'Enter price here'"
+                required
+              />
+            </label>
+            <label for="positionNumber">Category</label>
+            <div class="d-block">
+              <select
+                class="form-select text-deco form-select-lg mb-3"
+                aria-label=".form-select-lg example"
+                formControlName="category"
+              >
+                <option
+                  class="text-deco"
+                  *ngFor="let item of types; let i = index"
+                  [value]="item"
+                  [ngValue]="item"
+                  [selected]="i == 2 "
+                  
+                >
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+            <!-- Category -->
+            <label for="positionNumber">Grade</label>
+            <div class="d-block">
+              <select
+                class="form-control form-select text-deco form-select-lg mb-3"
+                aria-label=".form-select-lg example"
+                formControlName="grade"
+              >
+                <option
+                  *ngFor="let grade of grades; let i = index"
+                  [value]="grade"
+                  [ngValue]="grade"
+                  [selected]="i == 2"
+                >
+                  {{ grade }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="float-left">
+            <!-- HTML markup for Create button -->
+            <button
+              (click)="onCreate()"
+              class="btn btn-primary w-20"
+              type="submit"
+            >
+              <span translate><i class="fas fa-plus"></i> Create</span>
+            </button>
+            <!-- HTML markup for Update button -->
+
+            <!-- HTML markup for Delete button -->
+          </div>
+          <div class="float-right">
+            <!-- HTML markup for Back button -->
+            <button
+              (click)="onCancel()"
+              class="btn btn-secondary w-20"
+              type="submit"
+            >
+              <span translate><i class="fa fa-arrow-left"></i> Cancel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
