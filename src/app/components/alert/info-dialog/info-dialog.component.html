@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Form</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <!-- HTML form mark up -->
+    <form [formGroup]="entryForm" novalidate>
+      <div class="card">
+        <div class="card-header">
+          <div class="float-left"><h3 class="text-info">Position</h3></div>
+          <div class="float-right">
+            <!-- Form edit mode New or Edit -->
+            <h5 class="text-warning font-italic">Create new Course</h5>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" [hidden]="!error" translate>
+            Title, Description or Salary is not empty.
+          </div>
+          <div class="form-group">
+            <label for="id">Title</label>
+            <label class="d-block">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                autocomplete="title"
+                [placeholder]="'Title' | translate"
+              />
+              <span hidden translate>Id</span>
+              <!-- <small
+                  [hidden]="entryForm.controls.id.valid || entryForm.controls.id.untouched"
+                  class="text-danger"
+                  translate
+                >
+                  Id is required
+                </small> -->
+            </label>
+
+            <label for="positionNumber">Description</label>
+            <label class="d-block">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="positionNumber"
+                autocomplete="positionNumber"
+                [placeholder]="'Enter position number here' | translate"
+                required
+              />
+              <!-- <span hidden translate>Description</span>
+                <small
+                  [hidden]="entryForm.controls.positionNumber.valid || entryForm.controls.positionNumber.untouched"
+                  class="text-danger"
+                  translate
+                >
+                  Position Number is required
+                </small> -->
+            </label>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="float-left">
+            <!-- HTML markup for Create button -->
+            <button
+              (click)="onCreate()"
+              class="btn btn-primary w-20"
+              type="submit"
+              [disabled]="entryForm.invalid "
+            
+            >
+              <span translate><i class="fas fa-plus"></i> Create</span>
+            </button>
+            <!-- HTML markup for Update button -->
+           
+            <!-- HTML markup for Delete button -->
+        
+          </div>
+          <div class="float-right">
+            <!-- HTML markup for Back button -->
+            <button
+              (click)="onCancel()"
+              class="btn btn-secondary w-20"
+              type="submit"
+            >
+              <span translate><i class="fa fa-arrow-left"></i> Cancel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -84,6 +84,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CircleLoadingComponent } from './components/circle-loading/circle-loading.component';
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
+import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
     CircleLoadingComponent,
     ComfirmLeaveComponent,
     AlertConfimationComponent,
+    InfoDialogComponent,
   ],
   imports: [
     BrowserModule,
