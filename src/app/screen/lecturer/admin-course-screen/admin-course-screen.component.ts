@@ -84,7 +84,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
   openModalCreateCourse() {
     const modalRef = this.modalService.open(InfoDialogComponent, {
-      centered: true,
+      centered: true, size:'lg',backdrop: 'static',
     });
       
 
@@ -95,10 +95,10 @@ export class AdminCourseScreenComponent implements OnInit {
         this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
           (course) => {
              this.isLoading = false;
-            // this.router.navigate(
-            //   ['../', 'course', this.fullCourseService.getCourseInfo().id],
-            //   { relativeTo: this.route }
-            // );
+            this.router.navigate(
+              ['../', 'course', this.fullCourseService.getCourseInfo().id],
+              { relativeTo: this.route }
+            );
           },
           (error) => {
             this.isLoading = false;

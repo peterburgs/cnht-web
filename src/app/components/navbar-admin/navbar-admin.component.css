@@ -174,3 +174,9 @@ a {
 i {
   margin-right: 0.5rem;
 }
+@media (max-width: 762px) {
+  .action-button {
+    display: inline-grid;
+  }
+}
+

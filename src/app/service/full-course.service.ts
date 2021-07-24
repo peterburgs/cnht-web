@@ -34,6 +34,7 @@ export class FullCourseService {
   private loadingThumbnail = false;
   private baseURL =
     'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
+  // private baseURL = '/app/api/';
   private apiUrlCourse = this.baseURL + 'courses';
   private apiUrlSection = this.baseURL + 'sections';
   private apiUrlLecture = this.baseURL + 'lectures';
@@ -363,79 +364,119 @@ export class FullCourseService {
   }
   getData() {
     //Clean all
-    this.lectures = [];
-    this.sections = [];
-    this.listDeepSection = [];
-    let apiGetLectureOfCourse =
-      this.apiUrlCourse + '/' + this.idCourse + '/lectures';
-    let apiGetSectionsOfCourse =
-      this.apiUrlCourse + '/' + this.idCourse + '/sections';
-    this.http
-      .get<{ message: string; count: number; sections: Section[] }>(
-        apiGetSectionsOfCourse,
-        {
-          headers: this.headers,
-          params: new HttpParams().set('courseId', this.idCourse),
-        }
-      )
-      .toPromise()
-      .then((response) => {
-        this.sections = response.sections.sort(
-          (s1, s2) => s1.sectionOrder - s2.sectionOrder
-        );
-        this.http
-          .get<{ message: string; count: number; lectures: Lecture[] }>(
-            apiGetLectureOfCourse,
-            {
-              headers: this.headers,
-            }
-          )
-          .toPromise()
-          .then((response) => {
-            this.lectures = response.lectures;
-            this.sections.forEach((section) => {
-              let tmpLectures: Lecture[] = [];
-              tmpLectures = this.lectures
-                .filter((lecture) => lecture.sectionId == section.id)
-                .sort((l1, l2) => {
-                  if (l1.lectureOrder > l2.lectureOrder) {
-                    return 1;
-                  }
-                  if (l1.lectureOrder < l2.lectureOrder) return -1;
-                  return 0;
-                });
-              this.listDeepSection.push(
-                new SectionDummy(section.id, section.title, tmpLectures)
-              );
-            });
-            this.getMaxLenLecture();
-            let lenSection = this.sections.length;
-            let maxLecture = this.maxLecture;
+    // this.lectures = [];
+    // this.sections = [];
+    // this.listDeepSection = [];
+    // let apiGetLectureOfCourse =
+    //   this.apiUrlCourse + '/' + this.idCourse + '/lectures';
+    // let apiGetSectionsOfCourse =
+    //   this.apiUrlCourse + '/' + this.idCourse + '/sections';
+    // this.http
+    //   .get<{ message: string; count: number; sections: Section[] }>(
+    //     apiGetSectionsOfCourse,
+    //     {
+    //       headers: this.headers,
+    //       params: new HttpParams().set('courseId', this.idCourse),
+    //     }
+    //   )
+    //   .toPromise()
+    //   .then((response) => {
+    //     this.sections = response.sections.sort(
+    //       (s1, s2) => s1.sectionOrder - s2.sectionOrder
+    //     );
+    //     this.http
+    //       .get<{ message: string; count: number; lectures: Lecture[] }>(
+    //         apiGetLectureOfCourse,
+    //         {
+    //           headers: this.headers,
+    //         }
+    //       )
+    //       .toPromise()
+    //       .then((response) => {
+    //         this.lectures = response.lectures;
+    //         this.sections.forEach((section) => {
+    //           let tmpLectures: Lecture[] = [];
+    //           tmpLectures = this.lectures
+    //             .filter((lecture) => lecture.sectionId == section.id)
+    //             .sort((l1, l2) => {
+    //               if (l1.lectureOrder > l2.lectureOrder) {
+    //                 return 1;
+    //               }
+    //               if (l1.lectureOrder < l2.lectureOrder) return -1;
+    //               return 0;
+    //             });
+    //           this.listDeepSection.push(
+    //             new SectionDummy(section.id, section.title, tmpLectures)
+    //           );
+    //         });
+    //         this.getMaxLenLecture();
+    //         let lenSection = this.sections.length;
+    //         let maxLecture = this.maxLecture;
 
-            for (let i = 0; i < lenSection; i++) {
-              for (let j = 0; j < maxLecture; j++) {
-                this.arrLoading.push(false);
-              }
-            }
-            this.sbjSectionDummy.next(this.listDeepSection);
-          })
-          .catch((error) => {
-            this.sections = this.sections.sort((s1, s2) => {
-              if (s1.sectionOrder > s2.sectionOrder) return 1;
-              if (s1.sectionOrder < s2.sectionOrder) return -1;
-              return 0;
-            });
-            this.sections.forEach((section) => {
-              this.listDeepSection.push(
-                new SectionDummy(section.id, section.title, [])
-              );
-            });
-            this.sbjSectionDummy.next(this.listDeepSection);
-          });
-      })
-      .catch((error) => {
-        this.sbjSectionDummy.next(this.listDeepSection);
-      });
+    //         for (let i = 0; i < lenSection; i++) {
+    //           for (let j = 0; j < maxLecture; j++) {
+    //             this.arrLoading.push(false);
+    //           }
+    //         }
+    //         this.sbjSectionDummy.next(this.listDeepSection);
+    //       })
+    //       .catch((error) => {
+    //         this.sections = this.sections.sort((s1, s2) => {
+    //           if (s1.sectionOrder > s2.sectionOrder) return 1;
+    //           if (s1.sectionOrder < s2.sectionOrder) return -1;
+    //           return 0;
+    //         });
+    //         this.sections.forEach((section) => {
+    //           this.listDeepSection.push(
+    //             new SectionDummy(section.id, section.title, [])
+    //           );
+    //         });
+    //         this.sbjSectionDummy.next(this.listDeepSection);
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     this.sbjSectionDummy.next(this.listDeepSection);
+    //   });
+
+    // this.sections = this.mSectionList;
+    // this.lectures = this.mLectureList;
+
+    // this.sections.forEach((section) => {
+    //   // console.log(section);
+    //   let tmpLecturers: Lecture[] = this.lectures.filter(
+    //     (lecture) => lecture.sectionId == section.id
+    //   );
+    //   // console.log(tmpLecturers);
+    //   this.listDeepSection.push(
+    //     new SectionDummy(section.id, section.title, tmpLecturers)
+    //   );
+    // });
+
+    // this.sections.forEach((section) => {
+    //   let tmpLectures: Lecture[] = [];
+    //   tmpLectures = this.lectures
+    //     .filter((lecture) => lecture.sectionId == section.id)
+    //     .sort((l1, l2) => {
+    //       if (l1.lectureOrder > l2.lectureOrder) {
+    //         return 1;
+    //       }
+    //       if (l1.lectureOrder < l2.lectureOrder) return -1;
+    //       return 0;
+    //     });
+    //   this.listDeepSection.push(
+    //     new SectionDummy(section.id, section.title, tmpLectures)
+    //   );
+    // });
+    // this.getMaxLenLecture();
+    // let lenSection = this.sections.length;
+    // let maxLecture = this.maxLecture;
+
+    // for (let i = 0; i < lenSection; i++) {
+    //   for (let j = 0; j < maxLecture; j++) {
+    //     this.arrLoading.push(false);
+    //   }
+    // }
+    // this.sbjSectionDummy.next(this.listDeepSection);
   }
   getArrayLoading() {
     return this.arrLoading;
@@ -490,10 +531,16 @@ export class FullCourseService {
     this.onCreateLecture(tmpLecture);
   }
   handleEditTitleLecture(title: string) {
-    var tmpLecturer = this.getLectureSelection();
+    var tmpLecture = this.getLectureSelection();
 
-    tmpLecturer.title = title;
-    return this.onSaveLecture(tmpLecturer);
+    tmpLecture.title = title;
+    return this.onSaveLecture(tmpLecture);
+  }
+  handleEditNoteLecture(note: string) {
+    var tmpLecture = this.getLectureSelection();
+
+    // tmpLecture.note = note
+    //return this.onSaveLecture(tmpLecture);
   }
   handleEditSection(title: string) {
     var tmpSection = this.getSectionSelection()[0];
@@ -827,7 +874,7 @@ export class FullCourseService {
   }
 
   onCreateCourse(course: Course) {
-    console.log("*** Thao")
+    console.log('*** Thao');
     console.log(this.course);
     return this.http
       .post<{ message: string; count: number; course: Course }>(
@@ -885,4 +932,140 @@ export class FullCourseService {
         }
       );
   }
+
+  //================ Mockup data ==================
+  private mcourses: Course[] = [
+    {
+      id: '1',
+      title: 'Giải phương trình bậc 3',
+      courseDescription: 'Description',
+      price: 150000,
+      courseType: COURSE_TYPE.THEORY,
+      grade: GRADES.TENTH,
+      thumbnailUrl: 'string',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+      isPublished: true,
+    },
+  ];
+  private mSectionList: Section[] = [
+    {
+      courseId: '1',
+      id: 'course1sec1',
+      title: 'Lý thuyết phương trình',
+      isHidden: false,
+      sectionOrder: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      courseId: '1',
+      id: 'course1sec2',
+      title: 'Phương trình tuyến tính',
+      isHidden: false,
+      sectionOrder: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  ];
+  private mLectureList: Lecture[] = [
+    {
+      id: 'co1sec1lec1',
+      title: 'Video 1',
+      lectureOrder: 0,
+      isHidden: false,
+      sectionId: 'course1sec1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      length: 2,
+    },
+    {
+      id: 'co1sec1lec2',
+      title: 'Video 2',
+      lectureOrder: 1,
+      isHidden: false,
+      sectionId: 'course1sec1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      length: 2,
+    },
+    {
+      id: 'co1sec2lec1',
+      title: 'Video 1',
+      lectureOrder: 2,
+      isHidden: false,
+      sectionId: 'course1sec2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      length: 2,
+    },
+    {
+      id: 'co1sec2lec2',
+      title: 'Video 2',
+      lectureOrder: 3,
+      isHidden: false,
+      sectionId: 'course1sec2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      length: 2,
+    },
+    {
+      id: 'co1sec2lec3',
+      title: 'Video 3',
+      lectureOrder: 4,
+      isHidden: false,
+      sectionId: 'course1sec2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      length: 2,
+    },
+  ];
+  private mVideo: Video[] = [
+    {
+      id: 'lec0',
+      fileName: 'Video of lecture 0',
+      length: 134,
+      lectureId: 'co1sec1lec1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+    },
+    {
+      id: 'lec1',
+      fileName: 'Video of lecture 1',
+      length: 130,
+      lectureId: 'co1sec1lec2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+    },
+    {
+      id: 'lec2',
+      fileName: 'Video of lecture 2',
+      length: 0,
+      lectureId: 'co1sec2lec1',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+    },
+    {
+      id: 'lec3',
+      fileName: 'Video of lecture 3',
+      length: 0,
+      lectureId: 'co1sec2lec2',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+    },
+    {
+      id: 'lec4',
+      fileName: 'Video of lecture 4',
+      length: 0,
+      lectureId: 'co1sec2lec3',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isHidden: false,
+    },
+  ];
 }

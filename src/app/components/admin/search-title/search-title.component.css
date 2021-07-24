@@ -27,3 +27,8 @@
   padding-left: 38px;
   margin-left: 0px;
 }
+@media (max-width: 985px) {
+  .form-group {
+   width: 20rem;
+  }
+}

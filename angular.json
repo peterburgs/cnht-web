@@ -83,7 +83,12 @@
             },
             "development": {
               "browserTarget": "frontend:build:development"
+            },
+            "options": {
+              "browserTarget": "cnht-web:build",
+              "proxyConfig": "src/proxy.conf.json"
             }
+
           },
           "defaultConfiguration": "development"
         },

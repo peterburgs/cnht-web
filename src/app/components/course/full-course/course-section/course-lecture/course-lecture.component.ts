@@ -8,6 +8,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Subject, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { transpileModule } from 'typescript';
 @Component({
   selector: 'app-course-lecture',
   templateUrl: './course-lecture.component.html',
@@ -24,11 +25,14 @@ export class CourseLectureComponent implements OnInit {
   files?: File;
   hasVideo = false;
   changeLecture = false;
+  changeNote = false;
   videoFile: File = new File([], 'lecture-video');
   lectureTitle = '';
+  lectureNote ='';
   fileToUpload = new File([], 'default');
   duration: number = 0;
   eventSave = false;
+  eventSaveNote = false;
   tmpTimeVideo = 0;
   timeVideo = 0;
   sbjLoadingDuration = new Subject<number>();
@@ -85,6 +89,10 @@ export class CourseLectureComponent implements OnInit {
     this.eventSave = true;
     this.lectureTitle = $event.target.value;
   }
+  clickEditNote($event: any) {
+    this.eventSaveNote=true;
+    this.lectureNote =$event.target.value;
+  }
   saveLecture(idLecture: string) {
     this.fullCourseService.setSelection(
       idLecture,
@@ -101,9 +109,25 @@ export class CourseLectureComponent implements OnInit {
     );
     this.eventSave = false;
   }
+  saveLectureNote(idLecture: string){
+    this.fullCourseService.setSelection(idLecture, VideoType.lecture, ModifyType.edit)
+    // this.fullCourseService.handleEditNoteLecture(this.lectureNote).subscribe(
+    //   (response) => {
+    //     this.openSnackBar('Changes saved', 'OK');
+    //   },
+    //   (error) => {
+    //     alert('Server disconnect at this time, try again');
+    //   }
+    // );
+    this.eventSaveNote = false;
+  }
   enableChangeLecture(event: any) {
     this.changeLecture = true;
     this.lectureTitle = event?.target.value;
+  }
+  enableChangeLectureNote(event:any){
+    this.changeNote=true;
+    this.lectureNote =event?.target.value;
   }
   onEditLecture(id: string) {
     this.fullCourseService.setSelection(id, VideoType.lecture, ModifyType.edit);

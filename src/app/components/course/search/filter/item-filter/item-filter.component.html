@@ -19,7 +19,7 @@
         [attr.aria-label]="'Toggle ' + node.name"
       >
         <mat-icon class="mat-icon-rtl-mirror">
-          {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+        <span> {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }} </span> 
         </mat-icon>
       </button>
       {{ node.name }}
