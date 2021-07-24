@@ -40,7 +40,7 @@
     </button>
   </div>
   <div class="p-2 item-edit edit-description">
-    <form #infoCourse="ngForm" (ngSubmit)="onSave()" ngNativeValidate>
+    <form #infoCourse="ngForm"  ngNativeValidate>
       <div class="mb-3 row">
         <div class="col-sm-2">
           <label for="name" class="col-form-label" required>Title</label>
@@ -184,7 +184,7 @@
           <button
             type="submit"
             class="btn-create-new btn-save"
-            (click)="onSave()"
+            (click)="onSave('save')"
           >
             <i class="bi bi-save icon-margin"></i> Save Change
           </button>
@@ -196,7 +196,7 @@
               loading-calculate
               icon-loading icon-save
             "
-            role="status"
+          
           ></div>
         </div>
       </div>

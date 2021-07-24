@@ -100,8 +100,10 @@ export class CourseInfoComponent implements OnInit {
   changeGrade(e: any) {
     this.course.grade = e.target.value;
   }
-  onSave() {
-    this.loadingSave = true;
+  onSave(buttonType:string) {
+    if(buttonType=='save'){
+      console.log(buttonType);
+      this.loadingSave = true;
     if (this.course.title && this.course.courseDescription) {
       this.fullCourseService.setSelection(
         this.course.id,
@@ -122,6 +124,12 @@ export class CourseInfoComponent implements OnInit {
           }
         );
     }
+    }
+    else{
+      console.log(buttonType);
+    }
+    console.log("****")
+    
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

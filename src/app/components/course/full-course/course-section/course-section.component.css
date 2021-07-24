@@ -118,7 +118,8 @@
 }
 
 .title-section {
-  background: #a35709;
+  /* background: #a35709; */
+  background: #DA7F8F;
   align-items: center;
   font-weight: bold;
   font-size: 20px;

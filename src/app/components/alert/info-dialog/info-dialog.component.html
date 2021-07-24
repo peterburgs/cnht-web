@@ -132,27 +132,26 @@
         </div>
         <div class="card-footer">
           <div class="float-left">
-            <!-- HTML markup for Create button -->
-            <button
-              (click)="onCreate()"
-              class="btn btn-primary w-20"
-              type="submit"
-            >
-              <span translate><i class="fas fa-plus"></i> Create</span>
-            </button>
-            <!-- HTML markup for Update button -->
-
-            <!-- HTML markup for Delete button -->
-          </div>
-          <div class="float-right">
-            <!-- HTML markup for Back button -->
+              <!-- HTML markup for Back button -->
             <button
               (click)="onCancel()"
-              class="btn btn-secondary w-20"
+              class="btn btn-danger w-20"
               type="submit"
             >
               <span translate><i class="fa fa-arrow-left"></i> Cancel</span>
             </button>
+      
+          </div>
+          <div class="float-right">
+             <!-- HTML markup for Create button -->
+            <button
+            (click)="onCreate()"
+            class="btn btn-primary w-20"
+            type="submit"
+          >
+            <span translate><i class="fa fa-plus"></i> Create</span>
+          </button>
+          
           </div>
         </div>
       </div>
