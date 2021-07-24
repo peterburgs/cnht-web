@@ -85,6 +85,8 @@ import { CircleLoadingComponent } from './components/circle-loading/circle-loadi
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
 import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.component';
+import { CourseFilterComponent } from './components/course-filter/course-filter.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,7 @@ import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.
     ComfirmLeaveComponent,
     AlertConfimationComponent,
     InfoDialogComponent,
+    CourseFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -171,7 +174,8 @@ import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.
     BrowserAnimationsModule,
     MatCardModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule
   ],
   providers: [
     CurrencyPipe,

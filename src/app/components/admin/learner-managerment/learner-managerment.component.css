@@ -2,14 +2,24 @@
 @import url("~font-awesome/css/font-awesome.css");
 
 .container {
-  width: 100vw;
+  /* width: 100vw; */
   align-items: center;
   text-align: center;
   margin: 0;
-  margin-left: 5vw;
-  margin-right: 5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
   margin-top: 70px;
 }
+
+
+.learner-screen {
+  margin-top: 5rem;
+  background-color: #fff;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  text-align: center;
+}
+
 
 .table-learner-managerment {
   padding-bottom: 50vh;
@@ -60,11 +70,21 @@
 }
 
 .total-and-search {
-  display: inline-block;
+  /* padding-left: 5vw;
+  padding-right: 5vw; */
+  display: flex;
+  justify-content:space-between;
+  flex-direction: row;
 }
 
 .total-learner {
   display: block;
   float: left;
   font-weight: 500;
+}
+
+.search {
+  width: 30vw;
+  display: block;
+  float: left;
 }

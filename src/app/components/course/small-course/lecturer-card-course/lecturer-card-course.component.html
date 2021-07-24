@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" (click) = "detailCourse(course.id)">
   <div class="card-img">
     <img
       class="img-fluid img-course"
@@ -18,7 +18,8 @@
     </div>
 
     <div
-      *ngIf="!isLearner"
+      
+      *ngIf="!isLearner && !isHome"
       class="users-count"
       style="cursor: pointer"
       (click)="onEditCourse(course.id)"
@@ -38,13 +39,18 @@
     </div>
     <div
       style="text-align: center"
-      *ngIf="isLearner"
+      *ngIf="isLearner && !isHome"
       class="users-count"
       style="cursor: pointer"
     >
       <span class="info-course more-info"
         >Purchase on: {{ course.purchasedAt | date: "yyyy-MM-dd" }}</span
       >
+    </div>
+    <div *ngIf = "isHome">
+      <div class="div-course-text">
+        <p class="course-price">{{ handlePriceFormat(course.price) }}</p>
+      </div>
     </div>
   </div>
 </div>

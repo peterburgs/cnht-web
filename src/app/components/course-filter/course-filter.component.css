@@ -1,0 +1,86 @@
+.mat-form-field + .mat-form-field {
+    margin-left: 8px;
+    /* background-color: #fff;
+    color: black; */
+  }
+  
+  ng::deep.mat-expansion-indicator {
+    position: absolute;
+    left: 15px;
+  }
+
+  ::ng-deep .mat-expansion-panel{
+    background-color: #fff !important;
+    color: black !important;
+
+  }
+
+  ::ng-deep .mat-expansion-panel-header{
+    color: black !important;
+    padding-right: 0 !important;
+    padding-left: 8px !important;
+  }
+
+  .mat-expansion-panel-header-title{
+    color: black !important;
+  }
+
+  ::ng-deep.mat-expansion-indicator{
+    color: black !important;
+  }
+
+  .mat-content{
+    color: black !important;
+  
+  }
+
+  .mat-expansion-toggle-indicator-before{
+    color: black !important;
+  
+  }
+
+  span{
+      color: black !important;
+  }
+
+  *{
+    background-color: #fff !important;
+    color: black !important;
+    letter-spacing: 1px !important;
+  }
+
+  .mat-expansion-panel-header-description.mat-expansion-indicator::after{
+    color: black !important;
+  }
+
+  .mat-expansion-panel-header-description.mat-expansion-indicator{
+    color: black !important;
+  }
+
+
+.mat-expansion-indicator::after {
+  color: green;
+}
+::ng-deep .mat-expansion-indicator::after {
+    color:  black !important;
+}
+.mat-expansion-panel-header-description, .mat-expansion-indicator::after{
+    color: black !important;
+}
+  
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    /* margin: 15px 0; */
+    margin-top: 0 !important;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+
+  ::ng-deep .mat-radio-outer-circle{
+      border: 0.5px solid black !important ;
+      border-color: #686e74 !important;
+  }

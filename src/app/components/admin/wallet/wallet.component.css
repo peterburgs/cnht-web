@@ -14,9 +14,12 @@
 }
 
 .balance-and-search {
-  width: 95vw;
   padding-left: 5vw;
-  display: inline-block;
+padding-right: 5vw;
+  display: flex;
+  justify-content:space-between;
+  flex-direction: row;
+  /* width: 100vw; */
 }
 
 .balance {

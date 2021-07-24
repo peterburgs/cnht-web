@@ -1,12 +1,12 @@
 <div class="container" *ngIf="!isAdmin" style="text-align: center">
   <h2>You can not contact this page !</h2>
 </div>
-<div *ngIf="isAdmin" class="container">
+<div *ngIf="isAdmin" class="learner-screen">
   <div class="total-and-search">
     <div class="total-learner">
       <span>Total learner: {{ listSearch.length }}</span>
     </div>
-    <div class="d-flex form-group">
+    <!-- <div class="d-flex form-group">
       <span class="btn icon-search"
         ><i class="fa fa-search" (click)="searchUser()"></i
       ></span>
@@ -18,7 +18,16 @@
         type="text "
         placeholder="Find learner by email or full name "
       />
+    </div> -->
+    <div class = "search">
+      <app-search-title
+      class ="search-title"
+      [message]="content_for_search"
+      (sendTitleSearch)="searchUser($event)"
+    ></app-search-title>
     </div>
+   
+
   </div>
 
   <div class="table-learner-managerment">

@@ -19,10 +19,15 @@
           </div>
         </div>
         <div class="list-filter-main">
-          <app-filter
+          <!-- <app-filter
             (sendGradeChoose)="receiveGrade($event)"
             (sendCategoryChoose)="receiveCategory($event)"
-          ></app-filter>
+          ></app-filter> -->
+          <app-course-filter
+          (sendGradeChoose)="receiveGrade($event)"
+          (sendCategoryChoose)="receiveCategory($event)"
+          [gradeSelected] = "grade"
+          ></app-course-filter>
         </div>
       </div>
       <div class="col-md-10 clean-display ">

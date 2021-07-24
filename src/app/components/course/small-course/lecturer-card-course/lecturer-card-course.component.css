@@ -12,6 +12,7 @@
   width: 16rem !important;
   margin-left: auto;
   text-align: center;
+  cursor: pointer;
 }
 
 .card-img {
@@ -105,4 +106,19 @@
 }
 .course-published {
   background: #61b15a;
+}
+
+.div-course-text {
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  width: 100%;
+}
+
+.course-price {
+  text-align: center;
+  color: #e45826;
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: 10px;
 }
