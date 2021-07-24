@@ -18,7 +18,7 @@ export class LearnerManagermentComponent implements OnInit {
   isChange = false;
   isAdmin: boolean = false;
   isLoading: boolean = true;
-
+  content_for_search: string = "Find learner by email or full name ";
   constructor(
     private userService: UserService,
     private router: Router,
@@ -49,7 +49,8 @@ export class LearnerManagermentComponent implements OnInit {
     return BalanceFormat(balance);
   }
 
-  searchUser() {
+  searchUser($event: string) {
+    this.titleSearch = $event;
     if (this.titleSearch == '') this.getAllUser();
     else {
       this.getListUserByTitle(this.titleSearch);
