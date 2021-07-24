@@ -5,7 +5,7 @@
 .form-group {
   display: flex;
   margin-bottom: 0 !important;
-  width: 30rem;
+  /* width: 30rem; */
 }
 
 .form-group i {

@@ -87,13 +87,13 @@ export class LearnerManagermentComponent implements OnInit {
   }
 
   onLoadRouter() {
-    this.router.navigate(['admin/managerment/learner'], {
+    this.router.navigate(['admin/management/learner'], {
       queryParams: { searchUser: this.titleSearch },
       fragment: 'adminSearch',
     });
   }
 
   onLoadRouterDefault() {
-    this.router.navigate(['admin/managerment/learner']);
+    this.router.navigate(['admin/management/learner']);
   }
 }

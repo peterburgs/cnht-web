@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { FullCourseService } from 'src/app/service/full-course.service';
+import { PriceFormat } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-lecturer-card-course',
@@ -13,14 +14,34 @@ export class LecturerCardCourseComponent implements OnInit {
   @Input() isLearner: boolean = false;
   baseUrl = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app';
   isPublished = false;
+  isHome = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fullCourseService: FullCourseService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { this.checkHome()}
   onEditCourse(idItem: string) {
     this.router.navigate(['../', 'course', idItem], { relativeTo: this.route });
+    console.log(this.route);
+  }
+
+  detailCourse(idItem: string){
+    if(!this.isHome)
+    this.router.navigate(['../../','detail', idItem], { relativeTo: this.route });
+    else  this.router.navigate(['../','detail', idItem], { relativeTo: this.route });
+
+  }
+
+  checkHome(){
+    this.router.url.includes('/admin')
+    ? (this.isHome = false):this.router.url.includes('/mylearning')?(this.isHome = false)
+    : this.isHome = true;
+  }
+
+
+  handlePriceFormat(price: number): any {
+    return PriceFormat(price, 0, 3, '.', ',');
   }
 }

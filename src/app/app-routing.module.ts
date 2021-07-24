@@ -32,7 +32,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'admin/managerment/wallet',
+    path: 'admin/management/wallet',
     component: WalletComponent,
     canActivate: [AdminGuard],
   },
@@ -54,7 +54,7 @@ const routes: Routes = [
     component: WalletScreenComponent,
   },
   {
-    path: 'admin/managerment/learner',
+    path: 'admin/management/learner',
     component: LearnerManagermentComponent,
     canActivate: [AdminGuard],
   },

@@ -1,58 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-.filter-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-self: center;
-  align-items: center;
-  align-content: center;
-}
-.filter-button {
-  width: 70%;
-  display: flex;
-  text-align: center;
-  margin-bottom: 2rem;
-  margin-top: 4rem;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-self: center;
-}
 
 .home-screen {
-  margin-top: 50px;
-  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 20vh;
+  padding-bottom: 50vh;
 }
 
-.card {
-  display: block;
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+.no-found {
+  font-size: x-large;
+  font-weight: bold;
+  color: #c4c4c4;
+
+  padding: 4rem;
+}
+.div-no-found {
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.div-loading {
+
+  padding: 1rem;
+}
+
+.search-course {
+  margin-top: 30px;
+}
+
+.list-course {
+  background-color: #fff;
+ 
+}
+.container .wrapper {
+  text-align: center;
+}
+.loading {
+  position: fixed;
+  top: 30vh;
+  left: 45vw;
+  width: 45vw;
+  padding: 16px;
+  z-index: 9000000;
+}
+.empty-list {
+  height: 100vh;
+}
+.message-no-found {
+  padding-top: 20%;
+}
+.list-filter-main {
+  /* width: 18rem; */
+}
+
+.clear-filter {
+  text-align: center;
+  transition: all 0.5s;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-clear-filter {
+  box-shadow: 1px 1px 1px #c4c4c4;
+  border-radius: 5px;
+  height: 35px;
+  font-size: 13px;
+  padding-top: 6px;
+  padding-left: 3px;
+  padding-right: 3px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  outline: none;
+  background-color: #ea5044;
+  color: #fff;
+  text-align: center;
   cursor: pointer;
-  height: 30px;
-  padding: 5px;
-  margin-left: 10px;
-  text-align: center;
-  float: right;
-  border-radius: 25px;
-  padding-right: 30px;
-  padding-left: 30px;
-  font-size: 15px;
+  transition: all 0.5s;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn-clear-filter:hover {
+  background-color: #b46a6a6b;
   color: brown;
-  transition: all 1s;
-  background-color: #fff;
 }
 
-.card:hover {
-  box-shadow: 2px 2px 2px #dc3545;
+.col-md-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.card {
-  background-color: #fff;
+.col-md-9 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: space-between;
 }
 
-.empty-block {
-  height: 50px;
-  text-align: center;
+.not-empty-select.mat-selected {
+  color: #046582 !important;
 }
-.card-active {
-  background-color: rgb(174, 5, 28);
-  color: white;
+
+::ng-deep .mat-select-value {
+  color: #000 !important;
+}
+
+::ng-deep .mat-select-arrow {
+  color: #000 !important;
+}
+
+::ng-deep .mat-select-panel {
+  background: #fff;
+  color: #000;
+}
+
+.mat-option:hover {
+  background: #aaa !important;
+  color: #000 !important;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+::ng-deep .mat-form-field {
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: 120px !important;
+  padding-bottom: 5px !important;
+}
+
+::ng-deep .mat-form-field-flex {
+  border-radius: 4px 4px 0 0;
+  padding: 5px 5px 0px 5px !important;
+}
+.div-search {
+  /* width: 30rem; */
+}
+.search-container {
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.div-filter {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding: 0.5rem;
+  padding-top: 0 !important;
+}
+.div-sort-by {
+  padding: 0;
+  /* margin-top: 1rem; */
+  /* display: flex;
+  margin: 2rem;
+  flex-direction: row-reverse; */
+}
+.sort-by {
+  margin-right: 20px;
+}
+.clean-display{
+  display: table-row !important;
+
+}
+.container{
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+.filter-by-date{
+  padding-right: 34px;
+}
+.col-md-2{
+  padding-right: 0 !important;
 }
