@@ -1,21 +1,23 @@
 <div class="home-screen">
-  <div class=" div-loading">
-    <div class="col-sm-3">
-      <button class="btn-new-course" (click)="onCreateCourse()">
-        <i class="bi bi-plus-lg"></i>
-        Create new course
-      </button>
-    </div>
-  </div>
+  
   <div class=" fitler">
     <div class="row screen-display">
       <div class="col-md-2 clean-display padding-tb">
+        <div class=" div-loading">
+   
+          <button class="btn-new-course" (click)="onCreateCourse()">
+            <i class="bi bi-plus-lg"></i>
+            New course
+          </button>
+     
+      </div>
         <div class="div-filter">
+         
           <div class="btn-clear-filter" (click)="onResetFitler()">
             <span>
               <i class="fa fa-filter"></i>
             </span>
-            Clear filter
+            Clear 
           </div>
         </div>
         <div class="list-filter-main">
@@ -30,9 +32,19 @@
           ></app-course-filter>
         </div>
       </div>
-      <div class="col-md-10 clean-display ">
+      <div class="col-md-10 clean-display div-list-course">
         <div class="list-course">
           <div class="container div-sort-by ">
+           
+            <div class="col-md-4 ">
+              <div class="search-container padding-tb">
+                <app-search-title
+                  class="div-search"
+                  [message]="message"
+                  (sendTitleSearch)="searchCourse($event)"
+                ></app-search-title>
+              </div>
+            </div>
             <div class="col-md-4">
               <mat-form-field
               class="sort-by  padding-tb"
@@ -83,16 +95,6 @@
               </mat-select>
             </mat-form-field>
             </div>
-            <div class="col-md-8 ">
-              <div class="search-container padding-tb">
-                <app-search-title
-                  class="div-search"
-                  [message]="message"
-                  (sendTitleSearch)="searchCourse($event)"
-                ></app-search-title>
-              </div>
-            </div>
-           
           </div>
 
           <div
