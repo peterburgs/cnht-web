@@ -28,6 +28,17 @@
           <i class="bi bi-journal-check"></i>
           <span>My Courses</span>
         </a>
+
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/home']"
+          (click)="setActiveButton(1)"
+          [ngClass]="{ 'card-active': activeButton === 1 }"
+        >
+          <i class="bi bi-journal-check"></i>
+          <span>My Courses</span>
+        </a>
+
         <a
           class="btn-category button-row"
           [routerLink]="['admin/management/learner']"
@@ -45,6 +56,16 @@
         >
           <i class="bi bi-wallet"></i>
           <span>Wallet</span>
+        </a>
+
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/home']"
+          (click)="setActiveButton(1)"
+          [ngClass]="{ 'card-active': activeButton === 1 }"
+        >
+          <i class="bi bi-journal-check"></i>
+          <span>My Courses</span>
         </a>
       </div>
 
