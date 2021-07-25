@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { COURSE_TYPE } from 'src/app/models/course-type';
+import { GRADES } from 'src/app/models/grades';
 
 interface Status {
   value: Number;
@@ -16,7 +18,6 @@ interface Status {
   templateUrl: './home-screen.component.html',
   styleUrls: ['./home-screen.component.css'],
 })
-
 export class HomeScreenComponent implements OnInit {
   courses: Course[] = [];
   isLoading = true;
@@ -38,6 +39,11 @@ export class HomeScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+
+    this.route.params.subscribe((params) => {
+      this.grade = params['grade'];
+    });
+
     this.fullCourseService.initCourses().subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
@@ -46,7 +52,6 @@ export class HomeScreenComponent implements OnInit {
         this.listSortedCourse = this.courses;
         this.sortByDate(this.selectedExpBy);
         this.listCourse = this.listSortedCourse;
-
         this.isLoading = false;
       },
       (error) => {
@@ -74,8 +79,8 @@ export class HomeScreenComponent implements OnInit {
   }
 
   sortByDate(order: number) {
-    this.courses = this.courses.filter(course => course.isPublished == true);
-    
+    this.courses = this.courses.filter((course) => course.isPublished == true);
+
     if (order == 0) {
       this.listSortedCourse = this.courses.sort((a, b) => {
         return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt);
@@ -86,7 +91,6 @@ export class HomeScreenComponent implements OnInit {
       });
     }
   }
-
 
   getAllListByTitle() {
     this.listCourse = this.listSortedCourse.filter((course) =>
@@ -123,7 +127,6 @@ export class HomeScreenComponent implements OnInit {
 
   selectedExpBy: number = 0;
 
-
   listExpStatus: Status[] = [
     { value: 0, viewValue: 'Newest' },
     { value: 1, viewValue: 'Oldest' },
@@ -131,7 +134,6 @@ export class HomeScreenComponent implements OnInit {
 
   getAllByFilter() {
     this.getListByAllFilterCourse(true);
-
   }
 
   getListByAllFilterCourse(status: boolean) {

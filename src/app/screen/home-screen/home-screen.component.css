@@ -2,14 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 .home-screen {
-    margin-top: 1.5rem;
+    margin-top: 1.8rem;
     margin-bottom: 20vh;
     padding-bottom: 50vh;
 }
 
 .wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    text-align: center;
+    justify-content: center;
 }
 
 .no-found {
@@ -36,10 +36,6 @@
 
 .list-course {
     background-color: #fff;
-}
-
-.container .wrapper {
-    text-align: center;
 }
 
 .loading {
@@ -155,15 +151,13 @@
     padding: 5px 5px 0px 5px !important;
 }
 
-.div-search {
-    /* width: 30rem; */
-}
-
 .search-container {
     margin-left: 20px !important;
     margin-right: 20px !important;
     justify-content: space-between;
     flex-direction: row;
+    width: 30%;
+    /* min-width: 15%; */
 }
 
 .div-filter {
@@ -178,14 +172,12 @@
 
 .div-sort-by {
     padding: 0;
+    padding-left: 4rem;
     /* margin-top: 1rem; */
-    /* display: flex;
-  margin: 2rem;
+    display: inline-flex;
+    width: 100%;
+    /*margin: 2rem;
   flex-direction: row-reverse; */
-}
-
-.sort-by {
-    margin-right: 20px;
 }
 
 .clean-display {
@@ -197,10 +189,19 @@
     padding-left: 0px !important;
 }
 
-.filter-by-date {
-    padding-right: 34px;
-}
+.filter-by-date {}
 
 .col-md-2 {
     padding-right: 0 !important;
+}
+
+@media(max-width: 520px) {
+    .div-sort-by {
+        justify-content: space-between;
+        padding-right: 2rem;
+        padding-top: 1rem;
+    }
+    .search-container {
+        width: 100%;
+    }
 }

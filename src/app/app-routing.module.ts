@@ -45,6 +45,10 @@ const routes: Routes = [
     component: HomeScreenComponent,
   },
   {
+    path: 'home/:grade',
+    component: HomeScreenComponent,
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
