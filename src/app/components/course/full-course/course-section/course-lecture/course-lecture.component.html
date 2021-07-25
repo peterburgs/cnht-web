@@ -10,7 +10,8 @@
       background-title
     "
   >
-    <div class="div-updown col-sm-1">
+   <div class="col-sm-1 div-title">
+    <div class="div-updown">
       <div class="div-icon-mini" (click)="onUpLecture(lecture.id)">
         <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
       </div>
@@ -18,11 +19,12 @@
         <i class="fa fa-chevron-down icon-decorate" title="Lesson go down"></i>
       </div>
     </div>
-    <span class="title-note">Lecture title:*</span>
-
+    <span class="title-note">Title</span>
+   </div>
+   
     <input
       #inputLecture
-      class="form-control contain-title col-sm-6 border-input"
+      class="form-control contain-title col-sm-8 border-input"
       [value]="lecture.title"
       title="Edit title"
       (click)="clickEditLecture($event)"
@@ -55,7 +57,7 @@
         aria-hidden="true"
       ></span
       ><span *ngIf="globalLoading"> Uploading...</span
-      ><span *ngIf="!globalLoading">Upload Video</span>
+      ><span *ngIf="!globalLoading">Upload </span>
     </button>
     <span class="contain-video-time col-sm-1 ">{{ timeVideo | duration }}</span>
     
@@ -92,7 +94,7 @@
 ">
 <div class="col-sm-1"></div>
   <div class="col-sm-10 div-note">
-    <span class="title-note">Note:*</span>
+    <span class="title-note">Note</span>
 
     <input
           #inputNote

@@ -364,79 +364,79 @@ export class FullCourseService {
   }
   getData() {
     //Clean all
-    // this.lectures = [];
-    // this.sections = [];
-    // this.listDeepSection = [];
-    // let apiGetLectureOfCourse =
-    //   this.apiUrlCourse + '/' + this.idCourse + '/lectures';
-    // let apiGetSectionsOfCourse =
-    //   this.apiUrlCourse + '/' + this.idCourse + '/sections';
-    // this.http
-    //   .get<{ message: string; count: number; sections: Section[] }>(
-    //     apiGetSectionsOfCourse,
-    //     {
-    //       headers: this.headers,
-    //       params: new HttpParams().set('courseId', this.idCourse),
-    //     }
-    //   )
-    //   .toPromise()
-    //   .then((response) => {
-    //     this.sections = response.sections.sort(
-    //       (s1, s2) => s1.sectionOrder - s2.sectionOrder
-    //     );
-    //     this.http
-    //       .get<{ message: string; count: number; lectures: Lecture[] }>(
-    //         apiGetLectureOfCourse,
-    //         {
-    //           headers: this.headers,
-    //         }
-    //       )
-    //       .toPromise()
-    //       .then((response) => {
-    //         this.lectures = response.lectures;
-    //         this.sections.forEach((section) => {
-    //           let tmpLectures: Lecture[] = [];
-    //           tmpLectures = this.lectures
-    //             .filter((lecture) => lecture.sectionId == section.id)
-    //             .sort((l1, l2) => {
-    //               if (l1.lectureOrder > l2.lectureOrder) {
-    //                 return 1;
-    //               }
-    //               if (l1.lectureOrder < l2.lectureOrder) return -1;
-    //               return 0;
-    //             });
-    //           this.listDeepSection.push(
-    //             new SectionDummy(section.id, section.title, tmpLectures)
-    //           );
-    //         });
-    //         this.getMaxLenLecture();
-    //         let lenSection = this.sections.length;
-    //         let maxLecture = this.maxLecture;
+    this.lectures = [];
+    this.sections = [];
+    this.listDeepSection = [];
+    let apiGetLectureOfCourse =
+      this.apiUrlCourse + '/' + this.idCourse + '/lectures';
+    let apiGetSectionsOfCourse =
+      this.apiUrlCourse + '/' + this.idCourse + '/sections';
+    this.http
+      .get<{ message: string; count: number; sections: Section[] }>(
+        apiGetSectionsOfCourse,
+        {
+          headers: this.headers,
+          params: new HttpParams().set('courseId', this.idCourse),
+        }
+      )
+      .toPromise()
+      .then((response) => {
+        this.sections = response.sections.sort(
+          (s1, s2) => s1.sectionOrder - s2.sectionOrder
+        );
+        this.http
+          .get<{ message: string; count: number; lectures: Lecture[] }>(
+            apiGetLectureOfCourse,
+            {
+              headers: this.headers,
+            }
+          )
+          .toPromise()
+          .then((response) => {
+            this.lectures = response.lectures;
+            this.sections.forEach((section) => {
+              let tmpLectures: Lecture[] = [];
+              tmpLectures = this.lectures
+                .filter((lecture) => lecture.sectionId == section.id)
+                .sort((l1, l2) => {
+                  if (l1.lectureOrder > l2.lectureOrder) {
+                    return 1;
+                  }
+                  if (l1.lectureOrder < l2.lectureOrder) return -1;
+                  return 0;
+                });
+              this.listDeepSection.push(
+                new SectionDummy(section.id, section.title, tmpLectures)
+              );
+            });
+            this.getMaxLenLecture();
+            let lenSection = this.sections.length;
+            let maxLecture = this.maxLecture;
 
-    //         for (let i = 0; i < lenSection; i++) {
-    //           for (let j = 0; j < maxLecture; j++) {
-    //             this.arrLoading.push(false);
-    //           }
-    //         }
-    //         this.sbjSectionDummy.next(this.listDeepSection);
-    //       })
-    //       .catch((error) => {
-    //         this.sections = this.sections.sort((s1, s2) => {
-    //           if (s1.sectionOrder > s2.sectionOrder) return 1;
-    //           if (s1.sectionOrder < s2.sectionOrder) return -1;
-    //           return 0;
-    //         });
-    //         this.sections.forEach((section) => {
-    //           this.listDeepSection.push(
-    //             new SectionDummy(section.id, section.title, [])
-    //           );
-    //         });
-    //         this.sbjSectionDummy.next(this.listDeepSection);
-    //       });
-    //   })
-    //   .catch((error) => {
-    //     this.sbjSectionDummy.next(this.listDeepSection);
-    //   });
+            for (let i = 0; i < lenSection; i++) {
+              for (let j = 0; j < maxLecture; j++) {
+                this.arrLoading.push(false);
+              }
+            }
+            this.sbjSectionDummy.next(this.listDeepSection);
+          })
+          .catch((error) => {
+            this.sections = this.sections.sort((s1, s2) => {
+              if (s1.sectionOrder > s2.sectionOrder) return 1;
+              if (s1.sectionOrder < s2.sectionOrder) return -1;
+              return 0;
+            });
+            this.sections.forEach((section) => {
+              this.listDeepSection.push(
+                new SectionDummy(section.id, section.title, [])
+              );
+            });
+            this.sbjSectionDummy.next(this.listDeepSection);
+          });
+      })
+      .catch((error) => {
+        this.sbjSectionDummy.next(this.listDeepSection);
+      });
 
     // this.sections = this.mSectionList;
     // this.lectures = this.mLectureList;

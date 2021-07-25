@@ -8,10 +8,10 @@
     <div class="search-main container">
       <div class="row">
         <div class="col-md-3 list-filter-main">
-          <app-filter
+          <app-course-filter
             (sendGradeChoose)="receiveGrade($event)"
             (sendCategoryChoose)="receiveCategory($event)"
-          ></app-filter>
+          ></app-course-filter>
         </div>
         <div class="col-md-9">
           <div *ngIf="isFindList()" class="list-search-main">
