@@ -1,63 +1,57 @@
 <div class="learning-course row">
-  <div class="col-md-8">
-    <div class="video-area">
-      <div *ngIf="isLoadingVideo" class="lds-default">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <video
-        *ngIf="!isLoadingVideo"
-        width="100%"
-        height="30*16"
-        disablePictureInPicture
-        controls
-        controlsList="nodownload"
-      >
+    <div class="col-md-9">
+        <div class="video-area">
+            <div *ngIf="isLoadingVideo" class="lds-default">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <video *ngIf="!isLoadingVideo" width="100%" height="30*16" disablePictureInPicture controls controlsList="nodownload">
         <source [src]="videoURL" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+        </div>
+        <ul class="note">
+            <li class="dropdown dropdown-6">
+                <div class="note-text" [ngClass]="{ open: noteClicked === true }" (click)="openNotes()">
+                    <div class="arrow"></div>
+                    Notes
+                </div>
+                <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6" [ngClass]="{ 'open-note': noteClicked === true }">
+                    <div class="dropdown_item-1">
+                        <app-note></app-note>
+                    </div>
+                </ul>
+            </li>
+        </ul>
+        <ul class="note">
+            <li class="dropdown dropdown-6">
+                <div class="note-text" [ngClass]="{ 'open-comment-arrow': commentClicked === true }" (click)="openComments()">
+                    <div class="arrow"></div>
+                    Comments
+
+                </div>
+                <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6" [ngClass]="{ 'open-comment': commentClicked === true }">
+                    <div class="dropdown_item-1">
+                        <app-comment *ngIf="commentClicked === true" [lectureId]="lectureIdObser" [course]="current_course"></app-comment>
+                    </div>
+                </ul>
+            </li>
+        </ul>
+
     </div>
-    <div class="showcomment">
-      <button
-        class="btn-show-comment"
-        (click)="hidden_comment = !hidden_comment"
-        *ngIf="hidden_comment"
-      >
-        Show comments
-      </button>
-      <button
-        class="btn-show-comment"
-        (click)="hidden_comment = !hidden_comment"
-        *ngIf="!hidden_comment"
-      >
-        Hide comments
-      </button>
+    <div class="col-md-3 content">
+        <app-content-course *ngIf="current_course != undefined" [current_course]="current_course">
+        </app-content-course>
     </div>
-    <div *ngIf="hidden_comment == false">
-      <div class="comment-area">
-        <h4>Comments</h4>
-        <app-comment
-          [lectureId]="lectureIdObser"
-          [course]="current_course"
-        ></app-comment>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4 content">
-    <app-content-course
-      *ngIf="current_course != undefined"
-      [current_course]="current_course"
-    ></app-content-course>
-  </div>
-  <div class="empty"></div>
+    <div class="empty"></div>
 </div>

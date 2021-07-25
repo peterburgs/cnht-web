@@ -1,21 +1,17 @@
-<div class="hotest-course">
-  <div class="grade-number">
-    <h4 class="title">{{ getLevelGradeName() }}</h4>
-    <a class="view-all" (click)="viewAllCourse()">View all </a>
-  </div>
-
-  <div class="grade-course">
-    <div class="lds-ring" *ngIf="isLoading">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+<div class="hotest-course ">
+    <div class="grade-number">
+        <h4 class="title">{{ getLevelGradeName() }}</h4>
+        <a class="view-all" (click)="viewAllCourse()">View all </a>
     </div>
-    <h3 class="not-found" *ngIf="notFound">This feature is being developed!</h3>
-    <app-small-course
-      class="pull-right"
-      *ngFor="let item of smallCourses"
-      [course]="item"
-    ></app-small-course>
-  </div>
+
+    <div class="grade-course row">
+        <div class="lds-ring" *ngIf="isLoading">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <h3 class="not-found" *ngIf="notFound">This feature is being developed!</h3>
+        <app-small-course class="pull-right col-md-3" *ngFor="let item of smallCourses" [course]="item"></app-small-course>
+    </div>
 </div>

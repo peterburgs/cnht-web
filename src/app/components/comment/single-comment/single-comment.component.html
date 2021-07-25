@@ -1,67 +1,51 @@
 <div class="media">
-  <div class="media-left">
-    <img
-      src="{{ commentParent.learner?.avatarUrl }}"
-      onerror="this.src='../../../../assets/images/default_avatar.png'"
-      class="media-object"
-    />
-  </div>
-  <div class="media-body">
-    <h5 class="media-heading title">
-      {{ commentParent.learner?.fullName }}
-      <h6 class="time-comment">{{ getMomentTime(commentParent.createdAt) }}</h6>
-    </h5>
-    <p class="comment-content">
-      {{ commentParent.commentText }}
-    </p>
-    <div class="child-comment">
-      <div *ngFor="let comment of commentChildList" class="child-media">
-        <div class="media-left">
-          <img
-            src="{{ comment.learner?.avatarUrl }}"
-            onerror="this.src='../../../../assets/images/default_avatar.png'"
-            class="media-object"
-          />
-        </div>
-        <div class="media-body">
-          <h5 class="media-heading title">
-            {{ comment.learner?.fullName }}
-            <h6 class="time-comment">{{ getMomentTime(comment.createdAt) }}</h6>
-          </h5>
-          <p class="comment-content">
-            {{ comment.commentText }}
-          </p>
-        </div>
-      </div>
-      <div class="lds-ring" *ngIf="isCommenting">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      <div *ngIf="isLoggedin" class="child-media comment-input">
-        <div class="media-left">
-          <img [src]="avatarUrl" class="media-object" />
-        </div>
-        <div class="media-body">
-          <form (submit)="postComment()">
-            <input
-              class="form-control comment-text"
-              type="text"
-              name="comment-in"
-              placeholder="Write your comment ..."
-              [(ngModel)]="commentInput"
-            />
-            <button
-              type="submit"
-              [disabled]="commentInput == ''"
-              class="btn-comment"
-            >
+    <div class="media-left">
+        <img src="{{ commentParent.learner?.avatarUrl }}" onerror="this.src='../../../../assets/images/default_avatar.png'" class="media-object" />
+    </div>
+    <div class="media-body">
+        <h5 class="media-heading title">
+            {{ commentParent.learner?.fullName }}
+            <h6 class="time-comment">{{ getMomentTime(commentParent.createdAt) }}</h6>
+        </h5>
+        <p class="comment-content">
+            {{ commentParent.commentText }}
+        </p>
+        <div class="child-comment">
+            <div *ngFor="let comment of commentChildList" class="child-media">
+                <div class="media-left">
+                    <img src="{{ comment.learner?.avatarUrl }}" onerror="this.src='../../../../assets/images/default_avatar.png'" class="media-object" />
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading title">
+                        {{ comment.learner?.fullName }}
+                        <h6 class="time-comment">
+                            {{ getMomentTime(comment.createdAt) }}
+                        </h6>
+                    </h5>
+                    <p class="comment-content">
+                        {{ comment.commentText }}
+                    </p>
+                </div>
+            </div>
+            <div class="lds-ring" *ngIf="isCommenting">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div *ngIf="isLoggedin" class="child-media comment-input">
+                <div class="media-left">
+                    <img [src]="avatarUrl" class="media-object" />
+                </div>
+                <div class="media-body">
+                    <form (submit)="postComment()">
+                        <input class="form-control comment-text" type="text" name="comment-in" placeholder="Write your comment ..." [(ngModel)]="commentInput" />
+                        <button type="submit" [disabled]="commentInput == ''" class="btn-comment">
               Post
             </button>
-          </form>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

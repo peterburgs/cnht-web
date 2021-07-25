@@ -1,0 +1,11 @@
+.note {
+    padding: 15px 10px;
+}
+
+.note-context {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color: rgb(77, 77, 77);
+    line-height: 1.5rem;
+}

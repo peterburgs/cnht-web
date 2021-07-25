@@ -56,6 +56,7 @@ export class CommentComponent implements OnInit, OnChanges {
       this.ngOnInit();
     }
   }
+
   allowComment() {
     if (localStorage.getItem('isLoggedin') == 'true') {
       this.isLoggedin = true;
@@ -73,6 +74,7 @@ export class CommentComponent implements OnInit, OnChanges {
       }
     }
   }
+
   getCommentByLectureId() {
     this.commentList = [];
     this.commentChilds = [];
@@ -83,7 +85,6 @@ export class CommentComponent implements OnInit, OnChanges {
       .pipe(
         catchError((error) => {
           this.isLoadingComment = false;
-
           return throwError(error);
         })
       )
@@ -94,6 +95,7 @@ export class CommentComponent implements OnInit, OnChanges {
         this.isLoadingComment = false;
       });
   }
+
   getParentComment() {
     this.commentParents = [];
     this.commentList.forEach((comment) => {
@@ -106,6 +108,7 @@ export class CommentComponent implements OnInit, OnChanges {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
   }
+  
   getChildComment() {
     this.commentChilds = [];
     this.commentParents.forEach((comment) => {

@@ -32,6 +32,8 @@ export class CourseLearningScreenComponent implements OnInit {
   sectionId!: Observable<string>;
   lectureId!: Observable<string>;
   lectureIdObser!: string;
+  noteClicked: boolean= false;
+  commentClicked: boolean= false;
 
   videoURL: any;
   learner = new User();
@@ -107,5 +109,13 @@ export class CourseLearningScreenComponent implements OnInit {
           this.router.navigate(['/detail', this.current_course.id]);
         }
       });
+  }
+
+  openNotes(){
+    this.noteClicked=!this.noteClicked;
+  }
+
+  openComments(){
+    this.commentClicked=!this.commentClicked;
   }
 }

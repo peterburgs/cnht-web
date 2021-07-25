@@ -1,97 +1,62 @@
 <div class="home-screen">
-  <div class=" div-loading">
-    <div class="col-sm-3">
+    <div class=" div-loading">
+        <div class="col-sm-3">
+        </div>
     </div>
-  </div>
-  <div class=" fitler">
-    <div class="row">
-      <div class="col-md-2 clean-display">
-        <div class="div-filter">
-          <div class="btn-clear-filter" (click)="onResetFitler()">
-            <span>
+    <div class=" fitler">
+        <div class="row">
+            <div class="col-md-2 clean-display">
+                <div class="div-filter">
+                    <div class="btn-clear-filter" (click)="onResetFitler()">
+                        <span>
               <i class="fa fa-filter"></i>
-            </span>
-            Clear filter
-          </div>
-        </div>
-        <div class="list-filter-main">
-          <!-- <app-filter
-            (sendGradeChoose)="receiveGrade($event)"
-            (sendCategoryChoose)="receiveCategory($event)"
-          ></app-filter> -->
-          <app-course-filter
-          (sendGradeChoose)="receiveGrade($event)"
-          (sendCategoryChoose)="receiveCategory($event)"
-          [gradeSelected] = "grade"
-          ></app-course-filter>
-        </div>
-      </div>
-      <div class="col-md-10 clean-display">
-        <div class="list-course">
-           <div class = "row div-sort-by">
-              <div class="col-md-6">
-                <div class="search-container">
-                  <app-search-title
-                    class="div-search"
-                    [message]="message"
-                    (sendTitleSearch)="searchCourse($event)"
-                  ></app-search-title>
+            </span> Clear filter
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-
-              </div>
-              <div class="col-md-3 filter-by-date">
-                <mat-form-field
-                  class="sort-by"
-                  appearance="fill"
-                  style="color: black"
-                >
-                  <mat-label style="color: #194350; font-weight: 500"
-                    >Sort by</mat-label
-                  >
-                  <mat-select
-                    disableOptionCentering
-                    style="color: black"
-                    [(ngModel)]="selectedExpBy"
-                  >
-                    <mat-option
-                      (click)="getAllByDate()"
-                      style="color: black"
-                      class="not-empty-select"
-                      *ngFor="let status of listExpStatus"
-                      [value]="status.value"
-                    >
-                      {{ status.viewValue }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <div class="list-filter-main">
+                    <app-course-filter (sendGradeChoose)="receiveGrade($event)" (sendCategoryChoose)="receiveCategory($event)" [gradeSelected]="grade"></app-course-filter>
                 </div>
-           
-           
-          </div>
-
-          <div
-            *ngIf="!listCourse.length && !isLoading"
-            class="container div-no-found"
-          >
-            <div class="message-no-found empty-list">
-              <span align="center" class="no-found"> No Course here </span>
             </div>
-          </div>
-          <div *ngIf="listCourse != []" class="container wrapper">
-            <app-lecturer-card-course
-              *ngFor="let course of listCourse"
-              [course]="course"
-            ></app-lecturer-card-course>
-          </div>
+            <div class="col-md-10 clean-display">
+                <div class="list-course">
+                    <div class="row div-sort-by">
+                        <div class="col-md-6">
+                            <div class="search-container">
+                                <app-search-title class="div-search" [message]="message" (sendTitleSearch)="searchCourse($event)"></app-search-title>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
 
-          <br /><br />
+                        </div>
+                        <div class="col-md-3 filter-by-date">
+                            <mat-form-field class="sort-by" appearance="fill" style="color: black">
+                                <mat-label style="color: #194350; font-weight: 500">Sort by</mat-label>
+                                <mat-select disableOptionCentering style="color: black" [(ngModel)]="selectedExpBy">
+                                    <mat-option (click)="getAllByDate()" style="color: black" class="not-empty-select" *ngFor="let status of listExpStatus" [value]="status.value">
+                                        {{ status.viewValue }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+                    </div>
+
+                    <div *ngIf="!listCourse.length && !isLoading" class="container div-no-found">
+                        <div class="message-no-found empty-list">
+                            <span align="center" class="no-found"> No Course here </span>
+                        </div>
+                    </div>
+                    <div *ngIf="listCourse != []" class="container wrapper">
+                        <app-lecturer-card-course *ngFor="let course of listCourse" [course]="course"></app-lecturer-card-course>
+                    </div>
+
+                    <br /><br />
+                </div>
+            </div>
         </div>
-      </div>
+        <br /><br />
     </div>
-    <br /><br />
-  </div>
 
-  <app-loading [isLoading]="isLoading"></app-loading>
+    <app-loading [isLoading]="isLoading"></app-loading>
 </div>

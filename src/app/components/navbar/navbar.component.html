@@ -1,10 +1,6 @@
 <nav class="navbar navbar-expand-md">
-  <div class="container-fluid">
-    <a
-      class="navbar-brand logo-text"
-      routerLink="/home"
-      (click)="changeRouter()"
-      >Cùng Nhau Học Toán</a
+    <div class="container-fluid">
+        <a class="navbar-brand logo-text" routerLink="/home" (click)="changeRouter()">Cùng Nhau Học Toán</a
     >
     <button
       class="navbar-toggler"
@@ -20,8 +16,8 @@
       </span>
     </button>
     <div class="collapse navbar-collapse row" id="navbarSupportedContent">
-      <div class="col-md-8">
-        <!-- <div class="d-flex form-group">
+      <div class="col-md-4">
+        <div class="d-flex form-group">
           <div type="submit" (click)="onLoadSearch()">
             <i class="fa fa-search icon"></i>
           </div>
@@ -34,33 +30,61 @@
           />
         </div> -->
       </div>
-      <div class="col-md-4 action-button">
+      <div class="col-md-2"></div>
+      <div class="col-md-5">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown course">
+            <a class="nav-link active dropdown-toggle" id="navbarDropdown">
+              Courses
+            </a>
+        <ul class="dropdown-menu course-item" id="course-item">
+            <li><a class="dropdown-item" href="#">Tốt nghiệp THPT</a></li>
+            <li><a class="dropdown-item" href="#">Grade 12</a></li>
+            <li><a class="dropdown-item" href="#">Grade 11</a></li>
+            <li><a class="dropdown-item" href="#">Grade 10</a></li>
+            <li><a class="dropdown-item" href="#">Grade 9</a></li>
+        </ul>
+        </li>
+        <li class="nav-item dropdown topic">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown1"> Topics</a>
+            <ul class="dropdown-menu topic-item">
+                <li><a class="dropdown-item" href="#">Algebra</a></li>
+                <li><a class="dropdown-item" href="#">Geometry</a></li>
+                <li><a class="dropdown-item" href="#">Combination</a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"> Test </a>
+        </li>
+        </ul>
+    </div>
+    <div class="col-md-1 action-button">
         <div *ngIf="isLoggedin; then thenBlock; else elseBlock"></div>
 
         <ng-template #elseBlock>
-          <a routerLink="login" class="btn-signin">Sign In</a>
+            <a routerLink="login" class="btn-signin">Sign In</a>
         </ng-template>
         <ng-template #thenBlock>
-          <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse"
-            >My course</a
-          >
-          <a *ngIf="!isAdmin" routerLink="/wallet" class="btn-mywallet"
-            >My wallet</a
-          >
-          <div *ngIf="isAdmin" style="width: 15vw"></div>
-
-          <div class="dropdown">
-            <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
+            <div *ngIf="isAdmin" style="width: 15vw"></div>
+            <div class="dropdown account-dropdown">
+                <button class="btn-dropdown nav-item dropdown-toggle">
               <img [src]="photo" alt="{photo}" class="photo" />
             </button>
-            <div class="dropdown-menu">
-              <button
-                *ngIf="isAdmin"
-                class="dropdown-item"
-                (click)="goToHomeAdmin()"
-              >
+                <div class="dropdown-menu button-account">
+                    <button *ngIf="isAdmin" class="dropdown-item" (click)="goToHomeAdmin()">
                 <i class="fa fa-home"></i> <span>Admin Home</span>
               </button>
+                    <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse dropdown-item"><i class="bi bi-journal-check"></i>Course</a
+              >
+
+              <a
+                *ngIf="!isAdmin"
+                routerLink="/wallet"
+                class="btn-mywallet dropdown-item"
+              >
+                <i class="bi bi-wallet"></i>Wallet</a
+              >
+              <br />
               <button class="dropdown-item" (click)="logOut()">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Log out</span>
