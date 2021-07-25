@@ -25,6 +25,7 @@ import { PriceFormat } from 'src/app/util/priceformat';
   styleUrls: ['./card-image.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
 })
+
 export class CardImageComponent implements OnInit, OnChanges {
   @Input() course!: Course;
   isBought!: boolean;
@@ -54,9 +55,10 @@ export class CardImageComponent implements OnInit, OnChanges {
     private authService: authenticationService,
     private activeRouter: ActivatedRoute,
     private _snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+
     if (this.course == null || this.course == undefined) {
       this.activeRouter.params.subscribe((params) => {
         const id = params['id'];
@@ -65,6 +67,7 @@ export class CardImageComponent implements OnInit, OnChanges {
         });
       });
     }
+
     if (localStorage.getItem('isLoggedin') == 'true') {
       this.isLoggedin = of(true);
       this.authService.checkIsLoggedin().subscribe((isLoggedin) => {
@@ -75,6 +78,7 @@ export class CardImageComponent implements OnInit, OnChanges {
       this.isBought = false;
       this.isLoading = false;
     }
+
     this.isLoggedin.subscribe((islogin) => {
       if (islogin) {
         let email = localStorage.getItem('uemail')
@@ -104,6 +108,7 @@ export class CardImageComponent implements OnInit, OnChanges {
         this.isBought = false;
       }
     });
+
     this.isAdmin = this.authService.isAdmin();
     if (this.course.id != '') this.getFirstSection(this.course.id);
   }
@@ -111,6 +116,7 @@ export class CardImageComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.isBought) this.isBought_();
   }
+
   isBought_() {
     if (!this.isLoggedin) {
       this.isBought = false;
@@ -167,6 +173,7 @@ export class CardImageComponent implements OnInit, OnChanges {
         else this.lectureId = '';
       });
   }
+
   goToWallet() {
     if (localStorage.getItem('isLoggedin') == 'true') {
       let email = localStorage.getItem('uemail')
@@ -190,12 +197,13 @@ export class CardImageComponent implements OnInit, OnChanges {
       }
     } else this.router.navigate(['/login']);
   }
+
   closeHandler() {
     this.showInform = false;
-
     this.successfullBought = false;
     this.failBought = false;
   }
+
   implementAction(action_return: string) {
     if (action_return == 'wallet') {
       this.router.navigate(['/wallet']);
@@ -245,6 +253,4 @@ export class CardImageComponent implements OnInit, OnChanges {
     });
   }
 }
-function Of(arg0: boolean): Observable<boolean> {
-  throw new Error('Function not implemented.');
-}
+

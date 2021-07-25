@@ -87,6 +87,7 @@ import { AlertConfimationComponent } from './components/course/full-course/alert
 import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.component';
 import { CourseFilterComponent } from './components/course-filter/course-filter.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { NoteComponent } from './components/course/detail-info-course/note/note.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     AlertConfimationComponent,
     InfoDialogComponent,
     CourseFilterComponent,
+    NoteComponent,
   ],
   imports: [
     BrowserModule,
