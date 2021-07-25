@@ -26,26 +26,46 @@
           [ngClass]="{ 'card-active': activeButton === 1 }"
         >
           <i class="bi bi-journal-check"></i>
-          <span>My Courses</span>
+          <span>Courses</span>
+        </a>
+
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/home']"
+          (click)="setActiveButton(2)"
+          [ngClass]="{ 'card-active': activeButton === 2 }"
+        >
+        <i class="fa fa-bookmark"></i>
+          <span>Topic</span>
+        </a>
+        <a
+          class="btn-category button-row"
+          [routerLink]="['admin/home']"
+          (click)="selectedBtnTest()"
+        >
+        <i class="bi bi-trophy"></i>
+          <span>Tests</span>
         </a>
         <a
           class="btn-category button-row"
           [routerLink]="['admin/management/learner']"
-          (click)="setActiveButton(2)"
-          [ngClass]="{ 'card-active': activeButton === 2 }"
+          (click)="setActiveButton(3)"
+          [ngClass]="{ 'card-active': activeButton === 3 }"
         >
           <i class="bi bi-people-fill"></i>
-          <span>Learner Management</span></a
+          <span>Learner</span></a
         >
         <a
           class="btn-category button-row"
           [routerLink]="['admin/management/wallet']"
-          (click)="setActiveButton(3)"
-          [ngClass]="{ 'card-active': activeButton === 3 }"
+          (click)="setActiveButton(4)"
+          [ngClass]="{ 'card-active': activeButton === 4 }"
         >
           <i class="bi bi-wallet"></i>
           <span>Wallet</span>
         </a>
+
+        
       </div>
 
       <div class="col-md-3 action-button">

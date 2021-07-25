@@ -9,21 +9,21 @@
 }
 
 .btn-new-course {
-  width: 200px;
+  /* width: 200px; */
   background: #4ebee1;
   border-radius: 10px;
   margin-left: 5px;
   margin-top: 4vh;
-  height: 35px;
-  font-size: large;
   padding: 4px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
+  padding-left: 6px;
+  padding-right: 6px;
   outline: none;
   border: none;
   transition: all 0.5s;
   color: white;
+  box-shadow: 1px 1px 1px #c4c4c4;
 }
+
 .btn-new-course:hover {
   background-color: green;
   color: #eee;
@@ -47,7 +47,8 @@
 }
 .div-loading {
 
-  padding: 1.5rem;
+  padding-top:  1.5rem;
+  padding-left: 0.5rem;
 }
 
 .search-course {
@@ -89,21 +90,15 @@
 .btn-clear-filter {
   box-shadow: 1px 1px 1px #c4c4c4;
   border-radius: 5px;
-  height: 35px;
   font-size: 13px;
-  padding-top: 6px;
-  padding-left: 3px;
-  padding-right: 3px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
+  padding-top: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
   outline: none;
   background-color: #ea5044;
   color: #fff;
   text-align: center;
   cursor: pointer;
-  transition: all 0.5s;
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 
 .btn-clear-filter:hover {
@@ -174,8 +169,6 @@
   
 }
 .search-container {
-  margin-left: 3rem !important;
-
   justify-content: space-between;
   flex-direction: row;
 }
@@ -195,8 +188,14 @@
 .sort-by {
   margin-right: 20px;
 }
+
+.div-list-course{
+  margin-top: 1rem;
+}
+
 .clean-display{
   display: table-row !important;
+  padding-top: 0 !important;
 
 }
 .container{
