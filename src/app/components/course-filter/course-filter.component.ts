@@ -24,7 +24,7 @@ export class CourseFilterComponent implements OnInit {
   listFilter: type_course[] = [
     { value: COURSE_TYPE.THEORY, view: "Theory"},
     { value: COURSE_TYPE.EXAMINATION_SOLVING, view: "Examination Solving"},
-    { value: COURSE_TYPE.TEST, view: "Text"}];
+    { value: COURSE_TYPE.TEST, view: "Test"}];
 
   listGrade = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINE];
 
