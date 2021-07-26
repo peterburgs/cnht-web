@@ -28,7 +28,7 @@
                 <mat-select
                   disableOptionCentering
                   style="color: black"
-                  [(ngModel)]="selectedViewBy"
+                  [(ngModel)]="topicType"
                 >
                   <mat-option
                     (click)="getAllByFilter()"
@@ -85,8 +85,8 @@
               <span align="center" class="no-found"> No Course here </span>
             </div>
           </div>
-          <div *ngIf="topics != []" class="wrapper clear-margin-right">
-            <ul *ngFor="let topic of topics">
+          <div *ngIf="listTopic != []" class="wrapper clear-margin-right">
+            <ul *ngFor="let topic of listTopic">
               <div class="container display-tag">
                 <!-- Column 1: topic title -->
                 <div class="col-md-11">

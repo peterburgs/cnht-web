@@ -1,7 +1,7 @@
 export enum GRADES {
-  TNTHPT = 'TNTHPT',
-  TWELFTH = '12',
-  ELEVENTH = '11',
-  TENTH = '10',
-  NINE = '9',
+  NHSGE = "tốt nghiệp THPT",
+  TWELFTH = "12",
+  ELEVENTH = "11",
+  TENTH = "10",
+  NINTH = "9"
 }

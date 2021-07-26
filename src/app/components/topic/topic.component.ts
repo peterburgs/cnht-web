@@ -14,6 +14,13 @@ interface Status {
   value: Number;
   viewValue: string;
 }
+
+interface StatusTopic {
+  value: string;
+  viewValue: string;
+}
+
+
 @Component({
   selector: 'app-topic',
   templateUrl: './topic.component.html',
@@ -45,11 +52,11 @@ export class TopicComponent implements OnInit {
 
   topics: Topic[] = [];
   isLoading = false;
-  message: string = 'Find my course by title';
+  message: string = 'Find topic by title';
   titleSearch: string = '';
-  listCourse: Course[] = [];
-  listSortedCourse: Course[] = [];
-  grade = '';
+  listTopic: Topic[] = [];
+  listSortedTopic: Topic[] = [];
+  topicType = 'all';
   typeCourse = '';
   sbcTopics: Subscription = new Subscription();
   sbcCreateTopic = new Subscription();
@@ -66,6 +73,7 @@ export class TopicComponent implements OnInit {
     this.sbcTopics = this.topicService.getTopics().subscribe(
       (res) => {
         this.topics = res.topics;
+        this.getAllByDate();
         this.isLoading = false;
 
       },
@@ -100,6 +108,7 @@ export class TopicComponent implements OnInit {
     // );
     this.openModalCreateCourse();
   }
+
   openModalCreateCourse() {
     const modalRef = this.modalService.open(TopicDialogComponent, {
       centered: true,
@@ -143,44 +152,33 @@ export class TopicComponent implements OnInit {
       }
     });
   }
-  getAllByDate() {
+
+  getAllByDate() { //ok
     this.sortByDate(this.selectedExpBy);
     this.getAllByFilter();
   }
+
+
   searchCourse($event: string) {
     this.titleSearch = $event;
     this.getAllByFilter();
   }
-  sortByDate(order: number) {
-    // if (order == 0) {
-    //   this.listSortedCourse = this.topics.sort((a, b) => {
-    //     return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt);
-    //   });
-    // } else {
-    //   this.listSortedCourse = this.topics.sort((a, b) => {
-    //     return <any>new Date(a.updatedAt) - <any>new Date(b.updatedAt);
-    //   });
-    // }
-  }
-  getListCourseByTitle() {
-    switch (this.selectedViewBy) {
-      case 0:
-        this.getAllListByTitle();
-        break;
-      case 1:
-        this.getAllListByTitleAndStatus(true);
-        break;
-      case -1:
-        this.getAllListByTitleAndStatus(false);
-        break;
-      default:
-        break;
+
+  sortByDate(order: number) { //ok
+    if (order == 0) {
+      this.listSortedTopic= this.topics.sort((a, b) => {
+        return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt);
+      });
+    } else {
+      this.listSortedTopic = this.topics.sort((a, b) => {
+        return <any>new Date(a.updatedAt) - <any>new Date(b.updatedAt);
+      });
     }
   }
 
-  getAllListByTitle() {
-    this.listCourse = this.listSortedCourse.filter((course) =>
-      course.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+  getAllListByTitle() { //ok
+    this.listTopic = this.listSortedTopic.filter((topic) =>
+    topic.title.toLowerCase().includes(this.titleSearch.toLowerCase())
     );
   }
 
@@ -189,34 +187,13 @@ export class TopicComponent implements OnInit {
     this.sbcTopics.unsubscribe();
   }
 
-  receiveGrade($event: any) {
-    this.grade = $event;
-  }
-
-  receiveCategory($event: any) {
-    this.typeCourse = $event;
-    this.getAllByFilter();
-  }
-
-  @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
-  resetChildForm() {
-    this.childC?.resetChildForm();
-    window.scrollTo(0, 0);
-  }
-
-  onResetFitler() {
-    this.resetChildForm();
-    this.grade = '';
-    this.typeCourse = '';
-    this.getAllByFilter();
-  }
-
-  selectedViewBy: Number = 0;
   selectedExpBy: number = 0;
-  listStatus: Status[] = [
-    { value: 0, viewValue: 'All' },
-    { value: 1, viewValue: 'Published' },
-    { value: -1, viewValue: 'Not Published' },
+
+  listStatus: StatusTopic[] = [
+    { value: "all", viewValue: 'All' },
+    { value: TOPICS.ALGEBRA, viewValue: 'Algebra' },
+    { value: TOPICS.GEOMETRY, viewValue: 'Geometry' },
+    { value: TOPICS.COMBINATION, viewValue: 'Combination' }
   ];
 
   listExpStatus: Status[] = [
@@ -225,58 +202,32 @@ export class TopicComponent implements OnInit {
   ];
 
   getAllByFilter() {
-    switch (this.selectedViewBy) {
-      case 0:
-        this.getListAllByFilterAndTitleSearch();
-        break;
-      case 1:
-        this.getListByAllFilterCourse(true);
-        break;
-      case -1:
-        this.getListByAllFilterCourse(false);
+    console.log("type: " + this.topicType);
+    switch (this.topicType) {
+      case "all":
+        this.getAllListByTitle(); //ok
         break;
       default:
-        break;
+        this.getListByTopicType(this.topicType); //0k
+         break;
     }
   }
   getDownLoad(idTopic:string){
       
   }
+
+
   goEdit(idTopic:string){
     this.router.navigateByUrl('/admin/topics/'+idTopic).then();
   }
-  getListByAllFilterCourse(status: boolean) {
-    if (this.grade == '' || this.typeCourse == '')
-      this.getAllListByTitleAndStatus(status);
-    else
-      this.listCourse = this.listSortedCourse.filter(
-        (course) =>
-          course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-          course.courseType.toString() == this.typeCourse &&
-          course.grade.toString() == this.grade &&
-          course.isPublished == status
+
+  getListByTopicType(type: string) {
+    console.log("get by type: " + this.topicType);
+      this.listTopic = this.listSortedTopic.filter(
+        (topic) =>
+          topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+          topic.topicType == type
       );
   }
 
-  getAllListByTitleAndStatus(status: boolean) {
-    this.listCourse = this.listSortedCourse.filter(
-      (course) =>
-        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        course.isPublished == status
-    );
-  }
-
-  getListAllByFilterAndTitleSearch() {
-    if (this.grade == '' || this.typeCourse == '') this.getAllListByTitle();
-    else this.getListByFilterAndTitleSearch();
-  }
-
-  getListByFilterAndTitleSearch() {
-    this.listCourse = this.listSortedCourse.filter(
-      (course) =>
-        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        course.courseType.toString() == this.typeCourse &&
-        course.grade.toString() == this.grade
-    );
-  }
 }

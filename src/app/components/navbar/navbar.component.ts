@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
+import { GRADES } from 'src/app/models/grades';
 import { authenticationService } from 'src/app/service/authentication.service';
 import { Timer } from 'src/app/service/timer.service';
 
@@ -65,6 +66,18 @@ export class NavbarComponent implements OnInit {
         queryParams: { title: this.titleSearch },
       });
       this.titleSearch = '';
+    }
+  }
+  grade: GRADES = GRADES.NHSGE;
+
+  setGradeChangeRouter(number: number){
+    switch(number){
+      case 1: {this.grade = GRADES.NHSGE; break;}
+      case 2: {this.grade = GRADES.TWELFTH; break;}
+      case 3: {this.grade = GRADES.ELEVENTH; break;}
+      case 4: {this.grade = GRADES.TENTH; break;}
+      case 5: {this.grade = GRADES.NINTH; break;}
+      default: break;
     }
   }
 }
