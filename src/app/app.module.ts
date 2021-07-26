@@ -91,6 +91,8 @@ import { NoteComponent } from './components/course/detail-info-course/note/note.
 import { TopicComponent } from './components/topic/topic.component';
 import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
 import { TopicDialogComponent } from './components/alert/topic-dialog/topic-dialog.component';
+import { TopicScreenComponent } from './screen/topic-screen/topic-screen.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -157,6 +159,7 @@ import { TopicDialogComponent } from './components/alert/topic-dialog/topic-dial
     TopicComponent,
     ModifyTopicComponent,
     TopicDialogComponent,
+    TopicScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -183,7 +186,8 @@ import { TopicDialogComponent } from './components/alert/topic-dialog/topic-dial
     MatCardModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    PdfViewerModule
   ],
   providers: [
     CurrencyPipe,

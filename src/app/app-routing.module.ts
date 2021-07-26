@@ -18,6 +18,7 @@ import { ErrorPageComponent } from './components/loading/error-page/error-page.c
 import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 import { TopicComponent } from './components/topic/topic.component';
 import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
+import { TopicScreenComponent } from './screen/topic-screen/topic-screen.component';
 
 const routes: Routes = [
   {
@@ -95,13 +96,17 @@ const routes: Routes = [
     component: ErrorPageComponent,
   },
   {
-    path: 'admin/topics/:id',
-    component: ModifyTopicComponent,
+    path: 'home/topics/:name/:id',
+    component: TopicScreenComponent,
   },
   { path: 'admin/topics', component: TopicComponent },
   {
-    path: '**',
-    redirectTo: '/not-found',
+    path: 'admin/topics/:id',
+    component: ModifyTopicComponent,
+  },
+  {
+    path: 'admin/home/topics/:title/:id',
+    component: TopicScreenComponent,
   },
 ];
 

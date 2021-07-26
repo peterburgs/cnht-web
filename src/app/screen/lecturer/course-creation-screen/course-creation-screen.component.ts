@@ -75,7 +75,11 @@ export class CourseCreationScreenComponent
     ) {
       this.customeTitle();
       this.customeContent();
-      this.modalService.open(this.content, { centered: true });
+      this.modalService.open(this.content, {
+        centered: true,
+        backdrop: 'static',
+        keyboard: false,
+      });
     }
   }
 

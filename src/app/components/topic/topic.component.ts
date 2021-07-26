@@ -9,6 +9,7 @@ import { TopicDialogComponent } from '../alert/topic-dialog/topic-dialog.compone
 import { Topic } from 'src/app/models/topic.model';
 import { TOPICS } from 'src/app/models/TOPIC';
 import { TopicService } from 'src/app/service/topic.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Status {
   value: Number;
@@ -20,35 +21,13 @@ interface StatusTopic {
   viewValue: string;
 }
 
-
 @Component({
   selector: 'app-topic',
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.css'],
 })
 export class TopicComponent implements OnInit {
-  mTopics: Topic[] = [
-    {
-      id: 'ss',
-      title:
-        'Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).',
-      fileUrl: '',
-      topicType: TOPICS.ALGEBRA,
-      isHidden: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 'sss',
-      title:
-        'Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).',
-      fileUrl: '',
-      topicType: TOPICS.ALGEBRA,
-      isHidden: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
+  mTopics: Topic[] = [];
 
   topics: Topic[] = [];
   isLoading = false;
@@ -65,7 +44,8 @@ export class TopicComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private topicService: TopicService
+    private topicService: TopicService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +55,6 @@ export class TopicComponent implements OnInit {
         this.topics = res.topics;
         this.getAllByDate();
         this.isLoading = false;
-
       },
       (error) => {
         this.topics = [];
@@ -212,14 +191,6 @@ export class TopicComponent implements OnInit {
          break;
     }
   }
-  getDownLoad(idTopic:string){
-      
-  }
-
-
-  goEdit(idTopic:string){
-    this.router.navigateByUrl('/admin/topics/'+idTopic).then();
-  }
 
   getListByTopicType(type: string) {
     console.log("get by type: " + this.topicType);
@@ -230,4 +201,40 @@ export class TopicComponent implements OnInit {
       );
   }
 
+ 
+  reviewFile(topicTitle: string, topicId: string) {
+    let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
+    formatTitle = formatTitle.replace(/\s/g, '');
+    console.log('*** topic ' + formatTitle + ' ' + topicId);
+    this.router
+      .navigateByUrl('admin/home/topics/' + formatTitle + '/' + topicId)
+      .then();
+  }
+  getDownLoad(topicTile: string, topicId: string, topicUrl: string) {
+    let nameFormat = topicTile.replace(/[^\x00-\xFF]/g, '');
+    nameFormat = nameFormat.replace(/\s/g, '');
+   
+    this.topicService.downloadFile(nameFormat).subscribe(
+      (data) => {
+        //let blob = new Blob([data],{type:'application/pdf'})
+        var downloadURL = window.URL.createObjectURL(data);
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = `${nameFormat}.pdf`;
+        link.click();
+      },
+      (error) => {
+        this.openSnackBar('This file is not available now', 'OK');
+      }
+    );
+  }
+  goEdit(idTopic: string) {
+    // this.router.navigateByUrl('/admin/topics/' + idTopic).then();
+    this.router.navigate([idTopic], { relativeTo: this.route });
+  }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 }
