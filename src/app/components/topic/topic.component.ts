@@ -214,7 +214,7 @@ export class TopicComponent implements OnInit {
     let nameFormat = topicTile.replace(/[^\x00-\xFF]/g, '');
     nameFormat = nameFormat.replace(/\s/g, '');
    
-    this.topicService.downloadFile(nameFormat).subscribe(
+    this.topicService.downloadFile(topicUrl).subscribe(
       (data) => {
         //let blob = new Blob([data],{type:'application/pdf'})
         var downloadURL = window.URL.createObjectURL(data);
