@@ -16,6 +16,8 @@ import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-sc
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
 import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
+import { TopicComponent } from './components/topic/topic.component';
+import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
 
 const routes: Routes = [
   {
@@ -92,6 +94,11 @@ const routes: Routes = [
     path: 'not-found',
     component: ErrorPageComponent,
   },
+  {
+    path: 'admin/topics/:id',
+    component: ModifyTopicComponent,
+  },
+  { path: 'admin/topics', component: TopicComponent },
   {
     path: '**',
     redirectTo: '/not-found',

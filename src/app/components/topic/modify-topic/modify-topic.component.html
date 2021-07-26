@@ -1,0 +1,75 @@
+<div class="topic-container">
+  <div class="container">
+    <div class="col-md-2 text-end">
+      <span>Title ({{ topic.title | countdown: 300 }}/300)</span>
+    </div>
+    <div class="col-md-10">
+      <textarea
+        [(ngModel)]="topic.title"
+        type="text"
+        id="title"
+        required
+        rows="3"
+        name="title"
+        class="form-control"
+        placeholder="Title topic"
+        maxlength="150"
+        [(ngModel)]="topic.title"
+      ></textarea>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-sm-2 text-end"><span>Type</span></div>
+    <div class="col-sm-2">
+      <select  (change)="changeType($event)"
+        class="form-select text-deco form-select-lg mb-3  text-select"
+        aria-label=".form-select-lg example"
+      >
+        <option
+          *ngFor="let item of types; let i = index"
+          [value]="item"
+          [selected]="item == topic.topicType"
+        >
+        {{item}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-sm-2 text-end"><span>Select file </span></div>
+    <div class="col-sm-10">
+      <input
+        #file
+        type="file"
+        accept="application/pdf,application/vnd.ms-excel"
+        class="image-input"
+        style="display: none"
+        (change)="handleFileInput($event)"
+      />
+      <button
+        class="contain-video border-radius btn-upload"
+        (click)="file.click()"
+      >
+        Select file
+      </button>
+      <div
+      *ngIf="isUpdate"
+      class="
+        spinner-border spinner-border-sm
+        text-danger
+      "
+    
+    ></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-10">
+      <button class="btn-create">
+        <div class="btn-container" (click)="updateTopic()">
+          <i class="bi bi-plus-lg icon-decorate"></i><span> Create</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

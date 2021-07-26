@@ -1,0 +1,132 @@
+<div class="home-screen">
+  <div class="container div-loading">
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9">
+        <button class="btn-new-course" (click)="onCreateCourse()">
+          <i class="bi bi-plus-lg"></i>
+          New topic
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="fitler">
+    <div class="row screen-display">
+      <div class="col-md-2 clean-display padding-tb"></div>
+      <div class="col-md-10 clean-display">
+        <div class="list-course">
+          <div class="container div-sort-by">
+            <div class="col-md-4">
+              <mat-form-field
+                class="sort-by padding-tb"
+                appearance="fill"
+                style="color: black"
+              >
+                <mat-label style="color: #194350; font-weight: 500"
+                  >View</mat-label
+                >
+                <mat-select
+                  disableOptionCentering
+                  style="color: black"
+                  [(ngModel)]="selectedViewBy"
+                >
+                  <mat-option
+                    (click)="getAllByFilter()"
+                    style="color: black"
+                    class="not-empty-select"
+                    *ngFor="let status of listStatus"
+                    [value]="status.value"
+                  >
+                    {{ status.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field
+                class="sort-by padding-tb"
+                appearance="fill"
+                style="color: black"
+              >
+                <mat-label style="color: #194350; font-weight: 500"
+                  >Sort by</mat-label
+                >
+                <mat-select
+                  disableOptionCentering
+                  style="color: black"
+                  [(ngModel)]="selectedExpBy"
+                >
+                  <mat-option
+                    (click)="getAllByDate()"
+                    style="color: black"
+                    class="not-empty-select"
+                    *ngFor="let status of listExpStatus"
+                    [value]="status.value"
+                  >
+                    {{ status.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-8">
+              <div class="search-container padding-tb">
+                <app-search-title
+                  class="div-search"
+                  [message]="message"
+                  (sendTitleSearch)="searchCourse($event)"
+                ></app-search-title>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!topics.length && !isLoading"
+            class="container div-no-found"
+          >
+            <div class="message-no-found empty-list">
+              <span align="center" class="no-found"> No Course here </span>
+            </div>
+          </div>
+          <div *ngIf="topics != []" class="wrapper clear-margin-right">
+            <ul *ngFor="let topic of topics">
+              <div class="container display-tag">
+                <!-- Column 1: topic title -->
+                <div class="col-md-11">
+                  <div class="item-title-topic">
+                    <h3 class="item-topic-title">
+                      <a>
+                       {{topic.title}}
+                      </a>
+                    </h3>
+                  </div>
+                  <div class="item-more-info">
+                    <span class="icon-tag type-tag">{{ topic.topicType }}</span>
+                    <span>{{ topic.updatedAt | date: 'dd/MM/yyyy HH:mm:ss  '  }}</span>
+                  </div>
+                </div>
+                <!-- Column 2: Action buttons -->
+                <div class="col-md-1 action-buttons-container">
+                  <!-- Download -->
+                  <button class="action-button" (click)="getDownLoad(topic.id)">
+                    <i class="bi bi-file-earmark-arrow-down icon"></i>
+                  </button>
+                  <!-- Copy -->
+
+                  <button class="action-button" (click)=goEdit(topic.id)>
+                    <i class="bi bi-clipboard-check icon"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="container">
+                <hr class="col-sm-11 " />
+              </div>
+            </ul>
+          </div>
+
+          <br /><br />
+        </div>
+      </div>
+    </div>
+    <br /><br />
+  </div>
+
+  <app-loading [isLoading]="isLoading"></app-loading>
+</div>
