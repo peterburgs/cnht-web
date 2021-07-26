@@ -26,7 +26,7 @@ export class CourseFilterComponent implements OnInit {
     { value: COURSE_TYPE.EXAMINATION_SOLVING, view: "Examination Solving"},
     { value: COURSE_TYPE.TEST, view: "Test"}];
 
-  listGrade = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINE];
+  listGrade = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINTH];
 
   @Input() gradeSelected = "";
   typeSelected = COURSE_TYPE.THEORY;

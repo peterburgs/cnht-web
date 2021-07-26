@@ -73,7 +73,7 @@ export class ItemFilterComponent implements OnInit {
           { name: 'Grade 12', value: GRADES.TWELFTH },
           { name: 'Grade 11', value: GRADES.ELEVENTH },
           { name: 'Grade 10', value: GRADES.TENTH },
-          { name: 'Grade 9', value: GRADES.NINE },
+          { name: 'Grade 9', value: GRADES.NINTH },
         ],
       },
     ];

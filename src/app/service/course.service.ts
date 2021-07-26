@@ -46,6 +46,20 @@ export class CourseService {
       )
       .pipe();
   }
+
+  getListCourseByGrade(level_: GRADES) {
+    return this.http
+      .get<{ message: string; count: number; courses: Course[] }>(
+        this.baseUrl + '/courses',
+        {
+          params: new HttpParams()
+            .set('grade', level_)
+            .set('isHidden', true),
+        }
+      )
+      .pipe();
+  }
+
   getCourseById(id: string) {
     return this.http.get<{ message: string; count: number; courses: Course[] }>(
       this.baseUrl + '/courses',

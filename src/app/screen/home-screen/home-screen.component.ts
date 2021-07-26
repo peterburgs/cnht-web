@@ -63,6 +63,13 @@ export class HomeScreenComponent implements OnInit {
     );
   }
 
+  getGradeOnRouter(){
+    this.route.params.subscribe((params) => {
+      this.grade = params['grade'];
+      //this.listCourse =
+    });
+  }
+
   signOut(): void {
     localStorage.removeItem('google_auth');
     this.router.navigateByUrl('/admin/login').then();
