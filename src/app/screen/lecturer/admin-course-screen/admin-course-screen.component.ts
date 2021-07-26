@@ -90,7 +90,7 @@ export class AdminCourseScreenComponent implements OnInit {
 
     modalRef.result.then((result: boolean) => {
       if (result) {
-        this.isLoading = true;
+        this.isLoading = true; 
         this.fullCourseService.createCourse();
         this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
           (course) => {

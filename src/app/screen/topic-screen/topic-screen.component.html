@@ -1,0 +1,24 @@
+<!-- <embed
+    src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
+    type="application/pdf"
+    frameBorder="0"
+    scrolling="auto"
+    height="100%"
+    width="100%"
+></embed> -->
+
+<div class="contain-pdf">
+  <div class="">
+    <h2>topic.title</h2>
+  </div>
+  <div class="viewer-contain-pdf" >
+    <pdf-viewer id="PDF"
+      [src]="tmpUrl"
+      [page]=page
+      [render-text]="true"
+      [show-all]="true"
+      style="display: block"
+      
+    ></pdf-viewer>
+  </div>
+</div>

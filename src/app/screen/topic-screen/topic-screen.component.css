@@ -1,0 +1,18 @@
+.display{
+    width: auto;
+    height: auto;
+}
+.contain-pdf{
+    margin-top: 4rem;
+}
+.display-pdf{
+    display: contents;
+}
+.viewer-contain-pdf {
+    height:100vh;
+    overflow: hidden;
+  }
+  #PDF {
+   height:100vh;
+   overflow-y:scroll;
+ }

@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TOPICS } from 'src/app/models/TOPIC';
 import { Topic } from 'src/app/models/topic.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TopicService } from 'src/app/service/topic.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-modify-topic',
   templateUrl: './modify-topic.component.html',
   styleUrls: ['./modify-topic.component.css'],
 })
 export class ModifyTopicComponent implements OnInit {
+  @ViewChild('content', { static: true }) content?: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private topicService: TopicService
+    private topicService: TopicService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -22,15 +26,33 @@ export class ModifyTopicComponent implements OnInit {
       if (!this.topic.id) {
         this.router.navigateByUrl('/admin/topics').then();
       }
+      this.isLoading = true;
+      // this.topicService.getTopicById(this.topic.id).subscribe(res=>{
+      //   this.topic = res.topic;
+      //   this.isLoading=true;
+      // }, error=>{
+      //   this.isLoading=true;
+      //   this.router.navigate(["/not-found"], { relativeTo: this.route });
+      // }
+      //   )
       this.topic = this.topicService.getTopicById(this.topic.id);
     });
+    this.sbcUploadFile = this.topicService
+      .getIsUpdateFile()
+      .subscribe((data) => {
+        if(!data){
+          this.isUpdate= false;
+        }
+      });
   }
+  isLoading = false;
   isUpdate = false;
-  isSaving=false;
+  isSaving = false;
   topic: Topic = new Topic();
   uploadTopic = false;
   fileToUpLoad = new File([], 'default');
   tmpFileName = '';
+  sbcUploadFile: Subscription = new Subscription();
   types = [TOPICS.ALGEBRA, TOPICS.COMBINATION, TOPICS.GEOMETRY];
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
@@ -47,18 +69,7 @@ export class ModifyTopicComponent implements OnInit {
           writable: true,
           value: this.tmpFileName,
         });
-        this.topicService
-          .updateTopicFile(this.topic.id, this.fileToUpLoad)
-          .subscribe(
-            (response) => {
-              console.log(response);
-              this.isUpdate = false;
-            },
-            (error) => {
-              console.log(error);
-              this.isUpdate = false;
-            }
-          );
+        this.topicService.updateTopicFile(this.topic.id, this.fileToUpLoad);
       };
 
       reader.readAsDataURL(this.fileToUpLoad);
@@ -69,14 +80,46 @@ export class ModifyTopicComponent implements OnInit {
   }
   updateTopic() {
     console.log(this.topic);
-    this.isSaving=true;
-    this.topicService.onUpdate(this.topic).subscribe((res) => {
-      console.log(res.message);
-      this.topicService.updateTopicInList(res.topic);
-      this.isSaving=false;
-    }, error=>{
-      this.isSaving=false;
-      alert('Can not save topic now')
+    this.isSaving = true;
+    this.topicService.onUpdate(this.topic).subscribe(
+      (res) => {
+        console.log(res.message);
+        this.topicService.updateTopicInList(res.topic);
+        this.isSaving = false; 
+      },
+      (error) => {
+        this.isSaving = false;
+        alert('Can not save topic now');
+      }
+    );
+  }
+  goBack() {
+    this.router.navigateByUrl('/admin/topics').then();
+  }
+  onDelete() {
+    this.modalService.dismissAll();
+    this.isLoading = true;
+    this.topicService.onDeleteTopic(this.topic.id).subscribe(
+      (res) => {
+        this.router.navigateByUrl('/admin/topics').then();
+        this.isLoading = false;
+      },
+      (error) => {
+        alert('Error happen!!! try again');
+        this.isLoading = false;
+      }
+    );
+  }
+  onConfirmDelete() {
+    this.modalService.open(this.content, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
     });
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.sbcUploadFile.unsubscribe();
   }
 }

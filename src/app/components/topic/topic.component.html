@@ -91,10 +91,9 @@
                 <!-- Column 1: topic title -->
                 <div class="col-md-11">
                   <div class="item-title-topic">
-                    <h3 class="item-topic-title">
-                      <a>
+                    <h3 class="item-topic-title" 
+                    (click)="reviewFile(topic.title,topic.id)">
                        {{topic.title}}
-                      </a>
                     </h3>
                   </div>
                   <div class="item-more-info">
@@ -105,7 +104,7 @@
                 <!-- Column 2: Action buttons -->
                 <div class="col-md-1 action-buttons-container">
                   <!-- Download -->
-                  <button class="action-button" (click)="getDownLoad(topic.id)">
+                  <button class="action-button" (click)="getDownLoad(topic.title,topic.id, topic.fileUrl)">
                     <i class="bi bi-file-earmark-arrow-down icon"></i>
                   </button>
                   <!-- Copy -->
