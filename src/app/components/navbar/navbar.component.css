@@ -194,3 +194,11 @@ i {
 .topic:hover .topic-item {
     display: block !important;
 }
+
+li{
+    cursor: pointer;
+}
+
+a{
+    cursor: pointer;
+}

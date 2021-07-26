@@ -47,14 +47,15 @@ export class CourseService {
       .pipe();
   }
 
-  getListCourseByGrade(level_: GRADES) {
+  getListCourseByGrade(level_: string) {
     return this.http
       .get<{ message: string; count: number; courses: Course[] }>(
         this.baseUrl + '/courses',
         {
           params: new HttpParams()
             .set('grade', level_)
-            .set('isHidden', true),
+          ,
+          headers: this.httpOptions.headers,
         }
       )
       .pipe();

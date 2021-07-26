@@ -71,6 +71,7 @@ export class NavbarComponent implements OnInit {
   grade: GRADES = GRADES.NHSGE;
 
   setGradeChangeRouter(number: number){
+    
     switch(number){
       case 1: {this.grade = GRADES.NHSGE; break;}
       case 2: {this.grade = GRADES.TWELFTH; break;}
@@ -79,5 +80,14 @@ export class NavbarComponent implements OnInit {
       case 5: {this.grade = GRADES.NINTH; break;}
       default: break;
     }
+    this.setRouter();
+  }
+
+  getGradeChangeRouter(){
+    return this.grade;
+  }
+
+  setRouter(){
+    this.router.navigate(['/home', this.grade]);
   }
 }

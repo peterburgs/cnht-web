@@ -3,10 +3,10 @@ import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
+import { CourseService } from 'src/app/service/course.service';
 
 interface Status {
   value: Number;
@@ -34,21 +34,41 @@ export class HomeScreenComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fullCourseService: FullCourseService,
+    private courseService :CourseService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.getGradeOnRouter();
+   
+  }
 
-    this.route.params.subscribe((params) => {
-      this.grade = params['grade'];
-    });
-
+  getAllCourse(){
+    this.grade = '';
     this.fullCourseService.initCourses().subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
         this.courses = response.courses;
+        this.listSortedCourse = this.courses;
+        this.sortByDate(this.selectedExpBy);
+        this.listCourse = this.listSortedCourse;
+        this.isLoading = false;
+      },
+      (error) => {
+        this.courses = [];
+        this.listCourse = [];
+        this.listSortedCourse = this.courses;
+        this.isLoading = false;
+      }
+    );
+  }
 
+  getAllCourseGrade(){
+    this.courseService.getListCourseByGrade(this.grade).subscribe(
+      (response) => {
+        this.fullCourseService.setCourses(response.courses);
+        this.courses = response.courses;
         this.listSortedCourse = this.courses;
         this.sortByDate(this.selectedExpBy);
         this.listCourse = this.listSortedCourse;
@@ -66,10 +86,10 @@ export class HomeScreenComponent implements OnInit {
   getGradeOnRouter(){
     this.route.params.subscribe((params) => {
       this.grade = params['grade'];
-      //this.listCourse =
+      if(!this.grade) this.getAllCourse();
+      else this.getAllCourseGrade();
     });
   }
-
 
   signOut(): void {
     localStorage.removeItem('google_auth');
@@ -111,28 +131,6 @@ export class HomeScreenComponent implements OnInit {
     this.sbcCourses.unsubscribe();
   }
 
-  receiveGrade($event: any) {
-    this.grade = $event;
-  }
-
-  receiveCategory($event: any) {
-    this.typeCourse = $event;
-    this.getAllByFilter();
-  }
-
-  @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
-  resetChildForm() {
-    this.childC?.resetChildForm();
-    window.scrollTo(0, 0);
-  }
-
-  onResetFitler() {
-    this.resetChildForm();
-    this.grade = '';
-    this.typeCourse = '';
-    this.getAllByFilter();
-  }
-
   selectedExpBy: number = 0;
 
   listExpStatus: Status[] = [
@@ -141,41 +139,7 @@ export class HomeScreenComponent implements OnInit {
   ];
 
   getAllByFilter() {
-    this.getListByAllFilterCourse(true);
+    this.getAllListByTitle();
   }
 
-  getListByAllFilterCourse(status: boolean) {
-    if (this.grade == '' || this.typeCourse == '')
-      this.getAllListByTitleAndStatus(status);
-    else
-      this.listCourse = this.listSortedCourse.filter(
-        (course) =>
-          course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-          course.courseType.toString() == this.typeCourse &&
-          course.grade.toString() == this.grade &&
-          course.isPublished == status
-      );
-  }
-
-  getAllListByTitleAndStatus(status: boolean) {
-    this.listCourse = this.listSortedCourse.filter(
-      (course) =>
-        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        course.isPublished == status
-    );
-  }
-
-  getListAllByFilterAndTitleSearch() {
-    if (this.grade == '' || this.typeCourse == '') this.getAllListByTitle();
-    else this.getListByFilterAndTitleSearch();
-  }
-
-  getListByFilterAndTitleSearch() {
-    this.listCourse = this.listSortedCourse.filter(
-      (course) =>
-        course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        course.courseType.toString() == this.typeCourse &&
-        course.grade.toString() == this.grade
-    );
-  }
 }
