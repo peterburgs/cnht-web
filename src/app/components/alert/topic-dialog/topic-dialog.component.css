@@ -1,0 +1,11 @@
+.div-action-button{
+    display: flex;
+    justify-content: center;
+}
+.btn-active{
+    margin-right: 5px;
+}
+.select-item{
+    font-size: 14px;
+    width: 35%;
+}

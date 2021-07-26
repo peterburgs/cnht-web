@@ -88,6 +88,9 @@ import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.
 import { CourseFilterComponent } from './components/course-filter/course-filter.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { NoteComponent } from './components/course/detail-info-course/note/note.component';
+import { TopicComponent } from './components/topic/topic.component';
+import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
+import { TopicDialogComponent } from './components/alert/topic-dialog/topic-dialog.component';
 
 @NgModule({
   declarations: [
@@ -151,6 +154,9 @@ import { NoteComponent } from './components/course/detail-info-course/note/note.
     InfoDialogComponent,
     CourseFilterComponent,
     NoteComponent,
+    TopicComponent,
+    ModifyTopicComponent,
+    TopicDialogComponent,
   ],
   imports: [
     BrowserModule,
