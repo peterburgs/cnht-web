@@ -70,6 +70,7 @@ export class HomeScreenComponent implements OnInit {
     });
   }
 
+
   signOut(): void {
     localStorage.removeItem('google_auth');
     this.router.navigateByUrl('/admin/login').then();
