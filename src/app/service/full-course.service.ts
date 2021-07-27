@@ -539,8 +539,8 @@ export class FullCourseService {
   handleEditNoteLecture(note: string) {
     var tmpLecture = this.getLectureSelection();
 
-    // tmpLecture.note = note
-    //return this.onSaveLecture(tmpLecture);
+    tmpLecture.note = note;
+    return this.onSaveLecture(tmpLecture);
   }
   handleEditSection(title: string) {
     var tmpSection = this.getSectionSelection()[0];
@@ -967,105 +967,6 @@ export class FullCourseService {
       sectionOrder: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
-    },
-  ];
-  private mLectureList: Lecture[] = [
-    {
-      id: 'co1sec1lec1',
-      title: 'Video 1',
-      lectureOrder: 0,
-      isHidden: false,
-      sectionId: 'course1sec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      length: 2,
-    },
-    {
-      id: 'co1sec1lec2',
-      title: 'Video 2',
-      lectureOrder: 1,
-      isHidden: false,
-      sectionId: 'course1sec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      length: 2,
-    },
-    {
-      id: 'co1sec2lec1',
-      title: 'Video 1',
-      lectureOrder: 2,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      length: 2,
-    },
-    {
-      id: 'co1sec2lec2',
-      title: 'Video 2',
-      lectureOrder: 3,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      length: 2,
-    },
-    {
-      id: 'co1sec2lec3',
-      title: 'Video 3',
-      lectureOrder: 4,
-      isHidden: false,
-      sectionId: 'course1sec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      length: 2,
-    },
-  ];
-  private mVideo: Video[] = [
-    {
-      id: 'lec0',
-      fileName: 'Video of lecture 0',
-      length: 134,
-      lectureId: 'co1sec1lec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-    },
-    {
-      id: 'lec1',
-      fileName: 'Video of lecture 1',
-      length: 130,
-      lectureId: 'co1sec1lec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-    },
-    {
-      id: 'lec2',
-      fileName: 'Video of lecture 2',
-      length: 0,
-      lectureId: 'co1sec2lec1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-    },
-    {
-      id: 'lec3',
-      fileName: 'Video of lecture 3',
-      length: 0,
-      lectureId: 'co1sec2lec2',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-    },
-    {
-      id: 'lec4',
-      fileName: 'Video of lecture 4',
-      length: 0,
-      lectureId: 'co1sec2lec3',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
     },
   ];
 }

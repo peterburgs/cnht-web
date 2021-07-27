@@ -111,14 +111,14 @@ export class CourseLectureComponent implements OnInit {
   }
   saveLectureNote(idLecture: string){
     this.fullCourseService.setSelection(idLecture, VideoType.lecture, ModifyType.edit)
-    // this.fullCourseService.handleEditNoteLecture(this.lectureNote).subscribe(
-    //   (response) => {
-    //     this.openSnackBar('Changes saved', 'OK');
-    //   },
-    //   (error) => {
-    //     alert('Server disconnect at this time, try again');
-    //   }
-    // );
+    this.fullCourseService.handleEditNoteLecture(this.lectureNote).subscribe(
+      (response) => {
+        this.openSnackBar('Changes saved', 'OK');
+      },
+      (error) => {
+        alert('Server disconnect at this time, try again');
+      }
+    );
     this.eventSaveNote = false;
   }
   enableChangeLecture(event: any) {

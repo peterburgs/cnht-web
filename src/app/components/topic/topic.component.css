@@ -270,3 +270,15 @@
   flex-direction: column;
   width: fit-content;
 }
+.download{
+  color: #fff;
+  background: #CD113B;
+}
+.edit{
+  color: #fff;
+  background: rgb(48, 71, 201);
+}
+.copy{
+  color: #fff;
+  background: #81B214;
+}

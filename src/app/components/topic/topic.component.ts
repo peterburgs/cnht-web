@@ -85,7 +85,9 @@ export class TopicComponent implements OnInit {
         this.sbcCreateTopic = this.topicService.onCreateTopic().subscribe(
           (res) => {
             this.topicService.addTopic(res.topic);
-            this.router.navigateByUrl('/admin/topics/' + res.topic.id+'/edit').then();
+            this.router
+              .navigateByUrl('/admin/topics/' + res.topic.id + '/edit')
+              .then();
             this.isLoading = false;
           },
           (error) => {
@@ -98,20 +100,21 @@ export class TopicComponent implements OnInit {
     });
   }
 
-  getAllByDate() { //ok
+  getAllByDate() {
+    //ok
     this.sortByDate(this.selectedExpBy);
     this.getAllByFilter();
   }
-
 
   searchCourse($event: string) {
     this.titleSearch = $event;
     this.getAllByFilter();
   }
 
-  sortByDate(order: number) { //ok
+  sortByDate(order: number) {
+    //ok
     if (order == 0) {
-      this.listSortedTopic= this.topics.sort((a, b) => {
+      this.listSortedTopic = this.topics.sort((a, b) => {
         return <any>new Date(b.updatedAt) - <any>new Date(a.updatedAt);
       });
     } else {
@@ -121,9 +124,10 @@ export class TopicComponent implements OnInit {
     }
   }
 
-  getAllListByTitle() { //ok
+  getAllListByTitle() {
+    //ok
     this.listTopic = this.listSortedTopic.filter((topic) =>
-    topic.title.toLowerCase().includes(this.titleSearch.toLowerCase())
+      topic.title.toLowerCase().includes(this.titleSearch.toLowerCase())
     );
   }
 
@@ -135,10 +139,10 @@ export class TopicComponent implements OnInit {
   selectedExpBy: number = 0;
 
   listStatus: StatusTopic[] = [
-    { value: "all", viewValue: 'All' },
+    { value: 'all', viewValue: 'All' },
     { value: TOPICS.ALGEBRA, viewValue: 'Algebra' },
     { value: TOPICS.GEOMETRY, viewValue: 'Geometry' },
-    { value: TOPICS.COMBINATION, viewValue: 'Combination' }
+    { value: TOPICS.COMBINATION, viewValue: 'Combination' },
   ];
 
   listExpStatus: Status[] = [
@@ -147,39 +151,37 @@ export class TopicComponent implements OnInit {
   ];
 
   getAllByFilter() {
-    console.log("type: " + this.topicType);
+    console.log('type: ' + this.topicType);
     switch (this.topicType) {
-      case "all":
+      case 'all':
         this.getAllListByTitle(); //ok
         break;
       default:
         this.getListByTopicType(this.topicType); //0k
-         break;
+        break;
     }
   }
 
   getListByTopicType(type: string) {
-    console.log("get by type: " + this.topicType);
-      this.listTopic = this.listSortedTopic.filter(
-        (topic) =>
-          topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-          topic.topicType == type
-      );
+    console.log('get by type: ' + this.topicType);
+    this.listTopic = this.listSortedTopic.filter(
+      (topic) =>
+        topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+        topic.topicType == type
+    );
   }
 
- 
   reviewFile(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
     formatTitle = formatTitle.replace(/\s/g, '_');
-    console.log('*** topic ' + formatTitle + ' ' + topicId);
-    this.router
-      .navigateByUrl('admin/topics/' + formatTitle + '/' + topicId+'/reviewer')
-      .then();
+    let urlReview = 'topics/' + formatTitle + '/' + topicId + '/view';
+   
+    this.router.navigateByUrl(urlReview).then();
   }
   getDownLoad(topicTile: string, topicId: string, topicUrl: string) {
     let nameFormat = topicTile.replace(/[^\x00-\xFF]/g, '');
     nameFormat = nameFormat.replace(/\s/g, '-');
-   
+
     this.topicService.downloadFile(topicUrl).subscribe(
       (data) => {
         //let blob = new Blob([data],{type:'application/pdf'})
@@ -196,11 +198,30 @@ export class TopicComponent implements OnInit {
   }
   goEdit(idTopic: string) {
     // this.router.navigateByUrl('/admin/topics/' + idTopic).then();
-    this.router.navigate([idTopic,'edit'], { relativeTo: this.route });
+    this.router.navigate([idTopic, 'edit'], { relativeTo: this.route });
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 2000,
     });
+  }
+  copyMessage(topicTitle:string, topicId:string) {
+    let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
+    formatTitle = formatTitle.replace(/\s/g, '_');
+    let urlReview =    window.location.href +'/'+ formatTitle + '/' + topicId + '/reviewer'
+
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = urlReview;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+
+    this.openSnackBar('Link copied to clipboard!', 'OK');
   }
 }

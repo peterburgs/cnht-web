@@ -92,7 +92,6 @@ import { TopicComponent } from './components/topic/topic.component';
 import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
 import { TopicDialogComponent } from './components/alert/topic-dialog/topic-dialog.component';
 import { TopicScreenComponent } from './screen/topic-screen/topic-screen.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -187,7 +186,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatSelectModule,
     ReactiveFormsModule,
     MatExpansionModule,
-    PdfViewerModule
   ],
   providers: [
     CurrencyPipe,
