@@ -61,7 +61,7 @@
   font-weight: 500;
   outline: none;
   border: none;
-  background: #eee;
+  background: #c4c4c4;
   color: #000;
 }
 .btn-upload:hover {
@@ -135,4 +135,13 @@
 
 .icon-decorate {
   margin-right: 0.6rem;
+}
+.has-url{
+  margin-left: 3px;
+}
+.urlFile{
+  cursor: pointer;
+}
+.file-name{
+  color: #548ca8;
 }

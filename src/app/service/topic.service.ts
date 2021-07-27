@@ -44,7 +44,7 @@ export class TopicService {
       {
         title: iTopic.title,
         topicType: iTopic.topicType,
-        fileUrl: this.topic.fileUrl,
+        fileUrl: iTopic.fileUrl,
       },
       httpOptions
     );

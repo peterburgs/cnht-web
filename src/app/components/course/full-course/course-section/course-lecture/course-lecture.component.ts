@@ -28,7 +28,7 @@ export class CourseLectureComponent implements OnInit {
   changeNote = false;
   videoFile: File = new File([], 'lecture-video');
   lectureTitle = '';
-  lectureNote ='';
+  lectureNote = '';
   fileToUpload = new File([], 'default');
   duration: number = 0;
   eventSave = false;
@@ -55,6 +55,12 @@ export class CourseLectureComponent implements OnInit {
       });
     this.sbjLoadingDuration.subscribe((duration) => {
       if (this.fileToUpload.name != 'default') {
+        let tmpFileName = this.fileToUpload.name.replace(/[^\x00-\x7F]/g, '');
+        
+        Object.defineProperty(this.fileToUpload, 'name', {
+          writable: true,
+          value: tmpFileName,
+        });
         this.fullCourseService.handleUpdateWithVideo(
           this.fileToUpload,
           this.duration,
@@ -70,6 +76,7 @@ export class CourseLectureComponent implements OnInit {
               this.timeVideo = this.tmpTimeVideo;
               this.sbjLoadingDuration.next(this.timeVideo);
               this.sbcMediaUpload.unsubscribe();
+              this.openSnackBar("File uploaded successfully","Ok")
             }
 
             this.sbjLoadingDuration.unsubscribe();
@@ -90,8 +97,8 @@ export class CourseLectureComponent implements OnInit {
     this.lectureTitle = $event.target.value;
   }
   clickEditNote($event: any) {
-    this.eventSaveNote=true;
-    this.lectureNote =$event.target.value;
+    this.eventSaveNote = true;
+    this.lectureNote = $event.target.value;
   }
   saveLecture(idLecture: string) {
     this.fullCourseService.setSelection(
@@ -109,8 +116,12 @@ export class CourseLectureComponent implements OnInit {
     );
     this.eventSave = false;
   }
-  saveLectureNote(idLecture: string){
-    this.fullCourseService.setSelection(idLecture, VideoType.lecture, ModifyType.edit)
+  saveLectureNote(idLecture: string) {
+    this.fullCourseService.setSelection(
+      idLecture,
+      VideoType.lecture,
+      ModifyType.edit
+    );
     this.fullCourseService.handleEditNoteLecture(this.lectureNote).subscribe(
       (response) => {
         this.openSnackBar('Changes saved', 'OK');
@@ -125,9 +136,9 @@ export class CourseLectureComponent implements OnInit {
     this.changeLecture = true;
     this.lectureTitle = event?.target.value;
   }
-  enableChangeLectureNote(event:any){
-    this.changeNote=true;
-    this.lectureNote =event?.target.value;
+  enableChangeLectureNote(event: any) {
+    this.changeNote = true;
+    this.lectureNote = event?.target.value;
   }
   onEditLecture(id: string) {
     this.fullCourseService.setSelection(id, VideoType.lecture, ModifyType.edit);

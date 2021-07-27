@@ -71,6 +71,12 @@ export class CourseInfoComponent implements OnInit {
       reader.onload = (event: any) => {
         this.tmpImage = event.target.result;
       };
+      let tmpFileName = this.fileToUpLoad.name.replace(/[^\x00-\x7F]/g, '');
+
+      Object.defineProperty(this.fileToUpLoad, 'name', {
+        writable: true,
+        value: tmpFileName,
+      });
       this.fullCourseService.handleUpdateWithThumbnail(this.fileToUpLoad);
       reader.readAsDataURL(this.fileToUpLoad);
     }
@@ -100,36 +106,34 @@ export class CourseInfoComponent implements OnInit {
   changeGrade(e: any) {
     this.course.grade = e.target.value;
   }
-  onSave(buttonType:string) {
-    if(buttonType=='save'){
+  onSave(buttonType: string) {
+    if (buttonType == 'save') {
       console.log(buttonType);
       this.loadingSave = true;
-    if (this.course.title && this.course.courseDescription) {
-      this.fullCourseService.setSelection(
-        this.course.id,
-        VideoType.course,
-        ModifyType.save
-      );
-      this.fullCourseService
-        .onSaveCourse()
-        .toPromise()
-        .then(
-          (response) => {
-            this.openSnackBar('All changes saved', 'OK');
-            this.loadingSave = false;
-          },
-          (error) => {
-            alert('Cannot save. Please try again');
-            this.loadingSave = false;
-          }
+      if (this.course.title && this.course.courseDescription) {
+        this.fullCourseService.setSelection(
+          this.course.id,
+          VideoType.course,
+          ModifyType.save
         );
-    }
-    }
-    else{
+        this.fullCourseService
+          .onSaveCourse()
+          .toPromise()
+          .then(
+            (response) => {
+              this.openSnackBar('All changes saved', 'OK');
+              this.loadingSave = false;
+            },
+            (error) => {
+              alert('Cannot save. Please try again');
+              this.loadingSave = false;
+            }
+          );
+      }
+    } else {
       console.log(buttonType);
     }
-    console.log("****")
-    
+    console.log('****');
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
