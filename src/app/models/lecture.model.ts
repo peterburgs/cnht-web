@@ -7,4 +7,5 @@ export class Lecture {
   updatedAt: Date = new Date();
   isHidden: boolean = false;
   length: number = 0;
+  note:string=''
 }

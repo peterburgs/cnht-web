@@ -104,13 +104,17 @@
                 <!-- Column 2: Action buttons -->
                 <div class="col-md-1 action-buttons-container">
                   <!-- Download -->
-                  <button class="action-button" (click)="getDownLoad(topic.title,topic.id, topic.fileUrl)">
+                  <button class="action-button download" (click)="getDownLoad(topic.title,topic.id, topic.fileUrl)">
                     <i class="bi bi-file-earmark-arrow-down icon"></i>
                   </button>
                   <!-- Copy -->
 
-                  <button class="action-button" (click)=goEdit(topic.id)>
+                  <button class="action-button copy" (click)=copyMessage(topic.title,topic.id)>
                     <i class="bi bi-clipboard-check icon"></i>
+                  </button>
+                  <!-- Edit -->
+                  <button class="action-button edit" (click)=goEdit(topic.id)>
+                    <i class="bi bi-pencil-square icon"></i>
                   </button>
                 </div>
               </div>

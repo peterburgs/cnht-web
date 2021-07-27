@@ -100,7 +100,7 @@ const routes: Routes = [
     component: ModifyTopicComponent,
   },
   {
-    path: 'admin/topics/:name/:id/reviewer',
+    path: 'topics/:name/:id/view',
     component: TopicScreenComponent,
   },
 

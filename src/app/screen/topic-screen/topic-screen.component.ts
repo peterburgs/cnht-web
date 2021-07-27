@@ -42,26 +42,34 @@ export class TopicScreenComponent implements OnInit {
       this.topicService.getTopicByIdRemote(this.topic.id).subscribe(
         (res) => {
           this.topic = res.topics[0];
-        
-          let url = `${this.baseUrl}${this.topic.fileUrl}`;
-          let html = `<embed width="90%" height="100%" src="${url}" />`;
-          this.url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-          this.html = this.sanitizer.bypassSecurityTrustHtml(html);
-          this.isLoading = false;
+          if(this.topic.fileUrl.length>0){
+            let url = `${this.baseUrl}${this.topic.fileUrl}`;
+            let html = `<embed width="90%" height="100%" src="${url}" />`;
+            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+            this.html = this.sanitizer.bypassSecurityTrustHtml(html);
+            this.isLoading = false;
+          }
+          else
+          {
+            this.emptyContent = true;
+            this.isLoading = false;
+          }
+      
         },
         (error) => {
           this.isLoading = false;
           this.emptyContent = true;
         }
       );
-      // this.topicService.getFileFromUrl(this.tmpUrl).subscribe((data) => {
-      //   let reader = new FileReader();
-      //   reader.onload = (e: any) => {
-      //     this.encodeUrl = e.target.result;
-      //   };
-      //   var downloadURL = window.URL.createObjectURL(data);
-      //   reader.readAsArrayBuffer(data);
-      // });
+
     });
+  }
+  goBack() {
+    if(localStorage.getItem('role')=='admin'){
+      this.router.navigateByUrl('/admin/topics').then();
+    }
+    else{
+      this.router.navigateByUrl('/topics/algebra').then();
+    }
   }
 }

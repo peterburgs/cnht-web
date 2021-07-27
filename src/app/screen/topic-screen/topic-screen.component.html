@@ -8,11 +8,20 @@
 ></embed> -->
 
 <div class="contain-pdf">
-  <div class="container">
-    <h2>{{topic.title}}</h2>
+  <div class="container div-title">
+    <div class="div-back">
+      <h2 (click)="goBack()" class="icon-back" >
+        <i
+          class="bi bi-arrow-left-square icon-decorate"
+          title="Lesson go back"
+        ></i>
+      </h2>
+
+      <h2 class="header-title">{{ topic.title }}</h2>
+    </div>
   </div>
   <!-- <div class="viewer-contain-pdf" > -->
-    <!-- <pdf-viewer id="PDF" *ngIf="!emptyContent" 
+  <!-- <pdf-viewer id="PDF" *ngIf="!emptyContent" 
       [src]="tmpUrl"
       [page]=page
       [render-text]="true"
@@ -20,15 +29,16 @@
       style="display: block"
       
     ></pdf-viewer> -->
-    <div class="div-pdf"  [innerHTML]="html"></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div *ngIf="emptyContent" class="empty-content">
-      <h2>Empty</h2>
-    </div>
+  <div class="div-pdf" [innerHTML]="html"></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div *ngIf="!emptyContent" class="empty-content">
+    <h2>Empty</h2>
+  </div>
+  <div *ngIf="emptyContent"></div>
   <!-- </div> -->
 </div>
 

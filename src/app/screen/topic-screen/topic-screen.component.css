@@ -26,3 +26,26 @@
     height: 90vh;
     margin-bottom: 40rem;
 }
+.icon-decorate{
+  margin-right: 0.6rem;
+  font-size: 18px;
+}
+.div-back {
+  display: flex;
+  justify-content: center;
+
+}
+
+.div-title{
+  display: flex;
+}
+.icon-back{
+  color: #1191d1;
+  font-size: 20px;  
+}
+.icon-back:hover{
+  cursor: pointer;
+}
+.header-title{
+  font-size: 20px ;
+}
