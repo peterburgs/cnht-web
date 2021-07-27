@@ -527,7 +527,6 @@ export class FullCourseService {
     tmpLecture.title = title;
     tmpLecture.sectionId = this.getSectionSelection()[0].id;
     tmpLecture.isHidden = false;
-
     this.onCreateLecture(tmpLecture);
   }
   handleEditTitleLecture(title: string) {
@@ -789,6 +788,7 @@ export class FullCourseService {
         lectureOrder: lecture.lectureOrder,
         isHidden: lecture.isHidden,
         sectionId: lecture.sectionId,
+        note:lecture.note
       },
       httpOptions
     );
