@@ -9,7 +9,7 @@
 
 .wrapper {
     text-align: center;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .no-found {
@@ -204,4 +204,7 @@
     .search-container {
         width: 100%;
     }
+}
+.col-md-3{
+    
 }

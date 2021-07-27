@@ -85,6 +85,7 @@ export class HomeScreenComponent implements OnInit {
 
   getGradeOnRouter(){
     this.route.params.subscribe((params) => {
+      this.isLoading = true;
       this.grade = params['grade'];
       if(!this.grade) this.getAllCourse();
       else this.getAllCourseGrade();

@@ -6,9 +6,15 @@ import { Subscription } from 'rxjs';
 import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoDialogComponent } from 'src/app/components/alert/info-dialog/info-dialog.component';
+import { GRADES } from 'src/app/models/grades';
 
 interface Status {
   value: Number;
+  viewValue: string;
+}
+
+interface Grades {
+  value: string;
   viewValue: string;
 }
 
@@ -24,7 +30,7 @@ export class AdminCourseScreenComponent implements OnInit {
   titleSearch: string = '';
   listCourse: Course[] = [];
   listSortedCourse: Course[] = [];
-  grade = '';
+  grade = 'all';
   typeCourse = '';
   sbcCreate: Subscription = new Subscription();
   sbcCourses: Subscription = new Subscription();
@@ -190,6 +196,15 @@ export class AdminCourseScreenComponent implements OnInit {
     { value: 1, viewValue: 'Oldest' },
   ];
 
+  listGradeStatus: Grades[] = [
+    { value: "all", viewValue: 'All' },
+    { value: GRADES.NHSGE, viewValue: 'Tốt nghiệp THPT' },
+    { value: GRADES.TWELFTH, viewValue: 'Grade 12' },
+    { value: GRADES.ELEVENTH, viewValue: 'Grade 11' },
+    { value: GRADES.TENTH, viewValue: 'Grade 10' },
+    { value: GRADES.NINTH, viewValue: 'Grade 9' }
+  ]
+
   getAllByFilter() {
     switch (this.selectedViewBy) {
       case 0:
@@ -207,13 +222,12 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListByAllFilterCourse(status: boolean) {
-    if (this.grade == '' || this.typeCourse == '')
+    if (this.grade == 'all' )
       this.getAllListByTitleAndStatus(status);
     else
       this.listCourse = this.listSortedCourse.filter(
         (course) =>
           course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-          course.courseType.toString() == this.typeCourse &&
           course.grade.toString() == this.grade &&
           course.isPublished == status
       );
@@ -228,7 +242,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListAllByFilterAndTitleSearch() {
-    if (this.grade == '' || this.typeCourse == '') this.getAllListByTitle();
+    if (this.grade == 'all' ) this.getAllListByTitle();
     else this.getListByFilterAndTitleSearch();
   }
 
@@ -236,7 +250,6 @@ export class AdminCourseScreenComponent implements OnInit {
     this.listCourse = this.listSortedCourse.filter(
       (course) =>
         course.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        course.courseType.toString() == this.typeCourse &&
         course.grade.toString() == this.grade
     );
   }

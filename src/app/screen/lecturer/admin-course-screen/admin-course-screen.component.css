@@ -8,12 +8,15 @@
   padding-bottom: 50vh;
 }
 
+.container{
+  margin-bottom: 10px !important;
+}
+
 .btn-new-course {
   /* width: 200px; */
   background: #4ebee1;
   border-radius: 10px;
   margin-left: 5px;
-  margin-top: 4vh;
   padding: 4px;
   padding-left: 6px;
   padding-right: 6px;
@@ -44,11 +47,6 @@
   justify-items: center;
   justify-content: center;
   text-align: center;
-}
-.div-loading {
-
-  padding-top:  1.5rem;
-  padding-left: 0.5rem;
 }
 
 .search-course {
@@ -207,7 +205,6 @@
 }
 .padding-tb{
   margin-top: 10px;
-  margin-bottom: 10px;
 }
 .screen-display{
   margin-right: 0px;
@@ -217,4 +214,10 @@
   .div-sort-by{
     display: contents !important;
   }
+}
+
+.list-course-components{
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
