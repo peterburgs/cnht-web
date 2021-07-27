@@ -69,22 +69,6 @@ export class TopicComponent implements OnInit {
   }
 
   onCreateCourse() {
-    // this.isLoading = true;
-    // this.fullCourseService.createCourse();
-
-    // this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
-    //   (course) => {
-    //     this.isLoading = false;
-    //     this.router.navigate(
-    //       ['../', 'course', this.fullCourseService.getCourseInfo().id],
-    //       { relativeTo: this.route }
-    //     );
-    //   },
-    //   (error) => {
-    //     this.isLoading = false;
-    //     alert('Can not create new course now!!! Try again');
-    //   }
-    // );
     this.openModalCreateCourse();
   }
 
@@ -101,7 +85,7 @@ export class TopicComponent implements OnInit {
         this.sbcCreateTopic = this.topicService.onCreateTopic().subscribe(
           (res) => {
             this.topicService.addTopic(res.topic);
-            this.router.navigateByUrl('/admin/topics/' + res.topic.id).then();
+            this.router.navigateByUrl('/admin/topics/' + res.topic.id+'/edit').then();
             this.isLoading = false;
           },
           (error) => {
@@ -109,24 +93,6 @@ export class TopicComponent implements OnInit {
             alert('error');
           }
         );
-        // this.fullCourseService.createCourse();
-        // this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
-        //   (course) => {
-        //      this.isLoading = false;
-        //     this.router.navigate(
-        //       ['../', 'course', this.fullCourseService.getCourseInfo().id],
-        //       { relativeTo: this.route }
-        //     );
-        //   },
-        //   (error) => {
-        //     this.isLoading = false;
-        //     alert('Can not create new course now!!! Try again');
-        //   }
-        // );
-        // this.router.navigate(
-        //   [ '/edit'],
-        //   { relativeTo: this.route }
-        // );
       } else {
       }
     });
@@ -204,15 +170,15 @@ export class TopicComponent implements OnInit {
  
   reviewFile(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
-    formatTitle = formatTitle.replace(/\s/g, '');
+    formatTitle = formatTitle.replace(/\s/g, '_');
     console.log('*** topic ' + formatTitle + ' ' + topicId);
     this.router
-      .navigateByUrl('admin/home/topics/' + formatTitle + '/' + topicId)
+      .navigateByUrl('admin/topics/' + formatTitle + '/' + topicId+'/reviewer')
       .then();
   }
   getDownLoad(topicTile: string, topicId: string, topicUrl: string) {
     let nameFormat = topicTile.replace(/[^\x00-\xFF]/g, '');
-    nameFormat = nameFormat.replace(/\s/g, '');
+    nameFormat = nameFormat.replace(/\s/g, '-');
    
     this.topicService.downloadFile(topicUrl).subscribe(
       (data) => {
@@ -230,7 +196,7 @@ export class TopicComponent implements OnInit {
   }
   goEdit(idTopic: string) {
     // this.router.navigateByUrl('/admin/topics/' + idTopic).then();
-    this.router.navigate([idTopic], { relativeTo: this.route });
+    this.router.navigate([idTopic,'edit'], { relativeTo: this.route });
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

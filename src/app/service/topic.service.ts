@@ -153,7 +153,7 @@ export class TopicService {
   }
   
   getTopicByIdRemote(id:string){
-     return this.http.get<{ message: String; count: Number; topic: Topic }>(
+     return this.http.get<{ message: String; count: Number; topics: Topic[] }>(
       this.baseURL + 'topics',
       {
         headers: this.headers,
@@ -206,7 +206,7 @@ export class TopicService {
   }
   onDeleteTopic(id: string) {
     return this.http.delete<{ message: string }>(
-      this.baseURL + 'topics',
+      this.baseURL + 'topics/'+id,
       httpOptions
     );
   }
