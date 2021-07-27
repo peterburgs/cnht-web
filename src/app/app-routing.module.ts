@@ -96,17 +96,17 @@ const routes: Routes = [
     component: ErrorPageComponent,
   },
   {
-    path: 'home/topics/:name/:id',
-    component: TopicScreenComponent,
-  },
-  { path: 'admin/topics', component: TopicComponent },
-  {
-    path: 'admin/topics/:id',
+    path: 'admin/topics/:id/edit',
     component: ModifyTopicComponent,
   },
   {
-    path: 'admin/home/topics/:title/:id',
+    path: 'admin/topics/:name/:id/reviewer',
     component: TopicScreenComponent,
+  },
+
+  {
+    path: 'admin/topics',
+    component: TopicComponent,
   },
 ];
 

@@ -8,17 +8,28 @@
 ></embed> -->
 
 <div class="contain-pdf">
-  <div class="">
-    <h2>topic.title</h2>
+  <div class="container">
+    <h2>{{topic.title}}</h2>
   </div>
-  <div class="viewer-contain-pdf" >
-    <pdf-viewer id="PDF"
+  <!-- <div class="viewer-contain-pdf" > -->
+    <!-- <pdf-viewer id="PDF" *ngIf="!emptyContent" 
       [src]="tmpUrl"
       [page]=page
       [render-text]="true"
       [show-all]="true"
       style="display: block"
       
-    ></pdf-viewer>
-  </div>
+    ></pdf-viewer> -->
+    <div class="div-pdf"  [innerHTML]="html"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div *ngIf="emptyContent" class="empty-content">
+      <h2>Empty</h2>
+    </div>
+  <!-- </div> -->
 </div>
+
+<app-loading [isLoading]="isLoading"></app-loading>

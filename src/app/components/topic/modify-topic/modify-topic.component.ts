@@ -27,21 +27,21 @@ export class ModifyTopicComponent implements OnInit {
         this.router.navigateByUrl('/admin/topics').then();
       }
       this.isLoading = true;
-      // this.topicService.getTopicById(this.topic.id).subscribe(res=>{
-      //   this.topic = res.topic;
-      //   this.isLoading=true;
-      // }, error=>{
-      //   this.isLoading=true;
-      //   this.router.navigate(["/not-found"], { relativeTo: this.route });
-      // }
-      //   )
-      this.topic = this.topicService.getTopicById(this.topic.id);
+      this.topicService.getTopicByIdRemote(this.topic.id).subscribe(res=>{
+        this.topic = res.topics[0];
+        this.isLoading=true;
+      }, error=>{
+        this.isLoading=true;
+        this.router.navigate(["/not-found"], { relativeTo: this.route });
+      }
+        )
+      //this.topic = this.topicService.getTopicById(this.topic.id);
     });
     this.sbcUploadFile = this.topicService
       .getIsUpdateFile()
       .subscribe((data) => {
-        if(!data){
-          this.isUpdate= false;
+        if (!data) {
+          this.isUpdate = false;
         }
       });
   }
@@ -85,7 +85,7 @@ export class ModifyTopicComponent implements OnInit {
       (res) => {
         console.log(res.message);
         this.topicService.updateTopicInList(res.topic);
-        this.isSaving = false; 
+        this.isSaving = false;
       },
       (error) => {
         this.isSaving = false;
