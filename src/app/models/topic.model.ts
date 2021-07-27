@@ -8,4 +8,5 @@ export class Topic {
     isHidden: boolean=false;
     createdAt: Date=new Date();
     updatedAt: Date= new Date();
+    fileName:string='';
   }

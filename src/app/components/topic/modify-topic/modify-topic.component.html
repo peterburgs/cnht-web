@@ -54,12 +54,27 @@
       </div>
     </div>
     <div class="container">
-      <div class="col-sm-2 text-end"><span>Select file </span></div>
+      <div class="col-sm-2"></div>
+      <div class="col-sm-10">
+        <button class="btn-create" (click)="updateTopic()">
+          <div class="btn-container">
+            <i class="bi bi-save icon-margin icon-decorate"></i
+            ><span> Save</span>
+          </div>
+        </button>
+        <div
+          *ngIf="isSaving"
+          class="spinner-border spinner-border-sm text-danger"
+        ></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-sm-2 text-end"></div>
       <div class="col-sm-10">
         <input
           #file
           type="file"
-          accept="application/pdf,application/vnd.ms-excel"
+          accept="application/pdf"
           class="image-input"
           style="display: none"
           (change)="handleFileInput($event)"
@@ -74,21 +89,15 @@
           *ngIf="isUpdate"
           class="spinner-border spinner-border-sm text-danger"
         ></div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-10">
-        <button class="btn-create" (click)="updateTopic()">
-          <div class="btn-container">
-            <i class="bi bi-save icon-margin icon-decorate"></i
-            ><span> Save</span>
-          </div>
-        </button>
-        <div
-          *ngIf="isSaving"
-          class="spinner-border spinner-border-sm text-danger"
-        ></div>
+        <span class="has-url" *ngIf="!topic.fileUrl.length"
+          >No file uploaded</span
+        >
+        <span
+          class="has-url urlFile file-name"
+          *ngIf="topic.fileUrl.length"
+          (click)="goUrl()"
+          >{{ topic.fileName }}</span
+        >
       </div>
     </div>
   </div>
