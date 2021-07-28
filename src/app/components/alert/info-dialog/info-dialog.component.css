@@ -1,13 +1,20 @@
 .modal-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-   
-  }
-  .modal-body .input {
-    margin-bottom: 10px;
-  }
-  .create-course{
-      margin: 0px !important;
-      
-  }
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.modal-body .input {
+  margin-bottom: 10px;
+}
+.create-course {
+  margin: 0px !important;
+}
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.button {
+  margin-left: 5px;
+  margin-right: 5px;
+}

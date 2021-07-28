@@ -54,10 +54,11 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logOut();
-    this.timer.pauseTimer();
-    this.isLoggedin = false;
-    this.router.navigate(['/login']);
+    this.authService.logOut().then((data) => {
+      this.timer.pauseTimer();
+      this.isLoggedin = false;
+      this.router.navigate(['/login']);
+    });
   }
 
   goToHomeAdmin() {

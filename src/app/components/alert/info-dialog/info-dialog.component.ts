@@ -36,14 +36,12 @@ export class InfoDialogComponent implements OnInit {
   onCancel() {
     this.result = false;
     this.activeModal.close(this.result);
-    this.fullCourseService.createCourse();
   }
 
   onCreate() {
     this.course.courseType = this.entryForm.value.category;
     this.course.grade = this.entryForm.value.grade;
     this.course.price = parseInt(this.entryForm.value.price.replace(/\D/g, ''));
-
     if (this.course.title && this.course.courseDescription) {
       this.fullCourseService.setCourse(this.course);
       this.result = true;

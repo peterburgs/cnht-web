@@ -99,7 +99,8 @@
   margin-bottom: 10px;
   text-align: center;
   display: flex;
-  margin-left: 32%;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-action button {

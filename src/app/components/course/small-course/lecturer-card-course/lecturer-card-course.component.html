@@ -1,53 +1,28 @@
-<div class="card" (click) = "detailCourse(course.id)">
+<div class="card" (click)="detailCourse(course.id)">
   <div class="card-img">
-    <img
-      class="img-fluid img-course"
-      [src]="baseUrl + course.thumbnailUrl"
-      onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'"
-      alt=""
-      routerLink="/detail/{{ course.id }}"
-      style="cursor: pointer"
-    />
+    <img class="img-fluid img-course" [src]="baseUrl + course.thumbnailUrl"
+      onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt=""
+      routerLink="/detail/{{ course.id }}" style="cursor: pointer" />
   </div>
   <div class="info-course">
-    <div class="name">
+    <div class="name" routerLink="/detail/{{ course.id }}">
       <a routerLink="/detail/{{ course.id }}" class="course-name">{{
         course.title | shorten
-      }}</a>
+        }}</a>
       <p class="course-description">{{ course.courseDescription | shorten }}</p>
     </div>
 
-    <div
-      
-      *ngIf="!isLearner && !isHome"
-      class="users-count"
-      style="cursor: pointer"
-      (click)="onEditCourse(course.id)"
-    >
-      <span
-        *ngIf="!course.isPublished"
-        class="course-status course-not-published"
-        >Not published</span
-      >
+    <div *ngIf="!isLearner && !isHome" class="users-count" style="cursor: pointer" (click)="onEditCourse(course.id)">
+      <span *ngIf="!course.isPublished" class="course-status course-not-published">Not published</span>
       <span *ngIf="course.isPublished" class="course-status course-published">
-        Published</span
-      >
-      <span class="info-course more-info"
-        >Update on: {{ course.updatedAt | date: "yyyy-MM-dd" }}</span
-      >
+        Published</span>
+      <span class="info-course more-info">Update on: {{ course.updatedAt | date: "yyyy-MM-dd" }}</span>
       <i class="bi bi-pencil-square" style="color: #858585"></i>
     </div>
-    <div
-      style="text-align: center"
-      *ngIf="isLearner && !isHome"
-      class="users-count"
-      style="cursor: pointer"
-    >
-      <span class="info-course more-info"
-        >Purchase on: {{ course.purchasedAt | date: "yyyy-MM-dd" }}</span
-      >
+    <div style="text-align: center" *ngIf="isLearner && !isHome" class="users-count" style="cursor: pointer">
+      <span class="info-course more-info">Purchase on: {{ course.purchasedAt | date: "yyyy-MM-dd" }}</span>
     </div>
-    <div *ngIf = "isHome">
+    <div *ngIf="isHome" routerLink="/detail/{{ course.id }}">
       <div class="div-course-text">
         <p class="course-price">{{ handlePriceFormat(course.price) }}</p>
       </div>

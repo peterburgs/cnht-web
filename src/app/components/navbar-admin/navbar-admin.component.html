@@ -1,17 +1,8 @@
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid">
-    <a class="navbar-brand logo-text" [routerLink]="['/home']"
-      >Cùng Nhau Học Toán</a
-    >
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <a class="navbar-brand logo-text" [routerLink]="['/home']">Cùng Nhau Học Toán</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon">
         <i class="fa fa-bars"></i>
       </span>
@@ -19,22 +10,14 @@
     <div class="collapse navbar-collapse row" id="navbarSupportedContent">
       <div class="col-md-1" style="height: 10px"></div>
       <div class="col-md-8 category-course">
-        <a
-          class="btn-category button-row"
-          [routerLink]="['admin/home']"
-          (click)="setActiveButton(1)"
-          [ngClass]="{ 'card-active': activeButton === 1 }"
-        >
+        <a class="btn-category button-row" [routerLink]="['admin/home']" (click)="setActiveButton(1)"
+          [ngClass]="{ 'card-active': activeButton === 1 }">
           <i class="bi bi-journal-check"></i>
           <span>Courses</span>
         </a>
 
-        <a
-          class="btn-category button-row"
-          [routerLink]="['admin/topics']"
-          (click)="setActiveButton(2)"
-          [ngClass]="{ 'card-active': activeButton === 2 }"
-        >
+        <a class="btn-category button-row" [routerLink]="['admin/topics']" (click)="setActiveButton(2)"
+          [ngClass]="{ 'card-active': activeButton === 2 }">
           <i class="fa fa-bookmark"></i>
           <span>Topics</span>
         </a>
@@ -42,21 +25,12 @@
           <i class="bi bi-trophy"></i>
           <span>Tests</span>
         </a>
-        <a
-          class="btn-category button-row"
-          [routerLink]="['admin/management/learner']"
-          (click)="setActiveButton(3)"
-          [ngClass]="{ 'card-active': activeButton === 3 }"
-        >
+        <a class="btn-category button-row" [routerLink]="['admin/management/learner']" (click)="setActiveButton(3)"
+          [ngClass]="{ 'card-active': activeButton === 3 }">
           <i class="bi bi-people-fill"></i>
-          <span>Learners</span></a
-        >
-        <a
-          class="btn-category button-row"
-          [routerLink]="['admin/management/wallet']"
-          (click)="setActiveButton(4)"
-          [ngClass]="{ 'card-active': activeButton === 4 }"
-        >
+          <span>Learners</span></a>
+        <a class="btn-category button-row" [routerLink]="['admin/management/wallet']" (click)="setActiveButton(4)"
+          [ngClass]="{ 'card-active': activeButton === 4 }">
           <i class="bi bi-wallet"></i>
           <span>Wallet</span>
         </a>
@@ -71,12 +45,8 @@
         <ng-template #thenBlock>
           <div class="dropdown">
             <button class="btn-dropdown dropdown-toggle" data-toggle="dropdown">
-              <img
-                [src]="photo"
-                alt=""
-                class="photo"
-                onerror="this.src='../../../../../assets/images/default_avatar.png'"
-              />
+              <img [src]="photo" alt="" class="photo"
+                onerror="this.src='../../../../../assets/images/default_avatar.png'" />
             </button>
 
             <div class="dropdown-menu">
@@ -84,7 +54,7 @@
                 <i class="bi bi-house"></i> <span>Admin Home</span>
               </button>
               <button class="dropdown-item" (click)="logOut()">
-                <i class="bi bi-box-arrow-right"></i> <span>Log out</span>
+                <i class="bi bi-box-arrow-right log-out"></i> <span class="log-out">Log out</span>
               </button>
             </div>
           </div>

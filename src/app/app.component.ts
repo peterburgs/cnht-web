@@ -42,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
       } else this.isShowNavbar = true;
 
       if (this.currentUrl.includes('/admin')) {
+        let role = localStorage.getItem('role');
+        if (role && role == 'admin') this.isAdmin = true;
+        else this.isAdmin = false;
+
         if (this.isAdmin) {
           this.isShowNavbarAdmin = true;
           this.isShowNavbar = false;

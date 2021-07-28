@@ -56,10 +56,10 @@ export class TopicComponent implements OnInit {
     let role = localStorage.getItem('role');
     if (role && role == 'admin' && this.router.url.includes('/admin'))
       this.isAdmin = true;
+    else this.isAdmin = false;
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       let topicType = params['name'];
-
       this.listTopic = [];
       this.sbcTopics = this.topicService.getTopics().subscribe(
         (res) => {
@@ -67,6 +67,7 @@ export class TopicComponent implements OnInit {
           if (this.isAdmin) this.getAllByDate();
           else {
             if (topicType) {
+              console.log(topicType);
               this.topicType = topicType;
               this.sortByDate(this.selectedExpBy);
               this.getListByTopicType(this.topicType);
@@ -80,6 +81,7 @@ export class TopicComponent implements OnInit {
         (error) => {
           this.listTopic = [];
           this.isLoading = false;
+          this.topicType = topicType;
         }
       );
     });

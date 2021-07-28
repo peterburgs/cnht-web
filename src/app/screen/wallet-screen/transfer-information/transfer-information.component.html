@@ -5,19 +5,9 @@
     </p>
 
     <div class="bank-info">
-      <p>Account number: 10 1841 7537</p>
-      <P>Account owner: TRINH MINH ANH</P>
-      <p>Bank: Vietcombank</p>
-    </div>
-    <div class="bank-info">
-      <p>Phone number: 0962299449</p>
-      <P>Account owner: TRINH MINH ANH</P>
-      <p>ViettelPay</p>
-    </div>
-    <div class="bank-info">
-      <p>Account number: 642 641 999</p>
-      <P>Account owner: TRINH MINH ANH</P>
-      <p>Bank: VPbank</p>
+      <p>Account number: 060088578115</p>
+      <P>Account owner: Nguyễn Xuân Bảo</P>
+      <p>Bank: Sacombank, chi nhánh An Nhơn Tây, Củ Chi</p>
     </div>
     <p class="instruction">
       2. After transfering, capture screen the bill. Go back to web and create a
@@ -36,38 +26,17 @@
     <p>
       I have transfered
       <span>
-        <input
-          class="amount-coins"
-          (keyup)="
+        <input class="amount-coins" (keyup)="
             moneyTransfer.value = priceInputFormator(moneyTransfer.value)
-          "
-          required
-          type="text"
-          maxlength="11"
-          min="0"
-          [(ngModel)]="money_Transfer"
-          #moneyTransfer
-        /> </span
-      >VND
+          " required type="text" maxlength="11" min="0" [(ngModel)]="money_Transfer" #moneyTransfer /> </span>VND
     </p>
     <button class="btn-select-img" type="button" (click)="file.click()">
       Select image
     </button>
 
     <div class="p-2 load-img">
-      <img
-        name="thumbnailUrl"
-        class="image-course"
-        [src]="thumnailUrl"
-        id="thumbnailUrl"
-      />
-      <input
-        #file
-        type="file"
-        hidden
-        accept="image/*"
-        (change)="handleImageFileInput($event)"
-      />
+      <img name="thumbnailUrl" class="image-course" [src]="thumnailUrl" id="thumbnailUrl" />
+      <input #file type="file" hidden accept="image/*" (change)="handleImageFileInput($event)" />
     </div>
   </div>
 
@@ -87,12 +56,5 @@
   </div>
 </div>
 
-<app-alert
-  [actionToAlert]="actionToAlert"
-  [title]="title"
-  [message]="message"
-  [action]="action"
-  (action_return)="implementAction($event)"
-  *ngIf="showAnnouncement"
-  (close)="closeHandler()"
-></app-alert>
+<app-alert [actionToAlert]="actionToAlert" [title]="title" [message]="message" [action]="action"
+  (action_return)="implementAction($event)" *ngIf="showAnnouncement" (close)="closeHandler()"></app-alert>

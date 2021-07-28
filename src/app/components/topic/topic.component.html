@@ -1,133 +1,84 @@
 <div class="home-screen">
-  <div class="container div-loading">
-    <div class="row container mt-3">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-10">
-        <p class="topic-type">{{ topicType }} Topic</p>
-        <button
-          class="btn-new-course"
-          *ngIf="isAdmin"
-          (click)="onCreateCourse()"
-        >
-          <i class="bi bi-plus-lg"></i>
-          New topic
-        </button>
-      </div>
-    </div>
-  </div>
+
   <div class="row screen-display">
     <div class="col-md-2 clean-display"></div>
     <div class="col-md-10 clean-display">
       <div class="list-course">
         <div class="container div-sort-by">
-          <div class="col-md-4">
-            <mat-form-field
-              class="sort-by padding-tb"
-              appearance="fill"
-              style="color: black"
-              *ngIf="isAdmin"
-            >
-              <mat-label style="color: #194350; font-weight: 500"
-                >View</mat-label
-              >
-              <mat-select
-                disableOptionCentering
-                style="color: black"
-                [(ngModel)]="topicType"
-              >
-                <mat-option
-                  (click)="getAllByFilter()"
-                  style="color: black"
-                  class="not-empty-select"
-                  *ngFor="let status of listStatus"
-                  [value]="status.value"
-                >
+          <div class=" button-container">
+            <button class="btn-new-topic" *ngIf="isAdmin" (click)="onCreateCourse()">
+              <i class="bi bi-plus-lg"></i>
+              New topic
+            </button>
+            <mat-form-field class="sort-by padding-tb" appearance="fill" style="color: black" *ngIf="isAdmin">
+              <mat-label style="color: #194350; font-weight: 500">View</mat-label>
+              <mat-select disableOptionCentering style="color: black" [(ngModel)]="topicType">
+                <mat-option (click)="getAllByFilter()" style="color: black" class="not-empty-select"
+                  *ngFor="let status of listStatus" [value]="status.value">
                   {{ status.viewValue }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-form-field
-              class="sort-by padding-tb"
-              appearance="fill"
-              style="color: black"
-            >
-              <mat-label style="color: #194350; font-weight: 500"
-                >Sort by</mat-label
-              >
-              <mat-select
-                disableOptionCentering
-                style="color: black"
-                [(ngModel)]="selectedExpBy"
-              >
-                <mat-option
-                  (click)="getAllByDate()"
-                  style="color: black"
-                  class="not-empty-select"
-                  *ngFor="let status of listExpStatus"
-                  [value]="status.value"
-                >
+            <mat-form-field class="sort-by padding-tb" appearance="fill" style="color: black">
+              <mat-label style="color: #194350; font-weight: 500">Sort by</mat-label>
+              <mat-select disableOptionCentering style="color: black" [(ngModel)]="selectedExpBy">
+                <mat-option (click)="getAllByDate()" style="color: black" class="not-empty-select"
+                  *ngFor="let status of listExpStatus" [value]="status.value">
                   {{ status.viewValue }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="col-md-8" style="padding-right: 5%">
-            <div class="search-container padding-tb">
-              <app-search-title
-                class="div-search"
-                [message]="message"
-                (sendTitleSearch)="searchCourse($event)"
-              ></app-search-title>
+          <div class="search-container padding-tb">
+            <app-search-title class="div-search" [message]="message" (sendTitleSearch)="searchCourse($event)">
+            </app-search-title>
+          </div>
+        </div>
+        <div class="container ">
+          <div class="row container">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <p class="topic-type">{{ topicType }} Topic</p>
             </div>
           </div>
         </div>
         <div *ngIf="listTopic != []" class="wrapper clear-margin-right">
+          <div *ngIf="!listTopic.length && !isLoading row" class="container div-no-found">
+            <div class="message-no-found empty-list">
+              <span align="center" class="no-found"> No Topic Here </span>
+            </div>
+          </div>
           <ul *ngFor="let topic of listTopic">
             <div class="container display-tag">
               <!-- Column 1: topic title -->
               <div class="col-md-11 mb-2">
                 <div class="item-title-topic">
-                  <h3
-                    class="item-topic-title"
-                    (click)="viewFile(topic.title, topic.id)"
-                  >
+                  <h3 class="item-topic-title" (click)="viewFile(topic.title, topic.id)">
                     {{ topic.title }}
                   </h3>
                 </div>
                 <div class="item-more-info">
                   <span class="icon-tag type-tag">{{ topic.topicType }}</span>
                   <span>{{
-                    topic.updatedAt | date: "dd/MM/yyyy HH:mm:ss  "
-                  }}</span>
+                    topic.updatedAt | date: "dd/MM/yyyy HH:mm:ss "
+                    }}</span>
                 </div>
               </div>
               <!-- Column 2: Action buttons -->
               <div class="col-md-1 action-buttons-container">
                 <!-- Download -->
-                <button
-                  class="action-button download"
-                  (click)="getDownLoad(topic.title, topic.id, topic.fileUrl)"
-                  title="download"
-                >
+                <button class="action-button download" (click)="getDownLoad(topic.title, topic.id, topic.fileUrl)"
+                  title="download">
                   <i class="bi bi-file-earmark-arrow-down icon"></i>
                 </button>
                 <!-- Copy -->
 
-                <button
-                  class="action-button copy"
-                  (click)="copyMessage(topic.title, topic.id)"
-                  title="Copy link"
-                  *ngIf="isAdmin"
-                >
+                <button class="action-button copy" (click)="copyMessage(topic.title, topic.id)" title="Copy link"
+                  *ngIf="isAdmin">
                   <i class="bi bi-clipboard-check icon"></i>
                 </button>
                 <!-- Edit -->
-                <button
-                  class="action-button edit"
-                  (click)="goEdit(topic.id)"
-                  title="Edit"
-                  *ngIf="isAdmin"
-                >
+                <button class="action-button edit" (click)="goEdit(topic.id)" title="Edit" *ngIf="isAdmin">
                   <i class="bi bi-pencil-square icon"></i>
                 </button>
               </div>

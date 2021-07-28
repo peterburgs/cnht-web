@@ -36,26 +36,32 @@ export class LoginScreenComponent implements OnInit {
         this.isAdmin = true;
       } else this.isAdmin = false;
     });
-    this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      localStorage.setItem('expires_in', user.response.expires_in);
-      localStorage.setItem('token_created_at', Date.now().toString());
 
-      this.isLoggedin = user != null;
-      if (this.isLoggedin) {
-        this.isLoading = true;
-        this.authService
-          .signIn(this.socialUser.idToken, this.isAdmin)
-          .subscribe((responseData) => {
-            this.timer.startTimer(Number(user.response.expires_in) - 60);
-            this.authService.storeUser(responseData.user, responseData.token);
-            this.authService.loggedIn = true;
-            this.authService.logger.next(this.authService.loggedIn);
-            if (this.authService.isAdmin()) {
-              this.isAdminSignIn();
-            } else this.route.navigate(['/home']);
-            this.isLoading = false;
-          });
+    this.socialAuthService.authState.subscribe((user) => {
+      if (user) {
+        this.socialUser = user;
+        localStorage.setItem('expires_in', user.response.expires_in);
+        localStorage.setItem('token_created_at', Date.now().toString());
+
+        this.isLoggedin = user != null;
+        if (this.isLoggedin) {
+          this.isLoading = true;
+          console.log('isLoading==true');
+          this.authService
+            .signIn(this.socialUser.idToken, this.isAdmin)
+            .subscribe((responseData) => {
+              this.timer.startTimer(Number(user.response.expires_in) - 60);
+              this.authService.storeUser(responseData.user, responseData.token);
+              this.authService.loggedIn = true;
+              this.authService.logger.next(this.authService.loggedIn);
+              if (this.authService.isAdmin()) {
+                this.isAdminSignIn();
+              } else this.route.navigate(['/home']);
+              this.isLoading = false;
+            });
+        }
+      } else {
+        this.route.navigate(['/login']);
       }
     });
   }

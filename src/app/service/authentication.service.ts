@@ -92,14 +92,12 @@ export class authenticationService {
   }
 
   logOut() {
-    this.clearLocalStorage();
-    this.socialAuthService.signOut();
-    this.loggedIn = false;
-  }
-
-  clearLocalStorage() {
     localStorage.clear();
     localStorage.setItem('isLoggedin', 'false');
+    sessionStorage.clear();
+    sessionStorage.setItem('isLoggedin', 'false');
+    this.loggedIn = false;
+    return this.socialAuthService.signOut();
   }
 }
 

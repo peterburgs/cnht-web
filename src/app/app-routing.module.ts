@@ -116,6 +116,15 @@ const routes: Routes = [
     path: 'admin/topics',
     component: TopicComponent,
   },
+
+  {
+    path: 'not-found',
+    component: ErrorPageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/not-found',
+  },
 ];
 
 @NgModule({

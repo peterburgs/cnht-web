@@ -70,37 +70,22 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   onCreateCourse() {
-    // this.isLoading = true;
-    // this.fullCourseService.createCourse();
-
-    // this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
-    //   (course) => {
-    //     this.isLoading = false;
-    //     this.router.navigate(
-    //       ['../', 'course', this.fullCourseService.getCourseInfo().id],
-    //       { relativeTo: this.route }
-    //     );
-    //   },
-    //   (error) => {
-    //     this.isLoading = false;
-    //     alert('Can not create new course now!!! Try again');
-    //   }
-    // );
     this.openModalCreateCourse();
   }
   openModalCreateCourse() {
     const modalRef = this.modalService.open(InfoDialogComponent, {
-      centered: true, size:'lg',backdrop: 'static',
+      centered: true,
+      size: 'lg',
+      backdrop: 'static',
     });
-      
 
     modalRef.result.then((result: boolean) => {
       if (result) {
-        this.isLoading = true; 
+        this.isLoading = true;
         this.fullCourseService.createCourse();
         this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
           (course) => {
-             this.isLoading = false;
+            this.isLoading = false;
             this.router.navigate(
               ['../', 'course', this.fullCourseService.getCourseInfo().id],
               { relativeTo: this.route }
@@ -197,13 +182,13 @@ export class AdminCourseScreenComponent implements OnInit {
   ];
 
   listGradeStatus: Grades[] = [
-    { value: "all", viewValue: 'All' },
+    { value: 'all', viewValue: 'All' },
     { value: GRADES.NHSGE, viewValue: 'Tốt nghiệp THPT' },
     { value: GRADES.TWELFTH, viewValue: 'Grade 12' },
     { value: GRADES.ELEVENTH, viewValue: 'Grade 11' },
     { value: GRADES.TENTH, viewValue: 'Grade 10' },
-    { value: GRADES.NINTH, viewValue: 'Grade 9' }
-  ]
+    { value: GRADES.NINTH, viewValue: 'Grade 9' },
+  ];
 
   getAllByFilter() {
     switch (this.selectedViewBy) {
@@ -222,8 +207,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListByAllFilterCourse(status: boolean) {
-    if (this.grade == 'all' )
-      this.getAllListByTitleAndStatus(status);
+    if (this.grade == 'all') this.getAllListByTitleAndStatus(status);
     else
       this.listCourse = this.listSortedCourse.filter(
         (course) =>
@@ -242,7 +226,7 @@ export class AdminCourseScreenComponent implements OnInit {
   }
 
   getListAllByFilterAndTitleSearch() {
-    if (this.grade == 'all' ) this.getAllListByTitle();
+    if (this.grade == 'all') this.getAllListByTitle();
     else this.getListByFilterAndTitleSearch();
   }
 

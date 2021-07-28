@@ -8,23 +8,21 @@
   padding-bottom: 50vh;
 }
 
-.btn-new-course {
-  width: 200px;
+.btn-new-topic {
   background: #4ebee1;
   border-radius: 10px;
   margin-left: 5px;
-  margin-top: 4vh;
-  height: 35px;
-  font-size: large;
+  margin-right: 10px;
   padding: 4px;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
+  padding-left: 6px;
+  padding-right: 6px;
   outline: none;
   border: none;
   transition: all 0.5s;
   color: white;
+  box-shadow: 1px 1px 1px #c4c4c4;
 }
-.btn-new-course:hover {
+.btn-new-topic:hover {
   background-color: green;
   color: #eee;
 }
@@ -43,9 +41,6 @@
   justify-content: center;
   text-align: center;
 }
-.div-loading {
-  padding-top: 1.5rem;
-}
 
 .search-course {
   margin-top: 30px;
@@ -57,22 +52,12 @@
 .container .wrapper {
   text-align: center;
 }
-/* .loading {
-  position: fixed;
-  top: 30vh;
-  left: 45vw;
-  width: 45vw;
-  padding: 16px;
-  z-index: 9000000;
-} */
+
 .empty-list {
   height: 100vh;
 }
 .message-no-found {
   padding-top: 20%;
-}
-.list-filter-main {
-  /* width: 18rem; */
 }
 
 .clear-filter {
@@ -169,10 +154,11 @@
 .div-search {
 }
 .search-container {
-  margin-left: 3rem !important;
-
+  margin-left: 20px !important;
+  margin-right: 20px !important;
   justify-content: space-between;
   flex-direction: row;
+  width: 30%;
 }
 .div-filter {
   display: flex;
@@ -184,9 +170,10 @@
 }
 .div-sort-by {
   display: flex;
+  flex-direction: row;
   margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-  /* flex-direction: row-reverse; */
+  margin-top: 2rem;
+  align-items: center;
 }
 .sort-by {
   margin-right: 20px;
@@ -362,4 +349,36 @@
   font-weight: bold;
   color: #0a14a1;
   text-transform: capitalize;
+}
+
+.div-no-found {
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.message-no-found {
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+@media (max-width: 563px) {
+  .button-container {
+    margin-top: 1.5rem;
+    flex-direction: row;
+    width: 40%;
+  }
+  .search-container {
+    width: 60%;
+  }
+  .div-sort-by {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
 }

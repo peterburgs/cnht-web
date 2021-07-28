@@ -7,58 +7,40 @@
       <div class="clean-display">
         <div class="list-course">
           <div class="div-sort-by">
-            <div class="search-container">
-              <app-search-title
-                class="div-search"
-                [message]="message"
-                (sendTitleSearch)="searchCourse($event)"
-              ></app-search-title>
-            </div>
             <div class="filter-by-date">
-              <mat-form-field
-                class="sort-by"
-                appearance="fill"
-                style="color: black"
-              >
-                <mat-label style="color: #194350; font-weight: 500"
-                  >Sort by</mat-label
-                >
-                <mat-select
-                  disableOptionCentering
-                  style="color: black"
-                  [(ngModel)]="selectedExpBy"
-                >
-                  <mat-option
-                    (click)="getAllByDate()"
-                    style="color: black"
-                    class="not-empty-select"
-                    *ngFor="let status of listExpStatus"
-                    [value]="status.value"
-                  >
+              <mat-form-field class="sort-by" appearance="fill" style="color: black">
+                <mat-label style="color: #194350; font-weight: 500">Sort by</mat-label>
+                <mat-select disableOptionCentering style="color: black" [(ngModel)]="selectedExpBy">
+                  <mat-option (click)="getAllByDate()" style="color: black" class="not-empty-select"
+                    *ngFor="let status of listExpStatus" [value]="status.value">
                     {{ status.viewValue }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
+            <div class="search-container">
+              <app-search-title class="div-search" [message]="message" (sendTitleSearch)="searchCourse($event)">
+              </app-search-title>
+            </div>
           </div>
-          <div
-            *ngIf="!listCourse.length && !isLoading"
-            class="container div-no-found"
-          >
+          <div class="container">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <p class="course-type">Courses for grade: {{grade}} </p>
+            </div>
+          </div>
+          <div *ngIf="!listCourse.length && !isLoading row" class="container div-no-found">
             <div class="message-no-found empty-list">
-              <span align="center" class="no-found"> No Course here </span>
+              <span align="center" class="no-found"> No Course Here </span>
             </div>
           </div>
           <div *ngIf="listCourse != []" class="wrapper row">
-            <app-lecturer-card-course
-              class="col-md-3"
-              *ngFor="let course of listCourse"
-              [course]="course"
-            ></app-lecturer-card-course>
+            <app-lecturer-card-course class="col-md-3" *ngFor="let course of listCourse" [course]="course">
+            </app-lecturer-card-course>
           </div>
-
           <br /><br />
         </div>
+
       </div>
     </div>
     <br /><br />

@@ -197,3 +197,6 @@ li {
 a {
   cursor: pointer;
 }
+.log-out {
+  color: red !important;
+}
