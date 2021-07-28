@@ -39,7 +39,11 @@ export class TopicComponent implements OnInit {
   typeCourse = '';
   sbcTopics: Subscription = new Subscription();
   sbcCreateTopic = new Subscription();
+  isAdmin: boolean = false;
+  selectedExpBy: number = 0;
+  currentTopic: string = TOPICS.ALGEBRA;
   public userDetails? = Object;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -49,18 +53,36 @@ export class TopicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.sbcTopics = this.topicService.getTopics().subscribe(
-      (res) => {
-        this.topics = res.topics;
-        this.getAllByDate();
-        this.isLoading = false;
-      },
-      (error) => {
-        this.topics = [];
-        this.isLoading = false;
-      }
-    );
+    let role = localStorage.getItem('role');
+    if (role && role == 'admin' && this.router.url.includes('/admin'))
+      this.isAdmin = true;
+    this.route.params.subscribe((params) => {
+      this.isLoading = true;
+      let topicType = params['name'];
+
+      this.listTopic = [];
+      this.sbcTopics = this.topicService.getTopics().subscribe(
+        (res) => {
+          this.topics = res.topics;
+          if (this.isAdmin) this.getAllByDate();
+          else {
+            if (topicType) {
+              this.topicType = topicType;
+              this.sortByDate(this.selectedExpBy);
+              this.getListByTopicType(this.topicType);
+              console.log(this.listTopic);
+            } else {
+              this.router.navigateByUrl('/not-found');
+            }
+          }
+          this.isLoading = false;
+        },
+        (error) => {
+          this.listTopic = [];
+          this.isLoading = false;
+        }
+      );
+    });
   }
 
   signOut(): void {
@@ -136,8 +158,6 @@ export class TopicComponent implements OnInit {
     this.sbcTopics.unsubscribe();
   }
 
-  selectedExpBy: number = 0;
-
   listStatus: StatusTopic[] = [
     { value: 'all', viewValue: 'All' },
     { value: TOPICS.ALGEBRA, viewValue: 'Algebra' },
@@ -151,7 +171,6 @@ export class TopicComponent implements OnInit {
   ];
 
   getAllByFilter() {
-    console.log('type: ' + this.topicType);
     switch (this.topicType) {
       case 'all':
         this.getAllListByTitle(); //ok
@@ -163,7 +182,6 @@ export class TopicComponent implements OnInit {
   }
 
   getListByTopicType(type: string) {
-    console.log('get by type: ' + this.topicType);
     this.listTopic = this.listSortedTopic.filter(
       (topic) =>
         topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
@@ -171,17 +189,23 @@ export class TopicComponent implements OnInit {
     );
   }
 
-  reviewFile(topicTitle: string, topicId: string) {
+  viewFile(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
     formatTitle = formatTitle.replace(/\s/g, '_');
-    let urlReview = 'topics/' + formatTitle + '/' + topicId + '/view';
-   
-    this.router.navigateByUrl(urlReview).then();
+
+    // console.log(window.location.href);
+    // window.history.pushState({}, '', window.location.href);
+    this.router
+      .navigate(['topics/' + formatTitle + '/' + topicId + '/view'], {
+        state: { redirect: this.router.url },
+      })
+      .then();
   }
+
   getDownLoad(topicTile: string, topicId: string, topicUrl: string) {
     let nameFormat = topicTile.replace(/[^\x00-\xFF]/g, '');
     nameFormat = nameFormat.replace(/\s/g, '-');
-
+    this.openSnackBar('File is being downloaded. Please wait', 'OK');
     this.topicService.downloadFile(topicUrl).subscribe(
       (data) => {
         //let blob = new Blob([data],{type:'application/pdf'})
@@ -197,7 +221,6 @@ export class TopicComponent implements OnInit {
     );
   }
   goEdit(idTopic: string) {
-    // this.router.navigateByUrl('/admin/topics/' + idTopic).then();
     this.router.navigate([idTopic, 'edit'], { relativeTo: this.route });
   }
   openSnackBar(message: string, action: string) {
@@ -205,10 +228,16 @@ export class TopicComponent implements OnInit {
       duration: 2000,
     });
   }
-  copyMessage(topicTitle:string, topicId:string) {
+  copyMessage(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
     formatTitle = formatTitle.replace(/\s/g, '_');
-    let urlReview =    window.location.href +'/'+ formatTitle + '/' + topicId + '/reviewer'
+    let urlReview =
+      window.location.origin +
+      '/topics/' +
+      formatTitle +
+      '/' +
+      topicId +
+      '/view';
 
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';

@@ -10,18 +10,21 @@
       background-title
     "
   >
-   <div class="col-sm-1 div-title">
-    <div class="div-updown">
-      <div class="div-icon-mini" (click)="onUpLecture(lecture.id)">
-        <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
+    <div class="col-sm-1 div-title">
+      <div class="div-updown">
+        <div class="div-icon-mini" (click)="onUpLecture(lecture.id)">
+          <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
+        </div>
+        <div class="div-icon-mini" (click)="onDownLecture(lecture.id)">
+          <i
+            class="fa fa-chevron-down icon-decorate"
+            title="Lesson go down"
+          ></i>
+        </div>
       </div>
-      <div class="div-icon-mini" (click)="onDownLecture(lecture.id)">
-        <i class="fa fa-chevron-down icon-decorate" title="Lesson go down"></i>
-      </div>
+      <span class="title-note">Lecture</span>
     </div>
-    <span class="title-note">Lecture</span>
-   </div>
-   
+
     <input
       #inputLecture
       class="form-control contain-title col-sm-8 border-input"
@@ -44,9 +47,9 @@
       style="display: none"
       (change)="readVideoUrl($event, lecture.id)"
     />
-  
-      <button
-      class="contain-video btn btn-primary  border-radius"
+
+    <button
+      class="contain-video btn btn-primary border-radius"
       (click)="file.click()"
       [disabled]="globalLoading || isUpLoading"
     >
@@ -59,9 +62,9 @@
       ><span *ngIf="globalLoading"> Uploading...</span
       ><span *ngIf="!globalLoading">Upload </span>
     </button>
-    <span class="contain-video-time col-sm-1 ">{{ timeVideo | duration }}</span>
-    
-    <div class="div-edit" >
+    <span class="contain-video-time col-sm-1">{{ timeVideo | duration }}</span>
+
+    <div class="div-edit">
       <button
         class="btn btn-outline-danger btn-circle btn-lg outline-delete"
         title="Delete lession"
@@ -69,7 +72,6 @@
       >
         <i class="fa fa-times"></i>
       </button>
-
     </div>
 
     <video
@@ -83,28 +85,30 @@
       (loadedmetadata)="getDuration($event)"
     ></video>
   </li>
-  <li  class="
-  lecture-item
-  list-group-item
-  d-flex
-  justify-content-between
-  align-items-center
-  border-radius
-  background-note
-">
-<div class="col-sm-1"></div>
-  <div class="col-sm-10 div-note">
-    <span class="title-note">Note</span>
+  <li
+    class="
+      lecture-item
+      list-group-item
+      d-flex
+      justify-content-between
+      align-items-center
+      border-radius
+      background-note
+    "
+  >
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10 div-note">
+      <span class="title-note">Note</span>
 
-    <input
-          #inputNote
-          class="form-control contain-title col-sm-10  border-input"
-          [value]="lecture.note"
-          title="Edit title"
-          (click)="clickEditNote($event)"
-        />
-  </div>
- 
+      <input
+        #inputNote
+        class="form-control contain-title col-sm-10 border-input"
+        [value]="lecture.note"
+        title="Edit title"
+        (click)="clickEditNote($event)"
+      />
+    </div>
+
     <button
       *ngIf="eventSaveNote"
       (click)="inputNote.click(); saveLectureNote(lecture.id)"
@@ -112,7 +116,6 @@
     >
       <i class="fa fa-check"></i>
     </button>
-
-</li>
-<hr>
+  </li>
+  <hr />
 </div>

@@ -40,7 +40,6 @@ export class InfoDialogComponent implements OnInit {
   }
 
   onCreate() {
-    console.log('*** get Info: ');
     this.course.courseType = this.entryForm.value.category;
     this.course.grade = this.entryForm.value.grade;
     this.course.price = parseInt(this.entryForm.value.price.replace(/\D/g, ''));
@@ -64,7 +63,6 @@ export class InfoDialogComponent implements OnInit {
   }
   formatCurrency() {
     let price = parseInt(this.entryForm.value.price.replace(/\D/g, ''));
-    console.log(FormatPrice(price, 0, 3, '.', ','));
     this.priceFormat = FormatPrice(price, 0, 3, '.', ',');
   }
 }

@@ -143,9 +143,7 @@ export class CourseCreationScreenComponent
           this.fullCourseService.setCourseSelection();
           this.course = this.fullCourseService.getCourseInfo();
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
       this.sbcType = this.fullCourseService
         .getCurrentSelection()

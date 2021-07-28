@@ -36,7 +36,6 @@ export class TopicService {
   }
   setTopicCreate(topic: Topic) {
     this.topic = topic;
-  
   }
   onUpdate(iTopic: Topic) {
     return this.http.put<{ message: String; count: Number; topic: Topic }>(
@@ -101,14 +100,7 @@ export class TopicService {
     const sendNext = () => {
       if (!chunksQueue.length) {
         console.log('All parts uploaded');
-        // this.getTopicByIdRemote(topicId).subscribe(res=>{
-        //     this.setTopicCreate(res.topic);
-        //     this.isUploadTopicFile = false;
-        //     this.sbjUploadTopicFile.next(this.isUploadTopicFile);
-        // }, error=>{
-        //   this.isUploadTopicFile = false;
-        //   this.sbjUploadTopicFile.next(this.isUploadTopicFile);
-        // })
+
         this.isUploadTopicFile = false;
         this.sbjUploadTopicFile.next(this.isUploadTopicFile);
         return;
@@ -141,19 +133,18 @@ export class TopicService {
   setTopics(listTopics: Topic[]) {
     this.topics = listTopics;
   }
-  getIsUpdateFile(){
+  getIsUpdateFile() {
     return this.sbjUploadTopicFile.asObservable();
   }
   getTopics() {
-    console.log('*** from get Topics');
     return this.http.get<{ message: String; count: Number; topics: Topic[] }>(
       this.baseURL + 'topics',
       httpOptions
     );
   }
-  
-  getTopicByIdRemote(id:string){
-     return this.http.get<{ message: String; count: Number; topics: Topic[] }>(
+
+  getTopicByIdRemote(id: string) {
+    return this.http.get<{ message: String; count: Number; topics: Topic[] }>(
       this.baseURL + 'topics',
       {
         headers: this.headers,
@@ -162,21 +153,12 @@ export class TopicService {
     );
   }
   getTopicById(id: string) {
-    // console.log(this.topics);
     this.topics.forEach((topic) => {
       if (topic.id == id) {
         this.topic = topic;
       }
     });
     return this.topic;
-
-    // return this.http.get<{ message: String; count: Number; topic: Topic }>(
-    //   this.baseURL + 'topics',
-    //   {
-    //     headers: this.headers,
-    //     params: new HttpParams().set('topicId', id),
-    //   }
-    // );
   }
   updateTopicInList(topic: Topic) {
     this.topics.forEach((itemTopic) => {
@@ -198,15 +180,15 @@ export class TopicService {
 
     return this.http.get(baseUrl, httpOptions);
   }
-  getFileFromUrl(urlTopic: string){
+  getFileFromUrl(urlTopic: string) {
     // let baseUrl =
     // 'https://us-central1-supple-craft-318515.cloudfunctions.net/app' +
     // urlTopic;
-    return this.http.get(urlTopic, { responseType: "blob" })
+    return this.http.get(urlTopic, { responseType: 'blob' });
   }
   onDeleteTopic(id: string) {
     return this.http.delete<{ message: string }>(
-      this.baseURL + 'topics/'+id,
+      this.baseURL + 'topics/' + id,
       httpOptions
     );
   }

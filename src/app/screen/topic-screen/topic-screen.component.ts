@@ -39,37 +39,40 @@ export class TopicScreenComponent implements OnInit {
         this.router.navigateByUrl('/admin/topics').then();
       }
       this.isLoading = true;
+
       this.topicService.getTopicByIdRemote(this.topic.id).subscribe(
         (res) => {
           this.topic = res.topics[0];
-          if(this.topic.fileUrl.length>0){
+          if (this.topic.fileUrl.length > 0) {
             let url = `${this.baseUrl}${this.topic.fileUrl}`;
             let html = `<embed width="90%" height="100%" src="${url}" />`;
             this.url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
             this.html = this.sanitizer.bypassSecurityTrustHtml(html);
             this.isLoading = false;
-          }
-          else
-          {
+          } else {
             this.emptyContent = true;
             this.isLoading = false;
           }
-      
         },
         (error) => {
           this.isLoading = false;
           this.emptyContent = true;
         }
       );
-
     });
   }
+
+  backToPreviousPage() {}
+
   goBack() {
-    if(localStorage.getItem('role')=='admin'){
-      this.router.navigateByUrl('/admin/topics').then();
-    }
-    else{
-      this.router.navigateByUrl('/topics/algebra').then();
-    }
+    const { redirect } = window.history.state;
+    console.log(redirect);
+    this.router.navigateByUrl(redirect);
+
+    // if (localStorage.getItem('role') == 'admin') {
+    //   this.router.navigateByUrl('/admin/topics').then();
+    // } else {
+    //   this.router.navigateByUrl('/topics/algebra').then();
+    // }
   }
 }

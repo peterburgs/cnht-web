@@ -52,9 +52,7 @@ export class CourseService {
       .get<{ message: string; count: number; courses: Course[] }>(
         this.baseUrl + '/courses',
         {
-          params: new HttpParams()
-            .set('grade', level_)
-          ,
+          params: new HttpParams().set('grade', level_),
           headers: this.httpOptions.headers,
         }
       )
@@ -128,6 +126,14 @@ export class CourseService {
       count: number;
       lectures: Lecture[];
     }>(this.baseUrl + '/courses/' + courseId + '/lectures');
+  }
+
+  getLectureByLectureId(lectureId: string) {
+    return this.http.get<{
+      message: string;
+      count: number;
+      lectures: Lecture[];
+    }>(this.baseUrl + '/lectures?id=' + lectureId);
   }
 
   getSectionByCourseId(courseId: string) {

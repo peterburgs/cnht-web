@@ -31,7 +31,6 @@ export class NavbarAdminComponent implements OnInit {
       }
 
       this.authService.checkIsLoggedin().subscribe((loggedIn) => {
-        console.log(localStorage.getItem('isLoggedin'));
         this.isLoggedin = loggedIn;
 
         if (loggedIn) this.photo = localStorage.getItem('uphotoUrl');
@@ -39,24 +38,20 @@ export class NavbarAdminComponent implements OnInit {
     }
   }
 
-
   logOut() {
     this.authService.logOut();
     this.isLoggedin = false;
     this.router.navigate(['/login']);
   }
 
-
   setActiveButton(number: number) {
     this.activeButton = number;
   }
-
 
   goToHomeAdmin() {
     this.router.navigate(['/admin/home']);
     this.activeButton = 1;
   }
-
 
   setActiveButtonByRouter() {
     this.router.url.includes('/wallet')
@@ -68,7 +63,7 @@ export class NavbarAdminComponent implements OnInit {
       : (this.activeButton = 1);
   }
 
-  selectedBtnTest(){
+  selectedBtnTest() {
     this.openSnackBar('This feature is being developed.', 'OK');
   }
 

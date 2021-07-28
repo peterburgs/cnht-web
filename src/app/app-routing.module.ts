@@ -96,6 +96,14 @@ const routes: Routes = [
     component: ErrorPageComponent,
   },
   {
+    path: 'topics/:name',
+    component: TopicComponent,
+  },
+  {
+    path: 'admin/topics',
+    component: TopicComponent,
+  },
+  {
     path: 'admin/topics/:id/edit',
     component: ModifyTopicComponent,
   },

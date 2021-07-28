@@ -147,6 +147,7 @@ export class DepositRequestService {
           }
 
           if (xhr.readyState === 4 && xhr.status === 500) {
+            reject();
           }
         };
 
@@ -177,6 +178,7 @@ export class DepositRequestService {
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
+          alert('System error. Please try again!');
         });
     };
 

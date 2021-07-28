@@ -437,46 +437,6 @@ export class FullCourseService {
       .catch((error) => {
         this.sbjSectionDummy.next(this.listDeepSection);
       });
-
-    // this.sections = this.mSectionList;
-    // this.lectures = this.mLectureList;
-
-    // this.sections.forEach((section) => {
-    //   // console.log(section);
-    //   let tmpLecturers: Lecture[] = this.lectures.filter(
-    //     (lecture) => lecture.sectionId == section.id
-    //   );
-    //   // console.log(tmpLecturers);
-    //   this.listDeepSection.push(
-    //     new SectionDummy(section.id, section.title, tmpLecturers)
-    //   );
-    // });
-
-    // this.sections.forEach((section) => {
-    //   let tmpLectures: Lecture[] = [];
-    //   tmpLectures = this.lectures
-    //     .filter((lecture) => lecture.sectionId == section.id)
-    //     .sort((l1, l2) => {
-    //       if (l1.lectureOrder > l2.lectureOrder) {
-    //         return 1;
-    //       }
-    //       if (l1.lectureOrder < l2.lectureOrder) return -1;
-    //       return 0;
-    //     });
-    //   this.listDeepSection.push(
-    //     new SectionDummy(section.id, section.title, tmpLectures)
-    //   );
-    // });
-    // this.getMaxLenLecture();
-    // let lenSection = this.sections.length;
-    // let maxLecture = this.maxLecture;
-
-    // for (let i = 0; i < lenSection; i++) {
-    //   for (let j = 0; j < maxLecture; j++) {
-    //     this.arrLoading.push(false);
-    //   }
-    // }
-    // this.sbjSectionDummy.next(this.listDeepSection);
   }
   getArrayLoading() {
     return this.arrLoading;
@@ -593,6 +553,8 @@ export class FullCourseService {
           }
           if (xhr.readyState === 4 && xhr.status === 201) {
             resolve({ status: 201, data: JSON.parse(this.responseText) });
+          } else if (xhr.readyState === 4 && xhr.status === 500) {
+            reject();
           }
         };
         xhr.onerror = reject;
@@ -874,8 +836,6 @@ export class FullCourseService {
   }
 
   onCreateCourse(course: Course) {
-    console.log('*** Thao');
-    console.log(this.course);
     return this.http
       .post<{ message: string; count: number; course: Course }>(
         this.apiUrlCourse,

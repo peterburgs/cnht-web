@@ -4,7 +4,10 @@
   margin-top: 100px;
   padding-bottom: 30vh;
 }
-
+.row {
+  justify-content: first baseline !important;
+  width: 100%;
+}
 .mycourse-title {
   font-size: 26px;
   font-weight: 700;
@@ -13,10 +16,24 @@
   padding-top: 60px;
 }
 
+.col-md-3 {
+  display: contents !important;
+}
+
+@media (max-width: 1210px) {
+  .col-card-3 {
+    width: 33%;
+  }
+}
+
+@media (max-width: 995px) {
+  .col-card-3 {
+    width: 50%;
+  }
+}
 .form-group {
   display: flex;
-  margin: 10px 10px;
-  width: 25rem;
+  margin: 10px 5px;
 }
 
 .form-group i {
