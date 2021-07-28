@@ -21,7 +21,7 @@ interface Status {
 export class HomeScreenComponent implements OnInit {
   courses: Course[] = [];
   isLoading = true;
-  message: string = 'Find course by title';
+  message: string = 'Find a course';
   titleSearch: string = '';
   listCourse: Course[] = [];
   listSortedCourse: Course[] = [];
@@ -34,17 +34,16 @@ export class HomeScreenComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fullCourseService: FullCourseService,
-    private courseService :CourseService,
+    private courseService: CourseService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
     this.getGradeOnRouter();
-   
   }
 
-  getAllCourse(){
+  getAllCourse() {
     this.grade = '';
     this.fullCourseService.initCourses().subscribe(
       (response) => {
@@ -64,7 +63,7 @@ export class HomeScreenComponent implements OnInit {
     );
   }
 
-  getAllCourseGrade(){
+  getAllCourseGrade() {
     this.courseService.getListCourseByGrade(this.grade).subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
@@ -83,11 +82,11 @@ export class HomeScreenComponent implements OnInit {
     );
   }
 
-  getGradeOnRouter(){
+  getGradeOnRouter() {
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.grade = params['grade'];
-      if(!this.grade) this.getAllCourse();
+      if (!this.grade) this.getAllCourse();
       else this.getAllCourseGrade();
     });
   }
@@ -142,5 +141,4 @@ export class HomeScreenComponent implements OnInit {
   getAllByFilter() {
     this.getAllListByTitle();
   }
-
 }

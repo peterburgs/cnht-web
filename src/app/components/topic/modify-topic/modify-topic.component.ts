@@ -18,7 +18,7 @@ export class ModifyTopicComponent implements OnInit {
     private router: Router,
     private topicService: TopicService,
     private modalService: NgbModal,
-    private _snackBar:MatSnackBar
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class ModifyTopicComponent implements OnInit {
             .subscribe((res) => {
               this.topic = res.topics[0];
               this.fileName = this.fileToUpLoad.name;
-              this.openSnackBar("File uploaded successfully","OK")
+              this.openSnackBar('File uploaded successfully', 'OK');
             });
         }
       },
@@ -82,7 +82,7 @@ export class ModifyTopicComponent implements OnInit {
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.tmpFileName = this.fileToUpLoad.name.replace(/[^\x00-\x7F]/g, '');
-        console.log("*** 82 "+this.tmpFileName);
+        console.log('*** 82 ' + this.tmpFileName);
         Object.defineProperty(this.fileToUpLoad, 'name', {
           writable: true,
           value: this.tmpFileName,
@@ -97,14 +97,12 @@ export class ModifyTopicComponent implements OnInit {
     this.topic.topicType = e.target.value;
   }
   updateTopic() {
-    console.log(this.topic);
     this.isSaving = true;
     this.topicService.onUpdate(this.topic).subscribe(
       (res) => {
-        console.log(res.message);
         this.topicService.updateTopicInList(res.topic);
         this.isSaving = false;
-        this.openSnackBar("All changes saved","OK")
+        this.openSnackBar('All changes saved', 'OK');
       },
       (error) => {
         this.isSaving = false;

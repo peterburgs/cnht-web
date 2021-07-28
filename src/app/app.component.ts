@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isShowNavbar = true;
   isShowNavbarAdmin = false;
   expiredTime = 10;
+  isAdmin: boolean = false;
 
   constructor(
     private router: Router,
@@ -30,6 +31,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let expiredTime = localStorage.getItem('expires_in');
     if (expiredTime) this.expiredTime = Number(expiredTime) - 60;
+    let role = localStorage.getItem('role');
+    if (role && role == 'admin') this.isAdmin = true;
+    else this.isAdmin = false;
 
     this.router.events.subscribe((router) => {
       this.currentUrl = this.router.url;
@@ -38,9 +42,17 @@ export class AppComponent implements OnInit, OnDestroy {
       } else this.isShowNavbar = true;
 
       if (this.currentUrl.includes('/admin')) {
-        this.isShowNavbarAdmin = true;
-        this.isShowNavbar = false;
-      } else this.isShowNavbarAdmin = false;
+        if (this.isAdmin) {
+          this.isShowNavbarAdmin = true;
+          this.isShowNavbar = false;
+        } else {
+          this.router.navigate(['/not-found']);
+        }
+      } else {
+        if (this.currentUrl.includes('/view') && this.isAdmin)
+          this.isShowNavbarAdmin = true;
+        else this.isShowNavbarAdmin = false;
+      }
     });
     this.socialAuthService.initState.subscribe((state) => {
       if (state) this.checkValidToken();

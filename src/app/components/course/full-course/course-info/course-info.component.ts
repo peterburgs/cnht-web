@@ -108,7 +108,6 @@ export class CourseInfoComponent implements OnInit {
   }
   onSave(buttonType: string) {
     if (buttonType == 'save') {
-      console.log(buttonType);
       this.loadingSave = true;
       if (this.course.title && this.course.courseDescription) {
         this.fullCourseService.setSelection(
@@ -130,10 +129,7 @@ export class CourseInfoComponent implements OnInit {
             }
           );
       }
-    } else {
-      console.log(buttonType);
     }
-    console.log('****');
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

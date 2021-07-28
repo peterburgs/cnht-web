@@ -26,11 +26,7 @@ export class TopicDialogComponent implements OnInit {
   topic: Topic = new Topic();
   result = false;
 
-  types = [
-    TOPICS.ALGEBRA,
-    TOPICS.GEOMETRY,
-    TOPICS.COMBINATION,
-  ];
+  types = [TOPICS.ALGEBRA, TOPICS.GEOMETRY, TOPICS.COMBINATION];
   grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
   ngOnInit(): void {
     this.createForm();
@@ -41,21 +37,12 @@ export class TopicDialogComponent implements OnInit {
   }
 
   onCreate() {
-    console.log('*** get Info: ');
-    // this.topic.courseType = this.entryForm.value.category;
-    // this.topic.grade = this.entryForm.value.grade;
-    // this.topic.price = parseInt(this.entryForm.value.price.replace(/\D/g, ''));
     this.topic.title = this.entryForm.value.title;
     this.topic.topicType = this.entryForm.value.category;
     this.topicService.setTopicCreate(this.topic);
-    console.log("*** from dialog")
-    console.log(this.entryForm.value.type);
-    // if (this.topic.title && this.topic.courseDescription) {
-    //   this.fullCourseService.setCourse(this.topic);
+
     this.result = true;
     this.activeModal.close(this.result);
-    //   this.activeModal.close(this.result);
-    // }
   }
 
   // reactive form

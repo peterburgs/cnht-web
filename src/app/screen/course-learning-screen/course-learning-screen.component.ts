@@ -24,7 +24,6 @@ export class CourseLearningScreenComponent implements OnInit {
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key == 'f') {
-      console.log('*** lofkey f');
     }
   }
   current_course = new Course();
@@ -32,8 +31,8 @@ export class CourseLearningScreenComponent implements OnInit {
   sectionId!: Observable<string>;
   lectureId!: Observable<string>;
   lectureIdObser!: string;
-  noteClicked: boolean= false;
-  commentClicked: boolean= false;
+  noteClicked: boolean = false;
+  commentClicked: boolean = false;
 
   videoURL: any;
   learner = new User();
@@ -111,11 +110,11 @@ export class CourseLearningScreenComponent implements OnInit {
       });
   }
 
-  openNotes(){
-    this.noteClicked=!this.noteClicked;
+  openNotes() {
+    this.noteClicked = !this.noteClicked;
   }
 
-  openComments(){
-    this.commentClicked=!this.commentClicked;
+  openComments() {
+    this.commentClicked = !this.commentClicked;
   }
 }

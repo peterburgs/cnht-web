@@ -44,7 +44,7 @@
   text-align: center;
 }
 .div-loading {
-  padding: 1.5rem;
+  padding-top: 1.5rem;
 }
 
 .search-course {
@@ -57,14 +57,14 @@
 .container .wrapper {
   text-align: center;
 }
-.loading {
+/* .loading {
   position: fixed;
   top: 30vh;
   left: 45vw;
   width: 45vw;
   padding: 16px;
   z-index: 9000000;
-}
+} */
 .empty-list {
   height: 100vh;
 }
@@ -184,7 +184,8 @@
 }
 .div-sort-by {
   display: flex;
-  margin: 2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   /* flex-direction: row-reverse; */
 }
 .sort-by {
@@ -225,10 +226,10 @@
   display: contents;
 }
 .item-topic-title {
-  font-weight: bold;
-  font-size: 22px;
+  font-size: 17px;
   display: flex;
-  margin-bottom: 0px;
+  font-weight: 500;
+  padding-bottom: 5px;
   color: rgb(18, 54, 119);
 }
 .item-topic-title:hover {
@@ -258,7 +259,7 @@
   color: #046582;
   background-color: #eee;
 }
-.action-button:hover{
+.action-button:hover {
   color: #046582;
   background-color: #fff;
 }
@@ -270,15 +271,95 @@
   flex-direction: column;
   width: fit-content;
 }
-.download{
+.download {
   color: #fff;
-  background: #CD113B;
+  background: #cd113b;
 }
-.edit{
+.edit {
   color: #fff;
   background: rgb(48, 71, 201);
 }
-.copy{
+.copy {
   color: #fff;
-  background: #81B214;
+  background: #81b214;
+}
+
+.not-found {
+  text-align: center;
+  color: #a4acbd;
+  font-family: "Roboto", sans-serif;
+}
+
+/*===================Loading====================*/
+.loading {
+  width: 45vw;
+  padding: 16px;
+  top: 10vh;
+  z-index: 9000000;
+  position: relative;
+}
+.lds-ellipsis {
+  display: inline-block;
+  left: 33vw;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(22, 214, 248);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+.icon-create {
+  margin-right: 5px;
+}
+
+.topic-type {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0a14a1;
+  text-transform: capitalize;
 }
