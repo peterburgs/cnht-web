@@ -34,6 +34,7 @@
     "font-awesome": "^4.7.0",
     "jQuery": "^1.7.4",
     "moment": "^2.29.1",
+    "ng2-pdf-viewer": "^7.0.1",
     "ngx-bootstrap": "^6.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",

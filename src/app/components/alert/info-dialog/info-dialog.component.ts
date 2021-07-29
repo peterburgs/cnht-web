@@ -29,7 +29,7 @@ export class InfoDialogComponent implements OnInit {
     COURSE_TYPE.EXAMINATION_SOLVING,
     COURSE_TYPE.TEST,
   ];
-  grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
+  grades = [GRADES.NHSGE,GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINTH];
   ngOnInit(): void {
     this.createForm();
   }

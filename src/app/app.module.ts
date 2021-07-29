@@ -42,7 +42,7 @@ import { LearnerWalletComponent } from './components/learner-wallet/learner-wall
 import { TableWalletLearnerComponent } from './components/learner-wallet/table-wallet-learner/table-wallet-learner.component';
 import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
 import { TransferInformationComponent } from './screen/wallet-screen/transfer-information/transfer-information.component';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {
   SocialLoginModule,
   SocialAuthServiceConfig,
@@ -186,6 +186,7 @@ import { TopicScreenComponent } from './screen/topic-screen/topic-screen.compone
     MatSelectModule,
     ReactiveFormsModule,
     MatExpansionModule,
+    PdfViewerModule
   ],
   providers: [
     CurrencyPipe,
