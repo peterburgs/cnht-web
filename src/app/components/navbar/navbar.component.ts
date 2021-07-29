@@ -58,6 +58,8 @@ export class NavbarComponent implements OnInit {
       this.timer.pauseTimer();
       this.isLoggedin = false;
       this.router.navigate(['/login']);
+    }).catch(error => {
+      this.router.navigate(['/login']);
     });
   }
 
@@ -67,10 +69,6 @@ export class NavbarComponent implements OnInit {
 
   refreshComponent() {
     this.router.navigate([this.router.url]);
-  }
-
-  changeRouter() {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   onLoadSearch() {
@@ -83,6 +81,7 @@ export class NavbarComponent implements OnInit {
   }
 
   setGradeChangeRouter(number: number) {
+    let isGoHome = false;
     switch (number) {
       case 1: {
         this.grade = GRADES.NHSGE;
@@ -104,18 +103,22 @@ export class NavbarComponent implements OnInit {
         this.grade = GRADES.NINTH;
         break;
       }
+      case 6: {
+        isGoHome = true;
+        break;
+      }
       default:
         break;
     }
-    this.setRouter();
+    this.setRouter(isGoHome);
   }
 
   getGradeChangeRouter() {
     return this.grade;
   }
 
-  setRouter() {
-    this.router.navigate(['/home', this.grade]);
+  setRouter(isGoHome:boolean) {
+    !isGoHome? this.router.navigate(['/home', this.grade]): this.router.navigate(['/home']);
   }
 
   selectedBtnTest() {

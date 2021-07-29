@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md">
   <div class="container-fluid">
-    <a class="navbar-brand logo-text" routerLink="/home" (click)="changeRouter()">Cùng Nhau Học Toán</a>
+    <a class="navbar-brand logo-text" [routerLink]="['/home']">Cùng Nhau Học Toán</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon">
@@ -16,31 +16,33 @@
               Courses
             </a>
             <ul class="dropdown-menu course-item" id="course-item">
+              <li (click)="setGradeChangeRouter(6)">
+                <a class="dropdown-item">All Grade</a>
+              </li>
               <li (click)="setGradeChangeRouter(1)">
-                <!-- <a class="dropdown-item" [routerLink]="['/home', 'tnthpt']" -->
                 <a class="dropdown-item">Tốt nghiệp THPT</a>
               </li>
               <li (click)="setGradeChangeRouter(2)">
-                <!-- <a class="dropdown-item" [routerLink]="['/home', 'twelve']" -->
                 <a class="dropdown-item">Grade 12</a>
               </li>
               <li (click)="setGradeChangeRouter(3)">
-                <!-- <a class="dropdown-item" [routerLink]="['/home', 'eleven']" -->
                 <a class="dropdown-item">Grade 11</a>
               </li>
               <li (click)="setGradeChangeRouter(4)">
-                <!-- <a class="dropdown-item" [routerLink]="['/home', 'ten']" -->
                 <a class="dropdown-item">Grade 10</a>
               </li>
               <li (click)="setGradeChangeRouter(5)">
-                <!-- <a class="dropdown-item" [routerLink]="['/home', 'nine']" -->
                 <a class="dropdown-item">Grade 9</a>
               </li>
+              
             </ul>
           </li>
           <li class="nav-item dropdown topic">
             <a class="nav-link dropdown-toggle" id="navbarDropdown1"> Topics</a>
             <ul class="dropdown-menu topic-item">
+              <li>
+                <a class="dropdown-item" [routerLink]="['/topics', 'all']">All Topics</a>
+              </li>
               <li *ngFor="let topic of getKeys()">
                 <a class="dropdown-item" [routerLink]="['/topics', topic]">{{
                   topic
@@ -66,7 +68,7 @@
               <img [src]="photo" alt="avatar" class="photo" />
             </button>
             <div class="dropdown-menu button-account">
-              <button *ngIf="isAdmin" class="dropdown-item" (click)="goToHomeAdmin()">
+              <button *ngIf="isAdmin" class="dropdown-item"[routerLink]="['/admin/home']">
                 <i class="bi bi-house"></i> <span>Admin Home</span>
               </button>
               <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse dropdown-item"><i

@@ -21,24 +21,17 @@
     </div>
   </div>
   <!-- <div class="viewer-contain-pdf" > -->
-  <!-- <pdf-viewer id="PDF" *ngIf="!emptyContent" 
-      [src]="tmpUrl"
-      [page]=page
-      [render-text]="true"
-      [show-all]="true"
-      style="display: block"
-      
-    ></pdf-viewer> -->
-  <div class="div-pdf" [innerHTML]="html"></div>
+    <pdf-viewer [src]="baseUrl + topic.fileUrl"
+    [render-text]="true"
+    style="display: block;"
+></pdf-viewer>
+  <!-- <div class="div-pdf" [innerHTML]="html"></div> -->
+
   <div></div>
   <div></div>
   <div></div>
   <div></div>
   <div></div>
-  <div *ngIf="!emptyContent" class="empty-content">
-    <h2>Empty</h2>
-  </div>
-  <div *ngIf="emptyContent"></div>
   <!-- </div> -->
 </div>
 

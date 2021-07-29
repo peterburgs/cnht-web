@@ -4,7 +4,7 @@
   <router-outlet></router-outlet>
   <app-footer
     class="footer"
-    *ngIf="isShowNavbar || isShowNavbarAdmin"
+    *ngIf="(isShowNavbar || isShowNavbarAdmin) && !isNotShowFooter"
   ></app-footer>
 </div>
 <app-loading [isLoading]="!validSignIn"></app-loading>
