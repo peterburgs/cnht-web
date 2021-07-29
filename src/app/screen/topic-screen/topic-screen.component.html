@@ -10,21 +10,19 @@
 <div class="contain-pdf">
   <div class="container div-title">
     <div class="div-back">
-      <h2 (click)="goBack()" class="icon-back" >
-        <i
-          class="bi bi-arrow-left-square icon-decorate"
-          title="Lesson go back"
-        ></i>
+      <h2 (click)="goBack()" class="icon-back">
+        <i class="bi bi-arrow-left-square icon-decorate"></i>
       </h2>
 
       <h2 class="header-title">{{ topic.title }}</h2>
     </div>
   </div>
   <!-- <div class="viewer-contain-pdf" > -->
-    <pdf-viewer [src]="baseUrl + topic.fileUrl"
+  <pdf-viewer
+    [src]="baseUrl + topic.fileUrl"
     [render-text]="true"
-    style="display: block;"
-></pdf-viewer>
+    style="display: block"
+  ></pdf-viewer>
   <!-- <div class="div-pdf" [innerHTML]="html"></div> -->
 
   <div></div>

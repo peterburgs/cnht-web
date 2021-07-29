@@ -62,10 +62,10 @@ export class TopicScreenComponent implements OnInit {
   backToPreviousPage() {}
 
   goBack() {
-    const { redirect } = window.history.state;
-    console.log(redirect);
-    this.router.navigateByUrl(redirect);
-
+    // const { redirect } = window.history.state;
+    // console.log(redirect);
+    // this.router.navigateByUrl(redirect);
+    history.back();
     // if (localStorage.getItem('role') == 'admin') {
     //   this.router.navigateByUrl('/admin/topics').then();
     // } else {
