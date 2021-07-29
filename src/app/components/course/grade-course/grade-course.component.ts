@@ -8,7 +8,6 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { CourseService } from 'src/app/service/course.service';
@@ -20,7 +19,6 @@ import { CourseService } from 'src/app/service/course.service';
 })
 export class GradeCourseComponent implements OnInit, OnChanges {
   @Input() grade: GRADES = GRADES.TENTH;
-  @Input() courseType: COURSE_TYPE = COURSE_TYPE.THEORY;
   smallCourses: Course[] = [];
   isLoading = true;
   notFound = false;
@@ -41,7 +39,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
 
   getCourse() {
     this.smallCourses = [];
-    this.CourseService.getListCourseGrade(this.grade, this.courseType)
+    this.CourseService.getListCourseGrade(this.grade)
       .pipe(
         catchError((error) => {
           this.isLoading = false;
@@ -71,7 +69,7 @@ export class GradeCourseComponent implements OnInit, OnChanges {
 
   onLoadSearchAllCourse() {
     this.router.navigate(['search'], {
-      queryParams: { type: this.courseType, grade: this.grade },
+      queryParams: { grade: this.grade },
     });
   }
 }

@@ -130,6 +130,9 @@ input[type="file"] {
   border-radius: 10px;
   width: 100px;
 }
-.main-create-screen{
+.main-create-screen {
   background: #f5f5f5;
+}
+.icon-create {
+  margin-right: 5px;
 }

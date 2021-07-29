@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { FullCourseService } from 'src/app/service/full-course.service';
@@ -24,12 +23,13 @@ export class InfoDialogComponent implements OnInit {
   course: Course = new Course();
   result = false;
   priceFormat: string = '0';
-  types = [
-    COURSE_TYPE.THEORY,
-    COURSE_TYPE.EXAMINATION_SOLVING,
-    COURSE_TYPE.TEST,
+  grades = [
+    GRADES.NHSGE,
+    GRADES.TWELFTH,
+    GRADES.ELEVENTH,
+    GRADES.TENTH,
+    GRADES.NINTH,
   ];
-  grades = [GRADES.NHSGE,GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINTH];
   ngOnInit(): void {
     this.createForm();
   }
@@ -39,7 +39,6 @@ export class InfoDialogComponent implements OnInit {
   }
 
   onCreate() {
-    this.course.courseType = this.entryForm.value.category;
     this.course.grade = this.entryForm.value.grade;
     this.course.price = parseInt(this.entryForm.value.price.replace(/\D/g, ''));
     if (this.course.title && this.course.courseDescription) {
@@ -54,8 +53,7 @@ export class InfoDialogComponent implements OnInit {
     this.entryForm = this.formBuilder.group({
       title: [''],
       description: [''],
-      grade: [''],
-      category: [''],
+      grade: [GRADES.TWELFTH],
       price: [''],
     });
   }

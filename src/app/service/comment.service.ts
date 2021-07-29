@@ -6,7 +6,7 @@ import { Comment } from '../models/comment.model';
 })
 export class CommentService {
   private baseUrl: string =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
 
   constructor(private http: HttpClient) {}
   saveComment(comment: Comment) {

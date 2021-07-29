@@ -27,39 +27,29 @@
                 countdown: 300 }}/300)</span></label>
             <label class="d-block">
               <textarea rows="3" type="text" [(ngModel)]="course.courseDescription" class="form-control"
-                formControlName="description" autocomplete="description" [placeholder]="'Enter position number here'"
-                required></textarea>
+                formControlName="description" autocomplete="description"
+                [placeholder]="'Add more detail about the course'" required></textarea>
               <span hidden translate>Description</span>
               <small [hidden]="
                   entryForm.controls.description.valid ||
                   entryForm.controls.description.untouched
                 " class="text-danger" translate>
-                Description is not empty
+                Description cannot be not empty
               </small>
             </label>
             <!-- Phone  -->
             <label for="positionNumber">Price</label>
             <label class="d-block">
-              <input type="text" [(ngModel)]="priceFormat" (keyup)="formatCurrency()" class="form-control"
+              <input type="number" [(ngModel)]="priceFormat" (keyup)="formatCurrency()" class="form-control"
                 formControlName="price" [placeholder]="'Enter price here'" required />
             </label>
-            <label for="positionNumber">Category</label>
-            <div class="d-block">
-              <select class="form-select text-deco form-select-lg mb-3" aria-label=".form-select-lg example"
-                formControlName="category">
-                <option class="text-deco" *ngFor="let item of types; let i = index" [value]="item" [ngValue]="item"
-                  [selected]="i == 2 ">
-                  {{ item }}
-                </option>
-              </select>
-            </div>
             <!-- Category -->
             <label for="positionNumber">Grade</label>
             <div class="d-block">
-              <select class="form-control form-select text-deco form-select-lg mb-3"
+              <select class="form-control form-select text-deco form-select-lg mb-3 select-item"
                 aria-label=".form-select-lg example" formControlName="grade">
-                <option *ngFor="let grade of grades; let i = index" [value]="grade" [ngValue]="grade"
-                  [selected]="i == 2">
+                <option class="text-deco" *ngFor="let grade of grades; let i = index" [value]="grade" [ngValue]="grade"
+                  [selected]="i == 1">
                   {{ grade }}
                 </option>
               </select>

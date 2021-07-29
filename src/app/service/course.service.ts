@@ -1,12 +1,5 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { COURSE_TYPE } from '../models/course-type';
 import { Course } from '../models/course.model';
 import { Enrollment } from '../models/enrollment.model';
 import { GRADES } from '../models/grades';
@@ -20,7 +13,7 @@ import { authenticationService } from './authentication.service';
 })
 export class CourseService {
   private baseUrl: string =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -33,15 +26,12 @@ export class CourseService {
     private authService: authenticationService
   ) {}
 
-  getListCourseGrade(level_: GRADES, type_: COURSE_TYPE) {
+  getListCourseGrade(level_: GRADES) {
     return this.http
       .get<{ message: string; count: number; courses: Course[] }>(
         this.baseUrl + '/courses',
         {
-          params: new HttpParams()
-            .set('grade', level_)
-            .set('courseType', type_)
-            .set('isHidden', false),
+          params: new HttpParams().set('grade', level_).set('isHidden', false),
         }
       )
       .pipe();
@@ -68,14 +58,12 @@ export class CourseService {
     );
   }
 
-  getListCourseFilter(courseType: COURSE_TYPE, grade: GRADES) {
+  getListCourseFilter(grade: GRADES) {
     return this.http
       .get<{ message: string; count: number; courses: Course[] }>(
-        'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/courses',
+        'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/courses',
         {
-          params: new HttpParams()
-            .set('grade', grade)
-            .set('courseType', courseType),
+          params: new HttpParams().set('grade', grade),
         }
       )
       .subscribe((response) => {});

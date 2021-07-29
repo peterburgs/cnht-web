@@ -111,10 +111,9 @@
 }
 
 .title-note {
-  margin-right: 1px;
+  margin-right: 5px;
   color: #4444;
   font: 11px;
-
 }
 .font-italic {
   font-style: italic;
@@ -127,14 +126,14 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
-.background-title{
-    background: #FAF3F3;
+.background-title {
+  background: #faf3f3;
 }
-.background-note{
-    background: #FAF3F3;
+.background-note {
+  background: #faf3f3;
 }
 
-.div-title{
+.div-title {
   display: flex;
   flex-direction: row;
   justify-content: center;

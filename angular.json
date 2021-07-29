@@ -42,13 +42,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "20mb",
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "20mb",
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
@@ -88,7 +88,6 @@
               "browserTarget": "cnht-web:build",
               "proxyConfig": "src/proxy.conf.json"
             }
-
           },
           "defaultConfiguration": "development"
         },

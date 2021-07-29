@@ -1,10 +1,4 @@
-import { ReadVarExpr } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  DomSanitizer,
-  SafeHtml,
-  SafeResourceUrl,
-} from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from 'src/app/models/topic.model';
 import { TopicService } from 'src/app/service/topic.service';
@@ -18,19 +12,12 @@ export class TopicScreenComponent implements OnInit {
   constructor(
     private topicService: TopicService,
     private route: ActivatedRoute,
-    private router: Router,
-    private sanitizer: DomSanitizer
+    private router: Router
   ) {}
 
-  @Input()
-  private code: string = '';
-  url: SafeResourceUrl = '';
-  html: SafeHtml = '';
-  baseUrl = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app';
-  encodeUrl = '';
+  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
   topic: Topic = new Topic();
   isLoading = false;
-  page: number = 1;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.topic.id = params['id'];
@@ -38,19 +25,10 @@ export class TopicScreenComponent implements OnInit {
         this.router.navigateByUrl('/admin/topics').then();
       }
       this.isLoading = true;
-
       this.topicService.getTopicByIdRemote(this.topic.id).subscribe(
         (res) => {
           this.topic = res.topics[0];
-          if (this.topic.fileUrl.length > 0) {
-            let url = `${this.baseUrl}${this.topic.fileUrl}`;
-            let html = `<embed width="90%" height="100%" src="${url}" />`;
-            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-            this.html = this.sanitizer.bypassSecurityTrustHtml(html);
-            this.isLoading = false;
-          } else {
-            this.isLoading = false;
-          }
+          this.isLoading = false;
         },
         (error) => {
           this.isLoading = false;
@@ -59,17 +37,7 @@ export class TopicScreenComponent implements OnInit {
     });
   }
 
-  backToPreviousPage() {}
-
   goBack() {
-    // const { redirect } = window.history.state;
-    // console.log(redirect);
-    // this.router.navigateByUrl(redirect);
     history.back();
-    // if (localStorage.getItem('role') == 'admin') {
-    //   this.router.navigateByUrl('/admin/topics').then();
-    // } else {
-    //   this.router.navigateByUrl('/topics/algebra').then();
-    // }
   }
 }

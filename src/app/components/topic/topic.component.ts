@@ -1,9 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FullCourseService } from 'src/app/service/full-course.service';
-import { Course } from 'src/app/models/course.model';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TopicDialogComponent } from '../alert/topic-dialog/topic-dialog.component';
 import { Topic } from 'src/app/models/topic.model';
@@ -67,11 +64,9 @@ export class TopicComponent implements OnInit {
           if (this.isAdmin) this.getAllByDate();
           else {
             if (topicType) {
-              console.log(topicType);
               this.topicType = topicType;
               this.sortByDate(this.selectedExpBy);
               this.getListByTopicType(this.topicType);
-              console.log(this.listTopic);
             } else {
               this.router.navigateByUrl('/not-found');
             }
@@ -173,19 +168,18 @@ export class TopicComponent implements OnInit {
   ];
 
   getAllByFilter() {
-    console.log("type: " + this.topicType)
     switch (this.topicType) {
       case 'all':
-        this.getAllListByTitle(); //ok
+        this.getAllListByTitle();
         break;
       default:
-        this.getListByTopicType(this.topicType); //0k
+        this.getListByTopicType(this.topicType);
         break;
     }
   }
 
   getListByTopicType(type: string) {
-    if(type == "all") this.getAllByDate();
+    if (type == 'all') this.getAllByDate();
     else
       this.listTopic = this.listSortedTopic.filter(
         (topic) =>
@@ -197,9 +191,6 @@ export class TopicComponent implements OnInit {
   viewFile(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
     formatTitle = formatTitle.replace(/\s/g, '_');
-
-    // console.log(window.location.href);
-    // window.history.pushState({}, '', window.location.href);
     this.router
       .navigate(['topics/' + formatTitle + '/' + topicId + '/view'], {
         state: { redirect: this.router.url },

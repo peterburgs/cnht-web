@@ -12,7 +12,7 @@ import { PriceFormat } from 'src/app/util/priceformat';
 export class LecturerCardCourseComponent implements OnInit {
   @Input() course = new Course();
   @Input() isLearner: boolean = false;
-  baseUrl = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app';
+  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
   isPublished = false;
   isHome = false;
   constructor(

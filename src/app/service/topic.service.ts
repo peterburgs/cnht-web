@@ -19,9 +19,8 @@ export class TopicService {
   sbjUploadTopicFile = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
   private baseURL =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/';
   onCreateTopic() {
-    console.log(this.topic)
     return this.http.post<{ message: String; count: Number; topic: Topic }>(
       this.baseURL + 'topics',
       {
@@ -51,14 +50,6 @@ export class TopicService {
   }
 
   updateTopicFile(topicId: string, pdfFileTopic: File) {
-    // return this.http.post<{ message: String }>(
-    //   this.baseURL + 'topics/' + idTopic + '/files/upload',
-    //   {
-    //     id: idTopic,
-    //     fileUrl: pdfFileTopic,
-    //   },
-    //   httpOptions
-    // );
     const fileId = new Date().getTime().toString();
     const chunkSize = 5 * 1024 * 1024;
     const chunksQuantity = Math.ceil(pdfFileTopic.size / chunkSize);
@@ -100,8 +91,6 @@ export class TopicService {
 
     const sendNext = () => {
       if (!chunksQueue.length) {
-        console.log('All parts uploaded');
-
         this.isUploadTopicFile = false;
         this.sbjUploadTopicFile.next(this.isUploadTopicFile);
         return;
@@ -117,7 +106,6 @@ export class TopicService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
-            console.log('***', 'Upload successfully');
           }
           sendNext();
         })
@@ -173,8 +161,7 @@ export class TopicService {
 
   downloadFile(urlTopic: string) {
     let baseUrl =
-      'https://us-central1-supple-craft-318515.cloudfunctions.net/app' +
-      urlTopic;
+      'https://us-central1-cnht-3205c.cloudfunctions.net/app' + urlTopic;
     const httpOptions = {
       responseType: 'blob' as 'json',
     };

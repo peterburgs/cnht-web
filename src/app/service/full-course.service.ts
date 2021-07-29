@@ -8,7 +8,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Course } from 'src/app/models/course.model';
 import { Lecture } from 'src/app/models/lecture.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
-import { COURSE_TYPE } from 'src/app/models/course-type';
 import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
 
@@ -33,8 +32,7 @@ export class FullCourseService {
   private arrLoading: boolean[] = [];
   private loadingThumbnail = false;
   private baseURL =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
-  // private baseURL = '/app/api/';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/';
   private apiUrlCourse = this.baseURL + 'courses';
   private apiUrlSection = this.baseURL + 'sections';
   private apiUrlLecture = this.baseURL + 'lectures';
@@ -476,7 +474,6 @@ export class FullCourseService {
   setCourse(course: Course) {
     this.course.title = course.title;
     this.course.grade = course.grade;
-    this.course.courseType = course.courseType;
     this.course.courseDescription = course.courseDescription;
     this.course.thumbnailUrl = course.thumbnailUrl;
     this.course.price = course.price;
@@ -565,8 +562,6 @@ export class FullCourseService {
 
     const sendNext = () => {
       if (!chunksQueue.length) {
-        console.log('All parts uploaded');
-
         return;
       }
       const chunkId = chunksQueue.pop();
@@ -580,12 +575,10 @@ export class FullCourseService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
-            console.log('***', 'Upload successfully');
             this.getCourseUpdate().subscribe((response) => {
               this.course = response.courses[0];
               this.loadingThumbnail = false;
               this.sbjLoadingThumbnail.next(this.loadingThumbnail);
-              //Update in courses
               this.courses.forEach((course) => {
                 if (course.id == response.courses[0].id) {
                   course.thumbnailUrl = response.courses[0].thumbnailUrl;
@@ -624,7 +617,7 @@ export class FullCourseService {
         const xhr = new XMLHttpRequest();
         xhr.open(
           'post',
-          `https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/lectures/${this.idItem}/video/upload`
+          `https://us-central1-cnht-3205c.cloudfunctions.net/app/api/lectures/${this.idItem}/video/upload`
         );
 
         xhr.setRequestHeader('Content-Type', 'application/octet-stream');
@@ -650,13 +643,10 @@ export class FullCourseService {
         xhr.onerror = reject;
 
         xhr.send(chunk);
-      }).catch((error) => {
-        console.log(error.message);
-      });
+      }).catch((error) => {});
     };
     const sendNext = () => {
       if (!chunksQueue.length) {
-        console.log('All parts uploaded');
         this.setVideoDuration(duration).subscribe(
           (response) => {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
@@ -688,7 +678,6 @@ export class FullCourseService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
-            console.log(castedData.data);
           }
           sendNext();
         })
@@ -750,7 +739,7 @@ export class FullCourseService {
         lectureOrder: lecture.lectureOrder,
         isHidden: lecture.isHidden,
         sectionId: lecture.sectionId,
-        note:lecture.note
+        note: lecture.note,
       },
       httpOptions
     );
@@ -764,7 +753,6 @@ export class FullCourseService {
         title: this.course.title,
         courseDescription: this.course.courseDescription,
         price: this.course.price,
-        courseType: this.course.courseType,
         thumbnailUrl: this.course.thumbnailUrl,
         isPublished: this.course.isPublished,
         grade: this.course.grade,
@@ -843,7 +831,6 @@ export class FullCourseService {
           title: course.title,
           courseDescription: course.courseDescription,
           price: course.price,
-          courseType: course.courseType,
           thumbnailUrl: course.thumbnailUrl,
           grade: course.grade,
           isPublished: course.isPublished,
@@ -892,41 +879,4 @@ export class FullCourseService {
         }
       );
   }
-
-  //================ Mockup data ==================
-  private mcourses: Course[] = [
-    {
-      id: '1',
-      title: 'Giải phương trình bậc 3',
-      courseDescription: 'Description',
-      price: 150000,
-      courseType: COURSE_TYPE.THEORY,
-      grade: GRADES.TENTH,
-      thumbnailUrl: 'string',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isHidden: false,
-      isPublished: true,
-    },
-  ];
-  private mSectionList: Section[] = [
-    {
-      courseId: '1',
-      id: 'course1sec1',
-      title: 'Lý thuyết phương trình',
-      isHidden: false,
-      sectionOrder: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      courseId: '1',
-      id: 'course1sec2',
-      title: 'Phương trình tuyến tính',
-      isHidden: false,
-      sectionOrder: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ];
 }

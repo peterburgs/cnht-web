@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { GRADES } from 'src/app/models/grades';
 import { TOPICS } from 'src/app/models/TOPIC';
@@ -31,7 +25,6 @@ export class NavbarComponent implements OnInit {
     public socialAuth: SocialAuthService,
     public authService: authenticationService,
     private router: Router,
-    private route: ActivatedRoute,
     private timer: Timer,
     private _snackBar: MatSnackBar
   ) {}
@@ -54,13 +47,16 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logOut().then((data) => {
-      this.timer.pauseTimer();
-      this.isLoggedin = false;
-      this.router.navigate(['/login']);
-    }).catch(error => {
-      this.router.navigate(['/login']);
-    });
+    this.authService
+      .logOut()
+      .then((data) => {
+        this.timer.pauseTimer();
+        this.isLoggedin = false;
+        this.router.navigate(['/login']);
+      })
+      .catch((error) => {
+        this.router.navigate(['/login']);
+      });
   }
 
   goToHomeAdmin() {
@@ -117,8 +113,10 @@ export class NavbarComponent implements OnInit {
     return this.grade;
   }
 
-  setRouter(isGoHome:boolean) {
-    !isGoHome? this.router.navigate(['/home', this.grade]): this.router.navigate(['/home']);
+  setRouter(isGoHome: boolean) {
+    !isGoHome
+      ? this.router.navigate(['/home', this.grade])
+      : this.router.navigate(['/home']);
   }
 
   selectedBtnTest() {

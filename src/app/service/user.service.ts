@@ -11,7 +11,7 @@ import { authenticationService } from './authentication.service';
 })
 export class UserService {
   private baseUrl: string =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
 
   constructor(
     private http: HttpClient,

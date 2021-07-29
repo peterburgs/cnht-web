@@ -56,7 +56,7 @@ export class CourseLectureComponent implements OnInit {
     this.sbjLoadingDuration.subscribe((duration) => {
       if (this.fileToUpload.name != 'default') {
         let tmpFileName = this.fileToUpload.name.replace(/[^\x00-\x7F]/g, '');
-        
+
         Object.defineProperty(this.fileToUpload, 'name', {
           writable: true,
           value: tmpFileName,
@@ -76,9 +76,8 @@ export class CourseLectureComponent implements OnInit {
               this.timeVideo = this.tmpTimeVideo;
               this.sbjLoadingDuration.next(this.timeVideo);
               this.sbcMediaUpload.unsubscribe();
-              this.openSnackBar("File uploaded successfully","Ok")
+              this.openSnackBar('File uploaded successfully', 'Ok');
             }
-
             this.sbjLoadingDuration.unsubscribe();
           });
       }

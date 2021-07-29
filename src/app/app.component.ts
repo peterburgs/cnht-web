@@ -38,17 +38,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentUrl = this.router.url;
-        console.log('*40 url: ' + this.currentUrl);
         if (this.currentUrl.includes('/login')) {
           {
             this.isShowNavbar = false;
             this.isShowNavbarAdmin = false;
-            console.log('*42');
           }
         } else this.isShowNavbar = true;
 
         if (this.currentUrl.includes('/admin')) {
-          console.log('*46');
           let role = localStorage.getItem('role');
           if (role && role == 'admin') this.isAdmin = true;
           else this.isAdmin = false;
@@ -56,7 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.isAdmin) {
             this.isShowNavbarAdmin = true;
             this.isShowNavbar = false;
-            console.log('*');
           } else {
             this.router.navigate(['/not-found']);
           }
@@ -66,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
           } else this.isShowNavbarAdmin = false;
         }
       }
-      if(this.currentUrl.includes('/view')) this.isNotShowFooter = true;
+      if (this.currentUrl.includes('/view')) this.isNotShowFooter = true;
       else this.isNotShowFooter = false;
     });
     this.socialAuthService.initState.subscribe((state) => {

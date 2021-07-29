@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { COURSE_TYPE } from 'src/app/models/course-type';
 import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { ModifyType } from 'src/app/models/ModifyType';
@@ -20,17 +19,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CourseInfoComponent implements OnInit {
   @ViewChild('infoCourse', { read: NgForm }) infoCourse!: any;
   @Input() course: Course = new Course();
-  baseURL = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app';
+  baseURL = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
   mCourse: Course = new Course();
   imgPath?: Observable<string>;
   selectedValue: string = '';
   priceFormat = '000';
-  types = [
-    COURSE_TYPE.THEORY,
-    COURSE_TYPE.EXAMINATION_SOLVING,
-    COURSE_TYPE.TEST,
+  grades = [
+    GRADES.NHSGE,
+    GRADES.TWELFTH,
+    GRADES.ELEVENTH,
+    GRADES.TENTH,
+    GRADES.NINTH,
   ];
-  grades = [GRADES.NHSGE,GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH, GRADES.NINTH];
   loadingCalculate = false;
   loadingSave = false;
   fileToUpLoad: File = new File([], '_Thumbnail');
@@ -94,14 +94,9 @@ export class CourseInfoComponent implements OnInit {
     let price = this.course.price;
     this.priceFormat = FormatPrice(price, 0, 3, '.', ',');
   }
-  formatType(type: COURSE_TYPE) {
-    return type;
-  }
+
   formatGrade(grade: GRADES) {
     return grade;
-  }
-  changeType(e: any) {
-    this.course.courseType = e.target.value;
   }
   changeGrade(e: any) {
     this.course.grade = e.target.value;

@@ -10,7 +10,6 @@ import { CourseDetailScreenComponent } from './screen/course-detail-screen/cours
 import { WalletComponent } from './components/admin/wallet/wallet.component';
 import { LoginScreenComponent } from './screen/login-screen/login-screen.component';
 import { WalletScreenComponent } from './screen/wallet-screen/wallet-screen.component';
-import { SearchComponent } from './components/course/search/search.component';
 import { LearnerManagermentComponent } from './components/admin/learner-managerment/learner-managerment.component';
 import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component';
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
@@ -82,11 +81,6 @@ const routes: Routes = [
     path: 'login',
     component: LoginScreenComponent,
   },
-  {
-    path: 'search',
-    component: SearchComponent,
-  },
-
   {
     path: 'mylearning',
     component: MylearingScreenComponent,

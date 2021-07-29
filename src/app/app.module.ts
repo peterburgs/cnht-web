@@ -23,11 +23,6 @@ import { CourseSectionComponent } from './components/course/full-course/course-s
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchComponent } from './components/course/search/search.component';
-import { ItemSearchComponent } from './components/course/search/item-search/item-search.component';
-import { ListSearchComponent } from './components/course/search/list-search/list-search.component';
-import { FilterComponent } from './components/course/search/filter/filter.component';
-import { ItemFilterComponent } from './components/course/search/filter/item-filter/item-filter.component';
 import { AdminComponent } from './components/admin/admin.component';
 
 import { CourseLearningScreenComponent } from './screen/course-learning-screen/course-learning-screen.component';
@@ -85,8 +80,7 @@ import { CircleLoadingComponent } from './components/circle-loading/circle-loadi
 import { ComfirmLeaveComponent } from './components/guard/comfirm-leave/comfirm-leave.component';
 import { AlertConfimationComponent } from './components/course/full-course/alert-confimation/alert-confimation.component';
 import { InfoDialogComponent } from './components/alert/info-dialog/info-dialog.component';
-import { CourseFilterComponent } from './components/course-filter/course-filter.component';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NoteComponent } from './components/course/detail-info-course/note/note.component';
 import { TopicComponent } from './components/topic/topic.component';
 import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
@@ -113,11 +107,6 @@ import { TopicScreenComponent } from './screen/topic-screen/topic-screen.compone
     CourseInfoComponent,
     CourseSectionComponent,
     AlertWarningComponent,
-    SearchComponent,
-    ItemSearchComponent,
-    ListSearchComponent,
-    FilterComponent,
-    ItemFilterComponent,
     AdminComponent,
     CourseLearningScreenComponent,
     CommentComponent,
@@ -136,7 +125,6 @@ import { TopicScreenComponent } from './screen/topic-screen/topic-screen.compone
     ShortenPipe,
     LearnerManagermentComponent,
     TableLearnerManagermentComponent,
-    ListSearchComponent,
     MylearingScreenComponent,
     ShortenDescription,
     AlertWarningComponent,
@@ -153,7 +141,6 @@ import { TopicScreenComponent } from './screen/topic-screen/topic-screen.compone
     ComfirmLeaveComponent,
     AlertConfimationComponent,
     InfoDialogComponent,
-    CourseFilterComponent,
     NoteComponent,
     TopicComponent,
     ModifyTopicComponent,
@@ -186,7 +173,7 @@ import { TopicScreenComponent } from './screen/topic-screen/topic-screen.compone
     MatSelectModule,
     ReactiveFormsModule,
     MatExpansionModule,
-    PdfViewerModule
+    PdfViewerModule,
   ],
   providers: [
     CurrencyPipe,

@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class authenticationService {
   private baseUrl: string =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
   public logger = new Subject<boolean>();
   public loggedIn = false;
 

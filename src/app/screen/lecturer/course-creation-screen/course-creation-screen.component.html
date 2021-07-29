@@ -8,16 +8,11 @@
 
     <app-course-info [course]="course"></app-course-info>
 
-    <app-course-section
-      *ngFor="let section of sections; let i = index"
-      [isUpLoading]="isUpLoading"
-      [sectionDummy]="section"
-      [sectionIndex]="i"
-      [maxLecture]="maxLecture"
-    ></app-course-section>
+    <app-course-section *ngFor="let section of sections; let i = index" [isUpLoading]="isUpLoading"
+      [sectionDummy]="section" [sectionIndex]="i" [maxLecture]="maxLecture"></app-course-section>
     <ul>
       <button class="btn-create-new" (click)="onCreateSection()">
-        <i class="bi bi-plus-lg icon-create icon-create"></i>Section
+        <i class="bi bi-plus-lg icon-create"></i>Section
       </button>
     </ul>
     <br />
@@ -37,55 +32,31 @@
       <div *ngIf="wayModify != 0 && wayModify != 1">
         {{ contentNotify }}
       </div>
-      <div
-        class="mb-3 row"
-        *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection == 0)"
-      >
+      <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection == 0)">
         <label for="name" class="col-sm-4 col-form-label">
-          {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label
-        >
+          {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label>
         <div class="col-sm-11">
-          <input
-            type="text"
-            class="form-control"
-            id="nameTitle"
-            placeholder="Title course"
-            required
-            name="nameTitle"
-            [(ngModel)]="titleBinding"
-          />
+          <input type="text" class="form-control" id="nameTitle" placeholder="Title course" required name="nameTitle"
+            [(ngModel)]="titleBinding" />
         </div>
       </div>
     </div>
     <div class="modal-footer remove-border confirm-footer">
-      <button
-        type="button"
-        class="btn btn-danger border-radius"
-        (click)="modal.close('Close click')"
-      >
+      <button type="button" class="btn btn-danger border-radius" (click)="modal.close('Close click')">
         Cancel
       </button>
-      <button
-        *ngIf="wayModify == 0 || wayModify == 1"
-        type="button"
-        class="btn btn-primary border-radius"
-        (click)="onConfirmSave()"
-      >
+      <button *ngIf="wayModify == 0 || wayModify == 1" type="button" class="btn btn-primary border-radius"
+        (click)="onConfirmSave()">
         Save
       </button>
-      <button
-        type="button"
-        *ngIf="
+      <button type="button" *ngIf="
           wayModify == 2 ||
           wayModify == 3 ||
           wayModify == 4 ||
           wayModify == 5 ||
           wayModify == 6 ||
           wayModify == 7
-        "
-        class="btn btn-primary border-radius"
-        (click)="onConfirmSave()"
-      >
+        " class="btn btn-primary border-radius" (click)="onConfirmSave()">
         Confirm
       </button>
     </div>
@@ -99,11 +70,7 @@
       <p class="custome-dialog-title">{{ errorMessage }}&hellip;</p>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-danger border-radius"
-        (click)="modal.close('Close click')"
-      >
+      <button type="button" class="btn btn-danger border-radius" (click)="modal.close('Close click')">
         Close
       </button>
     </div>

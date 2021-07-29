@@ -1,11 +1,6 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DepositRequest } from '../models/deposit-request.model';
 import { STATUSES } from '../models/statuses';
 import { User } from '../models/user.model';
@@ -19,7 +14,7 @@ export class DepositRequestService {
   private depositRequests: DepositRequest[] = [];
 
   private baseUrl: string =
-    'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api';
+    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
   private userList?: User[];
   private depositRequestList: DepositRequest[] = [];
   constructor(

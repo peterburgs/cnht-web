@@ -82,7 +82,6 @@ export class ModifyTopicComponent implements OnInit {
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.tmpFileName = this.fileToUpLoad.name.replace(/[^\x00-\x7F]/g, '');
-        console.log('*** 82 ' + this.tmpFileName);
         Object.defineProperty(this.fileToUpLoad, 'name', {
           writable: true,
           value: this.tmpFileName,

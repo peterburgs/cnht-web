@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { COURSE_TYPE } from 'src/app/models/course-type';
-import { GRADES } from 'src/app/models/grades';
 import { CourseService } from 'src/app/service/course.service';
 
 interface Status {
@@ -44,7 +42,7 @@ export class HomeScreenComponent implements OnInit {
   }
 
   getAllCourse() {
-    this.grade = "All Grade"; 
+    this.grade = 'All Grade';
     this.fullCourseService.initCourses().subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
@@ -86,8 +84,9 @@ export class HomeScreenComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.grade = params['grade'];
-      if (!this.grade) {this.getAllCourse(); }
-      else this.getAllCourseGrade();
+      if (!this.grade) {
+        this.getAllCourse();
+      } else this.getAllCourseGrade();
     });
   }
 

@@ -25,13 +25,12 @@ import { PriceFormat } from 'src/app/util/priceformat';
   styleUrls: ['./card-image.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-
 export class CardImageComponent implements OnInit, OnChanges {
   @Input() course!: Course;
   isBought!: boolean;
   isLoggedin!: Observable<boolean>;
   learner!: User;
-  baseUrl = 'https://us-central1-supple-craft-318515.cloudfunctions.net/app/';
+  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app/';
   isLoading = true;
   message: string = '';
   actionToAlert: string = '';
@@ -55,10 +54,9 @@ export class CardImageComponent implements OnInit, OnChanges {
     private authService: authenticationService,
     private activeRouter: ActivatedRoute,
     private _snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     if (this.course == null || this.course == undefined) {
       this.activeRouter.params.subscribe((params) => {
         const id = params['id'];
@@ -253,4 +251,3 @@ export class CardImageComponent implements OnInit, OnChanges {
     });
   }
 }
-

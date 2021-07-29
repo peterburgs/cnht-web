@@ -46,7 +46,6 @@ export class LoginScreenComponent implements OnInit {
         this.isLoggedin = user != null;
         if (this.isLoggedin) {
           this.isLoading = true;
-          console.log('isLoading==true');
           this.authService
             .signIn(this.socialUser.idToken, this.isAdmin)
             .subscribe((responseData) => {

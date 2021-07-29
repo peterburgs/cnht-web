@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { Course } from 'src/app/models/course.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { FilterComponent } from 'src/app/components/course/search/filter/filter.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoDialogComponent } from 'src/app/components/alert/info-dialog/info-dialog.component';
 import { GRADES } from 'src/app/models/grades';
@@ -152,19 +151,6 @@ export class AdminCourseScreenComponent implements OnInit {
 
   receiveCategory($event: any) {
     this.typeCourse = $event;
-    this.getAllByFilter();
-  }
-
-  @ViewChild(FilterComponent, { static: false }) childC?: FilterComponent;
-  resetChildForm() {
-    this.childC?.resetChildForm();
-    window.scrollTo(0, 0);
-  }
-
-  onResetFitler() {
-    this.resetChildForm();
-    this.grade = '';
-    this.typeCourse = '';
     this.getAllByFilter();
   }
 

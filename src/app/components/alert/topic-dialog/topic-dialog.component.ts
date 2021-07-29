@@ -1,14 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { COURSE_TYPE } from 'src/app/models/course-type';
-import { Course } from 'src/app/models/course.model';
 import { GRADES } from 'src/app/models/grades';
 import { TOPICS } from 'src/app/models/TOPIC';
 import { Topic } from 'src/app/models/topic.model';
-import { FullCourseService } from 'src/app/service/full-course.service';
 import { TopicService } from 'src/app/service/topic.service';
-import { FormatPrice } from 'src/app/util/priceformat';
 
 @Component({
   selector: 'app-topic-dialog',
@@ -40,7 +36,6 @@ export class TopicDialogComponent implements OnInit {
     this.topic.title = this.entryForm.value.title;
     this.topic.topicType = this.entryForm.value.category;
     this.topicService.setTopicCreate(this.topic);
-    console.log(this.entryForm.value.category);
     this.result = true;
     this.activeModal.close(this.result);
   }
