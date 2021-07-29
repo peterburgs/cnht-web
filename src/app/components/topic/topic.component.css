@@ -26,8 +26,7 @@
   background-color: green;
   color: #eee;
 }
-.wrapper {
-}
+
 .no-found {
   font-size: x-large;
   font-weight: bold;
@@ -151,15 +150,20 @@
   border-radius: 4px 4px 0 0;
   padding: 5px 5px 0px 5px !important;
 }
-.div-search {
-}
+
 .search-container {
   margin-left: 20px !important;
   margin-right: 20px !important;
   justify-content: space-between;
   flex-direction: row;
-  width: 30%;
+  width: 35%;
 }
+@media (max-width: 850px) {
+  .search-container {
+    width: 70%;
+  }
+}
+
 .div-filter {
   display: flex;
   justify-content: space-between;
@@ -171,36 +175,37 @@
 .div-sort-by {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   margin-bottom: 0.5rem;
   margin-top: 2rem;
   align-items: center;
+}
+@media (max-width: 550px) {
+  .div-sort-by {
+    margin-top: 3rem;
+    flex-direction: column;
+  }
+  .search-container {
+    width: 100%;
+  }
 }
 .sort-by {
   margin-right: 20px;
 }
 .clean-display {
   display: table-row !important;
+  width: 70%;
 }
 .container {
   margin-left: 0px !important;
   padding-left: 0px !important;
 }
-.clear-margin-right {
-  margin-right: 2rem !important;
-}
+
 .padding-tb {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.screen-display {
-  margin-right: 0px;
-  margin-left: 0px;
-}
-@media (max-width: 560px) {
-  .div-sort-by {
-    display: contents !important;
-  }
-}
+
 .icon-tag {
   border-radius: 10px;
   color: #fff;
@@ -211,6 +216,7 @@
 }
 .item-title-topic {
   display: contents;
+  flex-wrap: wrap;
 }
 .item-topic-title {
   font-size: 17px;
@@ -237,6 +243,7 @@
 }
 .display-tag {
   display: flex;
+  width: 100%;
 }
 .action-button {
   padding: 0.3rem;
@@ -257,6 +264,7 @@
   display: flex;
   flex-direction: column;
   width: fit-content;
+  justify-content: flex-end;
 }
 .download {
   color: #fff;
@@ -349,6 +357,7 @@
   font-weight: bold;
   color: #0a14a1;
   text-transform: capitalize;
+  margin-left: 1rem;
 }
 
 .div-no-found {
@@ -362,23 +371,7 @@
   text-align: center;
 }
 
-.button-container {
+.center {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-}
-@media (max-width: 563px) {
-  .button-container {
-    margin-top: 1.5rem;
-    flex-direction: row;
-    width: 40%;
-  }
-  .search-container {
-    width: 60%;
-  }
-  .div-sort-by {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
+  justify-content: center;
 }

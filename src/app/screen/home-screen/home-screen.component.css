@@ -9,6 +9,8 @@
 
 .wrapper {
   text-align: center;
+  width: 70%;
+  margin: auto;
   /* justify-content: center; */
 }
 

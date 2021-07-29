@@ -21,37 +21,20 @@
         </div>
         <div class="card-body">
           <div class="form-group">
-            <label for="id"
-              >Title&nbsp;<span>
+            <label for="id">Title&nbsp;<span>
                 ({{ topic.title | countdown: 150 }}/150)
               </span>
             </label>
             <label class="d-block">
-              <textarea
-                rows="2"
-                type="text"
-                class="form-control"
-                formControlName="title"
-                autocomplete="title"
-                [placeholder]="'Title'"
-                [(ngModel)]="topic.title"
-                required
-              ></textarea>
+              <textarea rows="2" type="text" class="form-control" formControlName="title" autocomplete="title"
+                [placeholder]="'Title'" [(ngModel)]="topic.title" required></textarea>
             </label>
             <label for="positionNumber">Type</label>
             <div class="d-block col-mb-2">
-              <select
-                class="form-select text-deco form-select-lg mb-3  col-mb-2 select-item"
-                aria-label=".form-select-lg example"
-                formControlName="category"
-              >
-                <option
-                  class="text-deco"
-                  *ngFor="let type of types; let i = index"
-                  [value]="type"
-                  [ngValue]="type"
-                  [selected]="i == 2"
-                >
+              <select class="form-select text-deco form-select-lg mb-3  col-mb-2 select-item"
+                aria-label=".form-select-lg example" formControlName="category">
+                <option class="text-deco" *ngFor="let type of types; let i = index" [value]="type" [ngValue]="type"
+                  [selected]="i == 2">
                   {{ type }}
                 </option>
               </select>
@@ -62,21 +45,13 @@
         <div class="card-footer div-action-button">
           <div class="">
             <!-- HTML markup for Back button -->
-            <button
-              (click)="onCancel()"
-              class="btn btn-danger w-20 btn-active"
-              type="submit"
-            >
+            <button (click)="onCancel()" class="btn btn-danger w-20 btn-active" type="submit">
               <span translate> Cancel</span>
             </button>
           </div>
           <div class="">
             <!-- HTML markup for Create button -->
-            <button
-              (click)="onCreate()"
-              class="btn btn-primary w-20 btn-active"
-              type="submit"
-            >
+            <button (click)="onCreate()" class="btn btn-primary w-20 btn-active" type="submit">
               <span translate> Create</span>
             </button>
           </div>

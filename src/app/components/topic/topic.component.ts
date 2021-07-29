@@ -31,7 +31,7 @@ export class TopicComponent implements OnInit {
 
   topics: Topic[] = [];
   isLoading = false;
-  message: string = 'Find topic by title';
+  message: string = 'Find a topic';
   titleSearch: string = '';
   listTopic: Topic[] = [];
   listSortedTopic: Topic[] = [];

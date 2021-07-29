@@ -38,9 +38,9 @@ export class TopicDialogComponent implements OnInit {
 
   onCreate() {
     this.topic.title = this.entryForm.value.title;
-    this.topic.topicType = this.entryForm.value.category;
+    this.topic.topicType = this.entryForm.value.type;
     this.topicService.setTopicCreate(this.topic);
-
+    console.log(this.entryForm.value.category);
     this.result = true;
     this.activeModal.close(this.result);
   }
@@ -49,7 +49,7 @@ export class TopicDialogComponent implements OnInit {
   private createForm() {
     this.entryForm = this.formBuilder.group({
       title: [''],
-      category: [''],
+      type: [''],
     });
   }
 }
