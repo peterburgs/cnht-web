@@ -21,6 +21,7 @@ export class TopicService {
   private baseURL =
     'https://us-central1-supple-craft-318515.cloudfunctions.net/app/api/';
   onCreateTopic() {
+    console.log(this.topic)
     return this.http.post<{ message: String; count: Number; topic: Topic }>(
       this.baseURL + 'topics',
       {

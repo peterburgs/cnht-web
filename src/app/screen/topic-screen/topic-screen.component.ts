@@ -31,7 +31,6 @@ export class TopicScreenComponent implements OnInit {
   topic: Topic = new Topic();
   isLoading = false;
   page: number = 1;
-  emptyContent = false;
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.topic.id = params['id'];
@@ -50,13 +49,11 @@ export class TopicScreenComponent implements OnInit {
             this.html = this.sanitizer.bypassSecurityTrustHtml(html);
             this.isLoading = false;
           } else {
-            this.emptyContent = true;
             this.isLoading = false;
           }
         },
         (error) => {
           this.isLoading = false;
-          this.emptyContent = true;
         }
       );
     });

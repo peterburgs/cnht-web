@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { authenticationService } from 'src/app/service/authentication.service';
+import { Timer } from 'src/app/service/timer.service';
 
 @Component({
   selector: 'app-navbar-admin',
@@ -19,7 +20,8 @@ export class NavbarAdminComponent implements OnInit {
     public authService: authenticationService,
     private router: Router,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private timer: Timer
   ) {}
 
   ngOnInit(): void {
@@ -38,10 +40,20 @@ export class NavbarAdminComponent implements OnInit {
     }
   }
 
+  // logOut() {
+  //   this.authService.logOut();
+  //   this.isLoggedin = false;
+  //   this.router.navigate(['/login']);
+  // }
+
   logOut() {
-    this.authService.logOut();
-    this.isLoggedin = false;
-    this.router.navigate(['/login']);
+    this.authService.logOut().then((data) => {
+      this.timer.pauseTimer();
+      this.isLoggedin = false;
+      this.router.navigate(['/login']);
+    }).catch(error => {
+      this.router.navigate(['/login']);
+    });
   }
 
   setActiveButton(number: number) {

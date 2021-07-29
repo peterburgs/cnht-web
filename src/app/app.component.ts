@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -35,28 +35,39 @@ export class AppComponent implements OnInit, OnDestroy {
     if (role && role == 'admin') this.isAdmin = true;
     else this.isAdmin = false;
 
-    this.router.events.subscribe((router) => {
-      this.currentUrl = this.router.url;
-      if (this.currentUrl.includes('/login')) {
-        this.isShowNavbar = false;
-      } else this.isShowNavbar = true;
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentUrl = this.router.url;
+        console.log('*40 url: ' + this.currentUrl);
+        if (this.currentUrl.includes('/login')) {
+          {
+            this.isShowNavbar = false;
+            this.isShowNavbarAdmin = false;
+            console.log('*42');
+          }
+        } else this.isShowNavbar = true;
 
-      if (this.currentUrl.includes('/admin')) {
-        let role = localStorage.getItem('role');
-        if (role && role == 'admin') this.isAdmin = true;
-        else this.isAdmin = false;
+        if (this.currentUrl.includes('/admin')) {
+          console.log('*46');
+          let role = localStorage.getItem('role');
+          if (role && role == 'admin') this.isAdmin = true;
+          else this.isAdmin = false;
 
-        if (this.isAdmin) {
-          this.isShowNavbarAdmin = true;
-          this.isShowNavbar = false;
+          if (this.isAdmin) {
+            this.isShowNavbarAdmin = true;
+            this.isShowNavbar = false;
+            console.log('*');
+          } else {
+            this.router.navigate(['/not-found']);
+          }
         } else {
-          this.router.navigate(['/not-found']);
+          if (this.currentUrl.includes('/view') && this.isAdmin) {
+            this.isShowNavbarAdmin = true;
+          } else this.isShowNavbarAdmin = false;
         }
-      } else {
-        if (this.currentUrl.includes('/view') && this.isAdmin)
-          this.isShowNavbarAdmin = true;
-        else this.isShowNavbarAdmin = false;
       }
+      if(this.currentUrl.includes('/view')) this.isNotShowFooter = true;
+      else this.isNotShowFooter = false;
     });
     this.socialAuthService.initState.subscribe((state) => {
       if (state) this.checkValidToken();
@@ -115,4 +126,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.timer.pauseTimer();
   }
+
+  isNotShowFooter = false;
 }

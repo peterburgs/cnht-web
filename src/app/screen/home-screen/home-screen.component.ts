@@ -25,7 +25,7 @@ export class HomeScreenComponent implements OnInit {
   titleSearch: string = '';
   listCourse: Course[] = [];
   listSortedCourse: Course[] = [];
-  grade = '';
+  grade = 'All Grade';
   typeCourse = '';
   sbcCreate: Subscription = new Subscription();
   sbcCourses: Subscription = new Subscription();
@@ -44,7 +44,7 @@ export class HomeScreenComponent implements OnInit {
   }
 
   getAllCourse() {
-    this.grade = '';
+    this.grade = "All Grade"; 
     this.fullCourseService.initCourses().subscribe(
       (response) => {
         this.fullCourseService.setCourses(response.courses);
@@ -86,7 +86,7 @@ export class HomeScreenComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.isLoading = true;
       this.grade = params['grade'];
-      if (!this.grade) this.getAllCourse();
+      if (!this.grade) {this.getAllCourse(); }
       else this.getAllCourseGrade();
     });
   }

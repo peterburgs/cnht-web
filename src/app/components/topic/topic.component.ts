@@ -173,6 +173,7 @@ export class TopicComponent implements OnInit {
   ];
 
   getAllByFilter() {
+    console.log("type: " + this.topicType)
     switch (this.topicType) {
       case 'all':
         this.getAllListByTitle(); //ok
@@ -184,11 +185,13 @@ export class TopicComponent implements OnInit {
   }
 
   getListByTopicType(type: string) {
-    this.listTopic = this.listSortedTopic.filter(
-      (topic) =>
-        topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
-        topic.topicType == type
-    );
+    if(type == "all") this.getAllByDate();
+    else
+      this.listTopic = this.listSortedTopic.filter(
+        (topic) =>
+          topic.title.toLowerCase().includes(this.titleSearch.toLowerCase()) &&
+          topic.topicType == type
+      );
   }
 
   viewFile(topicTitle: string, topicId: string) {
