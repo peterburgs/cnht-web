@@ -22,7 +22,6 @@ export class ModifyTopicComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // if (this.authService.isAdmin()) {
     this.route.params.subscribe((params: Params) => {
       this.topic.id = params['id'];
       if (!this.topic.id) {
@@ -43,7 +42,6 @@ export class ModifyTopicComponent implements OnInit {
           this.router.navigate(['/not-found'], { relativeTo: this.route });
         }
       );
-      //this.topic = this.topicService.getTopicById(this.topic.id);
     });
     this.sbcUploadFile = this.topicService.getIsUpdateFile().subscribe(
       (data) => {
@@ -71,7 +69,13 @@ export class ModifyTopicComponent implements OnInit {
   fileToUpLoad = new File([], 'default');
   tmpFileName = '';
   sbcUploadFile: Subscription = new Subscription();
-  types = [TOPICS.ALGEBRA, TOPICS.COMBINATION, TOPICS.GEOMETRY];
+  types = [
+    TOPICS.ALGEBRA,
+    TOPICS.ANALYSIS,
+    TOPICS.ARITHMETIC,
+    TOPICS.COMBINATION,
+    TOPICS.GEOMETRY,
+  ];
   handleFileInput(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;

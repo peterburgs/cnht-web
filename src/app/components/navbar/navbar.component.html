@@ -34,7 +34,7 @@
               <li (click)="setGradeChangeRouter(5)">
                 <a class="dropdown-item">Grade 9</a>
               </li>
-              
+
             </ul>
           </li>
           <li class="nav-item dropdown topic">
@@ -68,7 +68,7 @@
               <img [src]="photo" alt="avatar" class="photo" />
             </button>
             <div class="dropdown-menu button-account">
-              <button *ngIf="isAdmin" class="dropdown-item"[routerLink]="['/admin/home']">
+              <button *ngIf="isAdmin" class="dropdown-item" [routerLink]="['/admin/home']">
                 <i class="bi bi-house"></i> <span>Admin Home</span>
               </button>
               <a *ngIf="!isAdmin" routerLink="/mylearning" class="btn-mycourse dropdown-item"><i

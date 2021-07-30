@@ -110,7 +110,7 @@ export class CourseLectureComponent implements OnInit {
         this.openSnackBar('Changes saved', 'OK');
       },
       (error) => {
-        alert('Server disconnect at this time, try again');
+        alert('Server error. Please try again');
       }
     );
     this.eventSave = false;

@@ -521,7 +521,7 @@ export class FullCourseService {
 
   handleUpdateWithThumbnail(file: File) {
     const fileId = new Date().getTime().toString();
-    const chunkSize = 5 * 1024 * 1024;
+    const chunkSize = 10000000;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
@@ -652,7 +652,6 @@ export class FullCourseService {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
             this.isUpLoading = false;
             this.sbjIsUpLoading.next(this.isUpLoading);
-
             this.stateUploadMedia = true;
             this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           },
@@ -660,7 +659,6 @@ export class FullCourseService {
             this.setPositionLoading(false, sectionIndex, lectureIndex);
             this.isUpLoading = false;
             this.sbjIsUpLoading.next(this.isUpLoading);
-
             this.stateUploadMedia = true;
             this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
           }

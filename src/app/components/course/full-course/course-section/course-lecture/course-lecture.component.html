@@ -1,6 +1,5 @@
 <div class="container div-main list-group flex-fill">
-  <li
-    class="
+  <li class="
       lecture-item
       list-group-item
       d-flex
@@ -8,85 +7,45 @@
       align-items-center
       border-radius
       background-title
-    "
-  >
+    ">
     <div class="col-sm-1 div-title">
       <div class="div-updown">
         <div class="div-icon-mini" (click)="onUpLecture(lecture.id)">
           <i class="fa fa-chevron-up icon-decorate" title="Lesson go up"></i>
         </div>
         <div class="div-icon-mini" (click)="onDownLecture(lecture.id)">
-          <i
-            class="fa fa-chevron-down icon-decorate"
-            title="Lesson go down"
-          ></i>
+          <i class="fa fa-chevron-down icon-decorate" title="Lesson go down"></i>
         </div>
       </div>
       <span class="title-note">Lecture</span>
     </div>
 
-    <input
-      #inputLecture
-      class="form-control contain-title col-sm-8 border-input"
-      [value]="lecture.title"
-      title="Edit title"
-      (click)="clickEditLecture($event)"
-    />
-    <button
-      *ngIf="eventSave"
-      (click)="inputLecture.click(); saveLecture(lecture.id)"
-      class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1"
-    >
+    <input #inputLecture class="form-control contain-title col-sm-8 border-input" [value]="lecture.title"
+      title="Edit title" (click)="clickEditLecture($event)" />
+    <button *ngIf="eventSave" (click)="inputLecture.click(); saveLecture(lecture.id)"
+      class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1">
       <i class="fa fa-check"></i>
     </button>
-    <input
-      #file
-      type="file"
-      accept="video/mp4,video/x-m4v,video/*"
-      class="image-input"
-      style="display: none"
-      (change)="readVideoUrl($event, lecture.id)"
-    />
+    <input #file type="file" accept="video/mp4,video/x-m4v,video/*" class="image-input" style="display: none"
+      (change)="readVideoUrl($event, lecture.id)" />
 
-    <button
-      class="contain-video btn btn-primary border-radius"
-      (click)="file.click()"
-      [disabled]="globalLoading || isUpLoading"
-    >
-      <span
-        *ngIf="globalLoading"
-        class="spinner-border spinner-border-sm"
-        role="status"
-        aria-hidden="true"
-      ></span
-      ><span *ngIf="globalLoading"> Uploading...</span
-      ><span *ngIf="!globalLoading">Upload </span>
+    <button class="contain-video btn btn-primary border-radius" (click)="file.click()" [disabled]="globalLoading">
+      <span *ngIf="globalLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span>{{globalLoading?"&nbsp;Uploading":"Upload"}}</span>
     </button>
     <span class="contain-video-time col-sm-1">{{ timeVideo | duration }}</span>
 
     <div class="div-edit">
-      <button
-        class="btn btn-outline-danger btn-circle btn-lg outline-delete"
-        title="Delete lession"
-        (click)="onDeleteLecture(lecture.id)"
-      >
+      <button class="btn btn-outline-danger btn-circle btn-lg outline-delete" title="Delete lession"
+        (click)="onDeleteLecture(lecture.id)">
         <i class="fa fa-times"></i>
       </button>
     </div>
 
-    <video
-      #video
-      style="display: none"
-      *ngIf="videoURL"
-      width="320"
-      height="240"
-      controls
-      [attr.src]="videoURL"
-      (loadedmetadata)="getDuration($event)"
-    ></video>
+    <video #video style="display: none" *ngIf="videoURL" width="320" height="240" controls [attr.src]="videoURL"
+      (loadedmetadata)="getDuration($event)"></video>
   </li>
-  <li
-    class="
+  <li class="
       lecture-item
       list-group-item
       d-flex
@@ -94,26 +53,17 @@
       align-items-center
       border-radius
       background-note
-    "
-  >
+    ">
     <div class="col-sm-1"></div>
     <div class="col-sm-10 div-note">
       <span class="title-note">Note</span>
 
-      <input
-        #inputNote
-        class="form-control contain-title col-sm-10 border-input"
-        [value]="lecture.note"
-        title="Edit title"
-        (click)="clickEditNote($event)"
-      />
+      <input #inputNote class="form-control contain-title col-sm-10 border-input" [value]="lecture.note"
+        title="Edit title" (click)="clickEditNote($event)" />
     </div>
 
-    <button
-      *ngIf="eventSaveNote"
-      (click)="inputNote.click(); saveLectureNote(lecture.id)"
-      class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1"
-    >
+    <button *ngIf="eventSaveNote" (click)="inputNote.click(); saveLectureNote(lecture.id)"
+      class="btn btn-outline-success outline-save btn-circle btn-lg col-sm-1">
       <i class="fa fa-check"></i>
     </button>
   </li>
