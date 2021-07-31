@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Course } from '../models/course.model';
 import { Enrollment } from '../models/enrollment.model';
 import { GRADES } from '../models/grades';
@@ -12,8 +13,7 @@ import { authenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class CourseService {
-  private baseUrl: string =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
+  private baseUrl: string = environment.baseUrl + '/api';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -61,7 +61,7 @@ export class CourseService {
   getListCourseFilter(grade: GRADES) {
     return this.http
       .get<{ message: string; count: number; courses: Course[] }>(
-        'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/courses',
+        environment.baseUrl + '/api/courses',
         {
           params: new HttpParams().set('grade', grade),
         }

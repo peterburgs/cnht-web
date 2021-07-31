@@ -158,8 +158,10 @@ export class TopicComponent implements OnInit {
   listStatus: StatusTopic[] = [
     { value: 'all', viewValue: 'All' },
     { value: TOPICS.ALGEBRA, viewValue: 'Algebra' },
-    { value: TOPICS.GEOMETRY, viewValue: 'Geometry' },
+    { value: TOPICS.ANALYSIS, viewValue: 'Analysis' },
+    { value: TOPICS.ARITHMETIC, viewValue: 'Arithmetic' },
     { value: TOPICS.COMBINATION, viewValue: 'Combination' },
+    { value: TOPICS.GEOMETRY, viewValue: 'Geometry' },
   ];
 
   listExpStatus: Status[] = [

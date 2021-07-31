@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { PriceFormat } from 'src/app/util/priceformat';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-lecturer-card-course',
@@ -12,7 +13,7 @@ import { PriceFormat } from 'src/app/util/priceformat';
 export class LecturerCardCourseComponent implements OnInit {
   @Input() course = new Course();
   @Input() isLearner: boolean = false;
-  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
+  baseUrl = environment.baseUrl;
   isPublished = false;
   isHome = false;
   constructor(

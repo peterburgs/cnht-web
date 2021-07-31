@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Topic } from '../models/topic.model';
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,8 +19,7 @@ export class TopicService {
   isUploadTopicFile = false;
   sbjUploadTopicFile = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
-  private baseURL =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/';
+  private baseURL = environment.baseUrl + '/api/';
   onCreateTopic() {
     return this.http.post<{ message: String; count: Number; topic: Topic }>(
       this.baseURL + 'topics',
@@ -51,7 +51,7 @@ export class TopicService {
 
   updateTopicFile(topicId: string, pdfFileTopic: File) {
     const fileId = new Date().getTime().toString();
-    const chunkSize = 5 * 1024 * 1024;
+    const chunkSize = 9 * 1024 * 1024;
     const chunksQuantity = Math.ceil(pdfFileTopic.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
@@ -106,14 +106,13 @@ export class TopicService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
+            this.isUploadTopicFile = false;
+            this.sbjUploadTopicFile.next(this.isUploadTopicFile);
           }
           sendNext();
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
-          this.isUploadTopicFile = false;
-          this.sbjUploadTopicFile.next(this.isUploadTopicFile);
-          alert('Upload file failed.Please try again later!');
         });
     };
 
@@ -160,8 +159,7 @@ export class TopicService {
   }
 
   downloadFile(urlTopic: string) {
-    let baseUrl =
-      'https://us-central1-cnht-3205c.cloudfunctions.net/app' + urlTopic;
+    let baseUrl = environment.baseUrl + urlTopic;
     const httpOptions = {
       responseType: 'blob' as 'json',
     };
@@ -169,9 +167,6 @@ export class TopicService {
     return this.http.get(baseUrl, httpOptions);
   }
   getFileFromUrl(urlTopic: string) {
-    // let baseUrl =
-    // 'https://us-central1-supple-craft-318515.cloudfunctions.net/app' +
-    // urlTopic;
     return this.http.get(urlTopic, { responseType: 'blob' });
   }
   onDeleteTopic(id: string) {

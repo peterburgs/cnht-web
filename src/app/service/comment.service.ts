@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Comment } from '../models/comment.model';
 @Injectable({
   providedIn: 'root',
 })
 export class CommentService {
-  private baseUrl: string =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
+  private baseUrl: string = environment.baseUrl + '/api';
 
   constructor(private http: HttpClient) {}
   saveComment(comment: Comment) {

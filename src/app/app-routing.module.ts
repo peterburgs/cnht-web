@@ -14,7 +14,6 @@ import { LearnerManagermentComponent } from './components/admin/learner-managerm
 import { MylearingScreenComponent } from './screen/mylearing-screen/mylearing-screen.component';
 import { AdminGuard } from './components/guard/admin/admin-guard.guard';
 import { ErrorPageComponent } from './components/loading/error-page/error-page.component';
-import { CanDeactiveGuard } from './screen/lecturer/course-creation-screen/can-deactive-guard.service';
 import { TopicComponent } from './components/topic/topic.component';
 import { ModifyTopicComponent } from './components/topic/modify-topic/modify-topic.component';
 import { TopicScreenComponent } from './screen/topic-screen/topic-screen.component';
@@ -24,7 +23,6 @@ const routes: Routes = [
     path: 'admin/course/:id',
     component: CourseCreationScreenComponent,
     canActivate: [AdminGuard],
-    canDeactivate: [CanDeactiveGuard],
   },
 
   {

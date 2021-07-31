@@ -51,16 +51,16 @@
     <button
       class="contain-video btn btn-primary border-radius"
       (click)="file.click()"
-      [disabled]="globalLoading || isUpLoading"
+      [disabled]="globalLoading"
     >
       <span
         *ngIf="globalLoading"
         class="spinner-border spinner-border-sm"
         role="status"
         aria-hidden="true"
-      ></span
-      ><span *ngIf="globalLoading"> Uploading...</span
-      ><span *ngIf="!globalLoading">Upload </span>
+      ></span>
+      <span *ngIf="!globalLoading">Upload</span>
+      <span *ngIf="globalLoading">&nbsp;{{ percentage }}%</span>
     </button>
     <span class="contain-video-time col-sm-1">{{ timeVideo | duration }}</span>
 

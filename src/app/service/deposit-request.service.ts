@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { DepositRequest } from '../models/deposit-request.model';
 import { STATUSES } from '../models/statuses';
 import { User } from '../models/user.model';
@@ -13,8 +14,7 @@ import { UserService } from './user.service';
 export class DepositRequestService {
   private depositRequests: DepositRequest[] = [];
 
-  private baseUrl: string =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
+  private baseUrl: string = environment.baseUrl + '/api';
   private userList?: User[];
   private depositRequestList: DepositRequest[] = [];
   constructor(
@@ -107,7 +107,7 @@ export class DepositRequestService {
 
   uploadDepositImage(file: File, depositRequestId: string) {
     const fileId = new Date().getTime().toString();
-    const chunkSize = 5 * 1024 * 1024;
+    const chunkSize = 9 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)

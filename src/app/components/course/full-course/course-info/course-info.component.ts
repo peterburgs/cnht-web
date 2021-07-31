@@ -11,6 +11,8 @@ import { FullCourseService } from '../../../../service/full-course.service';
 import { Observable, Subscription } from 'rxjs';
 import { FormatPrice } from 'src/app/util/priceformat';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -19,7 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CourseInfoComponent implements OnInit {
   @ViewChild('infoCourse', { read: NgForm }) infoCourse!: any;
   @Input() course: Course = new Course();
-  baseURL = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
+  baseURL = environment.baseUrl;
   mCourse: Course = new Course();
   imgPath?: Observable<string>;
   selectedValue: string = '';

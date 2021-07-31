@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Enrollment } from '../models/enrollment.model';
 import { ROLES } from '../models/user-roles';
 import { User } from '../models/user.model';
@@ -10,8 +11,7 @@ import { authenticationService } from './authentication.service';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl: string =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
+  private baseUrl: string = environment.baseUrl + '/api';
 
   constructor(
     private http: HttpClient,

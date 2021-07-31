@@ -1,5 +1,7 @@
 export enum TOPICS {
-    ALGEBRA = "algebra",
-    GEOMETRY = "geometry",
-    COMBINATION = "combination",
-  }
+  ALGEBRA = 'algebra',
+  ANALYSIS = 'analysis',
+  ARITHMETIC = 'arithmetic',
+  COMBINATION = 'combination',
+  GEOMETRY = 'geometry',
+}

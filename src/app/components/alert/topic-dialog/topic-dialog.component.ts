@@ -22,8 +22,13 @@ export class TopicDialogComponent implements OnInit {
   topic: Topic = new Topic();
   result = false;
 
-  types = [TOPICS.ALGEBRA, TOPICS.GEOMETRY, TOPICS.COMBINATION];
-  grades = [GRADES.TWELFTH, GRADES.ELEVENTH, GRADES.TENTH];
+  types = [
+    TOPICS.ALGEBRA,
+    TOPICS.ANALYSIS,
+    TOPICS.ARITHMETIC,
+    TOPICS.COMBINATION,
+    TOPICS.GEOMETRY,
+  ];
   ngOnInit(): void {
     this.createForm();
   }

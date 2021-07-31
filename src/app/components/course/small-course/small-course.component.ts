@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Course } from 'src/app/models/course.model';
 import { PriceFormat } from 'src/app/util/priceformat';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-small-course',
   templateUrl: './small-course.component.html',
@@ -15,7 +16,7 @@ import { PriceFormat } from 'src/app/util/priceformat';
 })
 export class SmallCourseComponent implements OnInit {
   @Input() course = new Course();
-  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app/';
+  baseUrl = environment.baseUrl;
   constructor() {}
 
   ngOnInit(): void {}
