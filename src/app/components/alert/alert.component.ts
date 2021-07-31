@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
@@ -12,7 +12,7 @@ export class AlertComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() action_return = new EventEmitter<string>();
   @Input() title = 'Title';
-  baseUrl: string = 'https://us-central1-cnht-3205c.cloudfunctions.net/app/';
+  baseUrl: string = environment.baseUrl;
   onClose() {
     this.close.emit();
   }

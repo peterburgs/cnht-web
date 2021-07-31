@@ -38,12 +38,19 @@ export class CourseLectureComponent implements OnInit {
   sbjLoadingDuration = new Subject<number>();
   sbcMediaUpload = new Subscription();
   @Input() isUpLoading: boolean = false;
+
+  percentage = 0;
+
   constructor(
     private fullCourseService: FullCourseService,
     private sanitizer: DomSanitizer,
     private _snackBar: MatSnackBar
   ) {}
   ngOnInit(): void {
+    this.fullCourseService.percentageChanges.subscribe(
+      (percentage) => (this.percentage = percentage)
+    );
+
     this.fullCourseService
       .getVideoInfo(this.lecture.id)
       .toPromise()
@@ -74,7 +81,7 @@ export class CourseLectureComponent implements OnInit {
               this.sbcMediaUpload.unsubscribe();
             } else {
               this.timeVideo = this.tmpTimeVideo;
-              this.sbjLoadingDuration.next(this.timeVideo);
+              // this.sbjLoadingDuration.next(this.timeVideo);
               this.sbcMediaUpload.unsubscribe();
               this.openSnackBar('File uploaded successfully', 'Ok');
             }

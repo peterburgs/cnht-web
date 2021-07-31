@@ -18,7 +18,7 @@ import { authenticationService } from 'src/app/service/authentication.service';
 import { CourseService } from 'src/app/service/course.service';
 import { UserService } from 'src/app/service/user.service';
 import { PriceFormat } from 'src/app/util/priceformat';
-
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-card-image',
   templateUrl: './card-image.component.html',
@@ -30,7 +30,7 @@ export class CardImageComponent implements OnInit, OnChanges {
   isBought!: boolean;
   isLoggedin!: Observable<boolean>;
   learner!: User;
-  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app/';
+  baseUrl: string = environment.baseUrl;
   isLoading = true;
   message: string = '';
   actionToAlert: string = '';

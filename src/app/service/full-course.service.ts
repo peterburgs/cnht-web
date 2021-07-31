@@ -10,6 +10,7 @@ import { Lecture } from 'src/app/models/lecture.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
 import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -31,11 +32,10 @@ export class FullCourseService {
   private idToken = localStorage.getItem('token');
   private arrLoading: boolean[] = [];
   private loadingThumbnail = false;
-  private baseURL =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api/';
-  private apiUrlCourse = this.baseURL + 'courses';
-  private apiUrlSection = this.baseURL + 'sections';
-  private apiUrlLecture = this.baseURL + 'lectures';
+  private baseURL = environment.baseUrl + '/api';
+  private apiUrlCourse = this.baseURL + '/courses';
+  private apiUrlSection = this.baseURL + '/sections';
+  private apiUrlLecture = this.baseURL + '/lectures';
   errorMessage = 'Something went wrong. Please try again';
   itemIndex = 0;
   idItem: string = 'default';
@@ -48,7 +48,7 @@ export class FullCourseService {
   stateUploadMedia = true;
   openDialog = false;
   isUpLoading: boolean = false;
-
+  percentageChanges = new Subject<number>();
   invokeNotifyModal = new EventEmitter();
   invokeValidModal = new EventEmitter();
   subsEdit?: Subscription;
@@ -123,7 +123,7 @@ export class FullCourseService {
   }
 
   getVideoInfo(lectureId: string) {
-    let urlGetVideo = this.baseURL + 'lectures/' + lectureId + '/video';
+    let urlGetVideo = this.baseURL + '/lectures/' + lectureId + '/video';
     return this.http.get<{ message: string; count: number; video: Video }>(
       urlGetVideo,
       httpOptions
@@ -151,7 +151,7 @@ export class FullCourseService {
     return this.sbjUploadMediaSuccessful.asObservable();
   }
   getEstimatedCoursePricing() {
-    let urlEstimated = this.baseURL + 'courses/' + this.course.id + '/pricing';
+    let urlEstimated = this.baseURL + '/courses/' + this.course.id + '/pricing';
     return this.http.get<{ message: String; price: number }>(
       urlEstimated,
       httpOptions
@@ -170,7 +170,7 @@ export class FullCourseService {
 
   setVideoDuration(duration: number) {
     let urlUpdateVideo =
-      this.baseURL + 'lectures/' + this.idItem + '/video/length';
+      this.baseURL + '/lectures/' + this.idItem + '/video/length';
     return this.http.put<{ message: string; count: number; video: Video }>(
       urlUpdateVideo,
       { length: duration },
@@ -220,7 +220,7 @@ export class FullCourseService {
       this.sbjStatus.next(this.status);
       return;
     }
-    let urlUpSection = this.baseURL + 'sections/' + this.idItem + '/up';
+    let urlUpSection = this.baseURL + '/sections/' + this.idItem + '/up';
     this.http.put<{ message: string }>(urlUpSection, {}, httpOptions).subscribe(
       (response) => {
         this.status = 200;
@@ -241,7 +241,7 @@ export class FullCourseService {
       this.sbjStatus.next(this.status);
       return;
     }
-    let urlDownSection = this.baseURL + 'sections/' + this.idItem + '/down';
+    let urlDownSection = this.baseURL + '/sections/' + this.idItem + '/down';
     this.http
       .put<{ message: StringConstructor }>(urlDownSection, {}, httpOptions)
       .subscribe(
@@ -256,7 +256,7 @@ export class FullCourseService {
       );
   }
   onUpLecture() {
-    let urlUpLecture = this.baseURL + 'lectures/' + this.idItem + '/up';
+    let urlUpLecture = this.baseURL + '/lectures/' + this.idItem + '/up';
     let lectureUp: Lecture = this.getLectureSelection();
     let sectionId = '0';
     if (
@@ -298,7 +298,7 @@ export class FullCourseService {
   }
 
   onDownLecture() {
-    let urlDownLecture = this.baseURL + 'lectures/' + this.idItem + '/down';
+    let urlDownLecture = this.baseURL + '/lectures/' + this.idItem + '/down';
     let lectureDown: Lecture = this.getLectureSelection();
     let sectionId = '0';
     for (let i = 0; i < this.listDeepSection.length; i++) {
@@ -521,7 +521,7 @@ export class FullCourseService {
 
   handleUpdateWithThumbnail(file: File) {
     const fileId = new Date().getTime().toString();
-    const chunkSize = 5 * 1024 * 1024;
+    const chunkSize = 9 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
@@ -530,7 +530,7 @@ export class FullCourseService {
     const upload = (chunk: Blob, chunkId: number) => {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open('post', `${this.baseURL}courses/${this.idCourse}/thumbnail`);
+        xhr.open('post', `${this.baseURL}/courses/${this.idCourse}/thumbnail`);
 
         xhr.setRequestHeader('Content-Type', 'application/octet-stream');
         xhr.setRequestHeader('X-Chunk-Id', String(chunkId));
@@ -590,8 +590,8 @@ export class FullCourseService {
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
-          this.loadingThumbnail = false;
-          this.sbjLoadingThumbnail.next(this.loadingThumbnail);
+          // this.loadingThumbnail = false;
+          // this.sbjLoadingThumbnail.next(this.loadingThumbnail);
         });
     };
 
@@ -606,7 +606,7 @@ export class FullCourseService {
     this.isUpLoading = true;
     this.sbjIsUpLoading.next(this.isUpLoading);
     const fileId = new Date().getTime().toString();
-    const chunkSize = 5 * 1024 * 1024;
+    const chunkSize = 9 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
@@ -617,7 +617,7 @@ export class FullCourseService {
         const xhr = new XMLHttpRequest();
         xhr.open(
           'post',
-          `https://us-central1-cnht-3205c.cloudfunctions.net/app/api/lectures/${this.idItem}/video/upload`
+          `${environment.baseUrl}/api/lectures/${this.idItem}/video/upload`
         );
 
         xhr.setRequestHeader('Content-Type', 'application/octet-stream');
@@ -646,23 +646,7 @@ export class FullCourseService {
       }).catch((error) => {});
     };
     const sendNext = () => {
-      if (!chunksQueue.length) {
-        this.setVideoDuration(duration).subscribe(
-          (response) => {
-            this.setPositionLoading(false, sectionIndex, lectureIndex);
-            this.isUpLoading = false;
-            this.sbjIsUpLoading.next(this.isUpLoading);
-            this.stateUploadMedia = true;
-            this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
-          },
-          (error) => {
-            this.setPositionLoading(false, sectionIndex, lectureIndex);
-            this.isUpLoading = false;
-            this.sbjIsUpLoading.next(this.isUpLoading);
-            this.stateUploadMedia = true;
-            this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
-          }
-        );
+      if (chunksQueue.length === 0) {
         return;
       }
       const chunkId = chunksQueue.pop();
@@ -676,20 +660,37 @@ export class FullCourseService {
             data: { [index: string]: string };
           };
           if (castedData.status === 201) {
+            this.setVideoDuration(duration).subscribe(
+              (response) => {
+                this.setPositionLoading(false, sectionIndex, lectureIndex);
+                this.isUpLoading = false;
+                this.sbjIsUpLoading.next(this.isUpLoading);
+                this.stateUploadMedia = true;
+                this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
+                setTimeout(() => location.reload(), 1500);
+              },
+              (error) => {
+                this.setPositionLoading(false, sectionIndex, lectureIndex);
+                this.isUpLoading = false;
+                this.sbjIsUpLoading.next(this.isUpLoading);
+                this.stateUploadMedia = true;
+                this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
+                setTimeout(() => location.reload(), 1500);
+              }
+            );
+          } else {
+            this.percentageChanges.next(
+              Math.round((chunkId! / chunksQuantity) * 100)
+            );
+            sendNext();
           }
-          sendNext();
         })
         .catch(() => {
           chunksQueue.push(chunkId!);
-          this.setPositionLoading(false, sectionIndex, lectureIndex);
-          this.isUpLoading = false;
-          this.sbjIsUpLoading.next(this.isUpLoading);
-          alert('Upload video failed. Please try again later!');
-
-          this.stateUploadMedia = false;
-          this.sbjUploadMediaSuccessful.next(this.stateUploadMedia);
+          sendNext();
         });
     };
+
     sendNext();
   }
 

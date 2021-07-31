@@ -4,12 +4,12 @@ import { Observable, Subject } from 'rxjs';
 import { ROLES } from '../models/user-roles';
 import { User } from '../models/user.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class authenticationService {
-  private baseUrl: string =
-    'https://us-central1-cnht-3205c.cloudfunctions.net/app/api';
+  private baseUrl: string = environment.baseUrl + '/api';
   public logger = new Subject<boolean>();
   public loggedIn = false;
 

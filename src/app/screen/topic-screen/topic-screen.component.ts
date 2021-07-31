@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from 'src/app/models/topic.model';
 import { TopicService } from 'src/app/service/topic.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-topic-screen',
@@ -15,7 +16,7 @@ export class TopicScreenComponent implements OnInit {
     private router: Router
   ) {}
 
-  baseUrl = 'https://us-central1-cnht-3205c.cloudfunctions.net/app';
+  baseUrl = environment.baseUrl;
   topic: Topic = new Topic();
   isLoading = false;
   ngOnInit(): void {
