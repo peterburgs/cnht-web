@@ -21,7 +21,8 @@
 }
 
 .action-button {
-  text-align: center;
+  display: flex !important;
+  justify-content: flex-end !important;
 }
 
 .navbar-toggler-icon i {
@@ -72,16 +73,9 @@ a {
 
 .dropdown-menu {
   min-width: auto !important;
-  margin-top: 8px;
   left: auto;
   right: 4px;
-}
-
-.dropdown .btn-dropdown {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  margin-top: 5px;
+  display: none;
 }
 
 .navbar-toggler:focus {
@@ -182,4 +176,15 @@ i {
 
 .log-out {
   color: red !important;
+}
+
+.dropdown .btn-dropdown {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  margin-top: 0px !important;
+}
+.account-dropdown:hover .dropdown-menu {
+  display: block;
+  justify-content: flex-end !important;
 }

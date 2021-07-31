@@ -521,7 +521,7 @@ export class FullCourseService {
 
   handleUpdateWithThumbnail(file: File) {
     const fileId = new Date().getTime().toString();
-    const chunkSize = 10000000;
+    const chunkSize = 5 * 1024 * 1024;
     const chunksQuantity = Math.ceil(file.size / chunkSize);
     const chunksQueue = [...Array(chunksQuantity)]
       .map((_, index) => index)
