@@ -110,7 +110,7 @@ export class CourseLectureComponent implements OnInit {
         this.openSnackBar('Changes saved', 'OK');
       },
       (error) => {
-        alert('Server error. Please try again');
+        alert('Cannot connect to server. Please reload page!');
       }
     );
     this.eventSave = false;
@@ -126,7 +126,7 @@ export class CourseLectureComponent implements OnInit {
         this.openSnackBar('Changes saved', 'OK');
       },
       (error) => {
-        alert('Server disconnect at this time, try again');
+        alert('Cannot connect to server. Please reload page!');
       }
     );
     this.eventSaveNote = false;
