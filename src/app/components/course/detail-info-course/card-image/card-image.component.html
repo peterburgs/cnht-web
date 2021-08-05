@@ -2,7 +2,7 @@
   <div *ngIf="!isLoading">
     <img
       class="image-thumbnail img-course"
-      [src]="baseUrl + course.thumbnailUrl"
+      [src]="(baseUrl + course.thumbnailUrl)"
       onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'"
       alt="{{ course.title }}"
     />

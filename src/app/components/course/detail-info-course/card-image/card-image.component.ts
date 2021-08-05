@@ -6,19 +6,21 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Course } from 'src/app/models/course.model';
-import { Lecture } from 'src/app/models/lecture.model';
-import { Section } from 'src/app/models/section.model';
-import { User } from 'src/app/models/user.model';
-import { authenticationService } from 'src/app/service/authentication.service';
-import { CourseService } from 'src/app/service/course.service';
-import { UserService } from 'src/app/service/user.service';
-import { PriceFormat } from 'src/app/util/priceformat';
-import { environment } from '../../../../../environments/environment';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+import {Course} from 'src/app/models/course.model';
+import {Lecture} from 'src/app/models/lecture.model';
+import {Section} from 'src/app/models/section.model';
+import {User} from 'src/app/models/user.model';
+import {authenticationService} from 'src/app/service/authentication.service';
+import {CourseService} from 'src/app/service/course.service';
+import {UserService} from 'src/app/service/user.service';
+import {PriceFormat} from 'src/app/util/priceformat';
+import {environment} from '../../../../../environments/environment';
+import {DomSanitizer} from '@angular/platform-browser';
+
 @Component({
   selector: 'app-card-image',
   templateUrl: './card-image.component.html',
@@ -53,8 +55,10 @@ export class CardImageComponent implements OnInit, OnChanges {
     private courseService: CourseService,
     private authService: authenticationService,
     private activeRouter: ActivatedRoute,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    public _DomSanitizationService: DomSanitizer
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.course == null || this.course == undefined) {

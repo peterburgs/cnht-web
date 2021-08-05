@@ -22,7 +22,11 @@
         *ngIf="course.thumbnailUrl"
         name="thumbnailUrl"
         class="image-course"
-        [src]="baseURL + course.thumbnailUrl"
+        [src]="
+          _DomSanitizationService.bypassSecurityTrustUrl(
+            baseURL + course.thumbnailUrl
+          )
+        "
         id="thumbnailUrl"
         alt="img-course"
       />
@@ -43,7 +47,7 @@
     <form #infoCourse="ngForm" ngNativeValidate>
       <div class="mb-3 row">
         <div class="col-sm-2">
-          <label for="name" class="col-form-label" required>Title</label>
+          <label for="title" class="col-form-label" required>Title</label>
           <label for="limit-description">
             ({{ course.title | countdown: 150 }}/150)
           </label>

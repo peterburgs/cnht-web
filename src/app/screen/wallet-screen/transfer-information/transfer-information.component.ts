@@ -10,7 +10,7 @@ import { FullCourseService } from 'src/app/service/full-course.service';
 import { UserService } from 'src/app/service/user.service';
 import { BalanceFormat } from 'src/app/util/balance-format';
 import { FormatPrice } from 'src/app/util/priceformat';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-transfer-information',
   templateUrl: './transfer-information.component.html',
@@ -35,7 +35,8 @@ export class TransferInformationComponent implements OnInit {
     private depositService: DepositRequestService,
     private userService: UserService,
     private fullCourseService: FullCourseService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public _DomSanitizationService: DomSanitizer
   ) {}
   ngOnInit(): void {
     if (localStorage.getItem('isLoggedin') == 'true') {

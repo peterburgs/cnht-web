@@ -4,6 +4,8 @@ import { Course } from 'src/app/models/course.model';
 import { FullCourseService } from 'src/app/service/full-course.service';
 import { PriceFormat } from 'src/app/util/priceformat';
 import { environment } from 'src/environments/environment';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-lecturer-card-course',
@@ -19,14 +21,16 @@ export class LecturerCardCourseComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fullCourseService: FullCourseService
+    private fullCourseService: FullCourseService,
+    public _DomSanitizationService: DomSanitizer
+
   ) {}
 
   ngOnInit(): void {
     this.checkHome();
   }
   onEditCourse(idItem: string) {
-    this.router.navigate(['../', 'course', idItem], { relativeTo: this.route });
+    this.router.navigateByUrl('/admin/course/' + idItem).then();
   }
 
   detailCourse(idItem: string) {

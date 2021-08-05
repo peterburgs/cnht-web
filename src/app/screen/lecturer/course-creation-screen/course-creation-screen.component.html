@@ -33,10 +33,10 @@
         {{ contentNotify }}
       </div>
       <div class="mb-3 row" *ngIf="wayModify == 0 || (wayModify == 1 && typeSelection == 0)">
-        <label for="name" class="col-sm-4 col-form-label">
+        <label class="col-sm-4 col-form-label">
           {{ typeSelection == 0 ? "Section" : "Lecture" }} title</label>
         <div class="col-sm-11">
-          <input type="text" class="form-control" id="nameTitle" placeholder="Title course" required name="nameTitle"
+          <input type="text" class="form-control" id="nameTitle" placeholder="Course title" required name="nameTitle"
             [(ngModel)]="titleBinding" />
         </div>
       </div>
