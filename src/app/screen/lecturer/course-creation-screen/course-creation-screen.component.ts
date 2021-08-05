@@ -221,9 +221,9 @@ export class CourseCreationScreenComponent
   }
   customeContent() {
     const confirmMessage = 'Are you sure to ';
-    const createMessage = 'Save successful!!!';
-    const validMessage = 'Input invalid!!!';
-    const noticeMessage = 'Your working not save!!!';
+    const createMessage = 'Save successful';
+    const validMessage = 'Input invalid';
+    const noticeMessage = 'Your working not save';
 
     switch (this.wayModify) {
       case ModifyType.delete:

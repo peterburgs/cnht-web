@@ -1,7 +1,8 @@
 <div class="note">
-  <p *ngIf="!isLoading" class="note-context">
-    {{ noteText }}
-  </p>
+
+  <button *ngIf="!isLoading" class="btn-resource" (click)="getResource()"><i class="bi bi-folder-symlink-fill icon"></i>Get
+    resource
+  </button>
   <div class="lds-ring" *ngIf="isLoading">
     <div></div>
     <div></div>

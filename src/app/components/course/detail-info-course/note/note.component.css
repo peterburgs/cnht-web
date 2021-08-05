@@ -42,7 +42,22 @@
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
-
+.btn-resource{
+  padding: 2px 8px;
+  font-size: 14px;
+  line-height: 1.35135;
+  color: #1c1d1f;
+  background-color: transparent;
+  border: 1px solid #1c1d1f;
+}
+.btn-resource:hover{
+  color: #1c1d1f;
+  background-color: rgba(0,0,0,.04);
+  border-color: #1c1d1f;
+}
+.icon{
+  margin-right: 2px;
+}
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);

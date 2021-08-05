@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FullCourseService } from 'src/app/service/full-course.service';
-import { Course } from 'src/app/models/course.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { InfoDialogComponent } from 'src/app/components/alert/info-dialog/info-dialog.component';
-import { GRADES } from 'src/app/models/grades';
+import {Component, OnInit} from '@angular/core';
+import {FullCourseService} from 'src/app/service/full-course.service';
+import {Course} from 'src/app/models/course.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {InfoDialogComponent} from 'src/app/components/alert/info-dialog/info-dialog.component';
+import {GRADES} from 'src/app/models/grades';
 
 interface Status {
   value: Number;
@@ -34,12 +34,14 @@ export class AdminCourseScreenComponent implements OnInit {
   sbcCreate: Subscription = new Subscription();
   sbcCourses: Subscription = new Subscription();
   public userDetails? = Object;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private fullCourseService: FullCourseService,
     private modalService: NgbModal
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -71,6 +73,7 @@ export class AdminCourseScreenComponent implements OnInit {
   onCreateCourse() {
     this.openModalCreateCourse();
   }
+
   openModalCreateCourse() {
     const modalRef = this.modalService.open(InfoDialogComponent, {
       centered: true,
@@ -85,10 +88,7 @@ export class AdminCourseScreenComponent implements OnInit {
         this.sbcCreate = this.fullCourseService.getSbjCreateCourse().subscribe(
           (course) => {
             this.isLoading = false;
-            this.router.navigate(
-              ['../', 'course', this.fullCourseService.getCourseInfo().id],
-              { relativeTo: this.route }
-            );
+            this.router.navigateByUrl('/admin/course/' + this.fullCourseService.getCourseInfo().id).then();
           },
           (error) => {
             this.isLoading = false;
@@ -99,14 +99,17 @@ export class AdminCourseScreenComponent implements OnInit {
       }
     });
   }
+
   getAllByDate() {
     this.sortByDate(this.selectedExpBy);
     this.getAllByFilter();
   }
+
   searchCourse($event: string) {
     this.titleSearch = $event;
     this.getAllByFilter();
   }
+
   sortByDate(order: number) {
     if (order == 0) {
       this.listSortedCourse = this.courses.sort((a, b) => {
@@ -118,6 +121,7 @@ export class AdminCourseScreenComponent implements OnInit {
       });
     }
   }
+
   getListCourseByTitle() {
     switch (this.selectedViewBy) {
       case 0:
@@ -157,23 +161,23 @@ export class AdminCourseScreenComponent implements OnInit {
   selectedViewBy: Number = 0;
   selectedExpBy: number = 0;
   listStatus: Status[] = [
-    { value: 0, viewValue: 'All' },
-    { value: 1, viewValue: 'Published' },
-    { value: -1, viewValue: 'Not Published' },
+    {value: 0, viewValue: 'All'},
+    {value: 1, viewValue: 'Published'},
+    {value: -1, viewValue: 'Not Published'},
   ];
 
   listExpStatus: Status[] = [
-    { value: 0, viewValue: 'Newest' },
-    { value: 1, viewValue: 'Oldest' },
+    {value: 0, viewValue: 'Newest'},
+    {value: 1, viewValue: 'Oldest'},
   ];
 
   listGradeStatus: Grades[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: GRADES.NHSGE, viewValue: 'Tốt nghiệp THPT' },
-    { value: GRADES.TWELFTH, viewValue: 'Grade 12' },
-    { value: GRADES.ELEVENTH, viewValue: 'Grade 11' },
-    { value: GRADES.TENTH, viewValue: 'Grade 10' },
-    { value: GRADES.NINTH, viewValue: 'Grade 9' },
+    {value: 'all', viewValue: 'All'},
+    {value: GRADES.NHSGE, viewValue: 'Tốt nghiệp THPT'},
+    {value: GRADES.TWELFTH, viewValue: 'Grade 12'},
+    {value: GRADES.ELEVENTH, viewValue: 'Grade 11'},
+    {value: GRADES.TENTH, viewValue: 'Grade 10'},
+    {value: GRADES.NINTH, viewValue: 'Grade 9'},
   ];
 
   getAllByFilter() {

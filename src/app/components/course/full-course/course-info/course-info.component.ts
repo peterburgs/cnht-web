@@ -6,7 +6,7 @@ import { GRADES } from 'src/app/models/grades';
 import { ModifyType } from 'src/app/models/ModifyType';
 import { VideoType } from 'src/app/models/VideoType.model';
 import { ThemePalette } from '@angular/material/core';
-
+import { DomSanitizer } from '@angular/platform-browser';
 import { FullCourseService } from '../../../../service/full-course.service';
 import { Observable, Subscription } from 'rxjs';
 import { FormatPrice } from 'src/app/util/priceformat';
@@ -43,7 +43,8 @@ export class CourseInfoComponent implements OnInit {
   color: ThemePalette = 'accent';
   constructor(
     private fullCourseService: FullCourseService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public _DomSanitizationService: DomSanitizer
   ) {}
 
   ngOnChanges(courseChange: SimpleChanges): void {

@@ -1,8 +1,8 @@
 <div class="card" (click)="detailCourse(course.id)">
   <div class="card-img">
-    <img class="img-fluid img-course" [src]="baseUrl + course.thumbnailUrl"
-      onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt=""
-      routerLink="/detail/{{ course.id }}" style="cursor: pointer" />
+    <img class="img-fluid img-course" [src]=" _DomSanitizationService.bypassSecurityTrustUrl(baseUrl + course.thumbnailUrl)"
+         onerror="this.src='../../../../../assets/images/defaul_course_img.jpg'" alt=""
+         routerLink="/detail/{{ course.id }}" style="cursor: pointer"/>
   </div>
   <div class="info-course">
     <div class="name" routerLink="/detail/{{ course.id }}">

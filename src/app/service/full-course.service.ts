@@ -8,15 +8,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Course } from 'src/app/models/course.model';
 import { Lecture } from 'src/app/models/lecture.model';
 import { SectionDummy } from 'src/app/models/sectionDummy.model';
-import { GRADES } from 'src/app/models/grades';
 import { Video } from 'src/app/models/video.model';
 import { environment } from 'src/environments/environment';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  }),
+const httpOptions = () => {
+  return {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+    }),
+  };
 };
 
 @Injectable({
@@ -29,7 +30,6 @@ export class FullCourseService {
   private courses: Course[] = [];
   private listDeepSection: SectionDummy[] = [];
 
-  private idToken = localStorage.getItem('token');
   private arrLoading: boolean[] = [];
   private loadingThumbnail = false;
   private baseURL = environment.baseUrl + '/api';
@@ -67,9 +67,7 @@ export class FullCourseService {
   sbjIsUpLoading = new Subject<boolean>();
   headers: HttpHeaders = new HttpHeaders();
 
-  constructor(private http: HttpClient) {
-    this.idToken = localStorage.getItem('token');
-  }
+  constructor(private http: HttpClient) {}
 
   setCourseSelection() {
     this.courses.forEach((mCourse) => {
@@ -126,7 +124,7 @@ export class FullCourseService {
     let urlGetVideo = this.baseURL + '/lectures/' + lectureId + '/video';
     return this.http.get<{ message: string; count: number; video: Video }>(
       urlGetVideo,
-      httpOptions
+      httpOptions()
     );
   }
   getSectionSelection() {
@@ -154,7 +152,7 @@ export class FullCourseService {
     let urlEstimated = this.baseURL + '/courses/' + this.course.id + '/pricing';
     return this.http.get<{ message: String; price: number }>(
       urlEstimated,
-      httpOptions
+      httpOptions()
     );
   }
   getErrorMessage() {
@@ -174,7 +172,7 @@ export class FullCourseService {
     return this.http.put<{ message: string; count: number; video: Video }>(
       urlUpdateVideo,
       { length: duration },
-      httpOptions
+      httpOptions()
     );
   }
   setCourses(listCourse: Course[]) {
@@ -221,19 +219,21 @@ export class FullCourseService {
       return;
     }
     let urlUpSection = this.baseURL + '/sections/' + this.idItem + '/up';
-    this.http.put<{ message: string }>(urlUpSection, {}, httpOptions).subscribe(
-      (response) => {
-        this.status = 200;
-        this.sbjStatus.next(this.status);
-        return;
-      },
-      (error) => {
-        this.status = 500;
-        this.sbjStatus.next(this.status);
+    this.http
+      .put<{ message: string }>(urlUpSection, {}, httpOptions())
+      .subscribe(
+        (response) => {
+          this.status = 200;
+          this.sbjStatus.next(this.status);
+          return;
+        },
+        (error) => {
+          this.status = 500;
+          this.sbjStatus.next(this.status);
 
-        return;
-      }
-    );
+          return;
+        }
+      );
   }
   onDownSection() {
     if (this.sections[this.sections.length - 1].id == this.idItem) {
@@ -243,7 +243,7 @@ export class FullCourseService {
     }
     let urlDownSection = this.baseURL + '/sections/' + this.idItem + '/down';
     this.http
-      .put<{ message: StringConstructor }>(urlDownSection, {}, httpOptions)
+      .put<{ message: StringConstructor }>(urlDownSection, {}, httpOptions())
       .subscribe(
         (response) => {
           this.status = 200;
@@ -282,7 +282,7 @@ export class FullCourseService {
         {
           sectionId: sectionId,
         },
-        httpOptions
+        httpOptions()
       )
       .toPromise()
       .then((response) => {
@@ -326,7 +326,7 @@ export class FullCourseService {
         {
           sectionId: sectionId,
         },
-        httpOptions
+        httpOptions()
       )
       .toPromise()
       .then((response) => {
@@ -628,7 +628,10 @@ export class FullCourseService {
         xhr.setRequestHeader('X-Content-Name', file.name);
         xhr.setRequestHeader('X-Chunks-Quantity', String(chunksQuantity));
 
-        xhr.setRequestHeader('Authorization', `Bearer ${this.idToken}`);
+        xhr.setRequestHeader(
+          'Authorization',
+          `Bearer ${localStorage.getItem('token')}`
+        );
 
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
@@ -724,7 +727,7 @@ export class FullCourseService {
         sectionOrder: section.sectionOrder,
         isHidden: section.isHidden,
       },
-      httpOptions
+      httpOptions()
     );
   }
 
@@ -740,7 +743,7 @@ export class FullCourseService {
         sectionId: lecture.sectionId,
         note: lecture.note,
       },
-      httpOptions
+      httpOptions()
     );
   }
   onSaveCourse() {
@@ -756,12 +759,12 @@ export class FullCourseService {
         isPublished: this.course.isPublished,
         grade: this.course.grade,
       },
-      httpOptions
+      httpOptions()
     );
   }
   onDeleteSection() {
     const url = `${this.apiUrlSection}/${this.idItem}`;
-    return this.http.delete<{ message: any }>(url, httpOptions).subscribe(
+    return this.http.delete<{ message: any }>(url, httpOptions()).subscribe(
       (response) => {
         this.status = 200;
         this.sbjStatus.next(this.status);
@@ -777,11 +780,11 @@ export class FullCourseService {
   }
   onDeleteCourse() {
     const url = `${this.apiUrlCourse}/${this.idCourse}`;
-    return this.http.delete<{ message: string }>(url, httpOptions);
+    return this.http.delete<{ message: string }>(url, httpOptions());
   }
   onDeleteLecture() {
     const url = `${this.apiUrlLecture}/${this.idItem}`;
-    this.http.delete<{ message: string }>(url, httpOptions).subscribe(
+    this.http.delete<{ message: string }>(url, httpOptions()).subscribe(
       (response) => {
         this.status = 200;
         this.sbjStatus.next(this.status);
@@ -805,7 +808,7 @@ export class FullCourseService {
           sectionOrder: section.sectionOrder,
           isHidden: section.isHidden,
         },
-        httpOptions
+        httpOptions()
       )
       .subscribe(
         (response) => {
@@ -834,7 +837,7 @@ export class FullCourseService {
           grade: course.grade,
           isPublished: course.isPublished,
         },
-        httpOptions
+        httpOptions()
       )
       .subscribe(
         (response) => {
@@ -862,7 +865,7 @@ export class FullCourseService {
           sectionId: lecture.sectionId,
           lectureOrder: lecture.lectureOrder,
         },
-        httpOptions
+        httpOptions()
       )
       .subscribe(
         (response) => {
