@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TopicDialogComponent } from '../alert/topic-dialog/topic-dialog.component';
-import { Topic } from 'src/app/models/topic.model';
-import { TOPICS } from 'src/app/models/TOPIC';
-import { TopicService } from 'src/app/service/topic.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TopicDialogComponent} from '../alert/topic-dialog/topic-dialog.component';
+import {Topic} from 'src/app/models/topic.model';
+import {TOPICS} from 'src/app/models/TOPIC';
+import {TopicService} from 'src/app/service/topic.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 interface Status {
   value: Number;
@@ -47,7 +47,8 @@ export class TopicComponent implements OnInit {
     private modalService: NgbModal,
     private topicService: TopicService,
     private _snackBar: MatSnackBar
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     let role = localStorage.getItem('role');
@@ -156,17 +157,17 @@ export class TopicComponent implements OnInit {
   }
 
   listStatus: StatusTopic[] = [
-    { value: 'all', viewValue: 'All' },
-    { value: TOPICS.ALGEBRA, viewValue: 'Algebra' },
-    { value: TOPICS.ANALYSIS, viewValue: 'Analysis' },
-    { value: TOPICS.ARITHMETIC, viewValue: 'Arithmetic' },
-    { value: TOPICS.COMBINATION, viewValue: 'Combination' },
-    { value: TOPICS.GEOMETRY, viewValue: 'Geometry' },
+    {value: 'all', viewValue: 'All'},
+    {value: TOPICS.ALGEBRA, viewValue: 'Algebra'},
+    {value: TOPICS.ANALYSIS, viewValue: 'Analysis'},
+    {value: TOPICS.ARITHMETIC, viewValue: 'Arithmetic'},
+    {value: TOPICS.COMBINATION, viewValue: 'Combination'},
+    {value: TOPICS.GEOMETRY, viewValue: 'Geometry'},
   ];
 
   listExpStatus: Status[] = [
-    { value: 0, viewValue: 'Newest' },
-    { value: 1, viewValue: 'Oldest' },
+    {value: 0, viewValue: 'Newest'},
+    {value: 1, viewValue: 'Oldest'},
   ];
 
   getAllByFilter() {
@@ -195,7 +196,7 @@ export class TopicComponent implements OnInit {
     formatTitle = formatTitle.replace(/\s/g, '_');
     this.router
       .navigate(['topics/' + formatTitle + '/' + topicId + '/view'], {
-        state: { redirect: this.router.url },
+        state: {redirect: this.router.url},
       })
       .then();
   }
@@ -210,7 +211,7 @@ export class TopicComponent implements OnInit {
         var downloadURL = window.URL.createObjectURL(data);
         var link = document.createElement('a');
         link.href = downloadURL;
-        link.download = `${nameFormat}.pdf`;
+        link.download = nameFormat + ".pdf";
         link.click();
       },
       (error) => {
@@ -218,14 +219,17 @@ export class TopicComponent implements OnInit {
       }
     );
   }
+
   goEdit(idTopic: string) {
-    this.router.navigate([idTopic, 'edit'], { relativeTo: this.route });
+    this.router.navigate([idTopic, 'edit'], {relativeTo: this.route});
   }
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 2000,
     });
   }
+
   copyMessage(topicTitle: string, topicId: string) {
     let formatTitle = topicTitle.replace(/[^\x00-\xFF]/g, '');
     formatTitle = formatTitle.replace(/\s/g, '_');

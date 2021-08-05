@@ -6,6 +6,8 @@ import {CourseService} from 'src/app/service/course.service';
 import {Lecture} from "../../../../models/lecture.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
+import {TopicService} from "../../../../service/topic.service";
+import {environment} from "../../../../../environments/environment"
 
 @Component({
   selector: 'app-note',
@@ -17,12 +19,14 @@ export class NoteComponent implements OnInit {
   lectureId!: string;
   isLoading: boolean = true;
   lecture: Lecture = new Lecture()
+  baseUrl = environment.baseUrl;
 
   constructor(
     private route: ActivatedRoute,
     private courseService: CourseService,
     private _snackBar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    private topicService: TopicService
   ) {
   }
 
@@ -53,19 +57,22 @@ export class NoteComponent implements OnInit {
         responseType: 'blob' as 'json',
       };
       this.openSnackBar('This file is being downloaded', 'OK');
-      this.http.get(this.lecture.note, httpOptions).subscribe(data => {
-          let downloadURL = window.URL.createObjectURL(data);
-          let link = document.createElement('a');
-          link.href = downloadURL;
-          link.download = `${nameFormat}.pdf`;
-          link.click();
-        },
-        (error) => {
-          this.openSnackBar('This file is not available now', 'OK');
-        })
+      const id = this.lecture.note.split("/")[5];
+      this.topicService.getTopicByIdRemote(id).subscribe(res => {
 
+        this.http.get(this.baseUrl + res.topics[0].fileUrl, httpOptions).subscribe(data => {
+            let downloadURL = window.URL.createObjectURL(data);
+            let link = document.createElement('a');
+            link.href = downloadURL;
+            link.download = nameFormat + ".pdf";
+            link.click();
+          },
+          (error) => {
+            this.openSnackBar('File not found', 'OK');
+          })
+      },error => this.openSnackBar('File not found', 'OK'))
     } else {
-      this.openSnackBar('This file is not available now', 'OK');
+      this.openSnackBar('File not found', 'OK');
     }
 
   }
